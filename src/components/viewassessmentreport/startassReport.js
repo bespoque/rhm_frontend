@@ -9,19 +9,6 @@ import { ViewTccPrintTable } from '../tables/viewTccTablePrint';
 import { StartAssessmentReportView } from '../tables/assessmentreport';
 
 const StartAssessmentReport = () => {
-  useEffect(() => {
-    setAuthToken();
-    const fetchPost = async () => {
-      try {
-
-
-      } catch (e) {
-
-
-      }
-    };
-    fetchPost();
-  }, []);
 
   return (
     <>
