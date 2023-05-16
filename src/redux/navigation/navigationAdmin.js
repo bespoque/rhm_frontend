@@ -479,7 +479,7 @@ const initialState = [
           {
             title: 'APP Groups',
             items: [
-              { title: 'Create', url: '/view/user-group/create', items: [] },
+              { title: 'Create', url: '/view/app-group/create', items: [] },
               {
                 title: 'View',
                 url: '/view/app-group/list',
