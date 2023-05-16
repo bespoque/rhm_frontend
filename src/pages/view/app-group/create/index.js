@@ -52,8 +52,8 @@ const index = () => {
                         />
                     </div>
                     <div class="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <label htmlFor="">Sign permission</label>
-                        <select class="w-full py-2 px-4 rounded-md border border-gray-300"
+                        <label className='flex justify-center'>Sign permission</label>
+                        <select class="w-full rounded-md border border-gray-300"
                             onChange={(event) => setCanSign(event.target.value)}
                             required
                         >

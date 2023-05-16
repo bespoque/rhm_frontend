@@ -1,25 +1,33 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form';
 import Loader from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const index = () => {
     const [groupName, setGroupName] = useState('')
+    const [appName, setAppName] = useState('')
     const [permission, setPermission] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [userGrpData, setUserGrpData] = useState(() => []);
+    const [appGrpData, setAPPGrpData] = useState(() => []);
     const [isFetching, setIsFetching] = useState(() => false);
     const router = useRouter()
+    const { register, handleSubmit, errors } = useForm();
     useEffect(() => {
 
         const fetchPost = async () => {
             try {
                 const response = await fetch('https://bespoque.dev/rhm/get-usergroups-batch.php')
+                const appgrpres = await fetch('https://bespoque.dev/rhm/get-appgroups-batch.php')
                 setIsFetching(false);
                 const data = await response.json()
+                const appGroups = await appgrpres.json()
                 console.log("data", data.body)
+                console.log("appGroups", appGroups.body)
                 setUserGrpData(data.body)
+                setAPPGrpData(appGroups.body)
             } catch (error) {
                 console.log(error)
                 setIsFetching(false);
@@ -30,24 +38,30 @@ const index = () => {
 
     console.log("userGrpData", userGrpData);
 
-    async function handleSubmit(event) {
-        event.preventDefault()
+    async function onSubmit(formData) {
+        console.log("data", formData.app_id);
         setIsSubmitting(true)
 
         try {
             const response = await fetch('https://bespoque.dev/rhm/new-permission-group.php', {
                 method: 'POST',
-                body: JSON.stringify({ "usergroup": groupName, "permission": permission })
+                body: JSON.stringify({
+                    "app_id": formData.app_id,
+                    "group_id": formData.group_id,
+                    "view": formData.view,
+                    "edit": formData.edit,
+                    "approve": formData.approve,
+                    "delete": formData.delete,
+                    "verify": formData.verify,
+                    "sign": formData.sign,
+                })
             })
 
             const data = await response.json()
-            console.log('Server Response:', data)
-            // handle success
             toast.success(response.message);
             router.push('/view/access-rights/list/')
         } catch (error) {
             console.error('Server Error:', error)
-            // handle error
         } finally {
             setIsSubmitting(false)
         }
@@ -70,37 +84,111 @@ const index = () => {
                     <p>Fetching data...</p>
                 </div>
             )}
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit(onSubmit)} >
                 <div className="flex flex-wrap justify-center items-center">
                     <div className="w-full sm:w-auto max-w-sm">
-                        <select className="w-full py-2 px-4 rounded-md border border-gray-300"
+                        <select className="w-full rounded-md border border-gray-300"
                             required
-                            value={groupName}
-                            onChange={(event) => setGroupName(event.target.value)}
+                            name='app_id'
+                            ref={register}
+                        >
+                            <option value="">Select Application</option>
+                            {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.app_name + " - " + app.app_type}`}</option>)}
+                        </select>
+                    </div>
+                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='group_id'
+                            ref={register}
                         >
                             <option value="">Select usergroup</option>
                             {userGrpData.map((group) => <option key={group.id} value={group.id}>{`${group.groupname + " - " + group.role}`}</option>)}
                         </select>
                     </div>
-                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <textarea type="text" class="w-full py-2 px-4 rounded-md border border-gray-300"
+                </div>
+                <p className='flex justify-center my-3 font-bold'>Apply Permissions</p>
+                <div className="flex flex-wrap justify-center items-center">
+                    <div className="w-full sm:w-auto max-w-sm">
+                        <p>View</p>
+                        <select className="w-full rounded-md border border-gray-300"
                             required
-                            id="permission"
-                            placeholder="eg. Ability to Decline verified Assessment"
-                            value={permission}
-                            onChange={(event) => setPermission(event.target.value)}
-                        > </textarea>
-                    </div>
-                    <div class="mt-4 sm:mt-0 ml-4">
-                        <button
-                            className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
-                                } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                            type="submit"
-                            disabled={isSubmitting}
+                            name='view'
+                            ref={register}
                         >
-                            {isSubmitting ? 'Saving...' : 'Submit'}
-                        </button>
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
                     </div>
+                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
+                        <p>Edit</p>
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='edit'
+                            ref={register}
+                        >
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="flex flex-wrap justify-center items-center">
+                    <div className="w-full sm:w-auto max-w-sm">
+                        <p>Approve</p>
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='approve'
+                            ref={register}
+                        >
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
+                        <p>Delete</p>
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='delete'
+                            ref={register}
+                        >
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="flex flex-wrap justify-center items-center">
+                    <div className="w-full sm:w-auto max-w-sm">
+                        <p>Verify</p>
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='verify'
+                            ref={register}
+                        >
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
+                        <p>Sign</p>
+                        <select className="w-full rounded-md border border-gray-300"
+                            required
+                            name='sign'
+                            ref={register}
+                        >
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-center">
+                    <button
+                        className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
+                            } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Saving...' : 'Submit'}
+                    </button>
                 </div>
             </form>
         </>

@@ -40,12 +40,36 @@ const fields = [
   //   width: "10%"
   // },
   {
-    title: "Permission",
-    field: "permission",
+    title: "Application",
+    field: "app_id",
   },
   {
     title: "Usergroup",
-    field: "usergroup",
+    field: "group_id",
+  },
+  {
+    title: "Usergroup",
+    field: "group_id",
+  },
+  {
+    title: "Edit",
+    field: "edit",
+  },
+  {
+    title: "Approve",
+    field: "approve",
+  },
+  {
+    title: "Delete",
+    field: "delete",
+  },
+  {
+    title: "Verify",
+    field: "verify",
+  },
+  {
+    title: "Sign",
+    field: "sign",
   },
   
 ];
@@ -80,7 +104,7 @@ export const RightsTable = ({ rightsData }) => {
         options={{
           search: true,
           paging: true,
-          filtering: true,
+          // filtering: true,
           exportButton: {
             csv: true,
             pdf: false
