@@ -44,8 +44,16 @@ const fields = [
     field: "appName",
   },
   {
-    title: "Usergroup",
+    title: "App type",
+    field: "appType",
+  },
+  {
+    title: "User group",
     field: "groupName",
+  },
+  {
+    title: "Group role",
+    field: "groupRole",
   },
   {
     title: "Edit",
