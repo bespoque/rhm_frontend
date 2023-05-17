@@ -105,7 +105,7 @@ const index = () => {
                                 name='app_id'
                                 ref={register}
                             >
-                                <option value={currentPerm.app_id}>{currentPerm.appName}</option>
+                                <option value={currentPerm.app_id}>{`${currentPerm.appName + " - " + currentPerm.appType}`}</option>
                                 {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.app_name + " - " + app.app_type}`}</option>)}
                             </select>
                         </div>
@@ -116,7 +116,7 @@ const index = () => {
                                 name='group_id'
                                 ref={register}
                             >
-                                <option value={currentPerm.group_id}>{currentPerm.groupName}</option>
+                                <option value={currentPerm.group_id}>{`${currentPerm.groupName + " - " + currentPerm.appName}`}</option>
                                 {userGrpData.map((group) => <option key={group.id} value={group.id}>{`${group.groupname + " - " + group.role}`}</option>)}
                             </select>
                         </div>
