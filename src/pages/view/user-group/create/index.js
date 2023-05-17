@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SectionTitle from '../../../../components/section-title';
 
 const index = () => {
     const [groupName, setGroupName] = useState('')
@@ -33,6 +34,7 @@ const index = () => {
     }
     return (
         <>
+        <SectionTitle subtitle={"Create usergroup"} />
             <ToastContainer />
             <form onSubmit={handleSubmit} >
                 <div class="flex flex-wrap justify-center items-center">

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Loader from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SectionTitle from '../../../../components/section-title';
 
 const index = () => {
     const [groupName, setGroupName] = useState('')
@@ -68,7 +69,7 @@ const index = () => {
     }
     return (
         <>
-
+            <SectionTitle subtitle={"Assign Permissions"} />
             <ToastContainer />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
@@ -87,6 +88,7 @@ const index = () => {
             <form onSubmit={handleSubmit(onSubmit)} >
                 <div className="flex flex-wrap justify-center items-center">
                     <div className="w-full sm:w-auto max-w-sm">
+                        <p>Application</p>
                         <select className="w-full rounded-md border border-gray-300"
                             required
                             name='app_id'
@@ -97,12 +99,13 @@ const index = () => {
                         </select>
                     </div>
                     <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
+                        <p>User group</p>
                         <select className="w-full rounded-md border border-gray-300"
                             required
                             name='group_id'
                             ref={register}
                         >
-                            <option value="">Select usergroup</option>
+                            <option value="">Select user group</option>
                             {userGrpData.map((group) => <option key={group.id} value={group.id}>{`${group.groupname + " - " + group.role}`}</option>)}
                         </select>
                     </div>
