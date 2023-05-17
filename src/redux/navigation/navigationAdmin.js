@@ -476,17 +476,18 @@ const initialState = [
               },
             ],
           },
-          {
-            title: 'APP Groups',
-            items: [
-              { title: 'Create', url: '/view/app-group/create', items: [] },
-              {
-                title: 'View',
-                url: '/view/app-group/list',
-                items: [],
-              },
-            ],
-          },
+          // App groups should only be added on the backend
+          // {
+          //   title: 'APP Groups',
+          //   items: [
+          //     { title: 'Create', url: '/view/app-group/create', items: [] },
+          //     {
+          //       title: 'View',
+          //       url: '/view/app-group/list',
+          //       items: [],
+          //     },
+          //   ],
+          // },
           {
             title: 'Permissions',
             items: [
