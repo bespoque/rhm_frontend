@@ -7,9 +7,6 @@ import Loader from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
 
 const index = () => {
-    const [permissionName, setPermissionName] = useState('')
-    const [usergroup, setUserGroup] = useState('')
-    const [usergroupObj, setUserGrpObj] = useState([])
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isFetching, setIsFetching] = useState(() => true);
     const router = useRouter()
@@ -18,7 +15,6 @@ const index = () => {
     const [currentPerm, setCurrentPerm] = useState(()=> []);
     const { register, handleSubmit, errors } = useForm();
     const { id } = router.query;
-console.log("currentPerm", currentPerm);
     useEffect(() => {
         console.log("id", id);
         const fetchPost = async () => {
@@ -109,7 +105,7 @@ console.log("currentPerm", currentPerm);
                                 name='app_id'
                                 ref={register}
                             >
-                                <option value={currentPerm.app_id}>{currentPerm.app_id}</option>
+                                <option value={currentPerm.app_id}>{currentPerm.appName}</option>
                                 {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.app_name + " - " + app.app_type}`}</option>)}
                             </select>
                         </div>
@@ -120,7 +116,7 @@ console.log("currentPerm", currentPerm);
                                 name='group_id'
                                 ref={register}
                             >
-                                <option value={currentPerm.group_id}>{currentPerm.group_id}</option>
+                                <option value={currentPerm.group_id}>{currentPerm.groupName}</option>
                                 {userGrpData.map((group) => <option key={group.id} value={group.id}>{`${group.groupname + " - " + group.role}`}</option>)}
                             </select>
                         </div>

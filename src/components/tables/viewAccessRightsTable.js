@@ -41,15 +41,11 @@ const fields = [
   // },
   {
     title: "Application",
-    field: "app_id",
+    field: "appName",
   },
   {
     title: "Usergroup",
-    field: "group_id",
-  },
-  {
-    title: "Usergroup",
-    field: "group_id",
+    field: "groupName",
   },
   {
     title: "Edit",
