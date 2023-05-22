@@ -10,7 +10,7 @@ export const login = (data) => async (dispatch) => {
     const userGroup = login.data.userGroups
     
     dispatch({ type: authActionTypes.SET_LOGIN_SUBMITTING });
-    dispatch({ type: authActionTypes.LOGIN, payload: auth, userAccess: userGroup});
+    dispatch({ type: authActionTypes.LOGIN, payload: auth});
   } catch (e) {
     dispatch({ type: authActionTypes.SET_LOGIN_SUBMITTING });
     if (e.response) {

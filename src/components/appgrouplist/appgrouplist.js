@@ -66,7 +66,7 @@ const AppGroupList = () => {
       field: "can_sign",
     },
 
-    
+
   ];
 
 
@@ -119,17 +119,17 @@ const AppGroupList = () => {
           SortArrow: ArrowDownward
         }}
 
-        onRowClick={(event, rowData) => {
-          window.open(`/view/app-group/edit?id=${rowData.id}`, "_self")
-          event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
+        // onRowClick={(event, rowData) => {
+        //   window.open(`/view/app-group/edit?id=${rowData.id}`, "_self")
+        //   event.stopPropagation();
+        //   if (userGroup.some(r => reportRange.includes(r))) {
+        //     ''
 
-          // } else {
-          //   window.open(`/view/listverifiedboj/${rowData.assessment_id},${rowData.kgtin}`, "_self")
-          //   event.stopPropagation();
-          // }
-        }}
+        //   } else {
+        //     window.open(`/view/listverifiedboj/${rowData.assessment_id},${rowData.kgtin}`, "_self")
+        //     event.stopPropagation();
+        //   }
+        // }}
       />
       {/* <ViewGroupTable userGrpData={userGrpData} /> */}
     </>
