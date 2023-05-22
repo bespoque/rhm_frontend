@@ -8,13 +8,7 @@ import modal from './modal/modal.reducer';
 import signUp from './signup/signup.reducer';
 import signUpAuth from './signup-auth/signup-auth.reducer';
 import authentication from './authentication/auth.reducer';
-import navigationApprover from './navigation/navigationApprover';
-import navigationApproverTcc from './navigation/navigationApproverTcc';
-import navigationCreator from './navigation/navigationCreator';
-import navigationCreatorTcc from './navigation/navigationCreatorTcc';
-import navigationCreatorApprover from './navigation/navigationCreatorApprover';
 import navigationAdmin from './navigation/navigationAdmin';
-import navigationReport from './navigation/navigationReport';
 import navigationATOfficer from './navigation/navigationATOfficer';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -27,13 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   dashboard,
-  navigationApprover,
-  navigationApproverTcc,
-  navigationCreator,
-  navigationCreatorTcc,
-  navigationCreatorApprover,
   navigationAdmin,
-  navigationReport,
   navigationATOfficer,
   colors,
   config,

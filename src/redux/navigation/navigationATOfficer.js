@@ -1,4 +1,4 @@
-import { RhmDashboard, ManageTaxpayer, DirectAssessment, Paye, Collections, Settings } from '../../components/Icons/index';
+import { RhmDashboard, ManageTaxpayer, DirectAssessment, Collections, } from '../../components/Icons/index';
 
 // Added non individual navigation to side menu
 
@@ -98,64 +98,11 @@ const initialState = [
           },
         ],
       },
-      // {
-      //   url: '/',
-      //   icon: <Settings />,
-      //   title: 'Access Management',
-      //   items: [
-
-      //     {
-      //       title: 'Manage User',
-      //       items: [
-      //         { title: 'Create', url: '/register', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/users',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'User Groups',
-      //       items: [
-      //         { title: 'Create', url: '/view/user-group/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/user-group/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'APP Groups',
-      //       items: [
-      //         { title: 'Create', url: '/view/app-group/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/app-group/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'Permissions',
-      //       items: [
-      //         { title: 'Create', url: '/view/access-rights/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/access-rights/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-
-      //   ],
-      // },
     ],
   },
 ];
 
-export default function navigationReport(state = initialState, action) {
+export default function navigationATOfficer(state = initialState, action) {
   switch (action.type) {
     default:
       return state;
