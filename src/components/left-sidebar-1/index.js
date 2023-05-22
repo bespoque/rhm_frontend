@@ -29,6 +29,7 @@ const LeftSidebar = () => {
   }
 
   const email = jwt.decode(authentication)?.user;
+  
   useEffect(() => {
 
     const fetchPost = async () => {
