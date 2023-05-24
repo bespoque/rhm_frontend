@@ -502,6 +502,59 @@ const initialState = [
 
         ],
       },
+      {
+        url: '/',
+        icon: <Settings />,
+        title: 'Cluster Management',
+        items: [
+
+          {
+            title: 'Cluster Definitions',
+            items: [
+              { title: 'Create', url: '/cluster-management/definitions', items: [] },
+              {
+                title: 'View',
+                url: '/cluster-management/definitions/list',
+                items: [],
+              },
+            ],
+          },
+          {
+            title: 'Cluster Groups',
+            items: [
+              { title: 'Create', url: '/cluster-management/cluster-group', items: [] },
+              // {
+              //   title: 'View',
+              //   url: '/view/user-group/list',
+              //   items: [],
+              // },
+            ],
+          },
+          // {
+          //   title: 'APP Groups',
+          //   items: [
+          //     { title: 'Create', url: '/view/app-group/create', items: [] },
+          //     {
+          //       title: 'View',
+          //       url: '/view/app-group/list',
+          //       items: [],
+          //     },
+          //   ],
+          // },
+          // {
+          //   title: 'Permissions',
+          //   items: [
+          //     { title: 'Create', url: '/view/access-rights/create', items: [] },
+          //     {
+          //       title: 'View',
+          //       url: '/view/access-rights/list',
+          //       items: [],
+          //     },
+          //   ],
+          // },
+
+        ],
+      },
     ],
   },
 ];
