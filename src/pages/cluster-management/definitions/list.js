@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import SectionTitle from "../../../components/section-title";
 import Loader from "react-loader-spinner";
 import MaterialTable from "@material-table/core";
 import Search from '@material-ui/icons/Search'
@@ -25,50 +24,35 @@ const AccessList = () => {
         //   width: "10%"
         // },
         {
-          title: "Application",
-          field: "appName",
+            title: "Name",
+            field: "cluster_name",
         },
         {
-          title: "App type",
-          field: "appType",
+            title: "Goal",
+            field: "cluster_goal",
         },
         {
-          title: "User group",
-          field: "groupName",
+            title: "Deadline",
+            field: "cluster_deadline",
         },
         {
-          title: "Group role",
-          field: "groupRole",
+            title: "Status",
+            field: "cluster_status",
         },
-        {
-          title: "Edit",
-          field: "edit",
-        },
-        {
-          title: "Approve",
-          field: "approve",
-        },
-        {
-          title: "Delete",
-          field: "delete",
-        },
-        {
-          title: "Verify",
-          field: "verify",
-        },
-        {
-          title: "Sign",
-          field: "sign",
-        },
-        
-      ];
+
+    ];
 
     useEffect(() => {
         let num = 1
         const fetchPost = async () => {
 
             try {
-                const response = await fetch('https://bespoque.dev/rhm/get-permissions-batch.php')
+                const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-definition-batch.php', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        "process": "okay"
+                    }),
+                })
                 setIsFetching(false);
                 const data = await response.json()
                 console.log("data", data.body)

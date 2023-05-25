@@ -7,12 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import SectionTitle from '../../../components/section-title';
 
 const index = () => {
-    const [groupName, setGroupName] = useState('')
-    const [appName, setAppName] = useState('')
-    const [permission, setPermission] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [userGrpData, setUserGrpData] = useState(() => []);
-    const [appGrpData, setAPPGrpData] = useState(() => []);
+    const [definiData, setDefiniData] = useState(() => []);
     const [isFetching, setIsFetching] = useState(() => false);
     const router = useRouter()
     const { register, handleSubmit, errors } = useForm();
@@ -20,15 +16,15 @@ const index = () => {
 
         const fetchPost = async () => {
             try {
-                const response = await fetch('https://bespoque.dev/rhm/get-usergroups-batch.php')
-                const appgrpres = await fetch('https://bespoque.dev/rhm/get-appgroups-batch.php')
+                const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-definition-batch.php', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        "process": "okay"
+                    }),
+                })
                 setIsFetching(false);
-                const data = await response.json()
-                const appGroups = await appgrpres.json()
-                console.log("data", data.body)
-                console.log("appGroups", appGroups.body)
-                setUserGrpData(data.body)
-                setAPPGrpData(appGroups.body)
+                const dataFetch = await response.json()
+                setDefiniData(dataFetch.body)
             } catch (error) {
                 console.log(error)
                 setIsFetching(false);
@@ -37,30 +33,27 @@ const index = () => {
         fetchPost();
     }, []);
 
-    console.log("userGrpData", userGrpData);
 
     async function onSubmit(formData) {
         console.log("data", formData.app_id);
         setIsSubmitting(true)
 
         try {
-            const response = await fetch('https://bespoque.dev/rhm/new-permission-group.php', {
+            const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-new.php', {
                 method: 'POST',
                 body: JSON.stringify({
-                    "app_id": formData.app_id,
-                    "group_id": formData.group_id,
-                    "view": formData.view,
-                    "edit": formData.edit,
-                    "approve": formData.approve,
-                    "delete": formData.delete,
-                    "verify": formData.verify,
-                    "sign": formData.sign,
+                    "cluster_definition_id": formData.cluster_definition_id,
+                    "cluster_name": formData.cluster_name,
+                    "cluster_goal": formData.cluster_goal,
+                    "cluster_deadline": formData.cluster_deadline,
+                    "cluster_head": formData.cluster_head,
+                    "cluster_status": formData.cluster_status,
                 })
             })
 
-            const data = await response.json()
-            toast.success(response.message);
-            router.push('/view/access-rights/list/')
+            const dataFetch = await response.json()
+            toast.success(dataFetch.message);
+            router.push('/cluster-management/cluster-group/list')
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -69,7 +62,7 @@ const index = () => {
     }
     return (
         <>
-            <SectionTitle subtitle="Create clusters" />
+            <SectionTitle subtitle="Create cluster" />
             <ToastContainer />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
@@ -85,101 +78,73 @@ const index = () => {
                     <p>Fetching data...</p>
                 </div>
             )}
-            <form onSubmit={handleSubmit(onSubmit)} >
-                <div className="flex flex-wrap justify-center items-center">
-                    <div className="w-full sm:w-auto max-w-sm">
-                        <p>Application</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='app_id'
-                            ref={register}
+            <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="cluster_status" className="block mb-1">Cluster Definition:</label>
+                        <select
+                            id="cluster_definition_id"
+                            name="cluster_definition_id"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
                         >
-                            <option value="">Select Application</option>
-                            {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.app_name + " - " + app.app_type}`}</option>)}
+                            <option value="">Select Definition</option>
+                            {definiData.map((def) => <option key={def.id} value={def.id}>{`${def.cluster_name}`}</option>)}
                         </select>
                     </div>
-                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <p>User group</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='group_id'
-                            ref={register}
-                        >
-                            <option value="">Select user group</option>
-                            {userGrpData.map((group) => <option key={group.id} value={group.id}>{`${group.groupname + " - " + group.role}`}</option>)}
-                        </select>
+                    <div>
+                        <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
+                        <input
+                            type="text"
+                            id="cluster_name"
+                            name="cluster_name"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
+                        />
                     </div>
-                </div>
-                <p className='flex justify-center my-3 font-bold'>Apply Permissions</p>
-                <div className="flex flex-wrap justify-center items-center">
-                    <div className="w-full sm:w-auto max-w-sm">
-                        <p>View</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='view'
-                            ref={register}
-                        >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
+                    <div>
+                        <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
+                        <input
+                            type="number"
+                            id="cluster_goal"
+                            name="cluster_goal"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
+                        />
                     </div>
-                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <p>Edit</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='edit'
-                            ref={register}
-                        >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
+                    <div>
+                        <label htmlFor="cluster_name" className="block mb-1">Cluster Head:</label>
+                        <input
+                            type="email"
+                            id="cluster_head"
+                            name="cluster_head"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
+                        />
                     </div>
                 </div>
-                <div className="flex flex-wrap justify-center items-center">
-                    <div className="w-full sm:w-auto max-w-sm">
-                        <p>Approve</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='approve'
-                            ref={register}
-                        >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
+                        <input
+                            type="date"
+                            id="cluster_deadline"
+                            name="cluster_deadline"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
+                        />
                     </div>
-                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <p>Delete</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='delete'
-                            ref={register}
+                    <div>
+                        <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
+                        <select
+                            id="cluster_status"
+                            name="cluster_status"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
                         >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="flex flex-wrap justify-center items-center">
-                    <div className="w-full sm:w-auto max-w-sm">
-                        <p>Verify</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='verify'
-                            ref={register}
-                        >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
-                    </div>
-                    <div className="w-full sm:w-auto max-w-sm mt-4 sm:mt-0 ml-0 sm:ml-4">
-                        <p>Sign</p>
-                        <select className="w-full rounded-md border border-gray-300"
-                            required
-                            name='sign'
-                            ref={register}
-                        >
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
+                            <option value="">Select a status</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
                         </select>
                     </div>
                 </div>
@@ -190,7 +155,7 @@ const index = () => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Saving...' : 'Submit'}
+                        {isSubmitting ? 'Saving...' : 'Update'}
                     </button>
                 </div>
             </form>
