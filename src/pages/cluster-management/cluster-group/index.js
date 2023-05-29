@@ -42,10 +42,7 @@ const index = () => {
             const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-new.php', {
                 method: 'POST',
                 body: JSON.stringify({
-                    // "cluster_definition_id": formData.cluster_definition_id,
                     "cluster_name": formData.cluster_name,
-                    // "cluster_goal": formData.cluster_goal,
-                    // "cluster_deadline": formData.cluster_deadline,
                     "cluster_head": formData.cluster_head,
                     "cluster_status": formData.cluster_status,
                 })
@@ -80,18 +77,6 @@ const index = () => {
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
                 <div className="grid grid-cols-2 gap-4">
-                    {/* <div>
-                        <label htmlFor="cluster_status" className="block mb-1">Cluster Definition:</label>
-                        <select
-                            id="cluster_definition_id"
-                            name="cluster_definition_id"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        >
-                            <option value="">Select Definition</option>
-                            {definiData.map((def) => <option key={def.id} value={def.id}>{`${def.cluster_name}`}</option>)}
-                        </select>
-                    </div> */}
                     <div>
                         <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
                         <input
@@ -102,17 +87,6 @@ const index = () => {
                             ref={register()}
                         />
                     </div>
-                    {/* <div>
-                        <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
-                        <input
-                            type="number"
-                            id="cluster_goal"
-                            name="cluster_goal"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        />
-                    </div> */}
-
                     <div>
                         <label htmlFor="cluster_name" className="block mb-1">Cluster Head:</label>
                         <input
@@ -137,19 +111,6 @@ const index = () => {
                             <option value="INACTIVE">INACTIVE</option>
                         </select>
                     </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                    {/* <div>
-                        <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
-                        <input
-                            type="date"
-                            id="cluster_deadline"
-                            name="cluster_deadline"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        />
-                    </div> */}
-
                 </div>
                 <div class="mt-4 flex justify-center">
                     <button

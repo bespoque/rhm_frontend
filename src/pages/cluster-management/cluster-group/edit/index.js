@@ -35,21 +35,16 @@ const index = () => {
   }, [router]);
 
   async function onSubmit(formData) {
-    console.log("data", formData);
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('https://bespoque.dev/rhm/update-permission-group.php', {
+      const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-update.php', {
         method: 'POST',
         body: JSON.stringify({
-          "app_id": formData.app_id,
-          "group_id": formData.group_id,
-          "view": formData.view,
-          "edit": formData.edit,
-          "approve": formData.approve,
-          "delete": formData.delete,
-          "verify": formData.verify,
-          "sign": formData.sign,
+          "id": clustDetail.id,
+          "cluster_name": formData.cluster_name,
+          "cluster_head": formData.cluster_head,
+          "cluster_status": formData.cluster_status,
         })
       })
 
@@ -86,18 +81,6 @@ const index = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="cluster_status" className="block mb-1">Cluster Definition:</label>
-            <select
-              id="cluster_definition_id"
-              name="cluster_definition_id"
-              className="border border-gray-300 p-2 w-full"
-              ref={register()}
-            >
-              <option value="">Select Definition</option>
-              {/* {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.cluster_name}`}</option>)} */}
-            </select>
-          </div>
-          <div>
             <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
             <input
               type="text"
@@ -105,17 +88,6 @@ const index = () => {
               name="cluster_name"
               className="border border-gray-300 p-2 w-full"
               defaultValue={clustDetail.cluster_name}
-              ref={register()}
-            />
-          </div>
-          <div>
-            <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
-            <input
-              type="number"
-              id="cluster_goal"
-              name="cluster_goal"
-              defaultValue={clustDetail.cluster_goal}
-              className="border border-gray-300 p-2 w-full"
               ref={register()}
             />
           </div>
@@ -132,17 +104,6 @@ const index = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
-            <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
-            <input
-              type="date"
-              id="cluster_deadline"
-              name="cluster_deadline"
-              defaultValue={clustDetail.cluster_deadline}
-              className="border border-gray-300 p-2 w-full"
-              ref={register()}
-            />
-          </div>
           <div>
             <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
             <select
@@ -164,7 +125,7 @@ const index = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Saving...' : 'Submit'}
+            {isSubmitting ? 'Saving...' : 'Update'}
           </button>
         </div>
       </form>
