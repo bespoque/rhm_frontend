@@ -75,8 +75,8 @@ const index = () => {
                     <p>Fetching data...</p>
                 </div>
             )}
-            <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
-                <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto">
+                <div className="grid grid-cols-3 gap-2">
                     <div>
                         <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
                         <input
