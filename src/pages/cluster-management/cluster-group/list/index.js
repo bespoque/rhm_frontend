@@ -35,15 +35,15 @@ const index = () => {
             title: "Name",
             field: "cluster_name",
         },
-        {
-            title: "Goal",
-            field: "cluster_goal",
-            render: (rowData) => formatNumber(rowData.cluster_goal),
-        },
-        {
-            title: "Deadline",
-            field: "cluster_deadline",
-        },
+        // {
+        //     title: "Goal",
+        //     field: "cluster_goal",
+        //     render: (rowData) => formatNumber(rowData.cluster_goal),
+        // },
+        // {
+        //     title: "Deadline",
+        //     field: "cluster_deadline",
+        // },
         {
             title: "Cluster Head",
             field: "cluster_head",
