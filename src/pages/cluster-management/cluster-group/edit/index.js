@@ -83,6 +83,7 @@ const index = () => {
           <div>
             <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
             <input
+              required
               type="text"
               id="cluster_name"
               name="cluster_name"
@@ -94,6 +95,7 @@ const index = () => {
           <div>
             <label htmlFor="cluster_name" className="block mb-1">Cluster Head:</label>
             <input
+              required
               type="email"
               id="cluster_head"
               name="cluster_head"
@@ -105,6 +107,7 @@ const index = () => {
           <div>
             <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
             <select
+              required
               id="cluster_status"
               name="cluster_status"
               className="border border-gray-300 p-2 w-full"
