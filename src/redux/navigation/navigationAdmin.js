@@ -517,6 +517,7 @@ const initialState = [
                 url: '/cluster-management/definitions/list',
                 items: [],
               },
+              
             ],
           },
           {
@@ -530,29 +531,17 @@ const initialState = [
               },
             ],
           },
-          // {
-          //   title: 'APP Groups',
-          //   items: [
-          //     { title: 'Create', url: '/view/app-group/create', items: [] },
-          //     {
-          //       title: 'View',
-          //       url: '/view/app-group/list',
-          //       items: [],
-          //     },
-          //   ],
-          // },
-          // {
-          //   title: 'Permissions',
-          //   items: [
-          //     { title: 'Create', url: '/view/access-rights/create', items: [] },
-          //     {
-          //       title: 'View',
-          //       url: '/view/access-rights/list',
-          //       items: [],
-          //     },
-          //   ],
-          // },
-
+          {
+            title: 'Targets',
+            items: [
+              { title: 'Create', url: '/', items: [] },
+              {
+                title: 'View',
+                url: '/',
+                items: [],
+              },
+            ],
+          },
         ],
       },
     ],

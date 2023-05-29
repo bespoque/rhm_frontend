@@ -44,8 +44,8 @@ const index = () => {
                 body: JSON.stringify({
                     "cluster_definition_id": formData.cluster_definition_id,
                     "cluster_name": formData.cluster_name,
-                    "cluster_goal": formData.cluster_goal,
-                    "cluster_deadline": formData.cluster_deadline,
+                    // "cluster_goal": formData.cluster_goal,
+                    // "cluster_deadline": formData.cluster_deadline,
                     "cluster_head": formData.cluster_head,
                     "cluster_status": formData.cluster_status,
                 })
@@ -102,7 +102,7 @@ const index = () => {
                             ref={register()}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
                         <input
                             type="number"
@@ -111,7 +111,8 @@ const index = () => {
                             className="border border-gray-300 p-2 w-full"
                             ref={register()}
                         />
-                    </div>
+                    </div> */}
+
                     <div>
                         <label htmlFor="cluster_name" className="block mb-1">Cluster Head:</label>
                         <input
@@ -122,18 +123,7 @@ const index = () => {
                             ref={register()}
                         />
                     </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div>
-                        <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
-                        <input
-                            type="date"
-                            id="cluster_deadline"
-                            name="cluster_deadline"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        />
-                    </div>
+
                     <div>
                         <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
                         <select
@@ -148,6 +138,19 @@ const index = () => {
                         </select>
                     </div>
                 </div>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                    {/* <div>
+                        <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
+                        <input
+                            type="date"
+                            id="cluster_deadline"
+                            name="cluster_deadline"
+                            className="border border-gray-300 p-2 w-full"
+                            ref={register()}
+                        />
+                    </div> */}
+
+                </div>
                 <div class="mt-4 flex justify-center">
                     <button
                         className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
@@ -155,7 +158,7 @@ const index = () => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Saving...' : 'Update'}
+                        {isSubmitting ? 'Saving...' : 'Create'}
                     </button>
                 </div>
             </form>

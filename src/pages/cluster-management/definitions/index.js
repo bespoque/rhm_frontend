@@ -14,8 +14,8 @@ const MyForm = () => {
       const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-definition.php', {
         method: 'POST',
         body: JSON.stringify({
-          "cluster_deadline": data.cluster_deadline,
-          "cluster_goal": data.cluster_goal,
+          // "cluster_deadline": data.cluster_deadline,
+          // "cluster_goal": data.cluster_goal,
           "cluster_name": data.cluster_name,
           "cluster_status": data.cluster_status
         }),
@@ -50,28 +50,6 @@ const MyForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
-            <input
-              type="number"
-              id="cluster_goal"
-              name="cluster_goal"
-              className="border border-gray-300 p-2 w-full"
-              ref={register()}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
-            <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
-            <input
-              type="date"
-              id="cluster_deadline"
-              name="cluster_deadline"
-              className="border border-gray-300 p-2 w-full"
-              ref={register()}
-            />
-          </div>
-          <div>
             <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
             <select
               id="cluster_status"
@@ -84,6 +62,29 @@ const MyForm = () => {
               <option value="INACTIVE">INACTIVE</option>
             </select>
           </div>
+          {/* <div>
+            <label htmlFor="cluster_goal" className="block mb-1">Cluster Goal:</label>
+            <input
+              type="number"
+              id="cluster_goal"
+              name="cluster_goal"
+              className="border border-gray-300 p-2 w-full"
+              ref={register()}
+            />
+          </div> */}
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          {/* <div>
+            <label htmlFor="cluster_deadline" className="block mb-1">Cluster Deadline:</label>
+            <input
+              type="date"
+              id="cluster_deadline"
+              name="cluster_deadline"
+              className="border border-gray-300 p-2 w-full"
+              ref={register()}
+            />
+          </div> */}
+
         </div>
         <div className="flex justify-center mt-4">
           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" disabled={isSubmitting}>
