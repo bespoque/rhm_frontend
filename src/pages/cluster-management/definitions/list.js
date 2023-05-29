@@ -27,14 +27,14 @@ const AccessList = () => {
             title: "Name",
             field: "cluster_name",
         },
-        {
-            title: "Goal",
-            field: "cluster_goal",
-        },
-        {
-            title: "Deadline",
-            field: "cluster_deadline",
-        },
+        // {
+        //     title: "Goal",
+        //     field: "cluster_goal",
+        // },
+        // {
+        //     title: "Deadline",
+        //     field: "cluster_deadline",
+        // },
         {
             title: "Status",
             field: "cluster_status",
