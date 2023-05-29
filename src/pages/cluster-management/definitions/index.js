@@ -20,7 +20,7 @@ const MyForm = () => {
           "cluster_status": data.cluster_status
         }),
       });
-      router.push("/cluster-management/definitions/list")
+      // router.push("/cluster-management/definitions/list")
 
       if (response.ok) {
         console.log('Form data submitted successfully');
