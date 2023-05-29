@@ -61,47 +61,30 @@ const index = () => {
 
     useEffect(() => {
 
-        const fetchPost = async () => {
+        async function fetchPost() {
+            setIsSubmitting(true)
+
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-definition-batch.php', {
-                    method: "POST",
+                const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
+                    method: 'POST',
                     body: JSON.stringify({
-                        "process": "okay"
-                    }),
+                        "process": "okay",
+                    })
                 })
-                setIsFetching(false);
+
                 const dataFetch = await response.json()
-                setAPPGrpData(dataFetch.body)
+                setClusterData(dataFetch.body)
             } catch (error) {
-                console.log(error)
-                setIsFetching(false);
+                console.error('Server Error:', error)
+            } finally {
+                setIsSubmitting(false)
             }
-        };
+        }
         fetchPost();
     }, []);
 
 
-    async function onSubmit(formData) {
-        console.log("data", formData.app_id);
-        setIsSubmitting(true)
 
-        try {
-            const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
-                method: 'POST',
-                body: JSON.stringify({
-                    "cluster_definition_id": formData.cluster_definition_id,
-                })
-            })
-
-            const dataFetch = await response.json()
-            setClusterData(dataFetch.body)
-            // router.push('/view/access-rights/list/')
-        } catch (error) {
-            console.error('Server Error:', error)
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
     return (
         <>
             <SectionTitle subtitle="List clusters" />
@@ -119,33 +102,6 @@ const index = () => {
                     <p>Fetching data...</p>
                 </div>
             )}
-            <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mb-5">
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label htmlFor="cluster_status" className="block mb-1">Cluster Definition:</label>
-                        <select
-                            required
-                            id="cluster_definition_id"
-                            name="cluster_definition_id"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        >
-                            <option value="">Select Definition</option>
-                            {appGrpData.map((app) => <option key={app.id} value={app.id}>{`${app.cluster_name}`}</option>)}
-                        </select>
-                    </div>
-                    <div class="flex self-end">
-                        <button
-                            className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
-                                } text-white font-bold py-2  px-4 rounded focus:outline-none focus:shadow-outline`}
-                            type="submit"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Fetching...' : 'Submit'}
-                        </button>
-                    </div>
-                </div>
-            </form>
 
             <MaterialTable title="Cluster List"
                 data={clusterData}
@@ -179,14 +135,7 @@ const index = () => {
 
                 onRowClick={(event, rowData) => {
                     event.stopPropagation();
-                      window.open(`/cluster-management/cluster-group/edit?id=${rowData.id}`, "_self")
-                    // if (userGroup.some(r => reportRange.includes(r))) {
-                    //   ''
-
-                    // } else {
-                    //   window.open(`/view/listverifiedboj/${rowData.assessment_id},${rowData.kgtin}`, "_self")
-                    //   event.stopPropagation();
-                    // }
+                    window.open(`/cluster-management/cluster-group/edit?id=${rowData.id}`, "_self")
                 }}
             />
         </>

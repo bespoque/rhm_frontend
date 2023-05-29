@@ -508,18 +508,18 @@ const initialState = [
         title: 'Cluster Management',
         items: [
 
-          {
-            title: 'Cluster Definitions',
-            items: [
-              { title: 'Create', url: '/cluster-management/definitions', items: [] },
-              {
-                title: 'View',
-                url: '/cluster-management/definitions/list',
-                items: [],
-              },
+          // {
+          //   title: 'Cluster Definitions',
+          //   items: [
+          //     { title: 'Create', url: '/cluster-management/definitions', items: [] },
+          //     {
+          //       title: 'View',
+          //       url: '/cluster-management/definitions/list',
+          //       items: [],
+          //     },
               
-            ],
-          },
+          //   ],
+          // },
           {
             title: 'Cluster Groups',
             items: [
