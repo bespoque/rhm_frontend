@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../components/Icons/index';
+import * as Icons from '../../../../../components/Icons/index';
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,7 +13,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { Edit, MoreHoriz, GroupRounded } from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 
 
@@ -22,44 +22,36 @@ const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
     const fields = [
-        // {
-        //   title: "SN",
-        //   field: "serialNo",
-        //   filtering: false,
-        //   width: "10%"
-        // },
         {
-            title: "Name",
-            field: "cluster_name",
+            title: "Cluster id",
+            field: "cluster_id",
         },
         {
-            title: "Cluster Head",
-            field: "cluster_head",
+            title: "User email",
+            field: "staffid",
         },
         {
             title: "Status",
-            field: "cluster_status",
+            field: "status",
         },
         {
             title: "Created time",
             field: "createtime",
         },
-
     ];
-
+    const { id } = router.query;
     useEffect(() => {
 
         async function fetchPost() {
             setIsFetching(true)
 
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-users-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "process": "okay",
+                        "cluster_id": id
                     })
                 })
-
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
             } catch (error) {
@@ -67,9 +59,10 @@ const index = () => {
             } finally {
                 setIsFetching(false)
             }
+
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
 
 
@@ -90,7 +83,7 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="Cluster List"
+            <MaterialTable title="Cluster members"
                 data={clusterData}
                 columns={fields}
 
@@ -98,17 +91,11 @@ const index = () => {
                     [
 
                         {
-                            icon: GroupRounded,
-                            tooltip: 'Cluster users',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-group/users/list?id=${rowData.id}`),
+                            icon: Delete,
+                            tooltip: 'Remove user',
+                            // onClick: (event, rowData) => router.push(`/payer-profile/${rowData.KGTIN}`),
 
                         },
-                        {
-                            icon: Edit,
-                            tooltip: 'Edit Cluster',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-group/edit?id=${rowData.id}`),
-
-                        }
                     ]}
 
                 options={{
@@ -145,7 +132,7 @@ const index = () => {
                     SortArrow: ArrowDownward
                 }}
 
-             
+
             />
         </>
     )

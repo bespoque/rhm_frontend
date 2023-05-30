@@ -10,12 +10,12 @@ import Modal from 'react-modal';
 const index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFetching, setIsFetching] = useState(() => true);
-  const router = useRouter()
   const [clustDetail, setClustDetail] = useState(() => []);
   const [inputValue, setInputValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [jsonData, setJsonData] = useState(null);
+  const router = useRouter()
 
   const { register, handleSubmit, errors } = useForm();
   const { id } = router.query;

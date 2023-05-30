@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import SectionTitle from '../../../components/section-title';
+import SectionTitle from '../../../../components/section-title';
+import { formatNumber } from "../../../../functions/numbers";
 
 const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
-    const [inputValue, setInputValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [jsonData, setJsonData] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formattedNumber, setFormattedNumber] = useState('');
     const router = useRouter()
     const { register, handleSubmit, errors } = useForm();
 
+    const { id } = router.query
     useEffect(() => {
 
         async function fetchPost() {
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/target-details.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "process": "okay",
+                        "target_id": id,
                     })
                 })
 
                 const dataFetch = await response.json()
-                setClusterData(dataFetch.body)
+                setClusterData(dataFetch.body[0])
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
             }
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
 
 
@@ -56,7 +53,7 @@ const index = () => {
 
             const dataFetch = await response.json()
             toast.success(dataFetch.message);
-            router.push('/cluster-management/cluster-target/list')
+            // router.push('/cluster-management/cluster-group/list')
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -64,27 +61,27 @@ const index = () => {
         }
     }
 
-    const formatNumber = (event) => {
-        const { value } = event.target;
+    // const formatNumber = (event) => {
+    //     const { value } = event.target;
 
-        // Remove all non-digit characters
-        const cleanedValue = value.replace(/\D/g, '');
+    //     // Remove all non-digit characters
+    //     const cleanedValue = value.replace(/\D/g, '');
 
-        // Format the number with commas
-        const formattedValue = Number(cleanedValue).toLocaleString();
+    //     // Format the number with commas
+    //     const formattedValue = Number(cleanedValue).toLocaleString();
 
-        // Set the formatted value
-        setFormattedNumber(formattedValue);
-    };
+    //     // Set the formatted value
+    //     setFormattedNumber(formattedValue);
+    // };
 
     return (
         <>
             <ToastContainer />
-            <SectionTitle title="Create cluster target" />
+            <SectionTitle title="View cluster target" />
 
             <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
                 <div className="grid grid-cols-3 gap-2">
-                    <div>
+                    {/* <div>
                         <label className="block mb-1">Cluster</label>
                         <select
                             className="border border-gray-300 w-full"
@@ -95,7 +92,7 @@ const index = () => {
                             <option value="">Select Cluster</option>
                             {clusterData.map((cluster) => <option key={cluster.id} value={cluster.id}>{cluster.cluster_name}</option>)}
                         </select>
-                    </div>
+                    </div> */}
                     <div>
                         <label className="block mb-1">Target Name:</label>
                         <input
@@ -103,6 +100,7 @@ const index = () => {
                             type="text"
                             name='target_name'
                             className="border border-gray-300 w-full"
+                            defaultValue={clusterData.target_name}
                             ref={register()}
                         />
                     </div>
@@ -111,9 +109,21 @@ const index = () => {
                         <input
                             required
                             type="text"
+                            name='target_name'
+                            className="border border-gray-300 w-full"
+                            value={formatNumber(clusterData.target_goal)}
+                            ref={register()}
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1">Status:</label>
+                        <input
+                            required
+                            type="text"
                             name='target_goal'
-                            value={formattedNumber}
-                            onChange={formatNumber}
+                            // value={formattedNumber}
+                            // onChange={formatNumber}
+                            defaultValue={clusterData.target_status}
                             className="border border-gray-300 w-full"
                             ref={register()}
                         />
@@ -127,10 +137,11 @@ const index = () => {
                             type="month"
                             name='target_deadline'
                             className="border border-gray-300 w-full"
+                            defaultValue={clusterData.target_deadline}
                             ref={register()}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <label htmlFor="cluster_status" className="block mb-1">Status:</label>
                         <select
                             required
@@ -142,10 +153,10 @@ const index = () => {
                             <option value="PENDING">Pending</option>
                             <option value="ACTIVE">Active</option>
                         </select>
-                    </div>
+                    </div> */}
 
                 </div>
-                <div class="mt-4 flex justify-center">
+                {/* <div class="mt-4 flex justify-center">
                     <button
                         className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
                             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
@@ -154,7 +165,7 @@ const index = () => {
                     >
                         {isSubmitting ? 'Saving...' : 'Create'}
                     </button>
-                </div>
+                </div> */}
             </form>
         </>
     )

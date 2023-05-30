@@ -184,7 +184,7 @@ const index = () => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Saving...' : 'Create'}
+                        {isSubmitting ? 'Saving...' : 'Add'}
                     </button>
                 </div>
             </form>

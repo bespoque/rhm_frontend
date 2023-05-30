@@ -509,7 +509,7 @@ const initialState = [
         items: [
 
           {
-            title: 'Cluster Groups',
+            title: 'Clusters',
             items: [
               { title: 'Create', url: '/cluster-management/cluster-group', items: [] },
               {
@@ -530,7 +530,7 @@ const initialState = [
               { title: 'Create', url: '/cluster-management/cluster-target', items: [] },
               {
                 title: 'View',
-                url: '/',
+                url: '/cluster-management/cluster-target/list',
                 items: [],
               },
             ],
