@@ -5,12 +5,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import SectionTitle from '../../../../components/section-title';
 import Loader from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
+import Modal from 'react-modal';
 
 const index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFetching, setIsFetching] = useState(() => true);
   const router = useRouter()
   const [clustDetail, setClustDetail] = useState(() => []);
+  const [inputValue, setInputValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [jsonData, setJsonData] = useState(null);
+
   const { register, handleSubmit, errors } = useForm();
   const { id } = router.query;
   useEffect(() => {
@@ -26,6 +32,7 @@ const index = () => {
         setIsFetching(false);
         const clusterInfo = await clustDet.json()
         setClustDetail(clusterInfo.body[0])
+        setInputValue(clusterInfo.body[0].cluster_head)
       } catch (error) {
         console.log(error)
         setIsFetching(false);
@@ -33,6 +40,45 @@ const index = () => {
     };
     fetchPost();
   }, [router]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = () => {
+    if (inputValue === "") {
+      alert("Please select a cluster head")
+    } else {
+      setShowModal(true);
+      fetchData();
+
+    }
+  };
+  const fetchData = () => {
+    const requestBody = {
+      param: inputValue
+    };
+
+    fetch('https://bespoque.dev/rhm/cluster/users-get.php', {
+      method: 'POST',
+      body: JSON.stringify(requestBody)
+    })
+      .then((response) => response.json())
+      .then((data) => setJsonData(data.body))
+      .catch((error) => console.log(error));
+  };
+
+
+  const handleOptionClick = (option) => {
+    setInputValue(option.name);
+    setEmailValue(option.email);
+    setShowModal(false);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
 
   async function onSubmit(formData) {
     setIsSubmitting(true)
@@ -49,8 +95,8 @@ const index = () => {
       })
 
       const data = await response.json()
-      toast.success(response.message);
-      router.push('/view/access-rights/list/')
+      toast.success(data.message);
+      router.push('/cluster-management/cluster-group/list')
     } catch (error) {
       console.error('Server Error:', error)
     } finally {
@@ -62,6 +108,29 @@ const index = () => {
   return (
     <>
       <ToastContainer />
+      <Modal
+        isOpen={showModal}
+        onRequestClose={closeModal}
+        contentLabel="Options Modal"
+        className="bg-white rounded p-4 max-w-sm border mx-auto"
+        overlayClassName="fixed inset-20 opacity-100"
+      >
+        {jsonData ? (
+          <ul>
+            {jsonData.map((option) => (
+              <li
+                key={option.id}
+                onClick={() => handleOptionClick(option)}
+                className="cursor-pointer p-2 hover:bg-gray-100"
+              >
+                {option.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Loading data...</p>
+        )}
+      </Modal>
       {isFetching && (
         <div className="flex justify-center item mb-2">
           <Loader
@@ -78,7 +147,7 @@ const index = () => {
       )}
       <SectionTitle subtitle="Update Cluster" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
         <div className="grid grid-cols-3 gap-2">
           <div>
             <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
@@ -93,16 +162,29 @@ const index = () => {
             />
           </div>
           <div>
-            <label htmlFor="cluster_name" className="block mb-1">Cluster Head:</label>
+            <label className="block mb-1">Cluster Head:</label>
             <input
               required
-              type="email"
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-2 w-full"
+            />
+            <input
+              required
+              type="text"
               id="cluster_head"
               name="cluster_head"
-              defaultValue={clustDetail.cluster_head}
-              className="border border-gray-300 p-2 w-full"
+              value={emailValue}
+              className="border border-gray-300 p-2 mt-2 w-full"
               ref={register()}
             />
+
+            <span className="flex justify-center text-blue-600 font-bold py-2 px-4 
+                        rounded focus:outline-none bg-blue-100 hover:bg-blue-200
+                        focus:shadow-outline cursor-pointer mt-2" onClick={handleButtonClick}>
+              <p>Search user</p>
+            </span>
           </div>
           <div>
             <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
