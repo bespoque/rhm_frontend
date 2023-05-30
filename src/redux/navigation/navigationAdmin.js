@@ -517,12 +517,17 @@ const initialState = [
                 url: '/cluster-management/cluster-group/list',
                 items: [],
               },
+              {
+                title: 'Add user',
+                url: '/cluster-management/cluster-group/users',
+                items: [],
+              },
             ],
           },
           {
             title: 'Targets',
             items: [
-              { title: 'Create', url: '/', items: [] },
+              { title: 'Create', url: '/cluster-management/cluster-target', items: [] },
               {
                 title: 'View',
                 url: '/',

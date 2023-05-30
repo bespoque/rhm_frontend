@@ -17,8 +17,6 @@ import MaterialTable from 'material-table';
 
 
 const index = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [appGrpData, setAPPGrpData] = useState(() => []);
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
@@ -35,15 +33,6 @@ const index = () => {
             title: "Name",
             field: "cluster_name",
         },
-        // {
-        //     title: "Goal",
-        //     field: "cluster_goal",
-        //     render: (rowData) => formatNumber(rowData.cluster_goal),
-        // },
-        // {
-        //     title: "Deadline",
-        //     field: "cluster_deadline",
-        // },
         {
             title: "Cluster Head",
             field: "cluster_head",
@@ -62,7 +51,7 @@ const index = () => {
     useEffect(() => {
 
         async function fetchPost() {
-            setIsSubmitting(true)
+            setIsFetching(true)
 
             try {
                 const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
@@ -77,7 +66,7 @@ const index = () => {
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
-                setIsSubmitting(false)
+                setIsFetching(false)
             }
         }
         fetchPost();
