@@ -33,7 +33,7 @@ const index = () => {
             field: "target_cluster_name",
         },
         {
-            title: "Cluster name",
+            title: "Target name",
             field: "target_name",
         },
         {
@@ -111,7 +111,7 @@ const index = () => {
                         {
                             icon: BarChart,
                             tooltip: 'report',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
+                            onClick: (event, rowData) => router.push(`/assessment-report?targetID=${rowData.target_id}&ClusterID=${rowData.target_cluster_id}`),
 
                         },
                     ]

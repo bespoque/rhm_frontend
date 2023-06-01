@@ -81,18 +81,18 @@ const index = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
                 <div className="grid grid-cols-3 gap-2">
-                    {/* <div>
-                        <label className="block mb-1">Cluster</label>
-                        <select
-                            className="border border-gray-300 w-full"
+                    <div>
+                        <label className="block mb-1">Target Name:</label>
+                        <input
                             required
+                            type="text"
+                            readOnly
                             name='cluster_id'
+                            className="border border-gray-300 w-full"
+                            defaultValue={clusterData.target_name}
                             ref={register()}
-                        >
-                            <option value="">Select Cluster</option>
-                            {clusterData.map((cluster) => <option key={cluster.id} value={cluster.id}>{cluster.cluster_name}</option>)}
-                        </select>
-                    </div> */}
+                        />
+                    </div>
                     <div>
                         <label className="block mb-1">Target Name:</label>
                         <input
@@ -115,57 +115,70 @@ const index = () => {
                             ref={register()}
                         />
                     </div>
+
+                </div>
+                <div className='flex justify-center gap-2 mt-3'>
                     <div>
-                        <label className="block mb-1">Status:</label>
+                        <label className="block mb-1">Start date:</label>
                         <input
                             required
-                            type="text"
-                            name='target_goal'
-                            // value={formattedNumber}
-                            // onChange={formatNumber}
-                            defaultValue={clusterData.target_status}
+                            type="date"
+                            name='target_startdate'
+                            defaultValue={clusterData.target_startdate}
                             className="border border-gray-300 w-full"
                             ref={register()}
                         />
                     </div>
-                </div>
-                <div className='flex justify-center gap-2 mt-3'>
                     <div>
                         <label className="block mb-1">Deadline:</label>
                         <input
                             required
-                            type="month"
+                            type="date"
                             name='target_deadline'
                             className="border border-gray-300 w-full"
                             defaultValue={clusterData.target_deadline}
                             ref={register()}
                         />
                     </div>
-                    {/* <div>
+                    <div>
+                        <label htmlFor="cluster_status" className="block mb-1">Target Type:</label>
+                        <select
+                            required
+                            name="target_type"
+                            className="border border-gray-300 w-full"
+                            ref={register()}
+                        >
+                            <option value="">Select a status</option>
+                            <option value="Assessment">Assessment</option>
+                            <option value="Taxpayers">Taxpayers</option>
+                            <option value="Collection">Collection</option>
+                        </select>
+                    </div>
+                    <div>
                         <label htmlFor="cluster_status" className="block mb-1">Status:</label>
                         <select
+                            defaultValue={clusterData.target_status}
                             required
                             name="target_status"
                             className="border border-gray-300 w-full"
                             ref={register()}
                         >
-                            <option value="">Select a status</option>
+                            <option value={clusterData.target_status}>{clusterData.target_status}</option>
                             <option value="PENDING">Pending</option>
                             <option value="ACTIVE">Active</option>
                         </select>
-                    </div> */}
-
+                    </div>
                 </div>
-                {/* <div class="mt-4 flex justify-center">
+                <div class="mt-4 flex justify-center">
                     <button
                         className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
                             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Saving...' : 'Create'}
+                        {isSubmitting ? 'Saving...' : 'Update'}
                     </button>
-                </div> */}
+                </div>
             </form>
         </>
     )
