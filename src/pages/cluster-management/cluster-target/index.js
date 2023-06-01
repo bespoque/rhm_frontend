@@ -38,6 +38,7 @@ const index = () => {
     async function onSubmit(formData) {
         formData.target_goal = (formData.target_goal.replace(/\D/g, ''));
         setIsSubmitting(true)
+        console.log("formData", formData);
 
         try {
             const response = await fetch('https://bespoque.dev/rhm/cluster/target-new.php', {
@@ -113,6 +114,16 @@ const index = () => {
                     </div>
                 </div>
                 <div className='flex justify-center gap-2 mt-3'>
+                    <div>
+                        <label className="block mb-1">Start date:</label>
+                        <input
+                            required
+                            type="date"
+                            name='target_startdate'
+                            className="border border-gray-300 w-full"
+                            ref={register()}
+                        />
+                    </div>
                     <div>
                         <label className="block mb-1">Deadline:</label>
                         <input

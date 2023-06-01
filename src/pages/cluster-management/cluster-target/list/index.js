@@ -29,14 +29,17 @@ const index = () => {
         //   width: "10%"
         // },
         {
-            title: "Name",
+            title: "Cluster name",
+            field: "target_cluster_name",
+        },
+        {
+            title: "Cluster name",
             field: "target_name",
         },
         {
             title: "Target goal",
             field: "target_goal",
             render: (rowData) => {
-                // Format the number using toLocaleString() with desired options
                 return formatNumber(rowData.target_goal)
             },
         },
@@ -45,7 +48,7 @@ const index = () => {
             field: "target_deadline",
         },
         {
-            title: "Target Type",
+            title: "Target type",
             field: "target_type",
         },
         {
