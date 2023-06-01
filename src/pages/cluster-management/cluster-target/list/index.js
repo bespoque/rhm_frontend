@@ -108,7 +108,7 @@ const index = () => {
                         {
                             icon: BarChart,
                             tooltip: 'report',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-group/users/list?id=${rowData.id}`),
+                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
 
                         },
                     ]
