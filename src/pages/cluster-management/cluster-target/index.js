@@ -37,8 +37,6 @@ const index = () => {
 
     async function onSubmit(formData) {
         formData.target_goal = (formData.target_goal.replace(/\D/g, ''));
-        formData.target_deadline = formData.target_deadline + '-01'
-        console.log("formData", formData);
         setIsSubmitting(true)
 
         try {
@@ -119,7 +117,7 @@ const index = () => {
                         <label className="block mb-1">Deadline:</label>
                         <input
                             required
-                            type="month"
+                            type="date"
                             name='target_deadline'
                             className="border border-gray-300 w-full"
                             ref={register()}
