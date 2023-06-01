@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import SectionTitle from '../../../components/section-title';
 
 const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
-    const [inputValue, setInputValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [jsonData, setJsonData] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formattedNumber, setFormattedNumber] = useState('');
     const router = useRouter()
@@ -131,6 +126,20 @@ const index = () => {
                         />
                     </div>
                     <div>
+                        <label htmlFor="cluster_status" className="block mb-1">Target Type:</label>
+                        <select
+                            required
+                            name="target_type"
+                            className="border border-gray-300 w-full"
+                            ref={register()}
+                        >
+                            <option value="">Select a status</option>
+                            <option value="Assessment">Assessment</option>
+                            <option value="Taxpayers">Taxpayers</option>
+                            <option value="Collection">Collection</option>
+                        </select>
+                    </div>
+                    <div>
                         <label htmlFor="cluster_status" className="block mb-1">Status:</label>
                         <select
                             required
@@ -143,7 +152,6 @@ const index = () => {
                             <option value="ACTIVE">Active</option>
                         </select>
                     </div>
-
                 </div>
                 <div class="mt-4 flex justify-center">
                     <button

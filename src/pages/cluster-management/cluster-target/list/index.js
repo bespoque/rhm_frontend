@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
-import SectionTitle from '../../../../components/section-title';
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -13,6 +12,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
+import { formatNumber } from '../../../../functions/numbers';
 
 
 const index = () => {
@@ -33,10 +33,18 @@ const index = () => {
         {
             title: "Target goal",
             field: "target_goal",
+            render: (rowData) => {
+                // Format the number using toLocaleString() with desired options
+                return formatNumber(rowData.target_goal)
+            },
         },
         {
             title: "Deadline",
             field: "target_deadline",
+        },
+        {
+            title: "Target Type",
+            field: "target_type",
         },
         {
             title: "Status",
