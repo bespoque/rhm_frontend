@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
+import * as Icons from '../../../../components/Icons/index';
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,6 +14,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { formatNumber } from '../../../../functions/numbers';
+import { BarChart } from "@material-ui/icons";
 
 
 const index = () => {
@@ -100,14 +102,35 @@ const index = () => {
                 data={clusterData}
                 columns={fields}
 
+                actions={
+                    [
+
+                        {
+                            icon: BarChart,
+                            tooltip: 'report',
+                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-group/users/list?id=${rowData.id}`),
+
+                        },
+                    ]
+                }
+
                 options={{
                     search: true,
                     paging: true,
-                    // filtering: true,
-                    exportButton: {
-                        csv: true,
-                        pdf: false
-                    },
+                    filtering: true,
+                    actionsColumnIndex: -1,
+                    exportMenu: [
+                        {
+                            label: "Export PDF",
+                            exportFunc: (cols, datas) =>
+                                ExportPdf(cols, datas, "myPdfFileName"),
+                        },
+                        {
+                            label: "Export CSV",
+                            exportFunc: (cols, datas) =>
+                                ExportCsv(cols, datas, "myCsvFileName"),
+                        },
+                    ],
                     exportAllData: true,
 
                 }}
@@ -126,10 +149,10 @@ const index = () => {
                     SortArrow: ArrowDownward
                 }}
 
-                onRowClick={(event, rowData) => {
-                    event.stopPropagation();
-                    window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
-                }}
+                // onRowClick={(event, rowData) => {
+                //     event.stopPropagation();
+                //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
+                // }}
             />
         </>
     )

@@ -13,7 +13,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { Edit, MoreHoriz, GroupRounded } from "@material-ui/icons";
+import { Edit, GroupRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 
 
@@ -109,7 +109,8 @@ const index = () => {
                             onClick: (event, rowData) => router.push(`/cluster-management/cluster-group/edit?id=${rowData.id}`),
 
                         }
-                    ]}
+                    ]
+                }
 
                 options={{
                     search: true,
@@ -145,7 +146,7 @@ const index = () => {
                     SortArrow: ArrowDownward
                 }}
 
-             
+
             />
         </>
     )
