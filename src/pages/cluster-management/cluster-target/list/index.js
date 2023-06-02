@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../components/Icons/index';
+import * as Icons from '../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,8 +13,8 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { formatNumber } from '../../../../../functions/numbers';
-import { BarChart } from "@material-ui/icons";
+import { formatNumber } from '../../../../functions/numbers';
+import { BarChart, Edit } from "@material-ui/icons";
 
 
 const index = () => {
@@ -22,12 +22,6 @@ const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
     const fields = [
-        // {
-        //   title: "SN",
-        //   field: "serialNo",
-        //   filtering: false,
-        //   width: "10%"
-        // },
         {
             title: "Cluster name",
             field: "target_cluster_name",
@@ -42,6 +36,10 @@ const index = () => {
             render: (rowData) => {
                 return formatNumber(rowData.target_goal)
             },
+        },
+        {
+            title: "Start date",
+            field: "target_startdate",
         },
         {
             title: "Deadline",
@@ -114,6 +112,12 @@ const index = () => {
                             onClick: (event, rowData) => router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}`),
 
                         },
+                        {
+                            icon: Edit,
+                            tooltip: 'report',
+                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
+
+                        },
                     ]
                 }
 
@@ -152,10 +156,10 @@ const index = () => {
                     SortArrow: ArrowDownward
                 }}
 
-                // onRowClick={(event, rowData) => {
-                //     event.stopPropagation();
-                //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
-                // }}
+            // onRowClick={(event, rowData) => {
+            //     event.stopPropagation();
+            //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
+            // }}
             />
         </>
     )

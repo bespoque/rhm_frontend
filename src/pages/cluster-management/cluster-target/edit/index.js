@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import SectionTitle from '../../../../components/section-title';
-import { formatNumber } from "../../../../functions/numbers";
 
 const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
@@ -27,6 +26,8 @@ const index = () => {
 
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body[0])
+                setFormattedNumber(dataFetch.body[0].target_goal)
+
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -38,8 +39,7 @@ const index = () => {
 
 
     async function onSubmit(formData) {
-        formData.target_goal = (formData.target_goal.replace(/\D/g, ''));
-        formData.target_deadline = formData.target_deadline + '-01'
+        formData.target_goal = (String(formData.target_goal).replace(/\D/g, ''));
         console.log("formData", formData);
         setIsSubmitting(true)
 
@@ -53,7 +53,7 @@ const index = () => {
 
             const dataFetch = await response.json()
             toast.success(dataFetch.message);
-            // router.push('/cluster-management/cluster-group/list')
+            router.push('/cluster-management/cluster-target/list')
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -61,18 +61,15 @@ const index = () => {
         }
     }
 
-    // const formatNumber = (event) => {
-    //     const { value } = event.target;
+    const formatNumber = (event) => {
+        const { value } = event.target;
 
-    //     // Remove all non-digit characters
-    //     const cleanedValue = value.replace(/\D/g, '');
+        const cleanedValue = value.replace(/\D/g, '');
 
-    //     // Format the number with commas
-    //     const formattedValue = Number(cleanedValue).toLocaleString();
+        const formattedValue = Number(cleanedValue).toLocaleString();
 
-    //     // Set the formatted value
-    //     setFormattedNumber(formattedValue);
-    // };
+        setFormattedNumber(formattedValue);
+    };
 
     return (
         <>
@@ -81,16 +78,38 @@ const index = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
                 <div className="grid grid-cols-3 gap-2">
-                    <div>
-                        <label className="block mb-1">Target Name:</label>
+                    <div className="hidden">
+                        <label className="block mb-1">Cluster Id:</label>
                         <input
                             required
                             type="text"
                             readOnly
                             name='cluster_id'
                             className="border border-gray-300 w-full"
-                            defaultValue={clusterData.target_name}
+                            defaultValue={clusterData.target_cluster_id}
                             ref={register()}
+                        />
+                    </div>
+                    <div className="hidden">
+                        <label className="block mb-1">Target Id:</label>
+                        <input
+                            required
+                            type="text"
+                            readOnly
+                            name='target_id'
+                            className="border border-gray-300 w-full"
+                            defaultValue={clusterData.target_id}
+                            ref={register()}
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1">Cluster Name:</label>
+                        <input
+                            required
+                            type="text"
+                            readOnly
+                            className="border border-gray-300 w-full"
+                            defaultValue={clusterData.target_name}
                         />
                     </div>
                     <div>
@@ -109,9 +128,11 @@ const index = () => {
                         <input
                             required
                             type="text"
-                            name='target_name'
+                            name='target_goal'
                             className="border border-gray-300 w-full"
-                            value={formatNumber(clusterData.target_goal)}
+                            value={formattedNumber}
+                            onChange={formatNumber}
+                            // defaultValue={clusterData.target_goal}
                             ref={register()}
                         />
                     </div>
@@ -148,7 +169,7 @@ const index = () => {
                             className="border border-gray-300 w-full"
                             ref={register()}
                         >
-                            <option value="">Select a status</option>
+                            <option value={clusterData.target_type}>{clusterData.target_type}</option>
                             <option value="Assessment">Assessment</option>
                             <option value="Taxpayers">Taxpayers</option>
                             <option value="Collection">Collection</option>
