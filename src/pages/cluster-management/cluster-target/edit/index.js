@@ -44,7 +44,7 @@ const index = () => {
         setIsSubmitting(true)
 
         try {
-            const response = await fetch('https://bespoque.dev/rhm/cluster/target-new.php', {
+            const response = await fetch('https://bespoque.dev/rhm/cluster/target-update.php', {
                 method: 'POST',
                 body: JSON.stringify(
                     formData
@@ -53,7 +53,7 @@ const index = () => {
 
             const dataFetch = await response.json()
             toast.success(dataFetch.message);
-            router.push('/cluster-management/cluster-target/list')
+            // router.push('/cluster-management/cluster-target/list')
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
