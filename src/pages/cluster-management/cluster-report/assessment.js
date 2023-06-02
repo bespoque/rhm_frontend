@@ -17,6 +17,7 @@ import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
+import { Pie } from 'react-chartjs-2';
 
 
 const Assessment = () => {
@@ -105,7 +106,17 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-    console.log("clustRec", clustRec);
+
+    const data = {
+        labels: ['Red', 'Blue'],
+        datasets: [
+          {
+            data: [300, 500],
+            backgroundColor: ['#FF6384', '#36A2EB'],
+            hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+          },
+        ],
+      };
     return (
         <>
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
@@ -120,8 +131,9 @@ const Assessment = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full lg:w-1/2">
+                <div className="w-full lg:w-1/2 w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     Right side
+                    <Pie data={data} />
                 </div>
             </div>
             <SectionTitle subtitle={reportHeader} />
