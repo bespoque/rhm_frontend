@@ -112,11 +112,11 @@ const Assessment = () => {
                 <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <div className="flex justify-center">
                         <div>
-                            <p className="font-bold"><span>Target</span> : <span>{targN}</span></p>
-                            <p className="font-bold"><span>Start</span> : <span>{targRec?.target_startdate}</span></p>
-                            <p className="font-bold"> <span>Deadline</span>: <span>{targRec?.target_deadline}</span></p>
-                            <p className="font-bold"><span>Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
-                            <p className="font-bold"><span>Head</span> : <span>{clustRec?.cluster_head}</span></p>
+                            <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
+                            <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
+                            <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
+                            <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
+                            <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
                         </div>
                     </div>
                 </div>
