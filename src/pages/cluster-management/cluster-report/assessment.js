@@ -16,7 +16,7 @@ import { formatNumber } from '../../../functions/numbers';
 import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
-import {ExportCsv, ExportPdf} from '@material-table/exporters/csv'
+import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 
 
 const Assessment = () => {
@@ -24,7 +24,7 @@ const Assessment = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const [reportHeader, setReportHeader] = useState(() => []);
     const router = useRouter()
-    const { targetID } = router.query
+    const { targetID } = router?.query
 
     const fields = [
         {
@@ -43,7 +43,7 @@ const Assessment = () => {
             title: "Amount",
             field: "amount",
             render: rowData => formatNumber(rowData.amount),
-            customTotal: (data) => data.reduce((acc, current) => acc + (current.amount || 0), 0)
+            // customTotal: (data) => data.reduce((acc, current) => Number(acc) + Number(current.amount || 0), 0)
         },
         {
             title: "Captured by",
@@ -55,6 +55,7 @@ const Assessment = () => {
         },
 
     ];
+
 
     useEffect(() => {
 
@@ -107,9 +108,12 @@ const Assessment = () => {
                 columns={fields}
 
                 renderSummaryRow={({ column, data }) =>
-                column.field === "amount"
+                column.field == "amount"
                     ? {
-                        value: formatNumber(data.reduce((agg, row) => Number(agg) + (Number(row.amount)), 0)),
+                        value: formatNumber(
+                            // data.reduce((agg, row) => Number(agg) + (Number(row.amount)), 0)
+                            data.reduce((acc, current) => acc + (current.amount || 0), 0)
+                            ),
                         style: { fontWeight: "bold" },
                     }
                     : undefined
@@ -133,26 +137,29 @@ const Assessment = () => {
                     ]
                 }
 
-                options={{
-                    search: true,
-                    paging: true,
-                    filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
+                options={
+                    {
+                        search: true,
+                        paging: true,
+                        filtering: true,
+                        actionsColumnIndex: -1,
+                        exportMenu: [
+                            {
+                                label: "Export PDF",
+                                exportFunc: (cols, datas) =>
+                                    ExportPdf(cols, datas, "myPdfFileName"),
+                            },
+                            {
+                                label: "Export CSV",
+                                exportFunc: (cols, datas) =>
+                                    ExportCsv(cols, datas, "myCsvFileName"),
+                            },
+                        ],
+                        exportAllData: true,
 
-                }}
+                    }
+                }
+
                 icons={{
                     Check: Check,
                     DetailPanel: ChevronRight,
