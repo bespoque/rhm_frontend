@@ -53,7 +53,7 @@ const index = () => {
 
             const dataFetch = await response.json()
             toast.success(dataFetch.message);
-            // router.push('/cluster-management/cluster-target/list')
+            router.push('/cluster-management/cluster-target/list')
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
