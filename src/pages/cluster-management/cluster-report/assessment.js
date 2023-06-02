@@ -84,6 +84,7 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
+    let items = clusterData
 
     return (
         <>
@@ -104,20 +105,21 @@ const Assessment = () => {
             )}
 
             <MaterialTable title="Cluster assessment report"
-                data={clusterData}
+                data={items}
                 columns={fields}
 
                 renderSummaryRow={({ column, data }) =>
-                column.field == "amount"
-                    ? {
-                        value: formatNumber(
-                            // data.reduce((agg, row) => Number(agg) + (Number(row.amount)), 0)
-                            data.reduce((acc, current) => acc + (current.amount || 0), 0)
+                    column.field === "amount"
+                        ? {
+                            value: formatNumber(
+                                // data.reduce((agg, row) => Number(agg) + (Number(row?.amount)), 0)
+                                data.reduce("100000")
+                                // data.reduce((acc, current) => acc + (current.amount || 0 ), 0)
                             ),
-                        style: { fontWeight: "bold" },
-                    }
-                    : undefined
-            }
+                            style: { fontWeight: "bold" },
+                        }
+                        : undefined
+                }
 
                 actions={
                     [
