@@ -13,42 +13,40 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { formatNumber } from '../../../../../functions/numbers';
+import { formatNumber } from '../../../functions/numbers';
 import { BarChart } from "@material-ui/icons";
 
 
-const index = () => {
+const Assessment = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
     const fields = [
-        // {
-        //   title: "SN",
-        //   field: "serialNo",
-        //   filtering: false,
-        //   width: "10%"
-        // },
         {
-            title: "Cluster name",
-            field: "target_cluster_name",
+            title: "Cluster",
+            field: "cluster_name",
         },
         {
-            title: "Target name",
+            title: "Target",
             field: "target_name",
         },
         {
-            title: "Target goal",
+            title: "Goal",
             field: "target_goal",
             render: (rowData) => {
                 return formatNumber(rowData.target_goal)
             },
         },
         {
-            title: "Deadline",
+            title: "Start date",
+            field: "target_startdate",
+        },
+        {
+            title: "End date",
             field: "target_deadline",
         },
         {
-            title: "Target type",
+            title: "Type",
             field: "target_type",
         },
         {
@@ -57,6 +55,9 @@ const index = () => {
         },
 
     ];
+    const { targetID } = router.query
+
+    console.log("id", targetID);
 
     useEffect(() => {
 
@@ -64,10 +65,10 @@ const index = () => {
             setIsFetching(true)
 
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/targets-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/target-report-assessment.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "param": "ALL"
+                        "target_id": targetID
                     })
                 })
 
@@ -80,7 +81,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
 
 
@@ -101,21 +102,21 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="Cluster target list"
+            <MaterialTable title="Cluster assessment report"
                 data={clusterData}
                 columns={fields}
 
-                actions={
-                    [
+                // actions={
+                //     [
 
-                        {
-                            icon: BarChart,
-                            tooltip: 'report',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}`),
+                //         {
+                //             icon: BarChart,
+                //             tooltip: 'report',
+                //             onClick: (event, rowData) => router.push(`/assessment-report?targetID=${rowData.target_id}&ClusterID=${rowData.target_cluster_id}`),
 
-                        },
-                    ]
-                }
+                //         },
+                //     ]
+                // }
 
                 options={{
                     search: true,
@@ -160,4 +161,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Assessment
