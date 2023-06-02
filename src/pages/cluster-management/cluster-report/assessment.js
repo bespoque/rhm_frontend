@@ -12,52 +12,50 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import MaterialTable from 'material-table';
 import { formatNumber } from '../../../functions/numbers';
-import { BarChart } from "@material-ui/icons";
+import { MoreHoriz } from "@material-ui/icons";
+import SectionTitle from '../../../components/section-title';
+import MaterialTable from '@material-table/core';
+import {ExportCsv, ExportPdf} from '@material-table/exporters/csv'
 
 
 const Assessment = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
+    const [reportHeader, setReportHeader] = useState(() => []);
     const router = useRouter()
+    const { targetID } = router.query
+
     const fields = [
         {
             title: "Cluster",
             field: "cluster_name",
         },
         {
-            title: "Target",
-            field: "target_name",
+            title: "Assessment Id",
+            field: "assessment_id",
         },
         {
-            title: "Goal",
-            field: "target_goal",
+            title: "KGTIN",
+            field: "KGTIN",
+        },
+        {
+            title: "Amount",
+            field: "amount",
             render: (rowData) => {
-                return formatNumber(rowData.target_goal)
+                return formatNumber(rowData.amount)
             },
         },
         {
-            title: "Start date",
-            field: "target_startdate",
+            title: "Captured by",
+            field: "done_by",
         },
         {
-            title: "End date",
-            field: "target_deadline",
-        },
-        {
-            title: "Type",
-            field: "target_type",
-        },
-        {
-            title: "Status",
-            field: "target_status",
+            title: "Transaction date",
+            field: "trans_date",
         },
 
     ];
-    const { targetID } = router.query
-
-    console.log("id", targetID);
 
     useEffect(() => {
 
@@ -74,6 +72,9 @@ const Assessment = () => {
 
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
+                let headerMsg = (dataFetch?.reportHeader).slice(8);
+                setReportHeader(headerMsg)
+                console.log("dataFetch?.reportHeader", dataFetch.reportHeader);
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -83,10 +84,11 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-
+    console.log("reportHeader", reportHeader);
 
     return (
         <>
+            <SectionTitle title={reportHeader} />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
                     <Loader
@@ -106,17 +108,17 @@ const Assessment = () => {
                 data={clusterData}
                 columns={fields}
 
-                // actions={
-                //     [
+                actions={
+                    [
 
-                //         {
-                //             icon: BarChart,
-                //             tooltip: 'report',
-                //             onClick: (event, rowData) => router.push(`/assessment-report?targetID=${rowData.target_id}&ClusterID=${rowData.target_cluster_id}`),
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'View Assessment',
+                            onClick: (event, rowData) => router.push(`/view/approvedasses/${rowData.assessment_id},${rowData.KGTIN}`),
 
-                //         },
-                //     ]
-                // }
+                        },
+                    ]
+                }
 
                 options={{
                     search: true,
@@ -153,10 +155,10 @@ const Assessment = () => {
                     SortArrow: ArrowDownward
                 }}
 
-                // onRowClick={(event, rowData) => {
-                //     event.stopPropagation();
-                //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
-                // }}
+            // onRowClick={(event, rowData) => {
+            //     event.stopPropagation();
+            //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
+            // }}
             />
         </>
     )
