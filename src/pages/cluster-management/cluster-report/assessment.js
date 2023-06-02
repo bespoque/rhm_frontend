@@ -106,10 +106,10 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-    const targetGoal = targRec.target_goal
+    const targetGoal = targRec.target_goal || 0
     console.log("targetGoal", targetGoal);
     const data = {
-        labels: ['Target Goal', 'Performance'],
+        labels: ['Goal', 'Performance'],
         datasets: [
             {
                 data: [targetGoal, 500000],
@@ -135,7 +135,9 @@ const Assessment = () => {
                 </div>
                 <div className="w-full lg:w-1/2 w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <Pie data={data} />
-                    Right side
+                    <p>Goal: <span className="font-bold">{formatNumber(targetGoal)}</span></p>
+                    <p>Performance: <span className="font-bold">{formatNumber(0)}</span></p>
+                    <p>Remaining: <span className="font-bold">{formatNumber(0)}</span></p>
                 </div>
             </div>
             {isFetching && (
