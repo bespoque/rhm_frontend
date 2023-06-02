@@ -109,12 +109,12 @@ const index = () => {
                         {
                             icon: BarChart,
                             tooltip: 'report',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}`),
+                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`),
 
                         },
                         {
                             icon: Edit,
-                            tooltip: 'report',
+                            tooltip: 'Edit',
                             onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
 
                         },

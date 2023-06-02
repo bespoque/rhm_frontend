@@ -22,10 +22,14 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 const Assessment = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
+    const [clustRec, setClustRec] = useState(() => []);
+    const [targRec, setTargRec] = useState(() => []);
     const [reportHeader, setReportHeader] = useState(() => []);
     const router = useRouter()
-    const { targetID } = router?.query
-
+    const { targetID, clusterID, targN } = router?.query
+    console.log("targetID", targetID);
+    console.log("clusterID", clusterID);
+    console.log("targN", targN);
     const fields = [
         {
             title: "Cluster",
@@ -69,12 +73,29 @@ const Assessment = () => {
                         "target_id": targetID
                     })
                 })
-
+                const res = await fetch('https://bespoque.dev/rhm/cluster/cluster-details.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "id": clusterID,
+                    })
+                })
+                const result = await fetch('https://bespoque.dev/rhm/cluster/target-details.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "target_id": targetID,
+                    })
+                })
                 const dataFetch = await response.json()
+                const targRecFetch = await result.json()
+                const clustRecFetch = await res.json()
+                setTargRec(targRecFetch.body[0])
+                setClustRec(clustRecFetch.body[0])
                 setClusterData(dataFetch.body)
                 let headerMsg = (dataFetch?.reportHeader).slice(8);
                 setReportHeader(headerMsg)
                 console.log("dataFetch?.reportHeader", dataFetch.reportHeader);
+
+
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -84,10 +105,25 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-    let items = clusterData
-
+    console.log("clustRec", clustRec);
     return (
         <>
+            <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
+                <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
+                    <div className="flex justify-center">
+                        <div>
+                            <p className="font-bold"><span>Target</span> : <span>{targN}</span></p>
+                            <p className="font-bold"><span>Start</span> : <span>{targRec?.target_startdate}</span></p>
+                            <p className="font-bold"> <span>Deadline</span>: <span>{targRec?.target_deadline}</span></p>
+                            <p className="font-bold"><span>Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
+                            <p className="font-bold"><span>Head</span> : <span>{clustRec?.cluster_head}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-full lg:w-1/2">
+                    Right side
+                </div>
+            </div>
             <SectionTitle subtitle={reportHeader} />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
@@ -105,15 +141,15 @@ const Assessment = () => {
             )}
 
             <MaterialTable title="Cluster assessment report"
-                data={items}
+                data={clusterData}
                 columns={fields}
 
                 renderSummaryRow={({ column, data }) =>
                     column.field === "amount"
                         ? {
                             value: formatNumber(
-                                // data.reduce((agg, row) => Number(agg) + (Number(row?.amount)), 0)
-                                data.reduce("100000")
+                                data.reduce((agg, row) => Number(agg) + (Number(row?.amount)), 0)
+                                // data.reduce("100000")
                                 // data.reduce((acc, current) => acc + (current.amount || 0 ), 0)
                             ),
                             style: { fontWeight: "bold" },
