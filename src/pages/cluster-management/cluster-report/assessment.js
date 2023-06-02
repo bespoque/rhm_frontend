@@ -106,19 +106,21 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-
+    const targetGoal = targRec.target_goal
+    console.log("targetGoal", targetGoal);
     const data = {
-        labels: ['Red', 'Blue'],
+        labels: ['Target Goal', 'Performance'],
         datasets: [
-          {
-            data: [300, 500],
-            backgroundColor: ['#FF6384', '#36A2EB'],
-            hoverBackgroundColor: ['#FF6384', '#36A2EB'],
-          },
+            {
+                data: [targetGoal, 500000],
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+            },
         ],
-      };
+    };
     return (
         <>
+            <SectionTitle subtitle={reportHeader} />
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <div className="flex justify-center">
@@ -132,11 +134,10 @@ const Assessment = () => {
                     </div>
                 </div>
                 <div className="w-full lg:w-1/2 w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    Right side
                     <Pie data={data} />
+                    Right side
                 </div>
             </div>
-            <SectionTitle subtitle={reportHeader} />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
                     <Loader
