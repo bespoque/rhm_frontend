@@ -13,7 +13,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { formatNumber } from '../../../functions/numbers';
-import { MoreHoriz } from "@material-ui/icons";
+import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
 import {ExportCsv, ExportPdf} from '@material-table/exporters/csv'
@@ -84,11 +84,10 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
-    console.log("reportHeader", reportHeader);
 
     return (
         <>
-            <SectionTitle title={reportHeader} />
+            <SectionTitle subtitle={reportHeader} />
             {isFetching && (
                 <div className="flex justify-center item mb-2">
                     <Loader
@@ -115,6 +114,12 @@ const Assessment = () => {
                             icon: MoreHoriz,
                             tooltip: 'View Assessment',
                             onClick: (event, rowData) => router.push(`/view/approvedasses/${rowData.assessment_id},${rowData.KGTIN}`),
+
+                        },
+                        {
+                            icon: Payment,
+                            tooltip: 'View Receipt',
+                            onClick: (event, rowData) => router.push(`/collection-receipt/${rowData.assessment_id}`),
 
                         },
                     ]
