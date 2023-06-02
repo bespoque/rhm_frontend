@@ -122,18 +122,19 @@ const Assessment = () => {
         <>
             <SectionTitle subtitle={reportHeader} />
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
-                <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    <div className="flex justify-center">
-                        <div>
-                            <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
-                            <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
-                            <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
-                            <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
-                            <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
-                        </div>
-                    </div>
+                <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
+                    
+                            <article className="p-6">
+                                <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
+                                <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
+                                <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
+                                <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
+                                <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
+                            </article>
+            
+
                 </div>
-                <div className="w-full lg:w-1/2 w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
+                <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <Pie data={data} />
                     <p>Goal: <span className="font-bold">{formatNumber(targetGoal)}</span></p>
                     <p>Performance: <span className="font-bold">{formatNumber(0)}</span></p>
