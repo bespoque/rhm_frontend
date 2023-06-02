@@ -114,7 +114,7 @@ const Assessment = () => {
             {
                 data: [targetGoal, 500000],
                 backgroundColor: ['#36A2EB', '#FF6384'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+                hoverBackgroundColor: ['#36A2EB', '#FF6384'],
             },
         ],
     };
