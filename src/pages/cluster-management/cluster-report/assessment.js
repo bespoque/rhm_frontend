@@ -42,9 +42,8 @@ const Assessment = () => {
         {
             title: "Amount",
             field: "amount",
-            render: (rowData) => {
-                return formatNumber(rowData.amount)
-            },
+            render: rowData => formatNumber(rowData.amount),
+            customTotal: (data) => data.reduce((acc, current) => acc + (current.amount || 0), 0)
         },
         {
             title: "Captured by",
@@ -106,6 +105,15 @@ const Assessment = () => {
             <MaterialTable title="Cluster assessment report"
                 data={clusterData}
                 columns={fields}
+
+                renderSummaryRow={({ column, data }) =>
+                column.field === "amount"
+                    ? {
+                        value: formatNumber(data.reduce((agg, row) => Number(agg) + (Number(row.amount)), 0)),
+                        style: { fontWeight: "bold" },
+                    }
+                    : undefined
+            }
 
                 actions={
                     [

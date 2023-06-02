@@ -114,11 +114,6 @@ export default function Reportstable({ FilteredData }) {
                     search: false,
                     paging: true,
                     filtering: true,
-                    // Using the regular material-table
-                    // exportButton: {
-                    //     csv: true,
-                    //     pdf: false
-                    // },
                     // Using material table core
                     exportMenu: [
                         {
