@@ -27,7 +27,7 @@ const Assessment = () => {
     const [clustRec, setClustRec] = useState(() => []);
     const [targRec, setTargRec] = useState(() => []);
     const [reportHeader, setReportHeader] = useState(() => []);
-    const [perform, setPer] = useState(() => [])
+    const [perform, setPer] = useState(() => (""))
     const router = useRouter()
     const { targetID, clusterID, targN } = router?.query
     console.log("targetID", targetID);
@@ -62,7 +62,10 @@ const Assessment = () => {
         },
 
     ];
-
+    
+    let performanceString = String(perform)
+    
+    console.log("perform", (performanceString));
 
     useEffect(() => {
 
@@ -170,7 +173,7 @@ const Assessment = () => {
                     column.field === "amount"
                         ? {
                             value: (
-                                data.reduce((agg, row) => parseInt(agg) + parseInt(row?.amount || 0), 0)
+                                (performanceString)
                             ),
                             style: { fontWeight: "bold" },
                         }
