@@ -118,7 +118,7 @@ const Assessment = () => {
         labels: ['Goal', 'Performance'],
         datasets: [
             {
-                data: [targetGoal, 500000],
+                data: [targetGoal, perform],
                 backgroundColor: ['#36A2EB', '#FF6384'],
                 hoverBackgroundColor: ['#36A2EB', '#FF6384'],
             },
