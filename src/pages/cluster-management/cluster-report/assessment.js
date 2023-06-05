@@ -12,10 +12,11 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import {  } from '../../../functions/numbers';
+import { } from '../../../functions/numbers';
 import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
+// import MaterialTable from 'material-table';
 import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 import { Pie } from 'react-chartjs-2';
 import { formatNumber } from 'accounting';
@@ -30,9 +31,7 @@ const Assessment = () => {
     const [perform, setPer] = useState(() => (""))
     const router = useRouter()
     const { targetID, clusterID, targN } = router?.query
-    console.log("targetID", targetID);
-    console.log("clusterID", clusterID);
-    console.log("targN", targN);
+
     const fields = [
         {
             title: "Cluster",
@@ -62,10 +61,8 @@ const Assessment = () => {
         },
 
     ];
-    
-    let performanceString = String(perform)
-    
-    console.log("perform", (performanceString));
+
+
 
     useEffect(() => {
 
@@ -116,7 +113,6 @@ const Assessment = () => {
     }, [router]);
 
     const targetGoal = targRec.target_goal || 0
-    console.log("targetGoal", targetGoal);
     const data = {
         labels: ['Goal', 'Performance'],
         datasets: [
@@ -127,20 +123,21 @@ const Assessment = () => {
             },
         ],
     };
+
     return (
         <>
             <SectionTitle subtitle={reportHeader} />
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    
-                            <article className="p-6">
-                                <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
-                                <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
-                                <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
-                                <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
-                                <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
-                            </article>
-            
+
+                    <article className="p-6">
+                        <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
+                        <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
+                        <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
+                        <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
+                        <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
+                    </article>
+
 
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
@@ -165,20 +162,22 @@ const Assessment = () => {
                 </div>
             )}
 
-            <MaterialTable title="Cluster assessment report"
+            <MaterialTable
+                title="Cluster assessment report"
                 data={clusterData}
                 columns={fields}
 
-                renderSummaryRow={({ column, data }) =>
-                    column.field === "amount"
-                        ? {
-                            value: (
-                                (performanceString)
-                            ),
-                            style: { fontWeight: "bold" },
-                        }
-                        : undefined
-                }
+                // renderSummaryRow={({ column, data }) =>
+                //     column.field === "amount"
+                //         ?
+                //         {
+
+                //             value: formatNumber(perform),
+                //             style: { fontWeight: "bold" },
+                //         }
+                //         :
+                //         undefined
+                // }
 
                 actions={
                     [
@@ -220,6 +219,13 @@ const Assessment = () => {
 
                     }
                 }
+                // components={{
+                //     Header: () => (
+                //         <div className='p-5 font-bold'>
+                //             <span> <span>Total: {perform}</span></span>
+                //         </div>
+                //     ),
+                // }}
 
                 icons={{
                     Check: Check,
