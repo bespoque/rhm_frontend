@@ -12,12 +12,13 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { formatNumber } from '../../../functions/numbers';
+import {  } from '../../../functions/numbers';
 import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 import { Pie } from 'react-chartjs-2';
+import { formatNumber } from 'accounting';
 
 
 const Assessment = () => {
@@ -168,10 +169,8 @@ const Assessment = () => {
                 renderSummaryRow={({ column, data }) =>
                     column.field === "amount"
                         ? {
-                            value: formatNumber(
-                                data.reduce((agg, row) => Number(agg) + (Number(row?.amount)), 0)
-                                // data.reduce("100000")
-                                // data.reduce((acc, current) => acc + (current.amount || 0 ), 0)
+                            value: (
+                                data.reduce((agg, row) => parseInt(agg) + parseInt(row?.amount || 0), 0)
                             ),
                             style: { fontWeight: "bold" },
                         }
