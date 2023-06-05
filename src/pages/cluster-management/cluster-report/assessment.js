@@ -26,6 +26,7 @@ const Assessment = () => {
     const [clustRec, setClustRec] = useState(() => []);
     const [targRec, setTargRec] = useState(() => []);
     const [reportHeader, setReportHeader] = useState(() => []);
+    const [perform, setPer] = useState(() => [])
     const router = useRouter()
     const { targetID, clusterID, targN } = router?.query
     console.log("targetID", targetID);
@@ -87,6 +88,10 @@ const Assessment = () => {
                     })
                 })
                 const dataFetch = await response.json()
+                let reportArray = dataFetch.body
+                const totalAmount = reportArray.reduce((sum, obj) => parseInt(sum) + parseInt(obj.amount || 0), 0);
+                setPer(totalAmount)
+                console.log("totalAmount", totalAmount);
                 const targRecFetch = await result.json()
                 const clustRecFetch = await res.json()
                 setTargRec(targRecFetch.body[0])
@@ -137,8 +142,8 @@ const Assessment = () => {
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <Pie data={data} />
                     <p>Goal: <span className="font-bold">{formatNumber(targetGoal)}</span></p>
-                    <p>Performance: <span className="font-bold">{formatNumber(0)}</span></p>
-                    <p>Remaining: <span className="font-bold">{formatNumber(0)}</span></p>
+                    <p>Performance: <span className="font-bold">{formatNumber(perform)}</span></p>
+                    <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span></p>
                 </div>
             </div>
             {isFetching && (
