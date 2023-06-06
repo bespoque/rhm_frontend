@@ -91,7 +91,6 @@ const Assessment = () => {
                 let reportArray = dataFetch.body
                 const totalAmount = reportArray.reduce((sum, obj) => parseInt(sum) + parseInt(obj.amount || 0), 0);
                 setPer(totalAmount)
-                console.log("totalAmount", totalAmount);
                 const targRecFetch = await result.json()
                 const clustRecFetch = await res.json()
                 setTargRec(targRecFetch.body[0])
@@ -142,8 +141,8 @@ const Assessment = () => {
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <Pie data={data} />
                     <p>Goal: <span className="font-bold">{formatNumber(targetGoal)}</span></p>
-                    <p>Performance: <span className="font-bold">{formatNumber(perform)}</span> ({`${formatNumber(((parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(2))}%`})</p>
-                    <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span>  ({`${formatNumber((100 - (parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(2))}%`}) </p>
+                    <p>Performance: <span className="font-bold">{formatNumber(perform)}</span> ({`${formatNumber(((parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(4))}%`})</p>
+                    <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span>  ({`${formatNumber((100 - (parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(4))}%`}) </p>
                 </div>
             </div>
             {isFetching && (
