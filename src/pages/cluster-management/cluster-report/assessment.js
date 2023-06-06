@@ -49,7 +49,6 @@ const Assessment = () => {
             title: "Amount",
             field: "amount",
             render: rowData => formatNumber(rowData.amount),
-            // customTotal: (data) => data.reduce((acc, current) => Number(acc) + Number(current.amount || 0), 0)
         },
         {
             title: "Captured by",
