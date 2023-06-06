@@ -28,7 +28,7 @@ const Assessment = () => {
     const [clustRec, setClustRec] = useState(() => []);
     const [targRec, setTargRec] = useState(() => []);
     const [reportHeader, setReportHeader] = useState(() => []);
-    const [perform, setPer] = useState(() => (""))
+    const [perform, setPer] = useState(() => (0))
     const router = useRouter()
     const { targetID, clusterID, targN } = router?.query
 
@@ -99,7 +99,6 @@ const Assessment = () => {
                 setClusterData(dataFetch.body)
                 let headerMsg = (dataFetch?.reportHeader).slice(8);
                 setReportHeader(headerMsg)
-                console.log("dataFetch?.reportHeader", dataFetch.reportHeader);
 
 
             } catch (error) {
@@ -111,7 +110,11 @@ const Assessment = () => {
         fetchPost();
     }, [router]);
 
+    console.log("perfPercent", perfPercent);
     const targetGoal = targRec.target_goal || 0
+
+    let perfPercent = (targetGoal) * 100
+
     const data = {
         labels: ['Goal', 'Performance'],
         datasets: [
@@ -142,8 +145,8 @@ const Assessment = () => {
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <Pie data={data} />
                     <p>Goal: <span className="font-bold">{formatNumber(targetGoal)}</span></p>
-                    <p>Performance: <span className="font-bold">{formatNumber(perform)}</span></p>
-                    <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span></p>
+                    <p>Performance: <span className="font-bold">{formatNumber(perform)}</span> ({`${((parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(2)}%`})</p>
+                    <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span>  ({`${(100 - (parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(2)}%`}) </p>
                 </div>
             </div>
             {isFetching && (
