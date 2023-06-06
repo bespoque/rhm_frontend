@@ -22,7 +22,7 @@ import { Pie } from 'react-chartjs-2';
 import { formatNumber } from 'accounting';
 
 
-const Assessment = () => {
+const Collection = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const [clustRec, setClustRec] = useState(() => []);
@@ -50,10 +50,10 @@ const Assessment = () => {
             field: "amount",
             render: rowData => formatNumber(rowData.amount),
         },
-        {
-            title: "Captured by",
-            field: "done_by",
-        },
+        // {
+        //     title: "Captured by",
+        //     field: "done_by",
+        // },
         {
             title: "Transaction date",
             field: "trans_date",
@@ -69,7 +69,7 @@ const Assessment = () => {
             setIsFetching(true)
 
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/target-report-assessment.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/target-report-collection.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "target_id": targetID
@@ -162,12 +162,25 @@ const Assessment = () => {
             )}
 
             <MaterialTable
-                title="Cluster assessment report"
+                title="Cluster collection report"
                 data={clusterData}
                 columns={fields}
+
+                // renderSummaryRow={({ column, data }) =>
+                //     column.field === "amount"
+                //         ?
+                //         {
+
+                //             value: formatNumber(perform),
+                //             style: { fontWeight: "bold" },
+                //         }
+                //         :
+                //         undefined
+                // }
+
                 actions={
                     [
-                       
+
                         {
                             icon: MoreHoriz,
                             tooltip: 'View Assessment',
@@ -229,4 +242,4 @@ const Assessment = () => {
         </>
     )
 }
-export default Assessment
+export default Collection

@@ -409,7 +409,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
   })
   const kgtinString = String(kgtinVal)
 
-
+  console.log("taxcal", taxcal);
   let date = new Date()
   let due_date = new Date(date)
   due_date.setDate(due_date.getDate() + 60);
@@ -459,6 +459,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
             <td width='800' height='1200' align='center' valign='top'>
               <div className="flex justify-between">
                 <h6 align="left">Personal Income Tax {assobj.year}</h6>
+                <small className="font-bold">{taxcal.paymentStatus}</small>
                 <small>printed on {datePrinted}</small>
               </div>
               {payerAyy.map((data, idx) => (
