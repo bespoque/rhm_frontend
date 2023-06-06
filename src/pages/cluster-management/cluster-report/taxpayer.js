@@ -38,25 +38,28 @@ const Taxpayer = () => {
             field: "cluster_name",
         },
         {
-            title: "Assessment Id",
-            field: "assessment_id",
+            title: "Target",
+            field: "target_name",
         },
         {
             title: "KGTIN",
             field: "KGTIN",
         },
         {
-            title: "Amount",
-            field: "amount",
-            render: rowData => formatNumber(rowData.amount),
+            title: "Station",
+            field: "tax_office",
         },
-        // {
-        //     title: "Captured by",
-        //     field: "done_by",
-        // },
         {
-            title: "Transaction date",
-            field: "trans_date",
+            title: "Taxpayer",
+            field: "FullNames",
+        },
+        {
+            title: "Captured by",
+            field: "enter_by",
+        },
+        {
+            title: "Creation date",
+            field: "enter_date",
         },
 
     ];

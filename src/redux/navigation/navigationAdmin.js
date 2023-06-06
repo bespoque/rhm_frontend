@@ -448,60 +448,60 @@ const initialState = [
         ],
       },
 
-      // {
-      //   url: '/',
-      //   icon: <Settings />,
-      //   title: 'Access Management',
-      //   items: [
+      {
+        url: '/',
+        icon: <Settings />,
+        title: 'Access Management',
+        items: [
 
-      //     {
-      //       title: 'Manage User',
-      //       items: [
-      //         { title: 'Create', url: '/register', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/users',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'User Groups',
-      //       items: [
-      //         { title: 'Create', url: '/view/user-group/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/user-group/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     // App groups should only be added on the backend
-      //     {
-      //       title: 'APP Groups',
-      //       items: [
-      //         // { title: 'Create', url: '/view/app-group/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/app-group/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'Permissions',
-      //       items: [
-      //         { title: 'Create', url: '/view/access-rights/create', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/view/access-rights/list',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
+          {
+            title: 'Manage User',
+            items: [
+              { title: 'Create', url: '/register', items: [] },
+              {
+                title: 'View',
+                url: '/view/users',
+                items: [],
+              },
+            ],
+          },
+          {
+            title: 'User Groups',
+            items: [
+              { title: 'Create', url: '/view/user-group/create', items: [] },
+              {
+                title: 'View',
+                url: '/view/user-group/list',
+                items: [],
+              },
+            ],
+          },
+          // App groups should only be added on the backend
+          {
+            title: 'APP Groups',
+            items: [
+              // { title: 'Create', url: '/view/app-group/create', items: [] },
+              {
+                title: 'View',
+                url: '/view/app-group/list',
+                items: [],
+              },
+            ],
+          },
+          {
+            title: 'Permissions',
+            items: [
+              { title: 'Create', url: '/view/access-rights/create', items: [] },
+              {
+                title: 'View',
+                url: '/view/access-rights/list',
+                items: [],
+              },
+            ],
+          },
 
-      //   ],
-      // },
+        ],
+      },
       {
         url: '/',
         icon: <Settings />,
