@@ -20,6 +20,7 @@ import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 import { Pie } from 'react-chartjs-2';
 import { formatNumber } from 'accounting';
+import { ProcessorSpinner } from '../../../components/spiner';
 
 
 const Collection = () => {
@@ -126,6 +127,7 @@ const Collection = () => {
 
     return (
         <>
+        {isFetching && <ProcessorSpinner />}
             <SectionTitle subtitle={reportHeader} />
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
@@ -146,20 +148,6 @@ const Collection = () => {
                     <p>Remaining: <span className="font-bold">{formatNumber(Number(targetGoal - perform))}</span>  ({`${formatNumber((100 - (parseInt(perform) / parseInt(targetGoal)) * 100).toFixed(4))}%`}) </p>
                 </div>
             </div>
-            {isFetching && (
-                <div className="flex justify-center item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p>Fetching data...</p>
-                </div>
-            )}
 
             <MaterialTable
                 title="Cluster collection report"

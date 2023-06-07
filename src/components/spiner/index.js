@@ -48,7 +48,7 @@ export const ProcessorSpinner = ({ disabled, text }) => {
       />
       <h2 className="text-center text-white text-xl font-semibold">{text}</h2>
       <p className="w-1/3 text-center text-white">
-        This may take a few seconds, please do not close this page.
+        fetching data...
       </p>
     </div>
   );
