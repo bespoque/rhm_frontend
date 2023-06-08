@@ -122,25 +122,8 @@ const index = () => {
                             icon: BarChart,
                             tooltip: 'report',
                             onClick: (event, rowData) => {
-                                if (rowData.target_type === 'Assessment') {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Collection') {
-                                    router.push(`/cluster-management/cluster-report/collection?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Taxpayers') {
-                                    router.push(`/cluster-management/cluster-report/taxpayer?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
+                                router.push(`/cluster-management/my-cluster/dash?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
                             }
-                        },
-                        {
-                            icon: Edit,
-                            tooltip: 'Edit',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
-
                         },
                     ]
                 }
