@@ -57,10 +57,8 @@ const index = () => {
     ];
 
     useEffect(() => {
-
         async function fetchPost() {
             setIsFetching(true)
-
             try {
                 const response = await fetch('https://bespoque.dev/rhm/cluster/targets-batch.php', {
                     method: 'POST',
