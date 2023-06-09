@@ -65,12 +65,6 @@ const Index = () => {
         async function fetchPost() {
 
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/target-report-assessment.php', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        "target_id": targetID
-                    })
-                })
                 const res = await fetch('https://bespoque.dev/rhm/cluster/cluster-details.php', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -83,17 +77,13 @@ const Index = () => {
                         "target_id": targetID,
                     })
                 })
-                const dataFetch = await response.json()
-                let reportArray = dataFetch.body
-                const totalAmount = reportArray.reduce((sum, obj) => parseInt(sum) + parseInt(obj.amount || 0), 0);
-                setPer(totalAmount)
                 const targRecFetch = await result.json()
                 const clustRecFetch = await res.json()
                 setTargRec(targRecFetch.body[0])
                 setClustRec(clustRecFetch.body[0])
-                setClusterData(dataFetch.body)
-                let headerMsg = (dataFetch?.reportHeader).slice(8);
-                setReportHeader(headerMsg)
+                // setClusterData(dataFetch.body)
+                // let headerMsg = (dataFetch?.reportHeader).slice(8);
+                // setReportHeader(headerMsg)
 
                 setIsFetching(false)
             } catch (error) {
