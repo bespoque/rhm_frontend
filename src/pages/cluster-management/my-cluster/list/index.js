@@ -68,9 +68,6 @@ const index = () => {
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
 
-    console.log("userGroup", decoded);
-
-    console.log();
     useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
@@ -93,7 +90,9 @@ const index = () => {
         fetchPost();
     }, []);
 
-
+    let formData = new FormData()
+    formData.append("test", "Test")
+    console.log(formData);
 
     return (
         <>
