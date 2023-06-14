@@ -98,7 +98,7 @@ const CreateJob = () => {
         }
     }, [taxId]);
 
-
+    console.log("selectedFile", selectedFile);
 
     async function onSubmit(jobdata) {
 
