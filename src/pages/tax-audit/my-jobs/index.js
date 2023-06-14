@@ -13,16 +13,25 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { BarChart, Edit } from "@material-ui/icons";
+import { PlayCircleOutline, WarningRounded } from "@material-ui/icons";
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
-    const [clusterData, setClusterData] = useState(() => []);
+    const [jobs, setJobs] = useState(() => []);
+    const [startModal, setStartModal] = useState(false);
+    const [startJobFields, setStartJobFields] = useState(() => { });
     const router = useRouter()
     const fields = [
+        {
+            title: "Id",
+            field: "id",
+        },
         {
             title: "Tax Id",
             field: "job_kgtin",
@@ -71,6 +80,9 @@ const index = () => {
 
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
+    const toggleStart = () => {
+        setStartModal(!startModal);
+    };
 
     useEffect(() => {
         async function fetchPost() {
@@ -79,13 +91,13 @@ const index = () => {
                 const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "param1":"job_user",
+                        "param1": "job_user",
                         "param2": emailAdd
                     })
                 })
 
                 const dataFetch = await response.json()
-                setClusterData(dataFetch.body)
+                setJobs(dataFetch.body)
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -96,9 +108,60 @@ const index = () => {
     }, []);
 
 
+    async function StartJob() {
+        toggleStart()
+        setIsFetching(true)
+        try {
+            const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-acceptjob.php', {
+                method: 'POST',
+                body: JSON.stringify(startJobFields)
+            })
+
+            const dataFetch = await response.json()
+            toast.success(dataFetch.message)
+        } catch (error) {
+            console.error('Server Error:', error)
+        } finally {
+            setIsFetching(false)
+        }
+    }
+
 
     return (
         <>
+        <ToastContainer />
+            {startModal && (
+                <div className="modal">
+                    <div className="modal-content" width="300">
+                        <form onSubmit={StartJob}>
+                            <div className="flex justify-center">
+                                <WarningRounded
+                                    size={15}
+                                    className="text-yellow-400"
+                                />
+                            </div>
+                            <p>Are you sure you want to Start Job?</p>
+                            <div className="mt-2 flex justify-between">
+                                <button onClick={toggleStart}
+                                    className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <div>
+
+                                </div>
+                                <button
+                                    className="btn w-32 bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                    type="submit"
+                                >
+                                    Continue
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
             {isFetching && (
                 <div className="flex justify-center item mb-2">
                     <Loader
@@ -115,33 +178,31 @@ const index = () => {
             )}
 
             <MaterialTable title="My jobs"
-                data={clusterData}
+                data={jobs}
                 columns={fields}
 
                 actions={
                     [
                         {
-                            icon: BarChart,
-                            tooltip: 'report',
+                            icon: PlayCircleOutline,
+                            tooltip: 'Start Job',
                             onClick: (event, rowData) => {
-                                if (rowData.target_type === 'Assessment') {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Collection') {
-                                    router.push(`/cluster-management/cluster-report/collection?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Taxpayers') {
-                                    router.push(`/cluster-management/cluster-report/taxpayer?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
+                                if (rowData.job_start_status === 'Pending') {
+                                    setStartJobFields(
+                                        {
+                                            "id": rowData.id,
+                                            "job_user": rowData.job_user,
+                                            "job_startdate": rowData.job_startdate,
+                                            "job_start_status": "Started"
+                                        }
+                                    )
+                                    setStartModal(true)
+                                } else {
+
+                                    router.push(`/tax-audit/audit-view?id=${rowData.id}`)
                                 }
                             }
-                        },
-                        {
-                            icon: Edit,
-                            tooltip: 'Edit',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
+
 
                         },
                     ]
@@ -183,6 +244,56 @@ const index = () => {
                 }}
 
             />
+
+            <style
+                jsx>{
+                    `
+        body.active-modal {
+          overflow-y: hidden;
+      }
+      
+      // .btn-modal {
+      //     padding: 10px 20px;
+      //     display: block;
+      //     margin: 100px auto 0;
+      //     font-size: 18px;
+      // }
+      
+      .modal, .overlay {
+          width: 100vw;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          position: fixed;
+      }
+      
+      .overlay {
+          background: rgba(49,49,49,0.8);
+      }
+      .modal-content {
+          position: absolute;
+          top: 20%;
+          left: 60%;
+          transform: translate(-50%, -50%);
+          line-height: 1.4;
+          background: #f1f1f1;
+          padding: 14px 28px;
+          border-radius: 3px;
+          max-width: 400px;
+          min-width: 300px;
+      }
+      
+      .close-modal {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          padding: 5px 7px;
+      }
+        `
+                }
+            </style>
         </>
     )
 }
