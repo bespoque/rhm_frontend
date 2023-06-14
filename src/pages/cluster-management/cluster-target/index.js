@@ -38,7 +38,6 @@ const index = () => {
     async function onSubmit(formData) {
         formData.target_goal = (formData.target_goal.replace(/\D/g, ''));
         setIsSubmitting(true)
-        console.log("formData", formData);
 
         try {
             const response = await fetch('https://bespoque.dev/rhm/cluster/target-new.php', {

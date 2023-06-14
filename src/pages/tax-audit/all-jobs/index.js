@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../components/Icons/index'
+import * as Icons from '../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,8 +13,9 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { formatNumber } from '../../../../functions/numbers';
 import { BarChart, Edit } from "@material-ui/icons";
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 
 const index = () => {
@@ -23,47 +24,67 @@ const index = () => {
     const router = useRouter()
     const fields = [
         {
-            title: "Cluster name",
-            field: "target_cluster_name",
+            title: "Tax Id",
+            field: "job_kgtin",
         },
         {
-            title: "Target name",
-            field: "target_name",
+            title: "Job initiator",
+            field: "job_initiator",
         },
         {
-            title: "Target goal",
-            field: "target_goal",
-            render: (rowData) => {
-                return formatNumber(rowData.target_goal)
-            },
+            title: "Assigned to",
+            field: "job_user",
         },
         {
-            title: "Start date",
-            field: "target_startdate",
+            title: "Job type",
+            field: "job_job_type",
         },
         {
-            title: "Deadline",
-            field: "target_deadline",
+            title: "Start status",
+            field: "job_start_status",
         },
         {
-            title: "Target type",
-            field: "target_type",
+            title: "Progress status",
+            field: "job_progress_status",
         },
         {
-            title: "Status",
-            field: "target_status",
+            title: "Job start date",
+            field: "job_startdate",
+        },
+        {
+            title: "Audit start date",
+            field: "job_auditdate_start",
+        },
+        {
+            title: "Audit end date",
+            field: "job_auditdate_end",
+        },
+        {
+            title: "Created time",
+            field: "createtime",
         },
 
     ];
+
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
+
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
 
     useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/targets-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "param": "ALL"
+                        "param1":"job_user",
+                        "param2": emailAdd
                     })
                 })
 
@@ -97,7 +118,7 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="Cluster target list"
+            <MaterialTable title="All jobs"
                 data={clusterData}
                 columns={fields}
 

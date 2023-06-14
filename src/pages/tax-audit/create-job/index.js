@@ -8,6 +8,8 @@ import SectionTitle from '../../../components/section-title';
 import { shallowEqual, useSelector } from 'react-redux';
 import url from '../../../config/url'
 import jwt from "jsonwebtoken";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateJob = () => {
     const [taxId, setTaxId] = useState('');
@@ -86,9 +88,12 @@ const CreateJob = () => {
             setTpDetail(response.data.body)
             setValidationResult(response.data.body.tp_name);
         } catch (error) {
-            setValidationResult(error.response.data.message);
             setIsFetching(false)
-            console.error('Error occurred while validating Tax ID:', error);
+            if (error.response) {
+                setValidationResult(error.response.data.message);
+            } else {
+                console.error('Error occurred while validating Tax ID:', error);
+            }
         }
     };
 
@@ -98,38 +103,22 @@ const CreateJob = () => {
         }
     }, [taxId]);
 
-    console.log("selectedFile", selectedFile);
 
     async function onSubmit(jobdata) {
-
-        const formData = new FormData()
-        formData.append('job_kgtin', tpDetail?.KGTIN)
-        formData.append('job_files', selectedFile)
-        formData.append('job_start_status', "Pending")
-        formData.append('job_progress_status', "Pending")
-        formData.append('job_initiator', emailAdd)
-        formData.append('job_job_type', jobdata.job_job_type)
-        formData.append('job_startdate', jobdata.job_startdate)
-        formData.append('job_auditdate_start', jobdata.job_auditdate_start)
-        formData.append('job_auditdate_end', jobdata.job_auditdate_end)
-        formData.append('job_user', jobdata.job_user)
-
-        // jobdata.job_kgtin = tpDetail?.KGTIN
-        // jobdata.job_files = selectedFile
-        // jobdata.job_start_status = "Pending"
-        // jobdata.job_progress_status = "Pending"
-        // jobdata.job_initiator = emailAdd
-        // console.log("jobdata", jobdata);
-
+        jobdata.job_kgtin = tpDetail?.KGTIN
+        jobdata.job_start_status = "Pending"
+        jobdata.job_progress_status = "Pending"
+        jobdata.job_initiator = emailAdd
 
         setIsFetching(true)
         try {
             const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newjob.php', {
                 method: 'POST',
-                body: (formData)
+                body: JSON.stringify(jobdata)
             })
             setIsFetching(false)
             const dataFetch = await response.json()
+            toast.success(dataFetch.message);
         } catch (error) {
             console.error('Server Error:', error)
             setIsFetching(false)
@@ -140,6 +129,7 @@ const CreateJob = () => {
 
     return (
         <>
+            <ToastContainer />
             <SectionTitle title={"Create new Job"} />
             <Modal
                 isOpen={showModal}
@@ -187,7 +177,7 @@ const CreateJob = () => {
                 </form>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
-                    <div className="grid grid-cols-3 mx-auto mb-4">
+                    <div className="grid grid-cols-2 mx-auto  max-w-md mb-4">
                         <div>
                             <label htRmlFor="cluster_status" className="block mb-1">Job Type:</label>
                             <select
@@ -202,10 +192,10 @@ const CreateJob = () => {
                                 <option value="Tax Audit Only">Tax Audit Only</option>
                             </select>
                         </div>
-                        <div className="place-self-center">
+                        {/* <div className="place-self-center">
                             <label className="block mb-1">Upload audit doc:</label>
                             <input type="file" onChange={handleFileChange} />
-                        </div>
+                        </div> */}
                         <div>
                             <label htmlFor="job_auditdate_start" className="block mb-1">Job start date:</label>
                             <input className="flex justify-center"

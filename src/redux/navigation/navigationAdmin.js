@@ -454,7 +454,7 @@ const initialState = [
         items: [
           {
             title: 'My Jobs',
-            url: "/",
+            url: "/tax-audit/my-jobs",
             items: [],
           },
 
@@ -477,7 +477,7 @@ const initialState = [
             title: 'Management',
             items: [
               { title: 'New Job', url: '/tax-audit/create-job', items: [] },
-              { title: 'All Jobs', url: '/', items: [] },
+              { title: 'All Jobs', url: '/tax-audit/all-jobs', items: [] },
               { title: 'Reports', url: '/', items: [] },
             ],
           },
