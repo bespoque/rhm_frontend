@@ -40,7 +40,9 @@ const router = useRouter()
     };
 
     const handleTaxIdChange = (e) => {
-        setTaxId(e.target.value);
+        const { value } = e.target;
+        const onlyNumbers = value.replace(/[^0-9]/g, '');
+        setTaxId(onlyNumbers);
     };
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -161,7 +163,7 @@ const router = useRouter()
                 <form onSubmit={validateTP} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="taxId">
-                            Tax ID:
+                            Taxpayer ID:
                         </label>
                         <input
                             type="text"
