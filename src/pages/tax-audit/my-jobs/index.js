@@ -105,7 +105,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
 
     async function StartJob() {
@@ -119,6 +119,7 @@ const index = () => {
 
             const dataFetch = await response.json()
             toast.success(dataFetch.message)
+            router.push(`/tax-audit/audit-view?id=${startJobFields.id}`)
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
