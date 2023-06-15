@@ -51,7 +51,7 @@ const Index = () => {
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <article className="p-6">
                         <p className="font-bold"><span className="text-base">Tax Id</span> : <span>{job.job_kgtin}</span></p>
-                        <p className="font-bold"><span className="text-base">Assigned to</span> : <span>{job.job_user}</span></p>
+                        <p className="font-bold"><span className="text-base">Auditor</span> : <span>{job.job_user}</span></p>
                         <p className="font-bold"> <span className="text-base">Type</span>: <span>{job.job_job_type}</span></p>
                         <p className="font-bold"><span className="text-base">Job start status</span> : <span>{job.job_start_status}</span></p>
                         <p className="font-bold"><span className="text-base">Job progress status</span> : <span>{job.job_progress_status}</span></p>

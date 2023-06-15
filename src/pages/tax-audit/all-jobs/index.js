@@ -30,7 +30,7 @@ const index = () => {
             field: "job_initiator",
         },
         {
-            title: "Assigned to",
+            title: "Auditor",
             field: "job_user",
         },
         {

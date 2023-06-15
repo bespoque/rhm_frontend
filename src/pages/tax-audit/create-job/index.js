@@ -223,7 +223,7 @@ const router = useRouter()
 
                         </div>
                         <div>
-                            <label className="block mb-1">Job Owner:</label>
+                            <label className="block mb-1">Auditor:</label>
                             <input
                                 required
                                 type="text"
