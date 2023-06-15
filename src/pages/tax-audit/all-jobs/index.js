@@ -14,8 +14,6 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { BarChart, Edit } from "@material-ui/icons";
-import { shallowEqual, useSelector } from 'react-redux';
-import jwt from "jsonwebtoken";
 
 
 const index = () => {
@@ -66,25 +64,15 @@ const index = () => {
 
     ];
 
-    const { auth } = useSelector(
-        (state) => ({
-            auth: state.authentication.auth,
-        }),
-        shallowEqual
-    );
-
-    const decoded = jwt.decode(auth);
-    const emailAdd = decoded.user
 
     useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
             try {
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "param1":"job_user",
-                        "param2": emailAdd
+                        "post": "action"
                     })
                 })
 
@@ -97,7 +85,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
 
 
@@ -124,28 +112,11 @@ const index = () => {
 
                 actions={
                     [
-                        {
-                            icon: BarChart,
-                            tooltip: 'report',
-                            onClick: (event, rowData) => {
-                                if (rowData.target_type === 'Assessment') {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Collection') {
-                                    router.push(`/cluster-management/cluster-report/collection?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else if (rowData.target_type === 'Taxpayers') {
-                                    router.push(`/cluster-management/cluster-report/taxpayer?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                                else {
-                                    router.push(`/cluster-management/cluster-report/assessment?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
-                                }
-                            }
-                        },
+
                         {
                             icon: Edit,
                             tooltip: 'Edit',
-                            onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
+                            // onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
 
                         },
                     ]

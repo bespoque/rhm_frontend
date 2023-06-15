@@ -10,6 +10,7 @@ import url from '../../../config/url'
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
 const CreateJob = () => {
     const [taxId, setTaxId] = useState('');
@@ -23,7 +24,7 @@ const CreateJob = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const { register, handleSubmit, errors } = useForm();
     const [tpDetail, setTpDetail] = useState({})
-
+const router = useRouter()
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -119,6 +120,7 @@ const CreateJob = () => {
             setIsFetching(false)
             const dataFetch = await response.json()
             toast.success(dataFetch.message);
+            router.push("/tax-audit/all-jobs")
         } catch (error) {
             console.error('Server Error:', error)
             setIsFetching(false)
@@ -188,8 +190,8 @@ const CreateJob = () => {
                                 ref={register()}
                             >
                                 <option value="">Select type</option>
-                                <option value="TACC|TACC">TACC|TACC</option>
-                                <option value="Tax Audit Only">Tax Audit Only</option>
+                                <option value="TACC">TACC</option>
+                                <option value="Tax audit only">Tax Audit Only</option>
                             </select>
                         </div>
                         {/* <div className="place-self-center">
@@ -197,7 +199,7 @@ const CreateJob = () => {
                             <input type="file" onChange={handleFileChange} />
                         </div> */}
                         <div>
-                            <label htmlFor="job_auditdate_start" className="block mb-1">Job start date:</label>
+                            <label  className="block mb-1">Job start date:</label>
                             <input className="flex justify-center"
                                 type="date"
                                 name="job_startdate"
@@ -207,7 +209,7 @@ const CreateJob = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-1">
                         <div>
-                            <label htmlFor="job_auditdate_start" className="block mb-1">Audit start date:</label>
+                            <label className="block mb-1">Audit start date:</label>
                             <input
                                 required
                                 type="date"
@@ -245,7 +247,7 @@ const CreateJob = () => {
 
 
                         <div>
-                            <label htmlFor="job_auditdate_end" className="block mb-1">Audit end date:</label>
+                            <label className="block mb-1">Audit end date:</label>
                             <input
                                 required
                                 type="date"

@@ -88,7 +88,7 @@ const index = () => {
         async function fetchPost() {
             setIsFetching(true)
             try {
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "param1": "job_user",
