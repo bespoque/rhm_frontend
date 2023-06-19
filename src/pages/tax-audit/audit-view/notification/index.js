@@ -8,7 +8,6 @@ const Notification = () => {
 
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const router = useRouter()
     const { id } = router?.query
 
@@ -43,17 +42,7 @@ const Notification = () => {
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Notification Details</h2>
-                    {/* <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                        onClick={openModal}
-                    >
-                        New Notification
-                    </button>
-                    <NotificationModal
-                        isOpen={modalIsOpen}
-                        closeModal={closeModal}
-                        notification={notice}
-                    /> */}
-                    <NewNotificationButton />
+                    <NewNotificationButton id={id} />
                 </div>
 
                 <p className="text-gray-600">

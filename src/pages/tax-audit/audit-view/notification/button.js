@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NotificationModal from './notificationmodal';
 
 
-const NewNotificationButton = () => {
+const NewNotificationButton = ({id}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {
@@ -18,7 +18,7 @@ const NewNotificationButton = () => {
             <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" onClick={openModal}>
                 New Notification
             </button>
-            <NotificationModal isOpen={isModalOpen} closeModal={closeModal} />
+            <NotificationModal isOpen={isModalOpen} closeModal={closeModal} id={id} />
         </>
     );
 };

@@ -113,7 +113,7 @@ const Index = () => {
             <div className="flex items-between">
                 <SectionTitle title="Audit view" />
                 <div className="w-full">
-                    <NewNotificationButton />
+                    <NewNotificationButton id={id} />
                 </div>
             </div>
 
