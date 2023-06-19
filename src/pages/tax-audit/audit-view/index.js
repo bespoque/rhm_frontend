@@ -16,11 +16,12 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
+import NewNotificationButton from './notification/button';
 
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
-    const [showNoteTable, setShowNoteTable] = useState(() => false);
+    const [showNoteTable, setShowNoteTable] = useState(null);
     const [notificationData, setNotificationData] = useState(() => []);
 
     const router = useRouter()
@@ -90,6 +91,12 @@ const Index = () => {
             })
             const dataFetch = await res.json()
             setNotificationData(dataFetch.body)
+            // if (dataFetch?.body) {
+            //     setShowNoteTable("true")
+            // } else {
+            //     setShowNoteTable("")
+            // }
+            setShowNoteTable("true")
             setIsFetching(false)
         } catch (error) {
             console.error('Server Error:', error)
@@ -98,13 +105,21 @@ const Index = () => {
         }
     }
 
+
     return (
         <>
             {isFetching && <ProcessorSpinner />}
-            <SectionTitle title="Audit view" />
-            <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
-                <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    <article className="p-6">
+
+            <div className="flex items-between">
+                <SectionTitle title="Audit view" />
+                <div className="w-full">
+                    <NewNotificationButton />
+                </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
+                <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
+                    <article className="p-2">
                         <p className="font-bold"><span className="text-base">Tax Id</span> : <span>{job.job_kgtin}</span></p>
                         <p className="font-bold"><span className="text-base">Auditor</span> : <span>{job.job_user}</span></p>
                         <p className="font-bold"> <span className="text-base">Type</span>: <span>{job.job_job_type}</span></p>
@@ -136,11 +151,11 @@ const Index = () => {
                         </div>
                         {isOpen && (
                             <div className="accordion-content p-4">
-                                <button className="btn block p-4 bg-gray-100 w-full m-2" onClick={showTable}>Notification letter</button>
-                                <button className="btn block p-4 bg-gray-100 w-full m-2">Acknowledgements</button>
-                                <button className="btn block p-4 bg-gray-100 w-full m-2">Notes</button>
-                                <button className="btn block p-4 bg-gray-100 w-full m-2">Compliance</button>
-                                <button className="btn block p-4 bg-gray-100 w-full m-2">Objections</button>
+                                <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>Notification letter</button>
+                                <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
+                                <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
+                                <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
+                                <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
                             </div>
                         )}
                     </div>
@@ -148,59 +163,60 @@ const Index = () => {
             </div>
 
 
-            <MaterialTable title="Job notifications"
-                data={notificationData}
-                columns={fields}
+            <div className={showNoteTable === "true" ? "" : `hidden`}>
+                <MaterialTable title="Job notifications"
+                    data={notificationData}
+                    columns={fields}
 
-                actions={
-                    [
+                    actions={
+                        [
 
-                        {
-                            icon: MoreHoriz,
-                            tooltip: 'View',
-                            // onClick: (event, rowData) => router.push(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`),
+                            {
+                                icon: MoreHoriz,
+                                tooltip: 'View',
+                                onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?id=${id}`),
 
-                        },
-                    ]
-                }
+                            },
+                        ]
+                    }
 
-                options={{
-                    search: true,
-                    paging: true,
-                    filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
+                    options={{
+                        search: true,
+                        paging: true,
+                        filtering: true,
+                        actionsColumnIndex: -1,
+                        exportMenu: [
+                            {
+                                label: "Export PDF",
+                                exportFunc: (cols, datas) =>
+                                    ExportPdf(cols, datas, "myPdfFileName"),
+                            },
+                            {
+                                label: "Export CSV",
+                                exportFunc: (cols, datas) =>
+                                    ExportCsv(cols, datas, "myCsvFileName"),
+                            },
+                        ],
+                        exportAllData: true,
 
-                }}
-                icons={{
-                    Check: Check,
-                    DetailPanel: ChevronRight,
-                    Export: SaveAlt,
-                    Filter: () => <Icons.Filter />,
-                    FirstPage: FirstPage,
-                    LastPage: LastPage,
-                    NextPage: ChevronRight,
-                    PreviousPage: ChevronLeft,
-                    Search: Search,
-                    ThirdStateCheck: Remove,
-                    Clear: Clear,
-                    SortArrow: ArrowDownward
-                }}
+                    }}
+                    icons={{
+                        Check: Check,
+                        DetailPanel: ChevronRight,
+                        Export: SaveAlt,
+                        Filter: () => <Icons.Filter />,
+                        FirstPage: FirstPage,
+                        LastPage: LastPage,
+                        NextPage: ChevronRight,
+                        PreviousPage: ChevronLeft,
+                        Search: Search,
+                        ThirdStateCheck: Remove,
+                        Clear: Clear,
+                        SortArrow: ArrowDownward
+                    }}
 
-            />
-
+                />
+            </div>
         </>
     )
 }
