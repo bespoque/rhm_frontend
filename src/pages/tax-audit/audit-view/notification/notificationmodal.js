@@ -3,11 +3,15 @@ import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
-import { ProcessorSpinner } from '../../../../components/spiner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from 'react-loader-spinner';
+import { useRouter } from 'next/router';
 
 const NotificationModal = ({ isOpen, closeModal, id }) => {
-    // const [isFetching, setIsFetching] = useState(true);
+    const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const router = useRouter()
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -19,8 +23,11 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
+        setIsLoading(true)
+        
         data.doneby = emailAdd
         data.job_id = id
+        data.notification_file = "filepath"
         console.log("data", data);
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
@@ -28,18 +35,34 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
-            // setIsFetching(false)
+            toast.success(dataFetch.message);
+            setIsLoading(false)
+            router.push("/tax-audit/my-jobs")
         } catch (error) {
-            // setIsFetching(false)
+            setIsLoading(false)
             console.error('Server Error:', error)
         } finally {
-            // setIsFetching(false)
+            setIsLoading(false)
         }
     }
 
     return (
         <>
-            {/* {isFetching && <ProcessorSpinner />} */}
+        <ToastContainer />
+            {isFetching && (
+                <div className="flex justify-start item mb-2">
+                    <Loader
+                        visible={isFetching}
+                        type="BallTriangle"
+                        color="#00FA9A"
+                        height={19}
+                        width={19}
+                        timeout={0}
+                        className="ml-2"
+                    />
+                    <p className="font-bold">Processing...</p>
+                </div>
+            )}
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
@@ -86,6 +109,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             <input
                                 type="file"
                                 id="notification_file"
+                                name="notification_file"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 // onChange={handleFileChange}
                                 required
@@ -110,7 +134,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="font-semibold block mb-1">
+                            <label htmlFor="notification_note" className="font-semibold block mb-1">
                                 Notification Note:
                             </label>
                             <textarea
@@ -119,7 +143,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='notification_date'
+                                name='notification_note'
                             ></textarea>
                         </div>
 
