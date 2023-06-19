@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { ProcessorSpinner } from '../../../../components/spiner';
 
 const NotificationModal = ({ isOpen, closeModal, id }) => {
-    const [isFetching, setIsFetching] = useState(true);
+    // const [isFetching, setIsFetching] = useState(true);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { auth } = useSelector(
         (state) => ({
@@ -28,17 +28,18 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
-            setIsFetching(false)
+            // setIsFetching(false)
         } catch (error) {
+            // setIsFetching(false)
             console.error('Server Error:', error)
         } finally {
-            setIsFetching(false)
+            // setIsFetching(false)
         }
     }
 
     return (
         <>
-            {isFetching && <ProcessorSpinner />}
+            {/* {isFetching && <ProcessorSpinner />} */}
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}

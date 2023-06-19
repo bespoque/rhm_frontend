@@ -72,6 +72,7 @@ const Index = () => {
                 setJob(dataFetch.body[0])
                 setIsFetching(false)
             } catch (error) {
+                setIsFetching(false)
                 console.error('Server Error:', error)
             } finally {
                 setIsFetching(false)
@@ -91,14 +92,10 @@ const Index = () => {
             })
             const dataFetch = await res.json()
             setNotificationData(dataFetch.body)
-            // if (dataFetch?.body) {
-            //     setShowNoteTable("true")
-            // } else {
-            //     setShowNoteTable("")
-            // }
             setShowNoteTable("true")
             setIsFetching(false)
         } catch (error) {
+            setIsFetching(false)
             console.error('Server Error:', error)
         } finally {
             setIsFetching(false)
@@ -110,12 +107,8 @@ const Index = () => {
         <>
             {isFetching && <ProcessorSpinner />}
 
-            <div className="flex items-between">
-                <SectionTitle title="Audit view" />
-                <div className="w-full">
-                    <NewNotificationButton id={id} />
-                </div>
-            </div>
+            <SectionTitle title="Audit view" />
+
 
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
@@ -151,7 +144,14 @@ const Index = () => {
                         </div>
                         {isOpen && (
                             <div className="accordion-content p-4">
-                                <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>Notification letter</button>
+                                <div className='flex justify-between w-full'>
+                                    <p>
+                                        <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>All Notification letter</button>
+                                    </p>
+                                    <p className="m-2"> 
+                                        <NewNotificationButton id={id} />
+                                    </p>
+                                </div>
                                 <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
                                 <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
                                 <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
