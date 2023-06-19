@@ -24,7 +24,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
     const onSubmit = async (data) => {
         setIsLoading(true)
-        
+
         data.doneby = emailAdd
         data.job_id = id
         data.notification_file = "filepath"
@@ -48,7 +48,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
     return (
         <>
-        <ToastContainer />
+            <ToastContainer />
             {isFetching && (
                 <div className="flex justify-start item mb-2">
                     <Loader
@@ -67,12 +67,16 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 className="bg-white rounded p-4 max-w-sm border mx-auto "
-                overlayClassName="fixed inset-2 opacity-100"
+                overlayClassName="fixed inset-2 opacity-10"
+
+                // className="fixed inset-0 border max-w-sm p-4 mx-auto"
+                // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"
+                // contentLabel="New Notification Modal"
 
             >
-                <div className="overflow-y-auto">
+                <div className="overflow-y-auto text-white">
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label htmlFor="notification_date" className="font-semibold block mb-1">
                                 Notification Date:

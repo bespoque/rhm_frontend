@@ -21,7 +21,7 @@ import NewNotificationButton from './notification/button';
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
-    const [showNoteTable, setShowNoteTable] = useState(null);
+    // const [showNoteTable, setShowNoteTable] = useState(null);
     const [notificationData, setNotificationData] = useState(() => []);
 
     const router = useRouter()
@@ -92,7 +92,7 @@ const Index = () => {
             })
             const dataFetch = await res.json()
             setNotificationData(dataFetch.body)
-            setShowNoteTable("true")
+            // setShowNoteTable("true")
             setIsFetching(false)
         } catch (error) {
             setIsFetching(false)
@@ -142,81 +142,77 @@ const Index = () => {
 
                             </div>
                         </div>
-                        {isOpen && (
-                            <div className="accordion-content p-4">
-                                <div className='flex justify-between w-full'>
-                                    <p>
-                                        <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>All Notification letter</button>
-                                    </p>
-                                    <p className="m-2"> 
-                                        <NewNotificationButton id={id} />
-                                    </p>
-                                </div>
-                                <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
-                                <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
-                                <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
-                                <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
-                            </div>
-                        )}
+                        {/* {isOpen && ( */}
+                        <div className="accordion-content p-4">
+                            <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>All Notification letter</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
+                        </div>
+                        {/* )} */}
                     </div>
                 </div>
             </div>
 
 
-            <div className={showNoteTable === "true" ? "" : `hidden`}>
-                <MaterialTable title="Job notifications"
-                    data={notificationData}
-                    columns={fields}
+            {/* <div className={showNoteTable === "true" ? "" : `hidden`}> */}
+            <p className="flex justify-end m-2">
+                <NewNotificationButton id={id} />
+            </p>
+            <MaterialTable title="Job notifications"
+                data={notificationData}
+                columns={fields}
 
-                    actions={
-                        [
+                actions={
+                    [
 
-                            {
-                                icon: MoreHoriz,
-                                tooltip: 'View',
-                                onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?id=${id}`),
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'View',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?id=${id}`),
 
-                            },
-                        ]
-                    }
+                        },
+                    ]
+                }
 
-                    options={{
-                        search: true,
-                        paging: true,
-                        filtering: true,
-                        actionsColumnIndex: -1,
-                        exportMenu: [
-                            {
-                                label: "Export PDF",
-                                exportFunc: (cols, datas) =>
-                                    ExportPdf(cols, datas, "myPdfFileName"),
-                            },
-                            {
-                                label: "Export CSV",
-                                exportFunc: (cols, datas) =>
-                                    ExportCsv(cols, datas, "myCsvFileName"),
-                            },
-                        ],
-                        exportAllData: true,
+                options={{
+                    search: true,
+                    paging: true,
+                    filtering: true,
+                    actionsColumnIndex: -1,
+                    exportMenu: [
+                        {
+                            label: "Export PDF",
+                            exportFunc: (cols, datas) =>
+                                ExportPdf(cols, datas, "myPdfFileName"),
+                        },
+                        {
+                            label: "Export CSV",
+                            exportFunc: (cols, datas) =>
+                                ExportCsv(cols, datas, "myCsvFileName"),
+                        },
+                    ],
+                    exportAllData: true,
 
-                    }}
-                    icons={{
-                        Check: Check,
-                        DetailPanel: ChevronRight,
-                        Export: SaveAlt,
-                        Filter: () => <Icons.Filter />,
-                        FirstPage: FirstPage,
-                        LastPage: LastPage,
-                        NextPage: ChevronRight,
-                        PreviousPage: ChevronLeft,
-                        Search: Search,
-                        ThirdStateCheck: Remove,
-                        Clear: Clear,
-                        SortArrow: ArrowDownward
-                    }}
+                }}
+                icons={{
+                    Check: Check,
+                    DetailPanel: ChevronRight,
+                    Export: SaveAlt,
+                    Filter: () => <Icons.Filter />,
+                    FirstPage: FirstPage,
+                    LastPage: LastPage,
+                    NextPage: ChevronRight,
+                    PreviousPage: ChevronLeft,
+                    Search: Search,
+                    ThirdStateCheck: Remove,
+                    Clear: Clear,
+                    SortArrow: ArrowDownward
+                }}
 
-                />
-            </div>
+            />
+            {/* </div> */}
         </>
     )
 }
