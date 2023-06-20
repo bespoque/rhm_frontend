@@ -21,7 +21,6 @@ import NewNotificationButton from './notification/button';
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
-    // const [showNoteTable, setShowNoteTable] = useState(null);
     const [notificationData, setNotificationData] = useState(() => []);
 
     const router = useRouter()
@@ -92,7 +91,6 @@ const Index = () => {
             })
             const dataFetch = await res.json()
             setNotificationData(dataFetch.body)
-            // setShowNoteTable("true")
             setIsFetching(false)
         } catch (error) {
             setIsFetching(false)
@@ -142,7 +140,7 @@ const Index = () => {
 
                             </div>
                         </div>
-                        {/* {isOpen && ( */}
+                     
                         <div className="accordion-content p-4">
                             <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>All Notification letter</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
@@ -150,13 +148,12 @@ const Index = () => {
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
                         </div>
-                        {/* )} */}
                     </div>
                 </div>
             </div>
 
 
-            {/* <div className={showNoteTable === "true" ? "" : `hidden`}> */}
+          
             <p className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
             </p>
@@ -212,7 +209,7 @@ const Index = () => {
                 }}
 
             />
-            {/* </div> */}
+          
         </>
     )
 }
