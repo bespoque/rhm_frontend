@@ -123,6 +123,7 @@ export default function AssessmentReportstable({ FilteredData }) {
   const [revisedmodal, setRevisedModal] = useState(false);
   const [isFetching, setIsFetching] = useState(() => false);
   const [assessId, setAssessId] = useState('');
+  const [createErrors, setCreateErrors] = useState('');
   const [modal, setModal] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
@@ -136,6 +137,8 @@ export default function AssessmentReportstable({ FilteredData }) {
     }),
     shallowEqual
   );
+
+  console.log("createErrors", createErrors);
 
   const DeleteRange = [1, 12]
   const reportRange = [39, 9, 20]
@@ -169,10 +172,9 @@ export default function AssessmentReportstable({ FilteredData }) {
   };
 
 
-  const ReviseAssessment = (e) => {
+  const ReviseAssessment = async (e) => {
     e.preventDefault()
     setIsFetching(true)
-
     axios.post(`${url.BASE_URL}forma/new-objection`, revisedAssFields)
       .then(function (response) {
         setRevisedModal(!revisedmodal);
@@ -183,7 +185,7 @@ export default function AssessmentReportstable({ FilteredData }) {
       .catch(function (error) {
         setIsFetching(false)
         if (error) {
-          setCreateErrors(error.response.data.message)
+          setCreateErrors(error?.response?.data.message)
           toast.error(createErrors)
           setRevisedModal(!revisedmodal);
         } else {
