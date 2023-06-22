@@ -153,7 +153,9 @@ const Index = () => {
 
                         <div className="accordion-content p-4">
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Notification letter</button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2"
+                                onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>Acknowledgements
+                            </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
@@ -183,7 +185,7 @@ const Index = () => {
                         {
                             icon: NextWeekRounded,
                             tooltip: 'Acknowledgement',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?Notid=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
                         },
                     ]
