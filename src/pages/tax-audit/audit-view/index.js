@@ -179,7 +179,7 @@ const Index = () => {
                         {
                             icon: MoreHoriz,
                             tooltip: 'Notification',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notid=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
                         },
                         {

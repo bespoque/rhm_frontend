@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
 
-const AcknModal = ({ isOpen, closeModal, id }) => {
+const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter()

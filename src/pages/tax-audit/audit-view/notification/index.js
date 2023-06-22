@@ -10,7 +10,7 @@ const Notification = () => {
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
     const router = useRouter()
-    const { Notid, JobID } = router?.query
+    const { Notifid, JobID } = router?.query
 
     useEffect(() => {
 
@@ -21,7 +21,7 @@ const Notification = () => {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
-                        "id": Notid,
+                        "id": Notifid,
                     })
                 })
                 const dataFetch = await res.json()
@@ -47,7 +47,7 @@ const Notification = () => {
                     <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                         Email Notification
                     </button>
-                  <NewAckButton />
+                  <NewAckButton  Notifid={Notifid} JobID={JobID}/>
                 </div>
                 <p className="text-gray-600">
                     <span className="font-semibold">Notification Date:</span>{' '}

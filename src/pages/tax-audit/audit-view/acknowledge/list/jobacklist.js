@@ -15,6 +15,7 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 import Loader from 'react-loader-spinner';
+import { ProcessorSpinner } from '../../../../../components/spiner';
 
 export default function jobacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -69,42 +70,11 @@ export default function jobacklist() {
     return (
 
         <>
-            {isFetching && (
-                <div className="flex justify-start item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p className="font-bold">Processing...</p>
-                </div>
-            )}
+            {isFetching && <ProcessorSpinner />}
 
             <MaterialTable title="Job acknowledegements"
                 data={jobAck}
                 columns={fields}
-
-                // actions={
-                //     [
-
-                //         {
-                //             icon: MoreHoriz,
-                //             tooltip: 'View',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notid=${rowData.id}&JobID=${rowData.job_id}`),
-
-                //         },
-                //         {
-                //             icon: NextWeekRounded,
-                //             tooltip: 'Acknowledgement',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notid=${rowData.id}&JobID=${rowData.job_id}`),
-
-                //         },
-                //     ]
-                // }
 
                 options={{
                     search: true,

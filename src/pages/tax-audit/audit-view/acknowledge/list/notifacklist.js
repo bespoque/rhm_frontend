@@ -15,6 +15,7 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 import Loader from 'react-loader-spinner';
+import { ProcessorSpinner } from '../../../../../components/spiner';
 
 export default function notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -70,20 +71,8 @@ export default function notifiacklist() {
     return (
 
         <>
-            {isFetching && (
-                <div className="flex justify-start item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p className="font-bold">Processing...</p>
-                </div>
-            )}
+
+            {isFetching && <ProcessorSpinner />}
 
             <MaterialTable title="Notification acknowledegements"
                 data={notifAck}
