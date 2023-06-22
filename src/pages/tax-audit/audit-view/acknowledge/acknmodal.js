@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
 
-const NotificationModal = ({ isOpen, closeModal, id }) => {
+const AcknModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter()
@@ -23,7 +23,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
-        console.log("data", data);
         setIsLoading(true)
 
         data.doneby = emailAdd
@@ -76,11 +75,11 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-white">New Notification</h6>
+                    <h6 className="text-white">New Acknowledgement</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label htmlFor="notification_date" className="block mb-1 text-right text-white">
-                                Notification Date:
+                                Date:
                             </label>
                             <input
                                 type="date"
@@ -102,45 +101,29 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 required
                                 ref={register()}
                             >
-                                <option value="Mail">Mail</option>
-                                <option value="Email">Email</option>
-                                <option value="SMS">SMS</option>
+                                <option value="ups">UPS Door Delivery</option>
+                                <option value="dhl">DHL Door Delivery</option>
                             </select>
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_file" className="text-white text-right block mb-1">
-                                Notification File:
-                            </label>
-                            <input
-                                type="file"
-                                id="notification_file"
-                                name="notification_file"
-                                className="border border-gray-300 text-white rounded px-2 py-1 w-full"
-                                // onChange={handleFileChange}
-                                required
-                                ref={register()}
-                            />
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_status" className="text-white text-right block mb-1">
-                                Notification Status:
+                            <label htmlFor="notification_delivery" className="block text-right mb-1 text-white">
+                                Relationship:
                             </label>
                             <select
-                                id="notification_status"
-                                name='notification_status'
+                                id="notification_delivery"
+                                name='notification_delivery'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             >
-                                <option value="Pending">Pending</option>
-                                <option value="Started">Started</option>
+                                <option value="brother">Brother</option>
+                                <option value="mother">Sister</option>
                             </select>
                         </div>
 
                         <div className="mb-2">
                             <label htmlFor="notification_note" className="text-white text-right block mb-1">
-                                Notification Note:
+                                Note:
                             </label>
                             <textarea
 
@@ -152,19 +135,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             ></textarea>
                         </div>
 
-                        <div className="mb-2">
-                            <label htmlFor="notification_body" className="text-white text-right block mb-1">
-                                Notification Body:
-                            </label>
-                            <textarea
-
-                                id="notification_body"
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                                name='notification_body'
-                            ></textarea>
-                        </div>
                         <button
                             className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
                             type="submit"
@@ -184,4 +154,4 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     );
 };
 
-export default NotificationModal;
+export default AcknModal;

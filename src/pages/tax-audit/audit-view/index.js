@@ -14,7 +14,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz } from "@material-ui/icons";
+import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
 
@@ -60,15 +60,25 @@ const Index = () => {
         async function fetchPost() {
 
             try {
-                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "param1": "id",
                         "param2": id,
                     })
                 })
+
+                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-batch.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "job_id": id,
+                    })
+                })
                 const dataFetch = await res.json()
-                setJob(dataFetch.body[0])
+                setNotificationData(dataFetch.body)
+
+                const dataFetchJobDet = await response.json()
+                setJob(dataFetchJobDet.body[0])
                 setIsFetching(false)
             } catch (error) {
                 setIsFetching(false)
@@ -140,9 +150,9 @@ const Index = () => {
 
                             </div>
                         </div>
-                     
+
                         <div className="accordion-content p-4">
-                            <button className="btn block p-2 bg-gray-100 w-full m-2" onClick={showTable}>All Notification letter</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2">Notification letter</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Acknowledgements</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
@@ -153,7 +163,7 @@ const Index = () => {
             </div>
 
 
-          
+
             <p className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
             </p>
@@ -166,8 +176,14 @@ const Index = () => {
 
                         {
                             icon: MoreHoriz,
-                            tooltip: 'View',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?id=${id}`),
+                            tooltip: 'Notification',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notid=${rowData.id}&JobID=${rowData.job_id}`),
+
+                        },
+                        {
+                            icon: NextWeekRounded,
+                            tooltip: 'Acknowledgement',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?Notid=${rowData.id}&JobID=${rowData.job_id}`),
 
                         },
                     ]
@@ -209,7 +225,7 @@ const Index = () => {
                 }}
 
             />
-          
+
         </>
     )
 }

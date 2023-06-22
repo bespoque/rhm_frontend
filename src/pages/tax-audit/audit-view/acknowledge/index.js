@@ -3,14 +3,13 @@ import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 import NotificationModal from './notificationmodal';
 import NewNotificationButton from './button';
-import NewAckButton from '../acknowledge/button';
 
 const Notification = () => {
 
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
     const router = useRouter()
-    const { Notid, JobID } = router?.query
+    const { id } = router?.query
 
     useEffect(() => {
 
@@ -20,8 +19,8 @@ const Notification = () => {
                 const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-single.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "job_id": JobID,
-                        "id": Notid,
+                        "job_id": id,
+                        "id": id,
                     })
                 })
                 const dataFetch = await res.json()
@@ -43,11 +42,13 @@ const Notification = () => {
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <h2 className="text-xl font-semibold">Notification Details</h2>
                 <div className="flex justify-end gap-2 items-center mb-4">
-                    <NewNotificationButton id={JobID} />
+                    <NewNotificationButton id={id} />
                     <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                         Email Notification
                     </button>
-                  <NewAckButton />
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                        Record Acknowledgement
+                    </button>
                 </div>
                 <p className="text-gray-600">
                     <span className="font-semibold">Notification Date:</span>{' '}
