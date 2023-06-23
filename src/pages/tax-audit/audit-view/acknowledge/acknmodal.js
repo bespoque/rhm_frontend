@@ -67,7 +67,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 className=" rounded p-4 max-w-sm border mx-auto "
-                overlayClassName="fixed Overlay inset-0  bg-black opacity-70"
+                overlayClassName="fixed Overlay inset-0 z-50 bg-black opacity-70"
 
             // className="fixed inset-0 border max-w-sm p-4 mx-auto"
             // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
 
-const NotificationModal = ({ isOpen, closeModal, id }) => {
+const NotesModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter()
@@ -67,8 +67,8 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className=" rounded p-4 max-w-sm border mx-auto "
-                overlayClassName="fixed Overlay inset-0 bg-black opacity-70 z-50"
+                className="rounded p-4 max-w-sm border mx-auto"
+                overlayClassName="fixed inset-0 bg-black opacity-70 z-50"
 
             // className="fixed inset-0 border max-w-sm p-4 mx-auto"
             // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"
@@ -76,37 +76,22 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-white">New Notification</h6>
+                    <h6 className="text-white">New Note</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label htmlFor="notification_date" className="block mb-1 text-right text-white">
-                                Notification Date:
+                                Note Headline:
                             </label>
                             <input
                                 type="date"
-                                id="notification_date"
-                                name='notification_date'
+                                id="note_headline"
+                                name='note_headline'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block text-right mb-1 text-white">
-                                Delivery Method:
-                            </label>
-                            <select
-                                id="notification_delivery"
-                                name='notification_delivery'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Mail">Mail</option>
-                                <option value="Email">Email</option>
-                                <option value="SMS">SMS</option>
-                            </select>
-                        </div>
+                        
                         <div className="mb-2">
                             <label htmlFor="notification_file" className="text-white text-right block mb-1">
                                 Notification File:
@@ -120,22 +105,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 required
                                 ref={register()}
                             />
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_status" className="text-white text-right block mb-1">
-                                Notification Status:
-                            </label>
-                            <select
-                                id="notification_status"
-                                name='notification_status'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Pending">Pending</option>
-                                <option value="Started">Started</option>
-                            </select>
                         </div>
 
                         <div className="mb-2">
@@ -184,4 +153,4 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     );
 };
 
-export default NotificationModal;
+export default NotesModal;

@@ -156,7 +156,9 @@ const Index = () => {
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>Acknowledgements
                             </button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2">Notes</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2"
+                                onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
+                            >Notes</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
                         </div>
