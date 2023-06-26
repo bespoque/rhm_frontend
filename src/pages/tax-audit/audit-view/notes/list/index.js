@@ -34,6 +34,7 @@ export default function notifiacklist() {
         {
             title: "Note Details",
             field: "note_details",
+            render: rowData => rowData.note_details.substring(0, 20),
         },
     ];
 

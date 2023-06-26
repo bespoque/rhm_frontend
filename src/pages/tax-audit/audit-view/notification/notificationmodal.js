@@ -67,19 +67,20 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className=" rounded p-4 max-w-sm border mx-auto "
-                overlayClassName="fixed Overlay inset-0 bg-black opacity-70 z-50"
+                // className="rounded p-4 max-w-sm z-50 border mx-auto "
+                // overlayClassName="fixed Overlay inset-0 bg-black opacity-70 z-50"
 
-            // className="fixed inset-0 border max-w-sm p-4 mx-auto"
-            // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"
+            className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
+            overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+            // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-75"
             // contentLabel="New Notification Modal"
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-white">New Notification</h6>
+                    <h6 className="text-dark">New Notification</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1 text-right text-white">
+                            <label htmlFor="notification_date" className="block mb-1  text-dark">
                                 Notification Date:
                             </label>
                             <input
@@ -92,7 +93,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             />
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block text-right mb-1 text-white">
+                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
                                 Delivery Method:
                             </label>
                             <select
@@ -108,14 +109,14 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             </select>
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_file" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_file" className="text-dark  block mb-1">
                                 Notification File:
                             </label>
                             <input
                                 type="file"
                                 id="notification_file"
                                 name="notification_file"
-                                className="border border-gray-300 text-white rounded px-2 py-1 w-full"
+                                className="border border-gray-300 text-dark rounded px-2 py-1 w-full"
                                 // onChange={handleFileChange}
                                 required
                                 ref={register()}
@@ -123,7 +124,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_status" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_status" className="text-dark  block mb-1">
                                 Notification Status:
                             </label>
                             <select
@@ -139,7 +140,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_note" className="text-dark  block mb-1">
                                 Notification Note:
                             </label>
                             <textarea
@@ -153,7 +154,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_body" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_body" className="text-dark  block mb-1">
                                 Notification Body:
                             </label>
                             <textarea
@@ -166,7 +167,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             ></textarea>
                         </div>
                         <button
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
+                            className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
                             type="submit"
                         >
                             Submit

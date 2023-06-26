@@ -14,6 +14,7 @@ const Notification = () => {
 
     useEffect(() => {
 
+        
         async function fetchPost() {
 
             try {
@@ -49,30 +50,30 @@ const Notification = () => {
                     </button>
                   <NewAckButton  Notifid={Notifid} JobID={JobID}/>
                 </div>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Notification Date:</span>{' '}
                     {notice?.notification_date}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Notification Status:</span>{' '}
                     {notice?.notification_status}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Notification Delivery:</span>{' '}
                     {notice?.notification_delivery}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Notification Body:</span>{' '}
                     {notice?.notification_body}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Notification Note:</span>{' '}
                     {notice?.notification_note}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Done By:</span> {notice?.doneby}
                 </p>
-                <p className="text-gray-600">
+                <p className="">
                     <span className="font-semibold">Create Time:</span>{' '}
                     {notice?.createtime}
                 </p>

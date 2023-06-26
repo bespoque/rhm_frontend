@@ -17,11 +17,14 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
     const [notificationData, setNotificationData] = useState(() => []);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [dialogData, setDialogData] = useState(null);
 
     const router = useRouter()
     const { id } = router?.query
@@ -90,21 +93,28 @@ const Index = () => {
         fetchPost();
     }, [router]);
 
-    const showTable = async () => {
-        setIsFetching(true)
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+        setDialogData(null);
+    };
+
+
+    async function handleRowClick(event, rowData) {
+        setSelectedRow(rowData);
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-batch.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-single.php', {
                 method: 'POST',
                 body: JSON.stringify({
-                    "job_id": id,
+                    "job_id": rowData.job_id,
+                    "id": rowData.id,
                 })
             })
             const dataFetch = await res.json()
-            setNotificationData(dataFetch.body)
+            setDialogData(dataFetch.body)
             setIsFetching(false)
         } catch (error) {
-            setIsFetching(false)
             console.error('Server Error:', error)
+            setDialogData(null)
         } finally {
             setIsFetching(false)
         }
@@ -182,7 +192,7 @@ const Index = () => {
                             icon: MoreHoriz,
                             tooltip: 'Notification',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-
+                            // onClick: (event, rowData) => { handleRowClick() },
                         },
                         {
                             icon: NextWeekRounded,
@@ -198,6 +208,7 @@ const Index = () => {
                     paging: true,
                     filtering: true,
                     actionsColumnIndex: -1,
+
                     exportMenu: [
                         {
                             label: "Export PDF",
@@ -229,6 +240,17 @@ const Index = () => {
                 }}
 
             />
+
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
+                <DialogTitle>Notification</DialogTitle>
+                <DialogContent>
+                    {dialogData ? (
+                        <Typography>Date: {dialogData.date}</Typography>
+                    ) : (
+                        <Typography>Loading...</Typography>
+                    )}
+                </DialogContent>
+            </Dialog>
 
         </>
     )
