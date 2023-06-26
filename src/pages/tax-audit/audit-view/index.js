@@ -71,6 +71,7 @@ const Index = () => {
                     })
                 })
 
+                
                 const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
