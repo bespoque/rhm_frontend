@@ -23,12 +23,13 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
-        setIsLoading(true)
-
         data.doneby = emailAdd
-        data.job_id = id
+        data.job_id = JobID
+        data.notification_id = Notifid
         data.notification_file = "filepath"
         console.log("data", data);
+        setIsLoading(true)
+
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
                 method: 'POST',
@@ -66,32 +67,27 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className=" rounded p-4 max-w-sm border mx-auto "
-                overlayClassName="fixed Overlay inset-0 z-50 bg-black opacity-70"
-
-            // className="fixed inset-0 border max-w-sm p-4 mx-auto"
-            // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"
-            // contentLabel="New Notification Modal"
-
+                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-white">New Acknowledgement</h6>
+                    <h6>New Acknowledgement</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1 text-right text-white">
-                                Date:
+                            <label htmlFor="notification_date" className="block mb-1  ">
+                               Acknowledgement Date:
                             </label>
                             <input
                                 type="date"
-                                id="notification_date"
-                                name='notification_date'
+                                id="ack_datetime"
+                                name='ack_datetime'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             />
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block text-right mb-1 text-white">
+                            <label htmlFor="notification_delivery" className="block  mb-1 ">
                                 Delivery Method:
                             </label>
                             <select
@@ -106,7 +102,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                             </select>
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block text-right mb-1 text-white">
+                            <label htmlFor="notification_delivery" className="block  mb-1 ">
                                 Relationship:
                             </label>
                             <select
@@ -122,7 +118,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_note" className="  block mb-1">
                                 Note:
                             </label>
                             <textarea
@@ -136,7 +132,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                         </div>
 
                         <button
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
+                            className="bg-blue-500 hover:bg-blue-600  py-2 px-4 rounded mt-4"
                             type="submit"
                         >
                             Submit

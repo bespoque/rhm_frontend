@@ -67,19 +67,15 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className="rounded p-4 max-w-sm border mx-auto"
-                overlayClassName="fixed inset-0 bg-black opacity-70 z-50"
-
-            // className="fixed inset-0 border max-w-sm p-4 mx-auto"
-            // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-50"
-            // contentLabel="New Notification Modal"
+                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-white">New Note</h6>
+                    <h6 className="">New Note</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1 text-right text-white">
+                            <label htmlFor="notification_date" className="block mb-1 ">
                                 Note Headline:
                             </label>
                             <input
@@ -91,16 +87,16 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                                 ref={register()}
                             />
                         </div>
-                        
+
                         <div className="mb-2">
-                            <label htmlFor="notification_file" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_file" className=" block mb-1">
                                 Notification File:
                             </label>
                             <input
                                 type="file"
                                 id="notification_file"
                                 name="notification_file"
-                                className="border border-gray-300 text-white rounded px-2 py-1 w-full"
+                                className="border border-gray-300  rounded px-2 py-1 w-full"
                                 // onChange={handleFileChange}
                                 required
                                 ref={register()}
@@ -108,7 +104,7 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_note" className=" block mb-1">
                                 Notification Note:
                             </label>
                             <textarea
@@ -122,7 +118,7 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_body" className="text-white text-right block mb-1">
+                            <label htmlFor="notification_body" className=" block mb-1">
                                 Notification Body:
                             </label>
                             <textarea
@@ -135,7 +131,7 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                             ></textarea>
                         </div>
                         <button
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
+                            className="bg-blue-500 hover:bg-blue-600  py-2 px-4 rounded mt-4"
                             type="submit"
                         >
                             Submit

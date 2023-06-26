@@ -67,13 +67,8 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                // className="rounded p-4 max-w-sm z-50 border mx-auto "
-                // overlayClassName="fixed Overlay inset-0 bg-black opacity-70 z-50"
-
-            className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-75"
-            // overlayClassName="Overlay fixed inset-0 bg-black bg-opacity-75"
-            // contentLabel="New Notification Modal"
+                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >
                 <div className="overflow-y-auto">
