@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
+import { ProcessorSpinner } from '../../../../components/spiner';
 
 const NotificationModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
@@ -29,7 +30,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         data.doneby = emailAdd
         data.job_id = id
         data.notification_file = "filepath"
-        console.log("data", data);
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
                 method: 'POST',
@@ -38,7 +38,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
             const dataFetch = await res.json()
             toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push("/tax-audit/my-jobs")
+            router.push(`/tax-audit/audit-view?id=${id}`)
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -50,20 +50,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     return (
         <>
             <ToastContainer />
-            {isFetching && (
-                <div className="flex justify-start item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p className="font-bold">Processing...</p>
-                </div>
-            )}
+            {isFetching && <ProcessorSpinner />}
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}

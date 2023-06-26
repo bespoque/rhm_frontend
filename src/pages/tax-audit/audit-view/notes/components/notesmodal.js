@@ -7,8 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
+import { ProcessorSpinner } from '../../../../../components/spiner';
 
-const NotesModal = ({ isOpen, closeModal, id }) => {
+const NotesModal = ({ isOpen, closeModal, JobID }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter()
@@ -23,22 +24,21 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
+        data.doneby = emailAdd
+        data.job_id = JobID
+        data.note_file = "filepath"
         console.log("data", data);
         setIsLoading(true)
 
-        data.doneby = emailAdd
-        data.job_id = id
-        data.notification_file = "filepath"
-        console.log("data", data);
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnote.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
             toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push("/tax-audit/my-jobs")
+            router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -50,36 +50,23 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
     return (
         <>
             <ToastContainer />
-            {isFetching && (
-                <div className="flex justify-start item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p className="font-bold">Processing...</p>
-                </div>
-            )}
+            {isFetching && <ProcessorSpinner />}
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
-                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+                overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-75"
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="">New Note</h6>
+                    <h6 className="my-3">New Note</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1 ">
+                            <label className="block mb-1 ">
                                 Note Headline:
                             </label>
                             <input
-                                type="date"
+                                type="text"
                                 id="note_headline"
                                 name='note_headline'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
@@ -89,8 +76,8 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_file" className=" block mb-1">
-                                Notification File:
+                            <label className=" block mb-1">
+                                Note File:
                             </label>
                             <input
                                 type="file"
@@ -99,35 +86,19 @@ const NotesModal = ({ isOpen, closeModal, id }) => {
                                 className="border border-gray-300  rounded px-2 py-1 w-full"
                                 // onChange={handleFileChange}
                                 required
-                                ref={register()}
                             />
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className=" block mb-1">
-                                Notification Note:
+                            <label className=" block mb-1">
+                                Note Details:
                             </label>
                             <textarea
-
-                                id="notification_note"
+                                id="note_details"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='notification_note'
-                            ></textarea>
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_body" className=" block mb-1">
-                                Notification Body:
-                            </label>
-                            <textarea
-
-                                id="notification_body"
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                                name='notification_body'
+                                name='note_details'
                             ></textarea>
                         </div>
                         <button

@@ -74,7 +74,7 @@ export default function notifiacklist() {
         <>
             {isFetching && <ProcessorSpinner />}
             <div className="flex justify-end m-2">
-                <NewNoteButton id={JobID} />
+                <NewNoteButton JobID={JobID} />
             </div>
             <MaterialTable title="All Notes"
                 data={notifAck}

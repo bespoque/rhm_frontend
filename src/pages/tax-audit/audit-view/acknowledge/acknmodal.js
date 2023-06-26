@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
+import { ProcessorSpinner } from '../../../../components/spiner';
 
 const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
@@ -21,24 +22,26 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
 
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
+    const staffName = decoded.staffName
 
+    console.log("decoded", decoded);
     const onSubmit = async (data) => {
         data.doneby = emailAdd
         data.job_id = JobID
         data.notification_id = Notifid
-        data.notification_file = "filepath"
+        data.ack_by = staffName
         console.log("data", data);
         setIsLoading(true)
 
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
             toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push("/tax-audit/my-jobs")
+            router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -50,20 +53,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     return (
         <>
             <ToastContainer />
-            {isFetching && (
-                <div className="flex justify-start item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p className="font-bold">Processing...</p>
-                </div>
-            )}
+            {isFetching && <ProcessorSpinner />}
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
@@ -71,10 +61,10 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
             >
                 <div className="overflow-y-auto">
-                    <h6>New Acknowledgement</h6>
+                    <h6 className="my-3">New Acknowledgement</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1  ">
+                            <label className="block mb-1  ">
                                Acknowledgement Date:
                             </label>
                             <input
@@ -87,12 +77,12 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                             />
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block  mb-1 ">
+                            <label className="block  mb-1 ">
                                 Delivery Method:
                             </label>
                             <select
-                                id="notification_delivery"
-                                name='notification_delivery'
+                                id="ack_channel"
+                                name='ack_channel'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
@@ -102,32 +92,32 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                             </select>
                         </div>
                         <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block  mb-1 ">
+                            <label className="block  mb-1 ">
                                 Relationship:
                             </label>
                             <select
-                                id="notification_delivery"
-                                name='notification_delivery'
+                                id="ack_relationship"
+                                name='ack_relationship'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             >
-                                <option value="brother">Brother</option>
-                                <option value="mother">Sister</option>
+                                <option value="Brother">Brother</option>
+                                <option value="Mother">Mother</option>
                             </select>
                         </div>
 
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className="  block mb-1">
+                            <label className="block mb-1">
                                 Note:
                             </label>
                             <textarea
 
-                                id="notification_note"
+                                id="ack_note"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='notification_note'
+                                name='ack_note'
                             ></textarea>
                         </div>
 
