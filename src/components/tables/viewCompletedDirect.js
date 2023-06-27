@@ -152,7 +152,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
   const [modal, setModal] = useState(false);
   const [assessmentModal, setAssessmentModalModal] = useState(false);
   const [comment, setComment] = useState(false);
-console.log("assobj", assobj);
   const [fixedValues, fixValues] = useState({ amount: 0 });
   const [submittedResult, updateResult] = useState({ amount: 0 });
   const {
@@ -171,7 +170,7 @@ console.log("assobj", assobj);
     shallowEqual
   );
 
-
+  console.log("taxcal", taxcal);
 
   const Approval = [2, 3, 1]
   const decoded = jwt.decode(auth);
@@ -276,26 +275,41 @@ console.log("assobj", assobj);
       setIsFetching2(false)
     }
   }
+  console.log("tax", Number(taxcal?.tax) + Number(taxcal?.devy_levy));
 
-  const SubmitAdditionalAssessnet = (data) => {
-    setIsFetching2(true)
-    data.amount = fixedValues.amount
+  const SubmitAdditionalAssessnet = async (data) => {
+    // setIsFetching2(true)
+    // data.amount = fixedValues.amount
+    data.newamount = (Number(fixedValues.amount) +  Number(taxcal?.tax) + Number(taxcal?.devy_levy))
     data.assessment_id = assessment_id
-    // const submittedResult = data;
-    // updateResult(submittedResult);
-    axios.post(`${url.BASE_URL}forma/add-assessment`, data)
-      .then(function (response) {
-        // handle success
-        setIsFetching2(false)
-        toast.success("Operation Successful!");
+    console.log("data", data);
+    try {
+      const response = await fetch("https://bespoque.dev/rhm-live/fix-update-assessmentamount.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      setIsFetching2(false)
+      const dataFetch = await response.json()
+      console.log("dataFetch", dataFetch);
+      toast.success(dataFetch.message);
+      // router.push("/view/completeddirect")
+    } catch (error) {
+      setIsFetching2(false)
+      toast.error("Failed! please try again");
+    }
+    // axios.post(`${url.BASE_URL}forma/add-assessment`, data)
+    //   .then(function (response) {
+    //     // handle success
+    //     setIsFetching2(false)
+    //     toast.success("Operation Successful!");
 
-        router.push("/view/completeddirect")
-      })
-      .catch(function (error) {
-        // handle error
-        setIsFetching2(false)
-        toast.error("Failed! please try again");
-      })
+    //     // router.push("/view/completeddirect")
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     setIsFetching2(false)
+    //     toast.error("Failed! please try again");
+    //   })
 
     console.log(data);
   };
@@ -335,7 +349,6 @@ console.log("assobj", assobj);
 
       {assessmentModal && (
         <div className="modal">
-          {/* <div onClick={toggleModal} className="overlay"></div> */}
           <div className="modal-content" width="300">
             <div className="text-center">
               <p>Are you sure you want to raise an additional Assessment ?</p>
@@ -344,13 +357,13 @@ console.log("assobj", assobj);
 
             <form onSubmit={handleSubmit(SubmitAdditionalAssessnet)}>
               <FormatMoneyComponent
-                name="amount"
+                // name="newamount"
+                name="newamount"
                 control={control}
                 defaultValue="0"
                 onValueChange={(v) => fixValues({ amount: v })}
               />
-              {/* <input name="amount" required ref={register()} className="mb-3 form-control w-full rounded" type="text" placeholder="Amount" /> */}
-              <textarea name="comment" required ref={register()} className="form-control w-full rounded" minlength="10" maxlength="50" placeholder="comment" onChange={(e) => setComment(e.target.value)}></textarea>
+              {/* <textarea name="comment" required ref={register()} className="form-control w-full mt-2 rounded" minlength="10" maxlength="50" placeholder="comment" onChange={(e) => setComment(e.target.value)}></textarea> */}
               <div className="mt-2 flex justify-between">
                 <button onClick={asseModal}
                   className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
