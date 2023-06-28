@@ -275,10 +275,9 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
       setIsFetching2(false)
     }
   }
-  console.log("tax", Number(taxcal?.tax) + Number(taxcal?.devy_levy));
 
   const SubmitAdditionalAssessnet = async (data) => {
-    // setIsFetching2(true)
+    setIsFetching2(true)
     // data.amount = fixedValues.amount
     data.newamount = (Number(fixedValues.amount) +  Number(taxcal?.tax) + Number(taxcal?.devy_levy))
     data.assessment_id = assessment_id
@@ -292,7 +291,7 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
       const dataFetch = await response.json()
       console.log("dataFetch", dataFetch);
       toast.success(dataFetch.message);
-      // router.push("/view/completeddirect")
+      router.push("/view/completeddirect")
     } catch (error) {
       setIsFetching2(false)
       toast.error("Failed! please try again");
@@ -319,7 +318,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
       <ToastContainer />
       {modal && (
         <div className="modal">
-          {/* <div onClick={toggleModal} className="overlay"></div> */}
           <div className="modal-content" width="300">
             <p>Are you sure you want to decline?</p>
             <p>Please state reason why</p>
@@ -422,7 +420,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
           }
 
           <div className="mt-2">
-            {/* shows only BOJ comment */}
             {assobj.assessment_type === null || assobj.assessment_type === "" || assobj.assessment_type === undefined ? "" :
               <div>
                 <p className="font-bold">COMMENT</p>
