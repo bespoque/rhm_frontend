@@ -136,7 +136,7 @@ const Index = () => {
                                 <div>
                                     {targType === "Collection" ?
                                         <div className="grid grid-cols-2 gap-4 content-between">
-                                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md">Collection </button>
+                                            <button className="bg-yellow-600 p-4 text-white rounded-xl shadow-md">Collection </button>
                                             <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
                                         </div> : ""
                                     }
