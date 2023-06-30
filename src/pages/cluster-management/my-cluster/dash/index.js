@@ -246,7 +246,7 @@ const Index = () => {
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(TotalAssAmt)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(30000)}</button>
                         </div>
                     </div>
                 )
@@ -260,7 +260,7 @@ const Index = () => {
                         <div className="grid grid-cols-3 gap-4 content-between">
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Registration: {formatNumber(TotalReg)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalReg) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(targRec?.target_goal)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(20000)}</button>
                         </div>
                     </div>
                 )
