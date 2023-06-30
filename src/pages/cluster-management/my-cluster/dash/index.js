@@ -26,6 +26,7 @@ const Index = () => {
     const [targRec, setTargRec] = useState(() => []);
     const [showAssmt, setShowAssmt] = useState(false);
     const [showReg, setShowReg] = useState(false);
+    const [showAssmtTab, setAssmtTab] = useState(false);
     const [showRegTab, setShowRegTab] = useState(false);
     const [assReport, setAssReport] = useState(() => [])
     const [tpList, setTpList] = useState(() => [])
@@ -71,8 +72,37 @@ const Index = () => {
 
     ];
 
-    const clusterData = [
-    ]
+    const Assfields = [
+        {
+            title: "KGTIN",
+            field: "KGTIN",
+        },
+        {
+            title: "Assessment ID",
+            field: "assessment_id",
+        },
+        {
+            title: "Ref",
+            field: "ref",
+        },
+        {
+            title: "Amount",
+            field: "amount",
+            render: (rowData) => {
+                return formatNumber(rowData.amount)
+            },
+        },
+        {
+            title: "Channel",
+            field: "channel_id",
+        },
+        {
+            title: "Transaction date",
+            field: "trans_date",
+        },
+
+    ];
+
 
     useEffect(() => {
 
@@ -105,7 +135,7 @@ const Index = () => {
         fetchPost();
     }, [router]);
 
-    const AssessmentRep = async () => {
+    const AssessmentRep = async (button) => {
         setIsFetching(true)
         try {
             const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-assessment.php', {
@@ -119,7 +149,13 @@ const Index = () => {
             setTotalAssAmt(assReportFetch.totalAmount)
             setAssReport(assReportFetch.body)
             setIsFetching(false)
-            setShowAssmt(true)
+            if (button === "list") {
+                setAssmtTab(true)
+                setShowAssmt(!true)
+            } else {
+                setAssmtTab(!true)
+                setShowAssmt(true)
+            }
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -177,8 +213,8 @@ const Index = () => {
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     {targType === "Assessment" ?
                         <div className="grid grid-cols-2 gap-4 content-between">
-                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={AssessmentRep}>Overview</button>
-                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md">List</button>
+                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("overview")}>Overview</button>
+                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("list")}>List</button>
                         </div> :
                         <div>
                             {targType === "Taxpayers" ?
@@ -204,12 +240,13 @@ const Index = () => {
 
             {
                 showAssmt && (
-                    <div className="w-full lg:w-2/2 w-full max-w-md mx-auto bg-white rounded-xl  overflow-hidden md:max-w-2xl p-4">
+                    <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl  overflow-hidden md:max-w-2xl p-4">
                         <p className="my-3 text-center">Assessment Performance</p>
-                        <div className="grid grid-cols-3 gap-4 content-between">
+                        <div className="grid grid-cols-2 gap-4 content-between">
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(TotalAssAmt)}</button>
                         </div>
                     </div>
                 )
@@ -220,9 +257,10 @@ const Index = () => {
                 showReg && (
                     <div className="w-full lg:w-2/2 w-full max-w-md mx-auto bg-white rounded-xl  overflow-hidden md:max-w-2xl p-4">
                         <p className="my-3 text-center">Taxpayer Registration Performance</p>
-                        <div className="grid grid-cols-2 gap-4 content-between">
+                        <div className="grid grid-cols-3 gap-4 content-between">
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Registration: {formatNumber(TotalReg)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalReg) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(targRec?.target_goal)}</button>
                         </div>
                     </div>
                 )
@@ -235,6 +273,54 @@ const Index = () => {
                         <MaterialTable title="Taxpayer List"
                             data={tpList}
                             columns={fields}
+
+                            options={{
+                                search: true,
+                                paging: true,
+                                filtering: true,
+                                actionsColumnIndex: -1,
+                                exportMenu: [
+                                    {
+                                        label: "Export PDF",
+                                        exportFunc: (cols, datas) =>
+                                            ExportPdf(cols, datas, "myPdfFileName"),
+                                    },
+                                    {
+                                        label: "Export CSV",
+                                        exportFunc: (cols, datas) =>
+                                            ExportCsv(cols, datas, "myCsvFileName"),
+                                    },
+                                ],
+                                exportAllData: true,
+
+                            }}
+                            icons={{
+                                Check: Check,
+                                DetailPanel: ChevronRight,
+                                Export: SaveAlt,
+                                Filter: () => <Icons.Filter />,
+                                FirstPage: FirstPage,
+                                LastPage: LastPage,
+                                NextPage: ChevronRight,
+                                PreviousPage: ChevronLeft,
+                                Search: Search,
+                                ThirdStateCheck: Remove,
+                                Clear: Clear,
+                                SortArrow: ArrowDownward
+                            }}
+                        />
+                    </div>
+
+                )
+
+            }
+
+            {
+                showAssmtTab && (
+                    <div>
+                        <MaterialTable title="Assessment List"
+                            data={assReport}
+                            columns={Assfields}
 
                             options={{
                                 search: true,
