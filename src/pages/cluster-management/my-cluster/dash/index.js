@@ -1,64 +1,32 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import Loader from 'react-loader-spinner';
-import Search from '@material-ui/icons/Search'
-import SaveAlt from '@material-ui/icons/SaveAlt'
-import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import ChevronRight from '@material-ui/icons/ChevronRight'
-import FirstPage from '@material-ui/icons/FirstPage'
-import LastPage from '@material-ui/icons/LastPage'
-import Check from '@material-ui/icons/Check'
-import Remove from '@material-ui/icons/Remove'
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, Payment } from "@material-ui/icons";
-// import MaterialTable from 'material-table';
-import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
-
 import { formatNumber } from 'accounting';
 import { ProcessorSpinner } from '../../../../components/spiner/index';
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
-    const [clusterData, setClusterData] = useState(() => []);
+    const [TotalAssAmt, setTotalAssAmt] = useState(() => "");
+    const [TotalReg, setTotalReg] = useState(() => "");
     const [clustRec, setClustRec] = useState(() => []);
     const [targRec, setTargRec] = useState(() => []);
-    const [reportHeader, setReportHeader] = useState(() => []);
-    const [perform, setPer] = useState(() => (0))
+    const [showAssmt, setShowAssmt] = useState(false);
+    const [showReg, setShowReg] = useState(false);
+    const [assReport, setAssReport] = useState(() => [])
     const router = useRouter()
-    const { targetID, clusterID, targN } = router?.query
+    const { targetID, clusterID, targN, targType } = router?.query
 
-    const fields = [
-        {
-            title: "Cluster",
-            field: "cluster_name",
-        },
-        {
-            title: "Assessment Id",
-            field: "assessment_id",
-        },
-        {
-            title: "KGTIN",
-            field: "KGTIN",
-        },
-        {
-            title: "Amount",
-            field: "amount",
-            render: rowData => formatNumber(rowData.amount),
-        },
-        {
-            title: "Captured by",
-            field: "done_by",
-        },
-        {
-            title: "Transaction date",
-            field: "trans_date",
-        },
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
 
-    ];
-
-
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
 
     useEffect(() => {
 
@@ -81,10 +49,6 @@ const Index = () => {
                 const clustRecFetch = await res.json()
                 setTargRec(targRecFetch.body[0])
                 setClustRec(clustRecFetch.body[0])
-                // setClusterData(dataFetch.body)
-                // let headerMsg = (dataFetch?.reportHeader).slice(8);
-                // setReportHeader(headerMsg)
-
                 setIsFetching(false)
             } catch (error) {
                 console.error('Server Error:', error)
@@ -95,7 +59,48 @@ const Index = () => {
         fetchPost();
     }, [router]);
 
-    const targetGoal = targRec.target_goal || 0
+    const AssessmentRep = async () => {
+        setIsFetching(true)
+        try {
+            const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-assessment.php', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "target_id": targetID,
+                    "user_id": emailAdd
+                })
+            })
+            const assReportFetch = await res.json()
+            setTotalAssAmt(assReportFetch.totalAmount)
+            setAssReport(assReportFetch.body)
+            setIsFetching(false)
+            setShowAssmt(true)
+        } catch (error) {
+            console.error('Server Error:', error)
+        } finally {
+            setIsFetching(false)
+        }
+    }
+    const RegRep = async () => {
+        setIsFetching(true)
+        try {
+            const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-registration.php', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "target_id": targetID,
+                    "user_id": emailAdd
+                })
+            })
+            const regReportFetch = await res.json()
+            setTotalReg(regReportFetch.totalRec)
+            setIsFetching(false)
+            setShowReg(true)
+        } catch (error) {
+            console.error('Server Error:', error)
+        } finally {
+            setIsFetching(false)
+        }
+    }
+
 
 
     return (
@@ -106,23 +111,70 @@ const Index = () => {
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
 
                     <article className="p-6">
+
                         <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
+                        <p className="font-bold"><span className="text-base">Target Goal</span> : <span>{formatNumber(targRec?.target_goal)}</span></p>
                         <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
                         <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
                         <p className="font-bold"><span className="text-base">Cluster</span> : <span>{clustRec?.cluster_name}</span></p>
-                        <p className="font-bold"><span className="text-base">Head</span> : <span>{clustRec?.cluster_head}</span></p>
+                        <p className="font-bold"><span className="text-base">Cluster Head</span> : <span>{clustRec?.cluster_head}</span></p>
                     </article>
 
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    <div className="grid grid-cols-2 gap-4 content-between">
-                        <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md">Registration </button>
-                        <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md">Assessment</button>
-                        <button className="bg-green-600 p-4 text-white rounded-xl shadow-md">Collection</button>
-                        <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
-                    </div>
+                    {targType === "Assessment" ?
+                        <div className="grid grid-cols-2 gap-4 content-between">
+                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={AssessmentRep}>Assessment</button>
+                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                        </div> :
+                        <div>
+                            {targType === "Taxpayers" ?
+                                <div className="grid grid-cols-2 gap-4 content-between">
+                                    <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md" onClick={RegRep}>Registration </button>
+                                    <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                                </div> :
+                                <div>
+                                    {targType === "Collection" ?
+                                        <div className="grid grid-cols-2 gap-4 content-between">
+                                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md">Collection </button>
+                                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                                        </div> : ""
+                                    }
+                                </div>
+                            }
+
+                        </div>
+                    }
+
                 </div>
             </div>
+
+            {
+                showAssmt && (
+                    <div className="w-full lg:w-2/2 w-full max-w-md mx-auto bg-white rounded-xl  overflow-hidden md:max-w-2xl p-4">
+                        <p className="my-3 text-center">Assessment Performance</p>
+                        <div className="grid grid-cols-3 gap-4 content-between">
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
+                        </div>
+                    </div>
+                )
+
+            }
+
+            {
+                showReg && (
+                    <div className="w-full lg:w-2/2 w-full max-w-md mx-auto bg-white rounded-xl  overflow-hidden md:max-w-2xl p-4">
+                        <p className="my-3 text-center">Taxpayer Registration Performance</p>
+                        <div className="grid grid-cols-2 gap-4 content-between">
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Registration: {formatNumber(TotalReg)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalReg) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
+                        </div>
+                    </div>
+                )
+
+            }
 
         </>
     )
