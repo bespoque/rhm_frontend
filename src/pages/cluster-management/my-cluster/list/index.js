@@ -121,7 +121,7 @@ const index = () => {
                             icon: BarChart,
                             tooltip: 'report',
                             onClick: (event, rowData) => {
-                                router.push(`/cluster-management/my-cluster/dash?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}`)
+                                router.push(`/cluster-management/my-cluster/dash?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}&targType=${rowData.target_type}`)
                             }
                         },
                     ]
