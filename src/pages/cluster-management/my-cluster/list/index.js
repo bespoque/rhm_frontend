@@ -15,7 +15,7 @@ import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { formatNumber } from '../../../../functions/numbers';
 import jwt from "jsonwebtoken";
-import { BarChart, Edit } from "@material-ui/icons";
+import { BarChart } from "@material-ui/icons";
 import { shallowEqual, useSelector } from 'react-redux';
 
 
@@ -161,11 +161,6 @@ const index = () => {
                     Clear: Clear,
                     SortArrow: ArrowDownward
                 }}
-
-            // onRowClick={(event, rowData) => {
-            //     event.stopPropagation();
-            //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
-            // }}
             />
         </>
     )

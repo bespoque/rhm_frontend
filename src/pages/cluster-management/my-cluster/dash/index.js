@@ -3,7 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { formatNumber } from 'accounting';
 import { ProcessorSpinner } from '../../../../components/spiner/index';
 import { shallowEqual, useSelector } from 'react-redux';
+import Search from '@material-ui/icons/Search'
+import * as Icons from '../../../../components/Icons/index'
+import SaveAlt from '@material-ui/icons/SaveAlt'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import ChevronRight from '@material-ui/icons/ChevronRight'
+import FirstPage from '@material-ui/icons/FirstPage'
+import LastPage from '@material-ui/icons/LastPage'
+import Check from '@material-ui/icons/Check'
+import Remove from '@material-ui/icons/Remove'
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import Clear from "@material-ui/icons/Clear";
 import jwt from "jsonwebtoken";
+import MaterialTable from '@material-table/core';
 
 
 const Index = () => {
@@ -14,7 +26,9 @@ const Index = () => {
     const [targRec, setTargRec] = useState(() => []);
     const [showAssmt, setShowAssmt] = useState(false);
     const [showReg, setShowReg] = useState(false);
+    const [showRegTab, setShowRegTab] = useState(false);
     const [assReport, setAssReport] = useState(() => [])
+    const [tpList, setTpList] = useState(() => [])
     const router = useRouter()
     const { targetID, clusterID, targN, targType } = router?.query
 
@@ -27,6 +41,38 @@ const Index = () => {
 
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
+
+
+    const fields = [
+        {
+            title: "KGTIN",
+            field: "KGTIN",
+        },
+        {
+            title: "Name",
+            field: "FullNames",
+        },
+        {
+            title: "Gender",
+            field: "Gender",
+        },
+        {
+            title: "Phone",
+            field: "telephone",
+        },
+        {
+            title: "Tax Office",
+            field: "tax_office",
+        },
+        {
+            title: "Created date",
+            field: "enter_date",
+        },
+
+    ];
+
+    const clusterData = [
+    ]
 
     useEffect(() => {
 
@@ -80,7 +126,7 @@ const Index = () => {
             setIsFetching(false)
         }
     }
-    const RegRep = async () => {
+    const RegRep = async (button) => {
         setIsFetching(true)
         try {
             const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-registration.php', {
@@ -91,9 +137,16 @@ const Index = () => {
                 })
             })
             const regReportFetch = await res.json()
+            setTpList(regReportFetch.body)
             setTotalReg(regReportFetch.totalRec)
             setIsFetching(false)
-            setShowReg(true)
+            if (button === "list") {
+                setShowRegTab(true)
+                setShowReg(!true)
+            } else {
+                setShowRegTab(!true)
+                setShowReg(true)
+            }
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -124,20 +177,20 @@ const Index = () => {
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     {targType === "Assessment" ?
                         <div className="grid grid-cols-2 gap-4 content-between">
-                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={AssessmentRep}>Assessment</button>
-                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={AssessmentRep}>Overview</button>
+                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md">List</button>
                         </div> :
                         <div>
                             {targType === "Taxpayers" ?
                                 <div className="grid grid-cols-2 gap-4 content-between">
-                                    <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md" onClick={RegRep}>Registration </button>
-                                    <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                                    <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("overview")}>Overview </button>
+                                    <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("list")}>List</button>
                                 </div> :
                                 <div>
                                     {targType === "Collection" ?
                                         <div className="grid grid-cols-2 gap-4 content-between">
-                                            <button className="bg-yellow-600 p-4 text-white rounded-xl shadow-md">Collection </button>
-                                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md"> Over view</button>
+                                            <button className="bg-yellow-600 p-4 text-white rounded-xl shadow-md">Overview</button>
+                                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md">List</button>
                                         </div> : ""
                                     }
                                 </div>
@@ -176,6 +229,53 @@ const Index = () => {
 
             }
 
+            {
+                showRegTab && (
+                    <div>
+                        <MaterialTable title="Taxpayer List"
+                            data={tpList}
+                            columns={fields}
+
+                            options={{
+                                search: true,
+                                paging: true,
+                                filtering: true,
+                                actionsColumnIndex: -1,
+                                exportMenu: [
+                                    {
+                                        label: "Export PDF",
+                                        exportFunc: (cols, datas) =>
+                                            ExportPdf(cols, datas, "myPdfFileName"),
+                                    },
+                                    {
+                                        label: "Export CSV",
+                                        exportFunc: (cols, datas) =>
+                                            ExportCsv(cols, datas, "myCsvFileName"),
+                                    },
+                                ],
+                                exportAllData: true,
+
+                            }}
+                            icons={{
+                                Check: Check,
+                                DetailPanel: ChevronRight,
+                                Export: SaveAlt,
+                                Filter: () => <Icons.Filter />,
+                                FirstPage: FirstPage,
+                                LastPage: LastPage,
+                                NextPage: ChevronRight,
+                                PreviousPage: ChevronLeft,
+                                Search: Search,
+                                ThirdStateCheck: Remove,
+                                Clear: Clear,
+                                SortArrow: ArrowDownward
+                            }}
+                        />
+                    </div>
+
+                )
+
+            }
         </>
     )
 }
