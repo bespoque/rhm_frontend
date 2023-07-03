@@ -581,6 +581,16 @@ const initialState = [
               },
             ],
           },
+          {
+            title: 'Cluster Head',
+            items: [
+              {
+                title: 'View',
+                url: '/cluster-management/my-cluster/list',
+                items: [],
+              },
+            ],
+          },
         ],
       },
     ],

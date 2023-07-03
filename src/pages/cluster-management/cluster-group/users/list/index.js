@@ -13,7 +13,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { Delete } from "@material-ui/icons";
+import { Delete, BarChart } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 
 
@@ -22,10 +22,6 @@ const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
     const fields = [
-        {
-            title: "Cluster id",
-            field: "cluster_id",
-        },
         {
             title: "User email",
             field: "staffid",
@@ -89,6 +85,13 @@ const index = () => {
 
                 actions={
                     [
+                        {
+                            icon: BarChart,
+                            tooltip: 'report',
+                            onClick: (event, rowData) => {
+                                router.push(`/cluster-management/my-cluster/dash?targetID=${rowData.target_id}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}&targType=${rowData.target_type}`)
+                            }
+                        },
 
                         {
                             icon: Delete,

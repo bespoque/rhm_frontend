@@ -111,7 +111,7 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="Individual Cluster target list"
+            <MaterialTable title="my cluster list"
                 data={clusterData}
                 columns={fields}
 

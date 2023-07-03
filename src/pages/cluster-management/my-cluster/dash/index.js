@@ -30,6 +30,8 @@ const Index = () => {
     const [showRegTab, setShowRegTab] = useState(false);
     const [assReport, setAssReport] = useState(() => [])
     const [tpList, setTpList] = useState(() => [])
+    const [regcol, SetregCol] = useState(() => "")
+    const [assmtCol, SetAssmtCol] = useState(() => "")
     const router = useRouter()
     const { targetID, clusterID, targN, targType } = router?.query
 
@@ -175,6 +177,8 @@ const Index = () => {
             const regReportFetch = await res.json()
             setTpList(regReportFetch.body)
             setTotalReg(regReportFetch.totalRec)
+            SetregCol(regReportFetch.collection)
+            SetAssmtCol(regReportFetch.collection)
             setIsFetching(false)
             if (button === "list") {
                 setShowRegTab(true)
@@ -246,7 +250,7 @@ const Index = () => {
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(30000)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(assmtCol)}</button>
                         </div>
                     </div>
                 )
@@ -260,7 +264,7 @@ const Index = () => {
                         <div className="grid grid-cols-3 gap-4 content-between">
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Registration: {formatNumber(TotalReg)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalReg) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(20000)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(regcol)}</button>
                         </div>
                     </div>
                 )
