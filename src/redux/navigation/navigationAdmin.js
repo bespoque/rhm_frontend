@@ -586,7 +586,7 @@ const initialState = [
             items: [
               {
                 title: 'View',
-                url: '/cluster-management/my-cluster/list',
+                url: '/cluster-management/cluster-head/list-clusters',
                 items: [],
               },
             ],

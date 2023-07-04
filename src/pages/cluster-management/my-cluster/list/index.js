@@ -88,7 +88,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, []);
+    }, [router]);
 
     let formData = new FormData()
     formData.append("test", "Test")

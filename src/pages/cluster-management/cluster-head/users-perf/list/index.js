@@ -1,7 +1,8 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../../components/Icons/index';
+import * as Icons from '../../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -12,42 +13,64 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { Delete, BarChart } from "@material-ui/icons";
-import { useRouter } from 'next/router';
+import { formatNumber } from '../../../../../functions/numbers';
+import { BarChart } from "@material-ui/icons";
+
 
 
 const index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
+    const {userEmail} = router?.query
     const fields = [
         {
-            title: "User email",
-            field: "staffid",
+            title: "Cluster name",
+            field: "cluster_name",
+        },
+        {
+            title: "Target name",
+            field: "target_name",
+        },
+        {
+            title: "Target goal",
+            field: "target_goal",
+            render: (rowData) => {
+                return formatNumber(rowData.target_goal)
+            },
+        },
+        {
+            title: "Start date",
+            field: "target_startdate",
+        },
+        {
+            title: "Deadline",
+            field: "target_deadline",
+        },
+        {
+            title: "Target type",
+            field: "target_type",
         },
         {
             title: "Status",
-            field: "status",
+            field: "target_status",
         },
-        {
-            title: "Created time",
-            field: "createtime",
-        },
-    ];
-    const { id } = router.query;
-    useEffect(() => {
 
+    ];
+
+
+
+    useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
-
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-users-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/target-user-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "cluster_id": id
+                        "user_email": userEmail
                     })
                 })
+
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
             } catch (error) {
@@ -55,11 +78,9 @@ const index = () => {
             } finally {
                 setIsFetching(false)
             }
-
         }
         fetchPost();
     }, [router]);
-
 
 
     return (
@@ -79,7 +100,7 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="Cluster members"
+            <MaterialTable title="user cluster list"
                 data={clusterData}
                 columns={fields}
 
@@ -89,17 +110,11 @@ const index = () => {
                             icon: BarChart,
                             tooltip: 'report',
                             onClick: (event, rowData) => {
-                                router.push(`/cluster-management/cluster-head/users-perf/list?userEmail=${rowData.staffid}`)
+                                router.push(`/cluster-management/cluster-head/users-perf/dash?targetID=${rowData.target_id}&userEmail=${userEmail}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}&targType=${rowData.target_type}`)
                             }
                         },
-
-                        {
-                            icon: Delete,
-                            tooltip: 'Remove user',
-                            // onClick: (event, rowData) => router.push(`/payer-profile/${rowData.KGTIN}`),
-
-                        },
-                    ]}
+                    ]
+                }
 
                 options={{
                     search: true,
@@ -119,6 +134,7 @@ const index = () => {
                         },
                     ],
                     exportAllData: true,
+
                 }}
                 icons={{
                     Check: Check,
@@ -134,8 +150,6 @@ const index = () => {
                     Clear: Clear,
                     SortArrow: ArrowDownward
                 }}
-
-
             />
         </>
     )
