@@ -188,7 +188,8 @@ const Index = () => {
     return (
         <>
             {isFetching && <ProcessorSpinner />}
-            {/* <SectionTitle subtitle={reportHeader} /> */}
+                <h6>Cluster member report</h6>
+                <p>{userEmail}</p>
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
 
