@@ -196,6 +196,7 @@ const Index = () => {
                     <article className="p-6">
 
                         <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
+                        <p className="font-bold"><span className="text-base">Target Type</span> : <span>{targRec.target_type}</span></p>
                         <p className="font-bold"><span className="text-base">Target Goal</span> : <span>{formatNumber(targRec?.target_goal)}</span></p>
                         <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
                         <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
