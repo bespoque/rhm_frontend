@@ -241,7 +241,7 @@ const Index = () => {
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(assmtCol)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Collection from Assessments: {formatNumber(assmtCol)}</button>
                         </div>
                     </div>
                 )
