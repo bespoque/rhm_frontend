@@ -140,7 +140,7 @@ const Index = () => {
     const AssessmentRep = async (button) => {
         setIsFetching(true)
         try {
-            const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-assessment.php', {
+            const res = await fetch('https://bespoque.dev/rhm/cluster/target-atm-assessment.php', {
                 method: 'POST',
                 body: JSON.stringify({
                     "target_id": targetID,
@@ -200,7 +200,7 @@ const Index = () => {
     return (
         <>
             {isFetching && <ProcessorSpinner />}
-            {/* <SectionTitle subtitle={reportHeader} /> */}
+            <h6> Target Performance </h6>
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
 

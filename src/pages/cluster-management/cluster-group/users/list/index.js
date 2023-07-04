@@ -89,7 +89,7 @@ const index = () => {
                             icon: BarChart,
                             tooltip: 'report',
                             onClick: (event, rowData) => {
-                                router.push(`/cluster-management/cluster-head/users-perf/list?userEmail=${rowData.staffid}`)
+                                router.push(`/cluster-management/cluster-head/users-perf/list?userEmail=${rowData.staffid}&clustId=${id}`)
                             }
                         },
 

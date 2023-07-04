@@ -22,12 +22,6 @@ const index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
     const fields = [
-        // {
-        //   title: "SN",
-        //   field: "serialNo",
-        //   filtering: false,
-        //   width: "10%"
-        // },
         {
             title: "Name",
             field: "cluster_name",

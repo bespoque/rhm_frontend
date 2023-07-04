@@ -21,8 +21,10 @@ import { BarChart } from "@material-ui/icons";
 const index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
+    const [userClusters, setUserClusters] = useState(() => []);
+
     const router = useRouter()
-    const {userEmail} = router?.query
+    const {userEmail, clustId} = router?.query
     const fields = [
         {
             title: "Cluster name",
@@ -73,6 +75,9 @@ const index = () => {
 
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
+                const filteredData = (dataFetch.body).filter(item => item.cluster_id === clustId);
+                console.log("filteredData", filteredData);
+                setUserClusters(filteredData)
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -81,6 +86,8 @@ const index = () => {
         }
         fetchPost();
     }, [router]);
+
+
 
 
     return (
@@ -101,7 +108,7 @@ const index = () => {
             )}
 
             <MaterialTable title="user cluster list"
-                data={clusterData}
+                data={userClusters}
                 columns={fields}
 
                 actions={
