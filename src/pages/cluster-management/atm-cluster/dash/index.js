@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { formatNumber } from 'accounting';
-import { ProcessorSpinner } from '../../../../../components/spiner/index';
+import { ProcessorSpinner } from '../../../../components/spiner/index';
+import { shallowEqual, useSelector } from 'react-redux';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../../components/Icons/index'
+import * as Icons from '../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,6 +14,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
+import jwt from "jsonwebtoken";
 import MaterialTable from '@material-table/core';
 
 
@@ -26,15 +28,22 @@ const Index = () => {
     const [showReg, setShowReg] = useState(false);
     const [showAssmtTab, setAssmtTab] = useState(false);
     const [showRegTab, setShowRegTab] = useState(false);
-    const [showTotalCol, setShowTotalCol] = useState(false);
     const [assReport, setAssReport] = useState(() => [])
     const [tpList, setTpList] = useState(() => [])
     const [regcol, SetregCol] = useState(() => "")
     const [assmtCol, SetAssmtCol] = useState(() => "")
-    const [colToTotal, setColTotal] = useState(() => "")
     const router = useRouter()
-    const { targetID, clusterID, targN, targType, userEmail } = router?.query
+    const { targetID, clusterID, targN, targType } = router?.query
 
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
+
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
 
 
     const fields = [
@@ -131,11 +140,11 @@ const Index = () => {
     const AssessmentRep = async (button) => {
         setIsFetching(true)
         try {
-            const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-assessment.php', {
+            const res = await fetch('https://bespoque.dev/rhm/cluster/target-atm-assessment.php', {
                 method: 'POST',
                 body: JSON.stringify({
                     "target_id": targetID,
-                    "user_id": userEmail
+                    "cluster_head": clustRec?.cluster_head
                 })
             })
             const assReportFetch = await res.json()
@@ -149,7 +158,6 @@ const Index = () => {
                 setAssmtTab(!true)
                 setShowAssmt(true)
             }
-            setShowTotalCol(false)
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -159,11 +167,11 @@ const Index = () => {
     const RegRep = async (button) => {
         setIsFetching(true)
         try {
-            const res = await fetch('https://bespoque.dev/rhm/cluster/target-revenueofficer-registration.php', {
+            const res = await fetch('https://bespoque.dev/rhm/cluster/target-atm-registration.php', {
                 method: 'POST',
                 body: JSON.stringify({
                     "target_id": targetID,
-                    "user_id": userEmail
+                    "cluster_head": clustRec?.cluster_head
                 })
             })
             const regReportFetch = await res.json()
@@ -179,7 +187,7 @@ const Index = () => {
                 setShowRegTab(!true)
                 setShowReg(true)
             }
-            setShowTotalCol(false)
+
         } catch (error) {
             console.error('Server Error:', error)
         } finally {
@@ -188,64 +196,17 @@ const Index = () => {
     }
 
 
-    const totalUserCol = () => {
-        setIsFetching(true)
-        const registrationOnlyPayload = {
-            target_id: "18",
-            user_id: userEmail,
-        };
-
-        const assessmentOnlyPayload = {
-            target_id: "18",
-            user_id: userEmail,
-        };
-
-        const registrationOnlyPromise = fetch("https://bespoque.dev/rhm/cluster/target-revenueofficer-registrationonly.php", {
-            method: "POST",
-            body: JSON.stringify(registrationOnlyPayload),
-        });
-
-        const assessmentOnlyPromise = fetch("https://bespoque.dev/rhm/cluster/target-revenueofficer-assessmentOnly.php", {
-            method: "POST",
-            body: JSON.stringify(assessmentOnlyPayload),
-        });
-        Promise.all([registrationOnlyPromise, assessmentOnlyPromise])
-            .then((responses) => {
-                const registrationOnlyResponse = responses[0].json();
-                const assessmentOnlyResponse = responses[1].json();
-
-                return Promise.all([registrationOnlyResponse, assessmentOnlyResponse]);
-            })
-            .then(([registrationOnlyData, assessmentOnlyData]) => {
-                setIsFetching(false)
-                console.log("Response from target-revenueofficer-registrationonly:", registrationOnlyData);
-                console.log("Response from target-revenueofficer-assessmentOnly:", assessmentOnlyData);
-                setColTotal((registrationOnlyData.collection) + (assessmentOnlyData.collection))
-                setShowTotalCol(true)
-                setAssmtTab(false)
-                setShowAssmt(false)
-                // Handle the response data here
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                setIsFetching(false)
-                // Handle any error that occurred during the requests
-            });
-    };
-
 
     return (
         <>
             {isFetching && <ProcessorSpinner />}
-            <h6>Cluster member report</h6>
-            <p>{userEmail}</p>
+            <h6> Target Performance </h6>
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
                 <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
 
                     <article className="p-6">
 
                         <p className="font-bold"><span className="text-base">Target</span> : <span>{targN}</span></p>
-                        <p className="font-bold"><span className="text-base">Target Type</span> : <span>{targRec.target_type}</span></p>
                         <p className="font-bold"><span className="text-base">Target Goal</span> : <span>{formatNumber(targRec?.target_goal)}</span></p>
                         <p className="font-bold"><span className="text-base">Start</span> : <span>{targRec?.target_startdate}</span></p>
                         <p className="font-bold"> <span className="text-base">Deadline</span>: <span>{targRec?.target_deadline}</span></p>
@@ -256,25 +217,24 @@ const Index = () => {
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     {targType === "Assessment" ?
-                        <div>
-                            <div className="grid grid-cols-2 gap-4 content-between">
-                                <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("overview")}>Overview</button>
-                                <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("list")}>List</button>
-                            </div>
-                            <button className="bg-green-600 my-3 p-4 text-white flex mx-auto rounded-xl shadow-md" onClick={() => totalUserCol()}>Total collection</button>
-
-                        </div>
-                        :
+                        <div className="grid grid-cols-2 gap-4 content-between">
+                            <button className="bg-pink-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("overview")}>Overview</button>
+                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => AssessmentRep("list")}>List</button>
+                        </div> :
                         <div>
                             {targType === "Taxpayers" ?
+                                <div className="grid grid-cols-2 gap-4 content-between">
+                                    <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("overview")}>Overview </button>
+                                    <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("list")}>List</button>
+                                </div> :
                                 <div>
-                                    <div className="grid grid-cols-2 gap-4 content-between">
-                                        <button className="bg-blue-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("overview")}>Overview </button>
-                                        <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md" onClick={() => RegRep("list")}>List</button>
-                                    </div>
-                                    <button className="bg-green-600 my-3 p-4 text-white flex mx-auto rounded-xl shadow-md" onClick={() => totalUserCol()}>Total collection</button>
+                                    {targType === "Collection" ?
+                                        <div className="grid grid-cols-2 gap-4 content-between">
+                                            <button className="bg-yellow-600 p-4 text-white rounded-xl shadow-md">Overview</button>
+                                            <button className="bg-purple-600 p-4 text-white rounded-xl shadow-md">List</button>
+                                        </div> : ""
+                                    }
                                 </div>
-                                : ""
                             }
 
                         </div>
@@ -291,7 +251,7 @@ const Index = () => {
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Assessment: {formatNumber(assReport?.length)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Assessment Amount: {formatNumber(TotalAssAmt)} </button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalAssAmt) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Collection from Assessments: {formatNumber(assmtCol)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(assmtCol)}</button>
                         </div>
                     </div>
                 )
@@ -305,25 +265,12 @@ const Index = () => {
                         <div className="grid grid-cols-3 gap-4 content-between">
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Number of Registration: {formatNumber(TotalReg)}</button>
                             <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Percentage Performance: {`${((Number(TotalReg) / Number(targRec?.target_goal)) * 100).toFixed(2)} %`}</button>
-                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Collection from Taxpayer Reg: {formatNumber(regcol)}</button>
+                            <button className="bg-white p-4 text-dark rounded-xl shadow-md font-bold">Total Collection Amount: {formatNumber(regcol)}</button>
                         </div>
-                        <button className="bg-white my-3 p-4 text-green-600 flex mx-auto rounded-xl shadow-md font-bold">Total collection: {formatNumber(regcol)}</button>
                     </div>
                 )
 
             }
-
-            {
-                showTotalCol && (
-                    <div className="w-full lg:w-2/2 w-full max-w-md mx-auto bg-white rounded-xl overflow-hidden md:max-w-2xl p-4">
-                        <p className="my-3 text-center">Total Collection</p>
-                        <button className="bg-white my-3 p-4 text-green-600 flex mx-auto rounded-xl shadow-md font-bold">Total collection: {formatNumber(colToTotal)}</button>
-                    </div>
-                )
-
-            }
-
-
 
             {
                 showRegTab && (

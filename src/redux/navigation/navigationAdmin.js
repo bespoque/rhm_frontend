@@ -351,102 +351,102 @@ const initialState = [
         ],
       },
 
-      {
-        url: '/',
-        icon: <Settings />,
-        title: 'Settings',
-        items: [
-          {
-            title: 'Revenue Items',
-            items: [
-              { title: 'Create', url: '/', items: [] },
-              {
-                title: 'View',
-                url: '/',
-                items: [],
-              },
-              {
-                title: 'Edit',
-                url: '/',
-                items: [],
-              },
-              {
-                title: 'Delete',
-                url: '/',
-                items: [],
-              },
-            ],
-          },
+      // {
+      //   url: '/',
+      //   icon: <Settings />,
+      //   title: 'Settings',
+      //   items: [
+      //     {
+      //       title: 'Revenue Items',
+      //       items: [
+      //         { title: 'Create', url: '/', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Edit',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Delete',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
 
-          {
-            title: 'Tax Office',
-            items: [
-              { title: 'Create', url: '/', items: [] },
-              {
-                title: 'View',
-                url: '/',
-                items: [],
-              },
-              { title: 'Edit', url: '/', items: [] },
-              { title: 'Delete', url: '/', items: [] },
+      //     {
+      //       title: 'Tax Office',
+      //       items: [
+      //         { title: 'Create', url: '/', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //         { title: 'Edit', url: '/', items: [] },
+      //         { title: 'Delete', url: '/', items: [] },
 
-            ],
-          },
-          {
-            title: 'Sectors',
-            items: [
-              { title: 'Create', url: '/', items: [] },
-              { title: 'View', url: '/', items: [] },
-              {
-                title: 'Edit',
-                url: '/',
-                items: [],
-              },
-              {
-                title: 'Delete',
-                url: '/',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Budget Estimate',
-            items: [
-              { title: 'Create', url: '/', items: [] },
-              { title: 'View', url: '/', items: [] },
-              {
-                title: 'Edit',
-                url: '/',
-                items: [],
-              },
-              {
-                title: 'Delete',
-                url: '/',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Business Type',
-            items: [
-              { title: 'Create', url: '/settings/business-type/create', items: [] },
-              { title: 'View', url: '/settings/view-business-type', items: [] },
-              // {
-              //   title: 'Edit',
-              //   url: '/',
-              //   items: [],
-              // },
-            ],
-          },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Sectors',
+      //       items: [
+      //         { title: 'Create', url: '/', items: [] },
+      //         { title: 'View', url: '/', items: [] },
+      //         {
+      //           title: 'Edit',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Delete',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Budget Estimate',
+      //       items: [
+      //         { title: 'Create', url: '/', items: [] },
+      //         { title: 'View', url: '/', items: [] },
+      //         {
+      //           title: 'Edit',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Delete',
+      //           url: '/',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Business Type',
+      //       items: [
+      //         { title: 'Create', url: '/settings/business-type/create', items: [] },
+      //         { title: 'View', url: '/settings/view-business-type', items: [] },
+      //         // {
+      //         //   title: 'Edit',
+      //         //   url: '/',
+      //         //   items: [],
+      //         // },
+      //       ],
+      //     },
 
-          {
-            title: 'Audit Receipt',
-            items: [
-              { title: 'Generate', url: '/view/tax-audit', items: [] },
-            ],
-          },
-        ],
-      },
+      //     {
+      //       title: 'Audit Receipt',
+      //       items: [
+      //         { title: 'Generate', url: '/view/tax-audit', items: [] },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
         url: '/',
         icon: <Settings />,
@@ -587,6 +587,16 @@ const initialState = [
               {
                 title: 'View',
                 url: '/cluster-management/cluster-head/list-clusters',
+                items: [],
+              },
+            ],
+          },
+          {
+            title: 'Area Tax Manager',
+            items: [
+              {
+                title: 'View',
+                url: '/cluster-management/atm-cluster/list-clusters',
                 items: [],
               },
             ],

@@ -24,7 +24,7 @@ const index = () => {
     const [userClusters, setUserClusters] = useState(() => []);
 
     const router = useRouter()
-    const { userEmail, clustId } = router?.query
+    const {userEmail, clustId} = router?.query
     const fields = [
         {
             title: "Cluster name",
@@ -107,7 +107,7 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="cluster member target list"
+            <MaterialTable title="user cluster list"
                 data={userClusters}
                 columns={fields}
 

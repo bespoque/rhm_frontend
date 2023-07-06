@@ -9,10 +9,11 @@ import Modal from 'react-modal';
 
 const index = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [definiData, setDefiniData] = useState(() => []);
-    const [isFetching, setIsFetching] = useState(() => false);
-    const [inputValue, setInputValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
+    const [inputValue, setInputValue] = useState(null);
+    const [emailValue, setEmailValue] = useState(null);
+    const [atminputValue, setAtmInputValue] = useState('');
+    const [atmemailValue, setAtmEmailValue] = useState('');
+    const [clickATM, setClickATm] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [jsonData, setJsonData] = useState(null);
 
@@ -23,7 +24,12 @@ const index = () => {
         setInputValue(event.target.value);
     };
 
+    const handleAtmInputChange = (event) => {
+        setAtmInputValue(event.target.value);
+    };
+
     const handleButtonClick = () => {
+        setClickATm(false)
         if (inputValue === "") {
             alert("Please select a cluster head")
         } else {
@@ -32,7 +38,19 @@ const index = () => {
 
         }
     };
+
+    const handleButtonATM = () => {
+        setClickATm(true)
+        if (atminputValue === "") {
+            alert("Please select a cluster ATM")
+        } else {
+            setShowModal(true);
+            fetchAtmData();
+        }
+    };
+    
     const fetchData = () => {
+
         const requestBody = {
             param: inputValue
         };
@@ -46,10 +64,30 @@ const index = () => {
             .catch((error) => console.log(error));
     };
 
+    const fetchAtmData = () => {
+        const requestBody = {
+            param: atminputValue
+        };
+
+        fetch('https://bespoque.dev/rhm/cluster/users-get.php', {
+            method: 'POST',
+            body: JSON.stringify(requestBody)
+        })
+            .then((response) => response.json())
+            .then((data) => setJsonData(data.body))
+            .catch((error) => console.log(error));
+    };
+
     const handleOptionClick = (option) => {
-        setInputValue(option.name);
-        setEmailValue(option.email);
-        setShowModal(false);
+        if (clickATM) {
+            setAtmInputValue(option.name);
+            setAtmEmailValue(option.email);
+            setShowModal(false);
+        } else {
+            setInputValue(option.name);
+            setEmailValue(option.email);
+            setShowModal(false);
+        }
     };
 
     const closeModal = () => {
@@ -58,17 +96,11 @@ const index = () => {
 
 
     async function onSubmit(formData) {
-        console.log("data", formData.app_id);
         setIsSubmitting(true)
-
         try {
             const response = await fetch('https://bespoque.dev/rhm/cluster/cluster-new.php', {
                 method: 'POST',
-                body: JSON.stringify({
-                    "cluster_name": formData.cluster_name,
-                    "cluster_head": formData.cluster_head,
-                    "cluster_status": formData.cluster_status,
-                })
+                body: JSON.stringify(formData)
             })
 
             const dataFetch = await response.json()
@@ -107,83 +139,100 @@ const index = () => {
                     <p>Loading data...</p>
                 )}
             </Modal>
-            {isFetching && (
-                <div className="flex justify-center item mb-2">
-                    <Loader
-                        visible={isFetching}
-                        type="BallTriangle"
-                        color="#00FA9A"
-                        height={19}
-                        width={19}
-                        timeout={0}
-                        className="ml-2"
-                    />
-                    <p>Fetching data...</p>
-                </div>
-            )}
-            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
-                <div className="grid grid-cols-3 gap-2">
-                    <div>
-                        <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
-                        <input
-                            required
-                            type="text"
-                            id="cluster_name"
-                            name="cluster_name"
-                            className="border border-gray-300 p-2 w-full"
-                            ref={register()}
-                        />
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-2/2 w-full max-w-md mx-auto  rounded-xl overflow-hidden md:max-w-2xl p-4">
+                <div>
+                    <div className="grid grid-cols-2 gap-2 my-3">
+                        <div>
+                            <label htmlFor="cluster_name" className="block mb-1">Cluster Name:</label>
+                            <input
+                                required
+                                type="text"
+                                id="cluster_name"
+                                name="cluster_name"
+                                className="border border-gray-300 p-2 w-full"
+                                ref={register()}
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
+                            <select
+                                required
+                                id="cluster_status"
+                                name="cluster_status"
+                                className="border border-gray-300 w-full"
+                                ref={register()}
+                            >
+                                <option value="">Select a status</option>
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="INACTIVE">INACTIVE</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div>
-                        <label className="block mb-1">Cluster Head:</label>
-                        <input
-                            required
-                            type="text"
-                            placeholder='enter email'
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            className="border border-gray-300 p-2 w-full"
-                        />
-                        <input
-                            required
-                            type="text"
-                            id="cluster_head"
-                            name="cluster_head"
-                            value={emailValue}
-                            className="border border-gray-300 p-2 mt-2 w-full"
-                            ref={register()}
-                        />
+                    <div className="grid grid-cols-2 gap-2">
+                        <div>
+                            <label className="block mb-1">Cluster Head:</label>
+                            <input
+                                required
+                                type="text"
+                                placeholder='enter email'
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                className="border border-gray-300 p-2 w-full"
+                            />
+                            <input
+                                required
+                                readOnly
+                                type="text"
+                                id="cluster_head"
+                                name="cluster_head"
+                                value={emailValue}
+                                className="border border-gray-300 p-2 mt-2 w-full"
+                                ref={register()}
+                            />
 
-                        <span className="flex justify-center text-blue-600 font-bold py-2 px-4 
+                            <span className="flex justify-center text-blue-600 font-bold py-2 px-4 
+                            rounded focus:outline-none bg-blue-100 hover:bg-blue-200
+                            focus:shadow-outline cursor-pointer mt-2" onClick={handleButtonClick}><p>Search Cluster Head</p></span>
+                        </div>
+                        <div>
+                            <label className="block mb-1">Area Tax Manager:</label>
+                            <input
+                                required
+                                type="text"
+                                placeholder='enter email'
+                                value={atminputValue}
+                                onChange={handleAtmInputChange}
+                                className="border border-gray-300 p-2 w-full"
+                            />
+                            <input
+                                required
+                                readOnly
+                                type="text"
+                                id="cluster_atm"
+                                name="cluster_atm"
+                                value={atmemailValue}
+                                className="border border-gray-300 p-2 mt-2 w-full"
+                                ref={register()}
+                            />
+
+                            <span className="flex justify-center text-blue-600 font-bold py-2 px-4 
                         rounded focus:outline-none bg-blue-100 hover:bg-blue-200
-                        focus:shadow-outline cursor-pointer mt-2" onClick={handleButtonClick}><p>Search user</p></span>
+                        focus:shadow-outline cursor-pointer mt-2" onClick={handleButtonATM}><p>Search ATM</p></span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-center">
+                        <button
+                            className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
+                                } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Saving...' : 'Create'}
+                        </button>
                     </div>
 
-                    <div>
-                        <label htmlFor="cluster_status" className="block mb-1">Cluster Status:</label>
-                        <select
-                            required
-                            id="cluster_status"
-                            name="cluster_status"
-                            className="border border-gray-300 w-full"
-                            ref={register()}
-                        >
-                            <option value="">Select a status</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="INACTIVE">INACTIVE</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mt-4 flex justify-center">
-                    <button
-                        className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
-                            } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? 'Saving...' : 'Create'}
-                    </button>
                 </div>
             </form>
         </>

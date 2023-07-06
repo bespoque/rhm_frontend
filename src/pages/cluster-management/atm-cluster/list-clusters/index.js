@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../../components/Icons/index'
+import * as Icons from '../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -13,71 +13,59 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { formatNumber } from '../../../../../functions/numbers';
-import { BarChart } from "@material-ui/icons";
-
+import { formatNumber } from '../../../../functions/numbers';
+import jwt from "jsonwebtoken";
+import { BarChart, MoreHoriz } from "@material-ui/icons";
+import { shallowEqual, useSelector } from 'react-redux';
 
 
 const index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
-    const [userClusters, setUserClusters] = useState(() => []);
-
     const router = useRouter()
-    const { userEmail, clustId } = router?.query
     const fields = [
         {
-            title: "Cluster name",
+            title: "Name",
             field: "cluster_name",
         },
         {
-            title: "Target name",
-            field: "target_name",
-        },
-        {
-            title: "Target goal",
-            field: "target_goal",
-            render: (rowData) => {
-                return formatNumber(rowData.target_goal)
-            },
-        },
-        {
-            title: "Start date",
-            field: "target_startdate",
-        },
-        {
-            title: "Deadline",
-            field: "target_deadline",
-        },
-        {
-            title: "Target type",
-            field: "target_type",
+            title: "Cluster Head",
+            field: "cluster_head",
         },
         {
             title: "Status",
-            field: "target_status",
+            field: "cluster_status",
+        },
+        {
+            title: "Created time",
+            field: "createtime",
         },
 
     ];
 
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
 
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
 
     useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
             try {
-                const response = await fetch('https://bespoque.dev/rhm/cluster/target-user-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/cluster/clusters-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "user_email": userEmail
+                        "process": "ok"
                     })
                 })
 
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
-                const filteredData = (dataFetch.body).filter(item => item.cluster_id === clustId);
-                console.log("filteredData", filteredData);
-                setUserClusters(filteredData)
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -85,11 +73,12 @@ const index = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, []);
 
+    const filteredData = clusterData.filter(item => item.cluster_head === emailAdd);
+    const ClusterId = filteredData.length > 0 ? filteredData[0].id : null;
 
-
-
+    console.log("filteredData", filteredData);
     return (
         <>
             {isFetching && (
@@ -107,17 +96,17 @@ const index = () => {
                 </div>
             )}
 
-            <MaterialTable title="cluster member target list"
-                data={userClusters}
+            <MaterialTable title="my cluster list"
+                data={filteredData}
                 columns={fields}
 
                 actions={
                     [
                         {
-                            icon: BarChart,
-                            tooltip: 'report',
+                            icon: MoreHoriz,
+                            tooltip: 'Targets',
                             onClick: (event, rowData) => {
-                                router.push(`/cluster-management/cluster-head/users-perf/dash?targetID=${rowData.target_id}&userEmail=${userEmail}&clusterID=${rowData.target_cluster_id}&targN=${rowData.target_name}&targType=${rowData.target_type}`)
+                                router.push(`/cluster-management/cluster-head/list-targets?clusterID=${ClusterId}`)
                             }
                         },
                     ]
