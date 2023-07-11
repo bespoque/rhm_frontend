@@ -11,20 +11,7 @@ const ViewDirectAssessment = () => {
   // const [postPerPage, setPostPerPage] = useState(() => 10);
   // const [year, setYear] = useState('');
   // const [query, setQuery] = useState(() => "");
-  useEffect(() => {
-    setAuthToken();
-    const fetchPost = async () => {
-      try {
 
-
-
-      } catch (e) {
-
-
-      }
-    };
-    fetchPost();
-  }, []);
 
   return (
     <>

@@ -7,7 +7,7 @@ import Loader from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 
-const index = () => {
+const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFetching, setIsFetching] = useState(() => true);
   const [clustDetail, setClustDetail] = useState(() => []);
@@ -39,7 +39,7 @@ const index = () => {
       }
     };
     fetchPost();
-  }, [router]);
+  }, [id]);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -216,4 +216,4 @@ const index = () => {
     </>
   )
 }
-export default index
+export default Index

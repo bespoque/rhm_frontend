@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import SectionTitle from '../../../../components/section-title';
 
-const index = () => {
+const Index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formattedNumber, setFormattedNumber] = useState('');
@@ -34,7 +34,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [id]);
 
 
 
@@ -205,4 +205,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index

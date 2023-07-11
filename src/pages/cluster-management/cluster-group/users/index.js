@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-const index = () => {
+const Index = () => {
     const [clusterData, setClusterData] = useState(() => []);
     const [inputValue, setInputValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
@@ -192,4 +192,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index

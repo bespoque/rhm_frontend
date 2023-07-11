@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SectionTitle from '../../components/section-title'
 import setAuthToken from '../../functions/setAuthToken';
 import axios from "axios";
+import * as Icons from '../../components/Icons/index';
 import Loader from "react-loader-spinner";
 import url from "../../config/url";
 import { formatNumber } from 'accounting';

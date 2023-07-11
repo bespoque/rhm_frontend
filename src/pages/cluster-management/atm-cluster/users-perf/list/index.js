@@ -18,7 +18,7 @@ import { BarChart } from "@material-ui/icons";
 
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const [userClusters, setUserClusters] = useState(() => []);
@@ -161,4 +161,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

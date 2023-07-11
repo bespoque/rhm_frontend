@@ -15,9 +15,10 @@ import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { formatNumber } from '../../../../functions/numbers';
 import { BarChart, Edit } from "@material-ui/icons";
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
@@ -169,4 +170,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

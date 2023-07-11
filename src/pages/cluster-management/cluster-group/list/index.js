@@ -17,7 +17,7 @@ import { Edit, GroupRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
@@ -145,4 +145,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

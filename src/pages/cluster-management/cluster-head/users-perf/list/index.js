@@ -18,7 +18,7 @@ import { BarChart } from "@material-ui/icons";
 
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const [userClusters, setUserClusters] = useState(() => []);
@@ -76,7 +76,6 @@ const index = () => {
                 const dataFetch = await response.json()
                 setClusterData(dataFetch.body)
                 const filteredData = (dataFetch.body).filter(item => item.cluster_id === clustId);
-                console.log("filteredData", filteredData);
                 setUserClusters(filteredData)
             } catch (error) {
                 console.error('Server Error:', error)
@@ -85,7 +84,7 @@ const index = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [clustId, userEmail]);
 
 
 
@@ -123,26 +122,6 @@ const index = () => {
                     ]
                 }
 
-                options={{
-                    search: true,
-                    paging: true,
-                    filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
-                }}
                 icons={{
                     Check: Check,
                     DetailPanel: ChevronRight,
@@ -161,4 +140,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

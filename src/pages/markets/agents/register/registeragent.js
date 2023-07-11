@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 
-const registeragent = () => {
+const Registeragent = () => {
     const [createError, setError] = useState("")
     const [isFetching, setIsFetching] = useState(() => false);
     const router = useRouter();
@@ -107,4 +107,4 @@ const registeragent = () => {
     )
 }
 
-export default registeragent
+export default Registeragent

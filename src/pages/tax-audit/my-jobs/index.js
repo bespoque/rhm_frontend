@@ -18,10 +18,11 @@ import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [jobs, setJobs] = useState(() => []);
     const [startModal, setStartModal] = useState(false);
@@ -298,4 +299,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

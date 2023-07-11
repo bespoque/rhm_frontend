@@ -14,9 +14,11 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 import NewNoteButton from '../components/button';
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
-export default function notifiacklist() {
+
+export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [notifAck, setNotifAck] = useState([]);
     const router = useRouter()
@@ -68,7 +70,7 @@ export default function notifiacklist() {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [JobID]);
 
     return (
         <>

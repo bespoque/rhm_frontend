@@ -17,10 +17,11 @@ import { Delete, BarChart } from "@material-ui/icons";
 import { useRouter } from 'next/router';
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
+    const { id } = router.query;
     const fields = [
         {
             title: "User email",
@@ -35,7 +36,6 @@ const index = () => {
             field: "createtime",
         },
     ];
-    const { id } = router.query;
     useEffect(() => {
 
         async function fetchPost() {
@@ -58,7 +58,7 @@ const index = () => {
 
         }
         fetchPost();
-    }, [router]);
+    }, [id]);
 
 
 
@@ -140,4 +140,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index
