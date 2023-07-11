@@ -14,7 +14,7 @@ import { formatNumber } from 'accounting';
 import { useRouter } from 'next/router';
 
 
-function index() {
+function Index() {
     const [kgtinErr, setKgtinErr] = useState("")
     const [isFetching, setIsFetching] = useState(() => false);
     const [taxpayerInfo, setTaxpayerinfo] = useState([]);
@@ -495,4 +495,4 @@ function index() {
     )
 }
 
-export default index
+export default Index

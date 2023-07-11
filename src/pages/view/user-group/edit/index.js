@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const index = () => {
+const Index = () => {
     const [groupName, setGroupName] = useState('')
     const [role, setRole] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -90,4 +90,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

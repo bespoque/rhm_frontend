@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SectionTitle from '../../../../components/section-title';
 
-const index = () => {
+const Index = () => {
     const [groupName, setGroupName] = useState('')
     const [role, setRole] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -71,4 +71,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

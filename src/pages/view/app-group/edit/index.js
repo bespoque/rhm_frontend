@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const index = () => {
+const Index = () => {
     const [appName, setAppName] = useState('')
     const [appType, setAppType] = useState('')
     const [canSign, setCanSign] = useState('')
@@ -104,4 +104,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

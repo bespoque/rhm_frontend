@@ -6,7 +6,7 @@ import SectionTitle from '../../../../components/section-title';
 import Loader from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
 
-const index = () => {
+const Index = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isFetching, setIsFetching] = useState(() => true);
     const router = useRouter()
@@ -212,4 +212,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index
