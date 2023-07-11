@@ -591,7 +591,6 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
 
   }, []);
 
-  console.log("taxOff", taxOff)
 
   return (
     <>
