@@ -43,7 +43,7 @@
     "madge": "^6.1.0",
     "material-table": "^1.63.0",
     "moment": "^2.29.1",
-    "next": "^13.4.9",
+    "next": "^12.2.2",
     "nprogress": "^0.2.0",
     "number-to-words": "^1.2.4",
     "postcss-import": "^14.0.0",
