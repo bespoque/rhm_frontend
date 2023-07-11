@@ -1,5 +1,4 @@
 const colors = require('tailwindcss/colors');
-
 module.exports = {
   //purge: [],
   purge: {
@@ -808,7 +807,6 @@ module.exports = {
       'hover',
       'focus',
     ],
-
     backgroundImage: ['responsive'],
     backgroundOpacity: [
       'responsive',
