@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import dateformat from "dateformat";
 import Loader from "react-loader-spinner";
 import { ViewSubmittedObjectionTable } from "../tables/viewSubmittedObjection";
+import { formatNumber } from "../../functions/numbers";
 
 
 const ViewSubmittedObjection = () => {
