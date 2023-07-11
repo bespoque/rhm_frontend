@@ -15,7 +15,7 @@ const ErrorPage = () => {
         to the homepage or contact us
       </div>
       <div className="flex w-full">
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a className="btn btn-lg btn-rounded btn-block bg-blue-500 hover:bg-blue-600 text-white">
             Go back
           </a>

@@ -51,11 +51,11 @@ const Screenshots = () => {
           {backgrounds.map((item, i) => (
             <div className="w-full lg:w-1/3 p-8 lg:p-2 text-center" key={i}>
               <div className="flex flex-col mb-2 lg:mb-4">
-                <Link href={item.url}>
+                <Link legacyBehavior href={item.url}>
                   <a className="text-sm uppercase">{item.title}</a>
                 </Link>
                 <div className="overflow-hidden w-full h-64 shadow-lg rounded mt-4">
-                  <Link href={item.url}>
+                  <Link legacyBehavior href={item.url}>
                     <a>
                       <img
                         src={item.img}
@@ -78,11 +78,11 @@ const Screenshots = () => {
           {items.map((item, i) => (
             <div className="w-full lg:w-1/3 p-8 lg:p-2 text-center" key={i}>
               <div className="flex flex-col mb-2 lg:mb-4">
-                <Link href={item.url}>
+                <Link legacyBehavior href={item.url}>
                   <a className="text-sm uppercase">{item.title}</a>
                 </Link>
                 <div className="overflow-hidden w-full h-64 shadow-lg rounded mt-4">
-                  <Link href={item.url}>
+                  <Link legacyBehavior href={item.url}>
                     <a>
                       <img
                         src={item.img}

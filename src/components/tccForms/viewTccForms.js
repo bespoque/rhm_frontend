@@ -1467,7 +1467,7 @@ export const UploadTccForms = ({ tccId }) => {
               className="disabled:opacity-50 bg-white-500 py-2 px-6 rounded-md  text-dark border hover:text-white hover:bg-green-500 hover:border-green-500"
               type="submit"
             >
-              <Link href={`/dashboard`}>Done</Link>
+              <Link legacyBehavior href={`/dashboard`}>Done</Link>
 
             </button>
           </div>

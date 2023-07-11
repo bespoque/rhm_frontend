@@ -16,7 +16,7 @@ const Item = ({url, icon, title, badge, items}) => {
   }
   if (items.length === 0) {
     return (
-      <Link href={url}>
+      <Link legacyBehavior href={url}>
         <a className={`left-sidebar-item ${active ? 'active' : ''}`}>
           {icon}
           <span className="title">{title}</span>

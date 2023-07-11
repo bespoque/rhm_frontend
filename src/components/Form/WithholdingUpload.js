@@ -278,14 +278,14 @@ const WithholdingUploadForm = () => {
             <div>
               <div className="flex justify-center">
                 <div className="flex">
-                  <Link href="/csv/wht.csv">
+                  <Link legacyBehavior href="/csv/wht.csv">
                     <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-green-500 hover:text-green-700 border-green-500 hover:border-green-700">
                       <FiArrowDown size="16" className="animate-bounce" />{' '}
                       Download sample CSV
                     </a>
                   </Link>
 
-                  <Link href="#">
+                  <Link legacyBehavior href="#">
                     <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-blue-500 hover:text-blue-700 border-blue-500 hover:border-blue-700">
                       User Guide
                     </a>
@@ -302,14 +302,14 @@ const WithholdingUploadForm = () => {
             <div>
               <div className="flex justify-center">
                 <div className="flex">
-                  <Link href="/csv/wht_interest.csv">
+                  <Link legacyBehavior href="/csv/wht_interest.csv">
                     <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-green-500 hover:text-green-700 border-green-500 hover:border-green-700">
                       <FiArrowDown size="16" className="animate-bounce" />{' '}
                       Download sample CSV
                     </a>
                   </Link>
 
-                  <Link href="#">
+                  <Link legacyBehavior href="#">
                     <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-blue-500 hover:text-blue-700 border-blue-500 hover:border-blue-700">
                       User Guide
                     </a>

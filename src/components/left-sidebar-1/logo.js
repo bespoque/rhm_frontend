@@ -17,7 +17,7 @@ const Logo = () => {
   if (showLogo) {
     return (
       <div className="logo truncate">
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a className="flex flex-row items-center justify-start space-x-2">
             <RHMLogo size={28} />
             {/* <span className="text-green-600">{name}</span> */}

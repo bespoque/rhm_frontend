@@ -329,7 +329,7 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                 className="btn bg-green-600 mb-3 btn-default text-white btn-outlined bg-transparent rounded-md"
                 type="submit"
               >
-                <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
               </button>
               <div>
                 <p className="font-bold">Reason for decline</p>
@@ -347,14 +347,14 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                         className="btn bg-green-600 mr-2 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                        <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
                       </button>
 
                       <button
                         className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/tcc/${tccID}`}> Upload Docs</Link>
+                        <Link legacyBehavior href={`/tcc/${tccID}`}> Upload Docs</Link>
                       </button>
 
                     </div>
@@ -391,14 +391,14 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                         className="btn bg-green-600 mr-2 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                        <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
                       </button>
 
                       <button
                         className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/tcc/${tccID}`}> Upload Docs</Link>
+                        <Link legacyBehavior href={`/tcc/${tccID}`}> Upload Docs</Link>
                       </button>
 
                     </div>
@@ -434,14 +434,14 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                         className="btn bg-green-600 mr-2 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                        <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
                       </button>
 
                       <button
                         className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/tcc/${tccID}`}> Upload Docs</Link>
+                        <Link legacyBehavior href={`/tcc/${tccID}`}> Upload Docs</Link>
                       </button>
 
                     </div>
@@ -476,14 +476,14 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                         className="btn bg-green-600 mr-2 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                        <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
                       </button>
 
                       <button
                         className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/tcc/${tccID}`}> Upload Docs</Link>
+                        <Link legacyBehavior href={`/tcc/${tccID}`}> Upload Docs</Link>
                       </button>
 
                     </div>
@@ -519,14 +519,14 @@ export const ViewSingleTccTable = ({ tccID, payerDetails, assessmentData, assess
                         className="btn bg-green-600 mr-2 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
+                        <Link legacyBehavior href={`/view-tcc-docs/${tccID}`}> View Documents</Link>
                       </button>
 
                       <button
                         className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
                       >
-                        <Link href={`/tcc/${tccID}`}> Upload Docs</Link>
+                        <Link legacyBehavior href={`/tcc/${tccID}`}> Upload Docs</Link>
                       </button>
 
                     </div>

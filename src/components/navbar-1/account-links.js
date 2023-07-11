@@ -40,7 +40,7 @@ const AccountLinks = () => {
       <ul className="list-none">
         {items.map((item, i) => (
           <li key={i} className="dropdown-item">
-            <Link href={item.url}>
+            <Link legacyBehavior href={item.url}>
               <a className="flex flex-row items-center justify-start h-10 w-full px-2">
                 {item.icon}
                 <span className="mx-2">{item.name}</span>

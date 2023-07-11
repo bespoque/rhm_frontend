@@ -48,8 +48,6 @@ const LeftSidebar = () => {
     fetchPost();
   }, []);
 
-  console.log("appNames", appNames);
-
   const appNames = userInfo?.map(app => app.appName);
 
   if (appNames?.includes("Taxpyer") || appNames?.includes("Assessment") || appNames?.includes("Collection")) {

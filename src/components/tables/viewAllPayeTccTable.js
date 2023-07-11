@@ -607,7 +607,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                       className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                       type="submit"
                     >
-                      <Link href={`/tcc/paye/${tccID}_${payerDetails.tp_id}`}> Upload Docs</Link>
+                      <Link legacyBehavior href={`/tcc/paye/${tccID}_${payerDetails.tp_id}`}> Upload Docs</Link>
                     </button>
 
                   </div>
@@ -949,7 +949,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
               : ""
@@ -961,7 +961,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
 
@@ -1012,7 +1012,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined w-full bg-transparent rounded-md"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
               : ""
@@ -1023,7 +1023,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined w-full bg-transparent rounded-md"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
 
@@ -1072,7 +1072,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent w-full rounded"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
               : ""
@@ -1083,7 +1083,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
                   className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent w-full rounded"
                   type="submit"
                 >
-                  <Link href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
+                  <Link legacyBehavior href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
                 </button>
               </div>
               : ""

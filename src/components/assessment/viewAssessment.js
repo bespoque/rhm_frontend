@@ -1538,7 +1538,7 @@ export const StartSingleIndividualAssessment = ({ kgtinVal, assessmentYear, paye
         <div className="flex">
           <h6 className="p-2">Taxpayer Information
             <small className="text-blue-600">
-              <Link href={`/update-individual/${kgtinVal}`}>Edit</Link>
+              <Link legacyBehavior href={`/update-individual/${kgtinVal}`}>Edit</Link>
             </small>
           </h6>
         </div>
