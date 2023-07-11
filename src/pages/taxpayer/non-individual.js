@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { SubmitButton } from '../../components/CustomButton/CustomButton'
 import axios from "axios";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
 import { Controller, useForm } from 'react-hook-form';
-import Select from 'react-select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function index() {
+export default function Index() {
     const [department, setDepartment] = useState([])
     const [taxOffice, setTaxOffice] = useState([])
     const [sector, setSector] = useState([])
@@ -14,6 +14,7 @@ export default function index() {
     const [state, setState] = useState([])
     const [lga, setLga] = useState([])
     const [typOfOrg, setTypeOfOrg] = useState([])
+    const [isFetching, setIsFetching] = useState(false)
     const {
         register,
         handleSubmit,
@@ -65,6 +66,7 @@ export default function index() {
 
     return (
         <div>
+            <ToastContainer />
             <div className="block p-6 rounded-lg bg-white w-full">
                 <div className="flex justify-center mb-4">
                     <h6 className="p-2 font-bold">Non-Individual Taxpayer</h6>

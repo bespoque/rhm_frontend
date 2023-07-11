@@ -1,6 +1,5 @@
 import MaterialTable from 'material-table'
 import React, { useEffect, useState } from 'react'
-import { FiPlusCircle } from 'react-icons/fi';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -12,16 +11,15 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
-import Loader from 'react-loader-spinner';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
-export default function jobacklist() {
+export default function Jobacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [jobAck, setJobAck] = useState([]);
     const router = useRouter()
-    const { JobID, Notid } = router?.query
+    const { JobID } = router?.query
 
     const fields = [
         {
@@ -65,7 +63,7 @@ export default function jobacklist() {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [JobID]);
 
     return (
 

@@ -17,9 +17,10 @@ import { formatNumber } from '../../../../functions/numbers';
 import jwt from "jsonwebtoken";
 import { BarChart, MoreHoriz } from "@material-ui/icons";
 import { shallowEqual, useSelector } from 'react-redux';
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 
-const index = () => {
+const Index = () => {
     const [isFetching, setIsFetching] = useState(() => false);
     const [clusterData, setClusterData] = useState(() => []);
     const router = useRouter()
@@ -150,4 +151,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

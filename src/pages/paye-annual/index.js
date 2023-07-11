@@ -12,7 +12,7 @@ import Loader from 'react-loader-spinner';
 import Widget1 from '../../components/dashboard/widget-1';
 
 
-function index() {
+function Index() {
     const [startDate, setStartDate] = useState(new Date());
     const [FilteredData, setFilteredData] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
@@ -127,4 +127,4 @@ function index() {
     )
 }
 
-export default index
+export default Index

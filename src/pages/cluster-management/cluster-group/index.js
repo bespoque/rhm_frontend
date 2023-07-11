@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SectionTitle from '../../../components/section-title';
 import Modal from 'react-modal';
 
-const index = () => {
+const Index = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [inputValue, setInputValue] = useState(null);
     const [emailValue, setEmailValue] = useState(null);
@@ -238,4 +238,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

@@ -12,7 +12,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import Select from 'react-select'
 
-export default function index() {
+export default function Index() {
     const [taxStation, setTaxStation] = useState([])
     const [uploadErrors, setUploadErrors] = useState(() => []);
     const [department, setDepartment] = useState([])

@@ -12,12 +12,11 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import { useRouter } from 'next/router';
-import Loader from 'react-loader-spinner';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
-export default function notifiacklist() {
+export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [notifAck, setNotifAck] = useState([]);
     const router = useRouter()
@@ -66,7 +65,7 @@ export default function notifiacklist() {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [JobID, Notifid]);
 
     return (
 

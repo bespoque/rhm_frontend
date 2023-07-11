@@ -10,7 +10,7 @@ import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
 
 
-export default function index() {
+export default function Index() {
     const [department, setDepartment] = useState([])
     const [taxOffice, setTaxOffice] = useState([])
     const [sector, setSector] = useState([])

@@ -15,6 +15,7 @@ import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
 import { formatNumber } from '../../../../../functions/numbers';
 import { BarChart } from "@material-ui/icons";
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 
 

@@ -11,7 +11,7 @@ import QRCode from 'react-qr-code';
 import ReactToPrint from "react-to-print";
 
 
-export default function index() {
+export default function Index() {
     const [colData, setColData] = useState([]);
     const router = useRouter();
     const componentRef = useRef();
