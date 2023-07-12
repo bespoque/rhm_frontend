@@ -313,7 +313,7 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
           Check: Check,
           DetailPanel: ChevronRight,
           Export: SaveAlt,
-          Filter: () => <Icons.Filter />,
+          Filter: Icons.Filter,
           Delete: () => Delete,
           FirstPage: FirstPage,
           LastPage: LastPage,

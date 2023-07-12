@@ -120,7 +120,7 @@ export const ViewCompletedTable = ({ submittedData }) => {
           Check: Check,
           DetailPanel: ChevronRight,
           Export: SaveAlt,
-          Filter: () => <Icons.Filter />,
+          Filter: Icons.Filter,
           FirstPage: FirstPage,
           LastPage: LastPage,
           NextPage: ChevronRight,
