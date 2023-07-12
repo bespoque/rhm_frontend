@@ -627,14 +627,14 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
               {taxOff === "Anyigba" ?
                 <Widget1
                   color="green"
-                  title="Assessed Amount Collected"
+                  title="Assessed Amount"
                   description={formatNumber("93500")}
                   right={<RevenueItems />}
                 />
                 :
                 <Widget1
                   color="green"
-                  title="Assessed Amount Collected"
+                  title="Assessed Amount"
                   description={formatNumber(ind.amountCollected)}
                   right={<RevenueItems />}
                 />
@@ -646,14 +646,14 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
                 taxOff === "Anyigba" ?
                   <Widget1
                     color="red"
-                    title="Outstanding Assessed Amount"
+                    title="Outstanding Amount"
                     description={formatNumber(Number(ind.amountAssessed) - Number("93500"))}
                     right={<TaxReceipt />}
                   />
                   :
                   <Widget1
                     color="red"
-                    title="Outstanding Assessed Amount"
+                    title="Outstanding Amount"
                     description={formatNumber(OutstandingPaymt)}
                     right={<TaxReceipt />}
                   />
@@ -665,14 +665,14 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
                 taxOff === "Anyigba" ?
                   <Widget1
                     color="red"
-                    title="Unassessed Amount Collected"
+                    title="Unassessed Amount"
                     description={formatNumber("78500")}
                     right={<Unassessed />}
                   />
                   :
                   <Widget1
                     color="red"
-                    title="Unassessed Amount Collected"
+                    title="Unassessed Amount"
                     description={formatNumber(ind.unassessedAmountCollected)}
                     right={<Unassessed />}
                   />

@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import Loader from 'react-loader-spinner';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../components/Icons/index';
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -17,7 +16,6 @@ import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
 // import MaterialTable from 'material-table';
-import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 import { Pie } from 'react-chartjs-2';
 import { formatNumber } from 'accounting';
 import { ProcessorSpinner } from '../../../components/spiner';
@@ -109,7 +107,7 @@ const Collection = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [targetID]);
 
     const targetGoal = targRec.target_goal || 0
 
@@ -153,19 +151,6 @@ const Collection = () => {
                 title="Cluster collection report"
                 data={clusterData}
                 columns={fields}
-
-                // renderSummaryRow={({ column, data }) =>
-                //     column.field === "amount"
-                //         ?
-                //         {
-
-                //             value: formatNumber(perform),
-                //             style: { fontWeight: "bold" },
-                //         }
-                //         :
-                //         undefined
-                // }
-
                 actions={
                     [
 
@@ -189,21 +174,7 @@ const Collection = () => {
                         search: true,
                         paging: true,
                         filtering: true,
-                        actionsColumnIndex: -1,
-                        exportMenu: [
-                            {
-                                label: "Export PDF",
-                                exportFunc: (cols, datas) =>
-                                    ExportPdf(cols, datas, "myPdfFileName"),
-                            },
-                            {
-                                label: "Export CSV",
-                                exportFunc: (cols, datas) =>
-                                    ExportCsv(cols, datas, "myCsvFileName"),
-                            },
-                        ],
-                        exportAllData: true,
-
+                        actionsColumnIndex: -1
                     }
                 }
           

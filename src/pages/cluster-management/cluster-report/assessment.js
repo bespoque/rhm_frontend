@@ -17,7 +17,6 @@ import { MoreHoriz, Payment } from "@material-ui/icons";
 import SectionTitle from '../../../components/section-title';
 import MaterialTable from '@material-table/core';
 // import MaterialTable from 'material-table';
-import { ExportCsv, ExportPdf } from '@material-table/exporters/csv'
 import { Pie } from 'react-chartjs-2';
 import { formatNumber } from 'accounting';
 import { ProcessorSpinner } from '../../../components/spiner';
@@ -176,21 +175,7 @@ const Assessment = () => {
                         search: true,
                         paging: true,
                         filtering: true,
-                        actionsColumnIndex: -1,
-                        exportMenu: [
-                            {
-                                label: "Export PDF",
-                                exportFunc: (cols, datas) =>
-                                    ExportPdf(cols, datas, "myPdfFileName"),
-                            },
-                            {
-                                label: "Export CSV",
-                                exportFunc: (cols, datas) =>
-                                    ExportCsv(cols, datas, "myCsvFileName"),
-                            },
-                        ],
-                        exportAllData: true,
-
+                        actionsColumnIndex: -1
                     }
                 }
 
@@ -208,11 +193,6 @@ const Assessment = () => {
                     Clear: Clear,
                     SortArrow: ArrowDownward
                 }}
-
-            // onRowClick={(event, rowData) => {
-            //     event.stopPropagation();
-            //     window.open(`/cluster-management/cluster-target/edit?id=${rowData.target_id}`, "_self")
-            // }}
             />
         </>
     )
