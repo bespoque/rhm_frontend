@@ -168,7 +168,6 @@ const Collection = () => {
                         },
                     ]
                 }
-
                 options={
                     {
                         search: true,
@@ -177,7 +176,6 @@ const Collection = () => {
                         actionsColumnIndex: -1
                     }
                 }
-          
                 icons={{
                     Check: Check,
                     DetailPanel: ChevronRight,
