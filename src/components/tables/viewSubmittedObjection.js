@@ -120,12 +120,12 @@ export const ViewSubmittedObjectionTable = ({ submittedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-          } else {
-            window.open(`/view/objection/submitted/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/objection/submitted/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
+          // if (userGroup.some(r => reportRange.includes(r))) {
+          //   ''
+          // } else {
+          //   event.stopPropagation();
+          // }
         }}
       />
     </>

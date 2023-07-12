@@ -118,26 +118,25 @@ export const ViewPendingTable = ({ draftData }) => {
           SortArrow: ArrowDownward
         }}
 
-        onRowClick={(event, rowData) => {
+        // onRowClick={(event, rowData) => {
 
-          if (userGroup.some(r => reportRange.includes(r))) {
-           ''
+        //   if (userGroup.some(r => reportRange.includes(r))) {
+        //    ''
             
-          }
+        //   }
 
-          else{
-            rowData.assessment_type === "BOJ" ?
+        //   else{
+        //     rowData.assessment_type === "BOJ" ?
 
-              window.open(`/view/boj/${rowData.assessment_id}_${rowData.year}_${rowData.kgtin}`, "_self")
-              :
+        //       window.open(`/view/boj/${rowData.assessment_id}_${rowData.year}_${rowData.kgtin}`, "_self")
+        //       :
 
-              window.open(`/view/pendingdirect/${rowData.assessment_id}_${rowData.year}_${rowData.kgtin}`, "_self")
+        //       window.open(`/view/pendingdirect/${rowData.assessment_id}_${rowData.year}_${rowData.kgtin}`, "_self")
 
-          }
+        //   }
 
-          // window.open(`/view/individual/${rowData.KGTIN}`)
-          event.stopPropagation();
-        }}
+        //   event.stopPropagation();
+        // }}
       />
     </>
   );
@@ -3794,7 +3793,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog3} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -3890,7 +3889,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog4} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -3962,7 +3961,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog4} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4042,7 +4041,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                       Save
                     </button>
                     <button onClick={formTog5} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                      <a href="">
+                      <a>
                         <FiTriangle
                           size={15}
                           className="stroke-current text-green-500"
@@ -4094,7 +4093,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog5} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4163,7 +4162,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog6} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4210,7 +4209,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog6} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4275,7 +4274,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog7} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4322,7 +4321,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog7} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4408,7 +4407,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog8} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4471,7 +4470,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                         Update
                       </button>
                       <button onClick={formTog8} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                        <a href="">
+                        <a>
                           <FiTriangle
                             size={15}
                             className="stroke-current text-green-500"
@@ -4537,7 +4536,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog9} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4576,7 +4575,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                         Update
                       </button>
                       <button onClick={formTog9} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                        <a href="">
+                        <a>
                           <FiTriangle
                             size={15}
                             className="stroke-current text-green-500"
@@ -4655,7 +4654,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog13} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4713,7 +4712,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog13} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4788,7 +4787,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog14} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4845,7 +4844,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog14} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4915,7 +4914,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Save
                   </button>
                   <button onClick={formTog15} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"
@@ -4966,7 +4965,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
                     Update
                   </button>
                   <button onClick={formTog15} className="h-10 w-10 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
-                    <a href="">
+                    <a>
                       <FiTriangle
                         size={15}
                         className="stroke-current text-green-500"

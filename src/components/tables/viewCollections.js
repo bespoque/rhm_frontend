@@ -1,21 +1,13 @@
 import Widget from "../widget";
-import { formatNumber } from "../../functions/numbers";
 import * as Icons from '../Icons/index';
-import Widget1 from "../dashboard/widget-1";
-import dateformat from "dateformat";
-import Link from 'next/link';
-import CustomButton from "../CustomButton/CustomButton";
 import MaterialTable, { MTableToolbar } from "material-table";
 import Search from '@material-ui/icons/Search'
-import ViewColumn from '@material-ui/icons/ViewColumn'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import FirstPage from '@material-ui/icons/FirstPage'
 import LastPage from '@material-ui/icons/LastPage'
-import Add from '@material-ui/icons/Add'
 import Check from '@material-ui/icons/Check'
-import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
@@ -118,15 +110,7 @@ export const ViewCollectionsTable = ({ remittance }) => {
         }}
 
         onRowClick={(event, rowData) => {
-
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-
-          }
-          else {
-            window.open(`collections/${rowData.idpymt}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`collections/${rowData.idpymt}`, "_self")
         }}
       />
     </>

@@ -137,16 +137,7 @@ export const ViewPayeTccTablePrint = ({ tccdata }) => {
         }}
 
         onRowClick={(event, rowData) => {
-
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-
-          }
-
-          else {
-            window.open(`/view/listpayetcc/${rowData.id}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/listpayetcc/${rowData.id}`, "_self")
         }}
       />
     </>

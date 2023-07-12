@@ -1,6 +1,5 @@
 import { formatNumber } from "../../functions/numbers";
 import * as Icons from '../Icons/index';
-import dateformat from "dateformat";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import 'react-toastify/dist/ReactToastify.css';
@@ -114,12 +113,7 @@ export const ViewApprovedObjectionTable = ({ submittedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-          } else {
-            window.open(`/view/objection/approved/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/objection/approved/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
         }}
       />
     </>

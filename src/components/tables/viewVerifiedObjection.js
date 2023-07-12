@@ -1,7 +1,6 @@
 
 import { formatNumber } from "../../functions/numbers";
 import * as Icons from '../Icons/index';
-import dateformat from "dateformat";
 import setAuthToken from "../../functions/setAuthToken";
 import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
@@ -119,12 +118,7 @@ export const ViewVerifiedObjectionTable = ({ submittedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-          } else {
-            window.open(`/view/objection/verified/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/objection/verified/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
         }}
       />
     </>

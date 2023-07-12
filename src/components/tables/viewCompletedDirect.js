@@ -132,12 +132,7 @@ export const ViewCompletedTable = ({ submittedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-          } else {
-            window.open(`/view/completeddirect/${rowData.assessment_id},${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/completeddirect/${rowData.assessment_id},${rowData.kgtin}`, "_self")
         }}
       />
     </>

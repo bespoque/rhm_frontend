@@ -138,15 +138,15 @@ export const ViewTccPrintTable = ({ tccdata }) => {
 
         onRowClick={(event, rowData) => {
 
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
+          window.open(`/view/listprinttcc/${rowData.id}`, "_self")
+          // if (userGroup.some(r => reportRange.includes(r))) {
+          //   ''
 
-          }
+          // }
 
-          else {
-            window.open(`/view/listprinttcc/${rowData.id}`, "_self")
-            event.stopPropagation();
-          }
+          // else {
+          //   event.stopPropagation();
+          // }
         }}
       />
     </>

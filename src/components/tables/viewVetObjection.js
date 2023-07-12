@@ -1,8 +1,5 @@
-import { formatNumber } from "../../functions/numbers";
+
 import * as Icons from '../Icons/index';
-import dateformat from "dateformat";
-import { useRef, useState } from "react";
-import { useRouter } from "next/router";
 import 'react-toastify/dist/ReactToastify.css';
 import jwt from "jsonwebtoken";
 import { useSelector, shallowEqual } from "react-redux";
@@ -17,11 +14,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from "material-table";
-import ReactToPrint from "react-to-print";
-import { SignatureCol } from "../Images/Images";
-import { toWords } from 'number-to-words';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const fields = [
   {
@@ -114,12 +107,7 @@ export const ViewVetObjectionTable = ({ submittedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-          } else {
-            window.open(`/view/objection/approved/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/objection/approved/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
         }}
       />
     </>
