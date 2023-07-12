@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
-import NotificationModal from './notificationmodal';
 import NewNotificationButton from './button';
 
 const Notification = () => {
