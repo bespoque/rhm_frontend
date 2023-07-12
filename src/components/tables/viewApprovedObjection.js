@@ -67,7 +67,7 @@ const fields = [
 ];
 
 export const ViewApprovedObjectionTable = ({ submittedData }) => {
-  let items = submittedData;
+  // let items = submittedData;
 
   const { auth } = useSelector(
     (state) => ({
@@ -85,7 +85,7 @@ export const ViewApprovedObjectionTable = ({ submittedData }) => {
   return (
     <>
       <MaterialTable title="Approved Objection List"
-        data={items}
+        data={submittedData}
         columns={fields}
         options={{
           search: true,

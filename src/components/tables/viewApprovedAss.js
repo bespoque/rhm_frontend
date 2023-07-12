@@ -79,7 +79,7 @@ const fields = [
 ];
 
 export const ViewApprovedTable = ({ ApprovedData }) => {
-  let items = ApprovedData;
+  // let items = ApprovedData;
   const [modal, setModal] = useState(false);
   const [revisedmodal, setRevisedModal] = useState(false);
   const [revisedAssFields, setRevisedAssFields] = useState({});
@@ -88,10 +88,8 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
   const [isFetching, setIsFetching] = useState(() => false);
   const router = useRouter();
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -241,7 +239,7 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
         </div>
       )}
       <MaterialTable title="Approved Assessments List"
-        data={items}
+        data={ApprovedData}
         columns={fields}
         actions={[
           () => {

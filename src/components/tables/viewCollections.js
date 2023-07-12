@@ -70,7 +70,7 @@ const fields = [
 ];
 
 export const ViewCollectionsTable = ({ remittance }) => {
-  let items = remittance;
+  // let items = remittance;
 
   const { config, palettes, auth } = useSelector(
     (state) => ({
@@ -88,7 +88,7 @@ export const ViewCollectionsTable = ({ remittance }) => {
   return (
     <>
       <MaterialTable title="Collections List"
-        data={items}
+        data={remittance}
         columns={fields}
 
         options={{

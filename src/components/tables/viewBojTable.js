@@ -93,7 +93,7 @@ const fields = [
 
 
 export const ViewBOJTable = ({ bojdata }) => {
-  let items = bojdata;
+  // let items = bojdata;
 
   const { config, palettes, auth } = useSelector(
     (state) => ({
@@ -114,7 +114,7 @@ export const ViewBOJTable = ({ bojdata }) => {
   return (
     <>
       <MaterialTable title="Verified BOJ Assessments"
-        data={items}
+        data={bojdata}
         columns={fields}
 
         options={{

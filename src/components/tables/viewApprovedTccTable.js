@@ -67,7 +67,7 @@ const fields = [
 
 
 export const ViewApprovedTccTable = ({ tccdata }) => {
-  let items = tccdata;
+  // let items = tccdata;
 
   const { config, palettes, auth } = useSelector(
     (state) => ({
@@ -85,7 +85,7 @@ export const ViewApprovedTccTable = ({ tccdata }) => {
   return (
     <>
       <MaterialTable title="Tcc List"
-        data={items}
+        data={tccdata}
         columns={fields}
 
         options={{

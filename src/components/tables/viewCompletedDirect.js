@@ -84,7 +84,7 @@ const fields = [
 ];
 
 export const ViewCompletedTable = ({ submittedData }) => {
-  let items = submittedData;
+  // let items = submittedData;
 
   const { config, palettes, auth } = useSelector(
     (state) => ({
@@ -102,7 +102,7 @@ export const ViewCompletedTable = ({ submittedData }) => {
   return (
     <>
       <MaterialTable title="Submitted Assessments List"
-        data={items}
+        data={submittedData}
         columns={fields}
 
         options={{
