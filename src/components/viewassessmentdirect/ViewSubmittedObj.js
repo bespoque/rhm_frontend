@@ -45,7 +45,7 @@ const ViewSubmittedObjection = () => {
 
 
   return (
-    <>
+    <div>
       {isFetching && (
         <div className="flex justify-center item mb-2">
           <Loader
@@ -62,7 +62,7 @@ const ViewSubmittedObjection = () => {
       )}
 
       <ViewSubmittedObjectionTable submittedData={post} />
-    </>
+    </div>
   );
 };
 

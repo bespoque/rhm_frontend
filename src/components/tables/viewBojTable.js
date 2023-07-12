@@ -112,7 +112,7 @@ export const ViewBOJTable = ({ bojdata }) => {
   const userGroup = decoded.groups
 
   return (
-    <>
+    <div>
       <MaterialTable title="Verified BOJ Assessments"
         data={bojdata}
         columns={fields}
@@ -154,7 +154,7 @@ export const ViewBOJTable = ({ bojdata }) => {
           }
         }}
       />
-    </>
+    </div>
   );
 };
 

@@ -154,7 +154,7 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
 
 
   return (
-    <>
+    <div>
       <ToastContainer />
       {modal && (
         <div className="modal">
@@ -386,7 +386,7 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
         `
         }
       </style>
-    </>
+    </div>
   );
 };
 
