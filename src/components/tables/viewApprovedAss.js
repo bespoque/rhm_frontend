@@ -326,15 +326,7 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
         }}
 
         onRowClick={(event, rowData) => {
-
-          if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-
-          } else {
-
-            window.open(`/view/approvedasses/${rowData.assessment_id},${rowData.kgtin}`, "_self")
-            event.stopPropagation();
-          }
+          window.open(`/view/approvedasses/${rowData.assessment_id},${rowData.kgtin}`, "_self")
         }}
       />
       <style
