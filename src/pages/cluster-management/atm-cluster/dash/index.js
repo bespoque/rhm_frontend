@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { formatNumber } from 'accounting';
 import { ProcessorSpinner } from '../../../../components/spiner/index';
-import { shallowEqual, useSelector } from 'react-redux';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -14,9 +13,8 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import jwt from "jsonwebtoken";
 import MaterialTable from '@material-table/core';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
+
 
 
 const Index = () => {
@@ -35,16 +33,6 @@ const Index = () => {
     const [assmtCol, SetAssmtCol] = useState(() => "")
     const router = useRouter()
     const { targetID, clusterID, targN, targType } = router?.query
-
-    const { auth } = useSelector(
-        (state) => ({
-            auth: state.authentication.auth,
-        }),
-        shallowEqual
-    );
-
-    const decoded = jwt.decode(auth);
-    const emailAdd = decoded.user
 
 
     const fields = [
@@ -136,7 +124,7 @@ const Index = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [targetID]);
 
     const AssessmentRep = async (button) => {
         setIsFetching(true)
@@ -284,21 +272,7 @@ const Index = () => {
                                 search: true,
                                 paging: true,
                                 filtering: true,
-                                actionsColumnIndex: -1,
-                                exportMenu: [
-                                    {
-                                        label: "Export PDF",
-                                        exportFunc: (cols, datas) =>
-                                            ExportPdf(cols, datas, "myPdfFileName"),
-                                    },
-                                    {
-                                        label: "Export CSV",
-                                        exportFunc: (cols, datas) =>
-                                            ExportCsv(cols, datas, "myCsvFileName"),
-                                    },
-                                ],
-                                exportAllData: true,
-
+                                actionsColumnIndex: -1
                             }}
                             icons={{
                                 Check: Check,

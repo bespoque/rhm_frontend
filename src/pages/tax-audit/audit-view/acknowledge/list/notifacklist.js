@@ -1,6 +1,5 @@
 import MaterialTable from 'material-table'
 import React, { useEffect, useState } from 'react'
-import { FiPlusCircle } from 'react-icons/fi';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -14,7 +13,6 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -65,12 +63,10 @@ export default function Notifiacklist() {
             }
         }
         fetchPost();
-    }, [JobID, Notifid]);
+    }, [JobID]);
 
     return (
-
         <>
-
             {isFetching && <ProcessorSpinner />}
 
             <MaterialTable title="Notification acknowledegements"
@@ -80,21 +76,7 @@ export default function Notifiacklist() {
                     search: true,
                     paging: true,
                     filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
+                    actionsColumnIndex: -1
                 }}
                 icons={{
                     Check: Check,

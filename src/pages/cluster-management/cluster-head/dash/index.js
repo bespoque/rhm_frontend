@@ -16,7 +16,6 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import jwt from "jsonwebtoken";
 import MaterialTable from '@material-table/core';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 
 const Index = () => {
@@ -284,21 +283,7 @@ const Index = () => {
                                 search: true,
                                 paging: true,
                                 filtering: true,
-                                actionsColumnIndex: -1,
-                                exportMenu: [
-                                    {
-                                        label: "Export PDF",
-                                        exportFunc: (cols, datas) =>
-                                            ExportPdf(cols, datas, "myPdfFileName"),
-                                    },
-                                    {
-                                        label: "Export CSV",
-                                        exportFunc: (cols, datas) =>
-                                            ExportCsv(cols, datas, "myCsvFileName"),
-                                    },
-                                ],
-                                exportAllData: true,
-
+                                actionsColumnIndex: -1
                             }}
                             icons={{
                                 Check: Check,

@@ -13,9 +13,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { BarChart, Edit } from "@material-ui/icons";
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
-
+import { Edit } from "@material-ui/icons";
 
 
 const Index = () => {
@@ -128,21 +126,7 @@ const Index = () => {
                     search: true,
                     paging: true,
                     filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
+                    actionsColumnIndex: -1
                 }}
                 icons={{
                     Check: Check,

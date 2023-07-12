@@ -14,7 +14,6 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 import NewNoteButton from '../components/button';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
 import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 
@@ -86,21 +85,7 @@ export default function Notifiacklist() {
                     search: true,
                     paging: true,
                     filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
+                    actionsColumnIndex: -1
                 }}
                 icons={{
                     Check: Check,

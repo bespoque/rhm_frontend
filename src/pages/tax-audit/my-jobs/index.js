@@ -18,8 +18,6 @@ import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
-
 
 
 const Index = () => {
@@ -214,21 +212,7 @@ const Index = () => {
                     search: true,
                     paging: true,
                     filtering: true,
-                    actionsColumnIndex: -1,
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
+                    actionsColumnIndex: -1
                 }}
                 icons={{
                     Check: Check,
