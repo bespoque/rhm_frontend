@@ -1,6 +1,5 @@
 import MaterialTable from '@material-table/core';
 import Search from '@material-ui/icons/Search'
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
 import { Delete, Edit, MoreHoriz } from "@material-ui/icons";
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -90,20 +89,6 @@ export default function NonIndividualReportstable({ FilteredData }) {
                         csv: true,
                         pdf: false
                     },
-                    exportMenu: [
-                        {
-                            label: "Export PDF",
-                            exportFunc: (cols, datas) =>
-                                ExportPdf(cols, datas, "myPdfFileName"),
-                        },
-                        {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(cols, datas, "myCsvFileName"),
-                        },
-                    ],
-                    exportAllData: true,
-
                 }}
                 actions={[
 

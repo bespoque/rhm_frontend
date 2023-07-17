@@ -1,6 +1,5 @@
 // import MaterialTable from "material-table";
 import MaterialTable from '@material-table/core';
-import { ExportCsv, ExportPdf } from "@material-table/exporters";
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -341,16 +340,7 @@ export default function AssessmentReportstable({ FilteredData }) {
           search: false,
           paging: true,
           filtering: true,
-          actionsColumnIndex: -1,
-          exportMenu: [
-            {
-              label: "Export CSV",
-              exportFunc: (cols, datas) =>
-                ExportCsv(fields, items, "myCsvFileName"),
-            },
-          ],
-          exportAllData: true,
-
+          actionsColumnIndex: -1
         }}
         icons={{
           Check: Check,
