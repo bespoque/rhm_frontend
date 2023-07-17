@@ -120,7 +120,7 @@ export const ViewVerifiedObjectionTable = ({ submittedData }) => {
 
         onRowClick={(event, rowData) => {
           if (userGroup.some(r => reportRange.includes(r))) {
-            ''
+            console.log("not permitted");
           } else {
             window.open(`/view/objection/verified/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
             event.stopPropagation();

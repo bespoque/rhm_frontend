@@ -5,6 +5,7 @@ import { CoatOfArms, KogiGov, Signature } from '../../../components/Images/Image
 import setAuthToken from '../../../functions/setAuthToken';
 import axios from "axios";
 import url from '../../../config/url';
+import { formatNumber } from '../../../functions/numbers';
 
 export default function VerifyTcc() {
     const [colData, setColData] = useState([]);

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import setAuthToken from "../../../functions/setAuthToken";
 import Loader from 'react-loader-spinner';
 
-export default function create() {
+export default function Create() {
   const { register, handleSubmit, watch } = useForm();
   const [CreateError, setError] = useState([])
   const [isFetching, setIsFetching] = useState(() => false);

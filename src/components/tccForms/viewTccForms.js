@@ -274,13 +274,13 @@ export const StartTcc = () => {
           </div>
 
           <div className="self-center">
-            <a
+            <button
               onClick={verifiyKGTIN}
               style={{ backgroundColor: "#84abeb" }}
               className="btn btn-default text-white btn-outlined bg-transparent rounded-md"
             >
               Verify KGTIN
-            </a>
+            </button>
           </div>
         </div>
 

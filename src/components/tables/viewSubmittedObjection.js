@@ -125,7 +125,7 @@ export const ViewSubmittedObjectionTable = ({ submittedData }) => {
 
         onRowClick={(event, rowData) => {
           if (userGroup.some(r => reportRange.includes(r))) {
-            ''
+            console.log("not permitted");
           } else {
             window.open(`/view/objection/submitted/${rowData.assessment_id}_${rowData.kgtin}`, "_self")
             event.stopPropagation();

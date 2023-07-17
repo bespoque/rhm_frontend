@@ -139,8 +139,7 @@ export const ViewPayeTccTablePrint = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
 
           if (userGroup.some(r => reportRange.includes(r))) {
-            ''
-
+            console.log("not permitted");
           }
 
           else {

@@ -120,7 +120,7 @@ export const ViewDraftObjectionTable = ({ submittedData }) => {
 
         onRowClick={(event, rowData) => {
           if (userGroup.some(r => reportRange.includes(r))) {
-            ''
+            console.log("not permitted");
           } else {
             window.open(`/revise-assessment/${rowData.kgtin}_${rowData.assessment_id}`, "_self")
             event.stopPropagation();

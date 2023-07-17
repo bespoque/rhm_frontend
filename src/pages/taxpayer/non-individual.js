@@ -6,7 +6,7 @@ import setAuthToken from "../../functions/setAuthToken";
 import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 
-export default function index() {
+export default function Index() {
     const [department, setDepartment] = useState([])
     const [taxOffice, setTaxOffice] = useState([])
     const [sector, setSector] = useState([])
