@@ -14,7 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatNumber } from 'accounting';
 
-export default function payslip() {
+export default function Payslip() {
     const [isFetching, setIsFetching] = useState(false)
     const [orgName, setOrgName] = useState("")
     const [orgKGTIN, setOrgKGTIN] = useState("")

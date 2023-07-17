@@ -112,7 +112,7 @@ const ViewSingleApproved = () => {
           <button className="btn w-32 mr-10 bg-white-600 btn-default text-dark
                 btn-outlined border-blue-500 rounded-md"
           >
-            <Link href={`/collection-receipt/${globalAssId}`}>
+            <Link legacyBehavior href={`/collection-receipt/${globalAssId}`}>
               Get receipt
             </Link>
           </button>

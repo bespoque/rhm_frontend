@@ -50,7 +50,7 @@ const Links = () => {
   return (
     <div className="flex flex-col w-full mb-4">
       {items.map((item, i) => (
-        <Link href={item.url} key={i}>
+        <Link legacyBehavior href={item.url} key={i}>
           <a className="w-full flex items-center justify-start p-2 text-sm">
             {item.icon}
             <span className="ml-2">{item.name}</span>

@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SectionTitle from '../../../../components/section-title';
 import Loader from 'react-loader-spinner';
 
-const index = () => {
+const Index = () => {
     const [permissionName, setPermissionName] = useState('')
     const [usergroup, setUserGroup] = useState('')
     const [usergroupObj, setUserGrpObj] = useState([])
@@ -120,4 +120,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

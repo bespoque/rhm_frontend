@@ -17,7 +17,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { PendingRemittance, RevenueItems, TaxReceipt, TotalRemittance } from '../../components/Icons';
+import { Filter, PendingRemittance, RevenueItems, TaxReceipt, TotalRemittance } from '../../components/Icons';
 
 export default function SinglePayerProfile() {
   const [isFetching, setIsFetching] = useState(() => true);
@@ -446,7 +446,7 @@ export default function SinglePayerProfile() {
                     Check: Check,
                     DetailPanel: ChevronRight,
                     Export: SaveAlt,
-                    Filter: () => <Icons.Filter />,
+                    Filter: () => <Filter />,
                     FirstPage: FirstPage,
                     LastPage: LastPage,
                     NextPage: ChevronRight,
@@ -473,7 +473,7 @@ export default function SinglePayerProfile() {
                     Check: Check,
                     DetailPanel: ChevronRight,
                     Export: SaveAlt,
-                    Filter: () => <Icons.Filter />,
+                    Filter: () => <Filter />,
                     FirstPage: FirstPage,
                     LastPage: LastPage,
                     NextPage: ChevronRight,
@@ -499,7 +499,7 @@ export default function SinglePayerProfile() {
                     Check: Check,
                     DetailPanel: ChevronRight,
                     Export: SaveAlt,
-                    Filter: () => <Icons.Filter />,
+                    Filter: () => <Filter />,
                     FirstPage: FirstPage,
                     LastPage: LastPage,
                     NextPage: ChevronRight,

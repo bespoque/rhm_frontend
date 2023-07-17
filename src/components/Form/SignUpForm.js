@@ -92,7 +92,7 @@ const SignUpForm = () => {
         <div className="mt-6">
           <p>
             Already have an account?
-            <Link href="/">
+            <Link legacyBehavior href="/">
               <a className="text-green-500"> Login</a>
             </Link>
           </p>

@@ -269,7 +269,7 @@ const AnnualUploadForm = () => {
                   color="green"
                   type="button"
                 /> */}
-                <Link href="/csv/annual_returns_csv.csv">
+                <Link legacyBehavior href="/csv/annual_returns_csv.csv">
                   <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-green-500 hover:text-green-700 border-green-500 hover:border-green-700">
                     <FiArrowDown size="16" className="animate-bounce" />
                     Download sample CSV

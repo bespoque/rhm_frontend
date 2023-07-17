@@ -83,7 +83,7 @@ export const ViewUsersTable = ({ remittance }) => {
 
 
                     {userGroup.some(r => admin.includes(r)) ?
-                      <Link href={`/view/users/${remittance.email}`}>
+                      <Link legacyBehavior href={`/view/users/${remittance.email}`}>
                         <a className="hover:text-blue-500">
                           {remittance[field.key]}
                         </a>

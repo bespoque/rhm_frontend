@@ -1757,7 +1757,7 @@ export const ViewSinglePendingTable = ({ indvData, pensDeduct,
 
       <div className="block p-6 rounded-lg bg-white w-full">
         <div className="flex justify-around mb-8">
-          <h6 className="p-2">Taxpayer Information <small className="text-blue-600"><Link href={`/update-individual/${kgtinVal}`}>Edit</Link></small></h6>
+          <h6 className="p-2">Taxpayer Information <small className="text-blue-600"><Link legacyBehavior href={`/update-individual/${kgtinVal}`}>Edit</Link></small></h6>
           <div className="border p-4">
             <div >
               <div>

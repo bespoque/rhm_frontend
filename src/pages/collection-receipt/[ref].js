@@ -11,7 +11,7 @@ import ReactToPrint from "react-to-print";
 import setAuthToken from '../../functions/setAuthToken';
 
 
-export default function index() {
+export default function Index() {
     const [colData, setColData] = useState([]);
     const router = useRouter();
     const componentRef = useRef();

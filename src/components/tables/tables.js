@@ -91,7 +91,7 @@ export const Table = (remittance) => {
                         </a>
                       </Link>
                     ) : (
-                      <Link href={`/pending-payment/${remittance['ref']}`}>
+                      <Link legacyBehavior href={`/pending-payment/${remittance['ref']}`}>
                         <a className="hover:text-blue-500">
                           {field.name === 'STATUS' ? (
                             <div className="flex items-center">

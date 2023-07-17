@@ -103,7 +103,7 @@ export const ViewIndividualSingleTable = ({ indvdata, payerKgtin }) => {
           </div> */}
           <div className="m-3 bg-green-400 text-white rounded-full">
             <CustomButton type="Submit">
-              <Link href={`/update-individual/${payerKgtin}`}> Update Taxpayer</Link>
+              <Link legacyBehavior href={`/update-individual/${payerKgtin}`}> Update Taxpayer</Link>
             </CustomButton>
           </div>
         </div>

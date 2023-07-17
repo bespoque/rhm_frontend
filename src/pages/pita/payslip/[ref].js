@@ -156,7 +156,7 @@ export default function UploadPayslip() {
                         className="disabled:opacity-50 bg-white-500 py-2 px-6 rounded-md  text-dark border hover:text-white hover:bg-green-500 hover:border-green-500"
                         type="submit"
                     >
-                        <Link href={`/pita/payslip`}>Done</Link>
+                        <Link legacyBehavior href={`/pita/payslip`}>Done</Link>
                     </button>
                 </div>
             </Widget>

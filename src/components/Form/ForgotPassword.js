@@ -116,7 +116,7 @@ const ForgotPasswordForm = () => {
             </div> */}
             <div className="flex justify-end">
               <span>
-                <Link href="/">
+                <Link legacyBehavior href="/">
                   <a className="link">Back to Login</a>
                 </Link>
               </span>

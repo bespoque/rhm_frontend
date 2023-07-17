@@ -113,7 +113,7 @@ const LoginForm = () => {
           </CustomButton>
           <div className="mt-2">
             <p>
-              <Link href="/reset-password">
+              <Link legacyBehavior href="/reset-password">
                 <a className="text-blue-500">Forgot password ?</a>
               </Link>
             </p>

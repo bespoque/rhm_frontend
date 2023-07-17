@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const index = () => {
+const Index = () => {
     const [groupName, setGroupName] = useState('')
     const [permission, setPermission] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -106,4 +106,4 @@ const index = () => {
         </>
     )
 }
-export default index
+export default Index

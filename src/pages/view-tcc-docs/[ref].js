@@ -65,7 +65,7 @@ const ViewDocumentsTcc = () => {
             btn-outlined bg-transparent rounded-md"
                 type="submit"
             >
-                <Link href={`/view/listtcc/${idTcc}`}>Back</Link>
+                <Link legacyBehavior href={`/view/listtcc/${idTcc}`}>Back</Link>
             </button>
             <SectionTitle title="View TCC Uploads" subtitle="TCC Documents " />
 
