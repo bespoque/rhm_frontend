@@ -8,19 +8,13 @@ import setAuthToken from '../../../functions/setAuthToken';
 import { formatNumber } from "../../../functions/numbers";
 import Loader from "react-loader-spinner";
 import QRCode from 'react-qr-code';
-import ReactToPrint from "react-to-print";
-import html2pdf from 'html2pdf.js';
 
 
 
 export default function MultipleCollection() {
-    const [colData, setColData] = useState([]);
     const [multipleSearchData, setmultipleSearchData] = useState([])
     const [isFetching, setIsFetching] = useState(false);
     const router = useRouter();
-    const componentRef = useRef();
-    const element = document.getElementById('pdf-content');
-    const downloadButtonRef = useRef(null);
 
     useEffect(() => {
         if (router && router.query) {
