@@ -446,7 +446,7 @@ export const ViewSingleTccPrintTable = ({
                           </td>
                           <td className="">
                             {assessmentData.map((ind, i) => (
-                              <p>{ind?.assessment_type}</p>
+                              <p>{ind?.assessment_type === "Assessment" ? "Direct Assessment" : ind?.assessment_type}</p>
                             ))}
                           </td>
                           {/* <td className="">
@@ -481,7 +481,7 @@ export const ViewSingleTccPrintTable = ({
                           </td>
                           <td className="">
                             {assessmentData2.map((ind, i) => (
-                              <p>{ind?.assessment_type}</p>
+                              <p>{ind?.assessment_type === "Assessment" ? "Direct Assessment" : ind?.assessment_type}</p>
                             ))}
                           </td>
                           {/* <td className="">
@@ -518,7 +518,7 @@ export const ViewSingleTccPrintTable = ({
                           </td>
                           <td className="">
                             {assessmentData3.map((ind, i) => (
-                              <p>{ind?.assessment_type}</p>
+                              <p>{ind?.assessment_type === "Assessment" ? "Direct Assessment" : ind?.assessment_type}</p>
                             ))}
                           </td>
                           {/* <td className="">
