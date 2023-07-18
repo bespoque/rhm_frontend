@@ -10,7 +10,6 @@ import QRCode from 'react-qr-code';
 import ReactToPrint from "react-to-print";
 import setAuthToken from '../../functions/setAuthToken';
 
-
 export default function Index() {
     const [colData, setColData] = useState([]);
     const router = useRouter();

@@ -9,6 +9,8 @@ import { formatNumber } from "../../../functions/numbers";
 import Loader from "react-loader-spinner";
 import QRCode from 'react-qr-code';
 import ReactToPrint from "react-to-print";
+import html2pdf from 'html2pdf.js';
+
 
 
 export default function MultipleCollection() {
@@ -17,6 +19,9 @@ export default function MultipleCollection() {
     const [isFetching, setIsFetching] = useState(false);
     const router = useRouter();
     const componentRef = useRef();
+    const element = document.getElementById('pdf-content');
+    const downloadButtonRef = useRef(null);
+
     useEffect(() => {
         if (router && router.query) {
             let searchDate = router.query.ref;
@@ -26,13 +31,6 @@ export default function MultipleCollection() {
             setAuthToken();
             const fetchPost = async () => {
                 setIsFetching(true)
-                // try {
-                //     let res = await axios.post(`${url.BASE_URL}collection/view-collections`, paymentPayload);
-                //     res = res.data.body;
-                //     setColData(res)
-                // } catch (e) {
-                //     console.log(e);
-                // }
                 axios.post(`${url.BASE_URL}collection/view-collections`, tranDate)
                     .then(function (response) {
                         let search = response.data.body;
@@ -52,29 +50,37 @@ export default function MultipleCollection() {
         }
     }, [router]);
 
-    // let a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
-    // let b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+    const handleDownload = () => {
+        const element = document.getElementById('pdf-content');
 
-    // function inWords(num) {
-    //     if ((num = num.toString()).length > 12) return 'overflow';
-    //    let n = ('00000000000' + num).substr(-12).match(/^(\d{3})(\d{3})(\d{3})(\d{1})(\d{2})$/);
-    //     if (!n) return; let str = '';
-    //     str += (n[1] != 0) ? (Number(n[1]) > 99 ? this.a[Number(n[1][0])] + 'hundred ' : '') + (a[Number(n[1])] || b[n[1][1]] + ' ' + a[n[1][2]]) + 'billion ' : '';
-    //     str += (n[2] != 0) ? (Number(n[2]) > 99 ? this.a[Number(n[2][0])] + 'hundred ' : '') + (a[Number(n[2])] || b[n[2][1]] + ' ' + a[n[2][2]]) + 'million ' : '';
-    //     str += (n[3] != 0) ? (Number(n[3]) > 99 ? this.a[Number(n[3][0])] + 'hundred ' : '') + (a[Number(n[3])] || b[n[3][1]] + ' ' + a[n[3][2]]) + 'thousand ' : '';
-    //     str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-    //     str += (Number(n[5]) !== 0) ? ((str !== '') ? 'and ' : '') +
-    //         (this.a[Number(n[5])] || this.b[n[5][0]] + ' ' +
-    //             this.a[n[5][1]]) + '' : '';
-    //     return str;
-    // }
+        const printWindow = window.open('', '_blank');
+        const htmlContent = `
+        <html>
+          <head>
+            <title>Collection receipt</title>
+            <link rel="stylesheet" href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css">
+            <style>
+              ${getStyles()}
+            </style>
+          </head>
+          <body class="bg-white">
+            ${element.innerHTML}
+          </body>
+        </html>
+      `;
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+        printWindow.print();
+    };
 
-    // let amount
-    // colData.forEach((el) => {
-    //     amount = el.amount
-    // })
-    // console.log("amount", amount);
-    // let wordVal = NumInWords(amount)
+    const getStyles = () => {
+        const stylesheets = Array.from(document.styleSheets);
+        const cssText = stylesheets
+            .map((sheet) => Array.from(sheet.cssRules).map((rule) => rule.cssText).join(''))
+            .join('');
+
+        return cssText;
+    };
 
     return (
         <>
@@ -95,25 +101,14 @@ export default function MultipleCollection() {
 
 
                 <div className='rounded-lg p-6 bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800'>
-                    <div className="m-3 flex justify-end">
-                        <div>
-                            <ReactToPrint
-                                pageStyle='@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
-                                // pageStyle="@page { size: 7.5in 13in  }"
-                                trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
-                            btn-outlined bg-transparent rounded-md"
-                                    type="submit"
-                                >
-                                    Print
-                                </button>}
-                                content={() => componentRef.current}
-                            />
-                        </div>
-
+                    <div className="flex justify-end mb-2">
+                        <button onClick={handleDownload} className="btn w-32 bg-green-600 btn-default text-white
+                    btn-outlined bg-transparent rounded-md">Download PDF</button>
                     </div>
-                    <div >
+
+                    <div id="pdf-content">
                         {multipleSearchData.map((el, i) => (
-                            <div className="border p-6" ref={componentRef}>
+                            <div className="border p-4" style={{marginBottom: "24rem"}} key={el.idpymt}>
                                 <p>KOGI STATE GOVERNMENT</p>
                                 <section className="flex justify-between">
                                     <p className="font-bold">REVENUE RECEIPT</p>
@@ -143,6 +138,7 @@ export default function MultipleCollection() {
                                             </div>
                                             <p className='align-self-center'>Details</p>
                                             <div className="border-b-2 w-3/4 ">
+
                                             </div>
                                         </div>
                                     </div>
@@ -166,16 +162,20 @@ export default function MultipleCollection() {
                                             {/* <small>Eighty thousand seven hundred and thirty two naira only</small> */}
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-6 gap-2">
+                                    {/* <div className="grid grid-cols-6 gap-2">
                                         <p>BEING:</p>
                                         <div className="col-span-3">
                                             <p className="font-bold"> {`Payment for (${el.rev_sub})`} </p>
                                             <small>{el.revenueItem}</small>
                                         </div>
+                                    </div> */}
+                                    <div className="grid grid-cols-6 gap-2">
+                                        <p>Details:</p>
+                                        <p className="font-bold"> {el.details} </p>
                                     </div>
                                     <div className="grid grid-cols-6 gap-2">
                                         <p>PAID AT:</p>
-                                        <p className="font-bold"> {el.bank} </p>
+                                        <p className="font-bold"> {el.channel_id} </p>
                                     </div>
                                     <div className="grid grid-cols-6 gap-2">
                                         <p>AGENCY:</p>
@@ -201,6 +201,7 @@ export default function MultipleCollection() {
                                 </div>
                             </div>
                         ))}
+
                     </div>
                 </div>
             }

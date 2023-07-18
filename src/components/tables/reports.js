@@ -184,6 +184,21 @@ export const StartReportView = () => {
   return (
     <>
       <div className="">
+
+        <div className="overflow-x-auto mb-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
+          <p className="font-bold mb-3">Search by Collection date</p>
+          <form onSubmit={handleColSubmit(ColSearch)}>
+            <label>Date</label> <br />
+            <div className="flex gap-2">
+              <input ref={registerCollSearch()} required type="date" name="tranDate" className="form-control rounded font-light text-gray-500" />
+              <button className="btn w-32 bg-blue-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
         <form onSubmit={handleSubmit(AdvancedSearch)} className="mb-3">
 
           <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
@@ -297,23 +312,6 @@ export const StartReportView = () => {
           </div>
 
         </form>
-
-        {/* <div className="overflow-x-auto mb-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-          <p className="font-bold mb-3">Search by Collection date</p>
-          <form onSubmit={handleColSubmit(ColSearch)}>
-            <label>Date</label> <br />
-            <div className="flex gap-2">
-              <input ref={registerCollSearch()} required type="date" name="tranDate" className="form-control rounded font-light text-gray-500" />
-              <button className="btn w-32 bg-blue-600 btn-default text-white btn-outlined bg-transparent rounded-md"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </div> */}
-
-    
 
 
         {isFetching ? (
