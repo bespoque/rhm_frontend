@@ -186,7 +186,7 @@ export const StartReportView = () => {
       <div className="">
 
         <div className="overflow-x-auto mb-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-          <p className="font-bold mb-3">Search by Collection date</p>
+          <p className="font-bold mb-3">Multiple collection receipt</p>
           <form onSubmit={handleColSubmit(ColSearch)}>
             <label>Date</label> <br />
             <div className="flex gap-2">
