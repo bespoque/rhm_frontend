@@ -24,10 +24,8 @@ const PrintSingleTcc = () => {
   useEffect(() => {
     if (router && router.query) {
       let printId = router.query.ref;
-      console.log("First", printId);
       let id = {
         id: printId
-        // id: 165
       }
       setTccID(printId)
       setAuthToken();

@@ -445,8 +445,13 @@ export const ViewSingleTccPrintTable = ({
                             ))}
                           </td>
                           <td className="">
-                            <p>Direct Assessment</p>
+                            {assessmentData.map((ind, i) => (
+                              <p>{ind?.assessment_type}</p>
+                            ))}
                           </td>
+                          {/* <td className="">
+                            <p>Direct Assessment</p>
+                          </td> */}
                         </tr>
                       }
                       {assessmentData2 === "" || assessmentData2 === undefined ? "" :
@@ -474,14 +479,14 @@ export const ViewSingleTccPrintTable = ({
                               <p className="font-bold">{formatNumber(Number(ind.tax) + Number(addAssessmentVal2))}</p>
                             ))}
                           </td>
-                          {/* <td className="">
+                          <td className="">
                             {assessmentData2.map((ind, i) => (
                               <p>{ind?.assessment_type}</p>
                             ))}
-                          </td> */}
-                          <td className="">
-                            <p>Direct Assessment</p>
                           </td>
+                          {/* <td className="">
+                            <p>Direct Assessment</p>
+                          </td> */}
 
                         </tr>
 
@@ -512,8 +517,13 @@ export const ViewSingleTccPrintTable = ({
                             ))}
                           </td>
                           <td className="">
-                            <p>Direct Assessment</p>
+                            {assessmentData3.map((ind, i) => (
+                              <p>{ind?.assessment_type}</p>
+                            ))}
                           </td>
+                          {/* <td className="">
+                            <p>Direct Assessment</p>
+                          </td> */}
 
                         </tr>
                       }
