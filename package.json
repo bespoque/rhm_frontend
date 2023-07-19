@@ -36,6 +36,7 @@
     "faker": "^5.1.0",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.0.0-rc.7",
+    "html2pdf.js": "^0.10.1",
     "js-cookie": "^2.2.1",
     "js-sha512": "^0.8.0",
     "jsontoxml": "^1.0.1",
