@@ -16,11 +16,12 @@ export default function MultipleCollection() {
     const [multipleSearchData, setmultipleSearchData] = useState([])
     const [isFetching, setIsFetching] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 5;
+    const recordsPerPage = 10;
     const totalRecords = multipleSearchData.length;
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;
     const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
     const recordsRemaining = totalRecords - recordsEnd;
+    
 
 
     const router = useRouter();
@@ -86,13 +87,13 @@ export default function MultipleCollection() {
           <div>
             ${records.map((el) => (
             `
-              <div class="border p-4 mb-3" key=${el.idpymt}>
+              <div class="border p-4 mb-14" key=${el.idpymt}>
               <p>KOGI STATE GOVERNMENT</p>
               <section class="flex justify-between">
                   <p class="font-bold">REVENUE RECEIPT</p>
                   <p class="font-bold">${el.ref}</p>
               </section>
-              <section class="flex justify-end mt-8">
+              <section class="flex justify-end mt-3">
               <img src="/images/icons/coat of arms.png" width='60' height='25'  />
               <img src="/images/kog_govt.png" width='73' height='30'  />
               <img src="/images/logo2.png" width='50' height='50'  />
@@ -112,7 +113,7 @@ export default function MultipleCollection() {
                           <p>ADDRESS:</p>
                           <p class="font-bold col-span-2">${el.taxpayerAddress}</p>
                       </div>
-                      <div class="flex mt-5">
+                      <div class="flex ">
                           <div class='w-16 border-b-2'>
                           </div>
                           <p class='align-self-center'>Details</p>
@@ -122,7 +123,7 @@ export default function MultipleCollection() {
                   </div>
              
               </div>
-              <div class="mt-3">
+              <div class="">
                   <div class="grid grid-cols-6 gap-2">
                       <p>PAYMENT DATE:</p>
                       <p class="font-bold col-span-2">${el.tran_date}</p>
@@ -136,7 +137,7 @@ export default function MultipleCollection() {
              
                   <div class="grid grid-cols-7 gap-2">
                       <p>Details:</p>
-                      <p class="font-bold col-span-5 pl-4"> ${el.details.substring(0, 80)} </p>
+                      <p class="font-bold col-span-5 pl-4"> ${el.details.substring(0, 40)} </p>
                   </div>
                   <div class="grid grid-cols-6 gap-2">
                       <p>PAID AT:</p>
