@@ -21,9 +21,7 @@ const VerifiedPayeTccList = () => {
       let records = [];
       let res = await axios.get(`${url.BASE_URL}paye/list-tcc?status=Verified`)
         .then(function (response) {
-          console.log("response", response);
           let fetchedData = response.data.body;
-          console.log("res.data.body", fetchedData);
           for (let i = 0; i < fetchedData.length; i++) {
             let rec = fetchedData[i];
             console.log("records", rec);
