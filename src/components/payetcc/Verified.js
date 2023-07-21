@@ -39,7 +39,7 @@ const VerifiedPayeTccList = () => {
 
   }, []);
 
-  console.log(tccdata);
+  console.log("tccdata", tccdata);
 
   return (
     <>

@@ -1,12 +1,12 @@
 import React from 'react'
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import url from '../../../config/url';
-import setAuthToken from '../../../functions/setAuthToken';
-import { formatNumber } from "../../../functions/numbers";
-import Loader from "react-loader-spinner";
-import html2pdf from 'html2pdf.js';
+// import { useRouter } from "next/router";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import url from '../../../config/url';
+// import setAuthToken from '../../../functions/setAuthToken';
+// import { formatNumber } from "../../../functions/numbers";
+// import Loader from "react-loader-spinner";
+// import html2pdf from 'html2pdf.js';
 
 
 
