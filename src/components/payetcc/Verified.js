@@ -5,31 +5,35 @@ import axios from "axios";
 import { formatNumber } from "../../functions/numbers";
 import dateformat from "dateformat";
 import Loader from "react-loader-spinner";
-import {ViewVerifiedTccTable } from "../tables/viewAllPayeTccTable";
+import { ViewVerifiedTccTable } from "../tables/viewAllPayeTccTable";
+import { useRouter } from "next/router";
 
 const VerifiedPayeTccList = () => {
   const [tccdata, setTccData] = useState(() => []);
   const [isFetching, setIsFetching] = useState(() => true);
+  const router = useRouter()
 
   useEffect(() => {
+    console.log("top");
     setAuthToken();
     let num = 1
     const fetchPost = async () => {
       let records = [];
       let res = await axios.get(`${url.BASE_URL}paye/list-tcc?status=Verified`)
         .then(function (response) {
-          res = response.data.body;
-          console.log("res.data.body", res);
-          for (let i = 0; i < res.length; i++) {
-            let rec = res[i];
+          console.log("response", response);
+          let fetchedData = response.data.body;
+          console.log("res.data.body", fetchedData);
+          for (let i = 0; i < fetchedData.length; i++) {
+            let rec = fetchedData[i];
+            console.log("records", rec);
             rec.serialNo = num + i
             rec.prc_fee = formatNumber(rec.prc_fee)
             rec.crt_time = dateformat(rec.crt_time, "dd mmm yyyy")
             records.push(rec);
           }
-          setIsFetching(false);
           setTccData(() => records);
-
+          setIsFetching(false);
         })
         .catch(function (error) {
           setIsFetching(false);
@@ -37,9 +41,9 @@ const VerifiedPayeTccList = () => {
     }
     fetchPost();
 
-  }, []);
+  }, [router]);
 
-  console.log("tccdata", tccdata);
+  // console.log("tccdata", tccdata);
 
   return (
     <>
