@@ -192,7 +192,7 @@ export default function MultipleCollection() {
 
     return (
         <>
-        <div>Test</div>
+        <div></div>
             {/* {isFetching ? (
                 <div className="flex justify-center item mb-2">
                     <Loader
