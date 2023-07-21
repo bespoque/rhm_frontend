@@ -14,7 +14,7 @@ export default function MultipleCollection() {
     const [multipleSearchData, setmultipleSearchData] = useState([])
     const [isFetching, setIsFetching] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 50;
+    const recordsPerPage = 70;
     const totalRecords = multipleSearchData.length;
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;
     const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
