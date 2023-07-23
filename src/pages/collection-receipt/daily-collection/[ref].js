@@ -7,11 +7,12 @@ import setAuthToken from "../../../functions/setAuthToken";
 import { formatNumber } from "../../../functions/numbers";
 import Loader from "react-loader-spinner";
 
+
 export default function MultipleCollection() {
     const [multipleSearchData, setmultipleSearchData] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 50;
+    const recordsPerPage = 100;
     const totalRecords = multipleSearchData.length;
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;
     const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
@@ -41,18 +42,19 @@ export default function MultipleCollection() {
             setAuthToken();
             const fetchPost = async () => {
                 setIsFetching(true);
-                axios
-                    .post(`${url.BASE_URL}collection/view-collections`, tranDate)
-                    .then(function (response) {
-                        let search = response.data.body;
-                        setIsFetching(false);
-                        setmultipleSearchData(search);
-                        console.log("search", search);
-                    })
-                    .catch(function (error) {
-                        setIsFetching(false);
-                        console.log("Error", error);
-                    });
+                try {
+                    const response = await axios.post(
+                        `${url.BASE_URL}collection/view-collections`,
+                        tranDate
+                    );
+                    let search = response.data.body;
+                    setIsFetching(false);
+                    setmultipleSearchData(search);
+                    console.log('search', search);
+                } catch (error) {
+                    setIsFetching(false);
+                    console.log('Error', error);
+                }
             };
             fetchPost();
         }
@@ -71,7 +73,6 @@ export default function MultipleCollection() {
 
         const pdfContent = generatePDFContent(currentRecords, qrCodeBase64Array);
 
-
         const styles = `<style>${getStyles()}</style>`;
         const htmlWithStyles = `
         <html>
@@ -83,11 +84,11 @@ export default function MultipleCollection() {
           </body>
         </html>
       `;
-  
+
 
         const printWindow = window.open("", "_blank");
         printWindow.document.open();
-        
+
         const preloadImages = async () => {
             const imagesToPreload = [
                 '/images/icons/coat of arms.png',
@@ -95,6 +96,11 @@ export default function MultipleCollection() {
                 '/images/logo2.png',
                 '/images/signature.png',
             ];
+    
+            for (const element of qrCodeBase64Array) {
+                imagesToPreload.push(element);
+            }
+            
             const promises = imagesToPreload.map((image) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
@@ -115,7 +121,7 @@ export default function MultipleCollection() {
         preloadImages();
 
         const generateAndPrintPDF = () => {
-        
+
             // Write the content to the print window and close it after printing
             printWindow.document.write(htmlWithStyles);
             printWindow.document.close();
@@ -154,7 +160,7 @@ export default function MultipleCollection() {
                         }</p>
                  </div>
                  <div class="grid grid-cols-6 gap-2">
-                     <p>PAYER ID:</p>
+                     <p >PAYER ID:</p>
                      <p class=" col-span-2">${record.t_payer || "-"}</p>
                  </div>
                  <div class="grid grid-cols-6 gap-2">
@@ -162,7 +168,7 @@ export default function MultipleCollection() {
                      <p class=" col-span-4">${record.taxpayerAddress || "-"
                         }</p>
                  </div>
-                 <div class="flex ">
+                 <div class="flex my-4">
                      <div class='w-16 border-b-2'>
                      </div>
                      <p class='align-self-center'>Details</p>
@@ -190,7 +196,7 @@ export default function MultipleCollection() {
              </div>
              <div class="grid grid-cols-7 gap-2">
                  <p>Details:</p>
-                 <p class=" col-span-5 pl-4"> ${record.details.substring(0, 40) || "-"
+                 <p class=" col-span-5 pl-4"> ${record.details || "-"
                         } </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
