@@ -8,93 +8,134 @@ import { formatNumber } from "../../../functions/numbers";
 import Loader from "react-loader-spinner";
 
 export default function MultipleCollection() {
-  const [multipleSearchData, setmultipleSearchData] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 50;
-  const totalRecords = multipleSearchData.length;
-  const recordsStart = (currentPage - 1) * recordsPerPage + 1;
-  const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
-  const recordsRemaining = totalRecords - recordsEnd;
+    const [multipleSearchData, setmultipleSearchData] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 50;
+    const totalRecords = multipleSearchData.length;
+    const recordsStart = (currentPage - 1) * recordsPerPage + 1;
+    const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
+    const recordsRemaining = totalRecords - recordsEnd;
 
-  const router = useRouter();
+    const router = useRouter();
 
-  const getStyles = () => {
-    const stylesheets = Array.from(document.styleSheets);
-    const cssText = stylesheets
-      .map((sheet) =>
-        Array.from(sheet.cssRules)
-          .map((rule) => rule.cssText)
-          .join("")
-      )
-      .join("");
+    const getStyles = () => {
+        const stylesheets = Array.from(document.styleSheets);
+        const cssText = stylesheets
+            .map((sheet) =>
+                Array.from(sheet.cssRules)
+                    .map((rule) => rule.cssText)
+                    .join("")
+            )
+            .join("");
 
-    return cssText;
-  };
+        return cssText;
+    };
 
-  useEffect(() => {
-    if (router && router.query) {
-      let searchDate = router.query.ref;
-      let tranDate = {
-        tranDate: searchDate,
-      };
-      setAuthToken();
-      const fetchPost = async () => {
-        setIsFetching(true);
-        axios
-          .post(`${url.BASE_URL}collection/view-collections`, tranDate)
-          .then(function (response) {
-            let search = response.data.body;
-            setIsFetching(false);
-            setmultipleSearchData(search);
-            console.log("search", search);
-          })
-          .catch(function (error) {
-            setIsFetching(false);
-            console.log("Error", error);
-          });
-      };
-      fetchPost();
-    }
-  }, [router]);
+    useEffect(() => {
+        if (router && router.query) {
+            let searchDate = router.query.ref;
+            let tranDate = {
+                tranDate: searchDate,
+            };
+            setAuthToken();
+            const fetchPost = async () => {
+                setIsFetching(true);
+                axios
+                    .post(`${url.BASE_URL}collection/view-collections`, tranDate)
+                    .then(function (response) {
+                        let search = response.data.body;
+                        setIsFetching(false);
+                        setmultipleSearchData(search);
+                        console.log("search", search);
+                    })
+                    .catch(function (error) {
+                        setIsFetching(false);
+                        console.log("Error", error);
+                    });
+            };
+            fetchPost();
+        }
+    }, [router]);
 
-  const handleDownload = async () => {
-    const currentRecords = multipleSearchData.slice(
-      (currentPage - 1) * recordsPerPage,
-      currentPage * recordsPerPage
-    );
+    const handleDownload = async () => {
+        const currentRecords = multipleSearchData.slice(
+            (currentPage - 1) * recordsPerPage,
+            currentPage * recordsPerPage
+        );
 
-    const qrCodeBase64Array = await Promise.all(
-      currentRecords.map((record) => getQRCodeBase64(record.ref))
-    );
 
-    const pdfContent = generatePDFContent(currentRecords, qrCodeBase64Array);
+        const qrCodeBase64Array = await Promise.all(
+            currentRecords.map((record) => getQRCodeBase64(record.ref))
+        );
 
-    const styles = `<style>${getStyles()}</style>`;
-    const htmlWithStyles = `${styles}${pdfContent}`;
+        const pdfContent = generatePDFContent(currentRecords, qrCodeBase64Array);
 
-    const printWindow = window.open("", "_blank");
-    printWindow.document.open();
-    printWindow.document.write(htmlWithStyles);
-    printWindow.document.close();
-    printWindow.print();
-    printWindow.close();
 
-    if (currentPage < Math.ceil(multipleSearchData.length / recordsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
+        const styles = `<style>${getStyles()}</style>`;
+        const htmlWithStyles = `
+        <html>
+          <head>
+            ${styles}
+          </head>
+          <body>
+            ${pdfContent}
+          </body>
+        </html>
+      `;
   
 
-  const generatePDFContent = (records, qrCodeBase64Array) => {
-return `
+        const printWindow = window.open("", "_blank");
+        printWindow.document.open();
+        
+        const preloadImages = async () => {
+            const imagesToPreload = [
+                '/images/icons/coat of arms.png',
+                '/images/kog_govt.png',
+                '/images/logo2.png',
+                '/images/signature.png',
+            ];
+            const promises = imagesToPreload.map((image) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = image;
+                });
+            });
+
+            try {
+                await Promise.all(promises);
+                generateAndPrintPDF();
+            } catch (error) {
+                console.error('Error preloading images:', error);
+            }
+        };
+
+        preloadImages();
+
+        const generateAndPrintPDF = () => {
+        
+            // Write the content to the print window and close it after printing
+            printWindow.document.write(htmlWithStyles);
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.close();
+
+            if (currentPage < Math.ceil(multipleSearchData.length / recordsPerPage)) {
+                setCurrentPage(currentPage + 1);
+            }
+        }
+    }
+
+    const generatePDFContent = (records, qrCodeBase64Array) => {
+        return `
   <div>
      ${records
-     .map(
-     (record, index) =>
-     `
-     <div class="border p-4 mb-2" style="page-break-after: always;" key=${ record.idpymt }>
+                .map(
+                    (record, index) =>
+                        `
+     <div class="border p-4 mb-2" style="page-break-after: always;" key=${record.idpymt}>
          <p>KOGI STATE GOVERNMENT</p>
          <section class="flex justify-between">
              <p class="font-bold">REVENUE RECEIPT</p>
@@ -109,9 +150,8 @@ return `
              <div>
                  <div class="grid grid-cols-6 gap-2">
                      <p>PAID BY:</p>
-                     <p class=" col-span-4">${
-                         record.taxpayerName || "-"
-                         }</p>
+                     <p class=" col-span-4">${record.taxpayerName || "-"
+                        }</p>
                  </div>
                  <div class="grid grid-cols-6 gap-2">
                      <p>PAYER ID:</p>
@@ -119,9 +159,8 @@ return `
                  </div>
                  <div class="grid grid-cols-6 gap-2">
                      <p>ADDRESS:</p>
-                     <p class=" col-span-4">${
-                         record.taxpayerAddress || "-"
-                         }</p>
+                     <p class=" col-span-4">${record.taxpayerAddress || "-"
+                        }</p>
                  </div>
                  <div class="flex ">
                      <div class='w-16 border-b-2'>
@@ -145,16 +184,14 @@ return `
              <div class="grid grid-cols-6 gap-2">
                  <p>AMOUNT:</p>
                  <div class="col-span-4">
-                     <p class="">NGN ${
-                         formatNumber(record.amount) || "-"
-                         }</p>
+                     <p class="">NGN ${formatNumber(record.amount) || "-"
+                        }</p>
                  </div>
              </div>
              <div class="grid grid-cols-7 gap-2">
                  <p>Details:</p>
-                 <p class=" col-span-5 pl-4"> ${
-                     record.details.substring(0, 40) || "-"
-                     } </p>
+                 <p class=" col-span-5 pl-4"> ${record.details.substring(0, 40) || "-"
+                        } </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>PAID AT:</p>
@@ -184,61 +221,61 @@ return `
          </div>
      </div>
      `
-     )
-     .join("")}
+                )
+                .join("")}
 </div>
         `;
-  };
+    };
 
-  const getQRCodeBase64 = async (idpymt) => {
-    const baseReceiptVer = `https://irs.kg.gov.ng/verify/verify_receipt.php?ref=${idpymt}`;
-    const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${baseReceiptVer}`;
-    const response = await fetch(qrCodeURL);
-    const blob = await response.blob();
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
+    const getQRCodeBase64 = async (idpymt) => {
+        const baseReceiptVer = `https://irs.kg.gov.ng/verify/verify_receipt.php?ref=${idpymt}`;
+        const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${baseReceiptVer}`;
+        const response = await fetch(qrCodeURL);
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(reader.result);
+            };
+            reader.readAsDataURL(blob);
+        });
+    };
 
-  return (
-    <>
-      {isFetching ? (
-        <div className="flex justify-center item mb-2">
-          <Loader
-            visible={isFetching}
-            type="BallTriangle"
-            color="#00FA9A"
-            height={19}
-            width={19}
-            timeout={0}
-            className="ml-2"
-          />
-          <p className="font-bold">Processing...</p>
-        </div>
-      ) : (
-        <div>
-          <div className="flex justify-end mb-2">
-            <button
-              onClick={handleDownload}
-              className="btn w-32 bg-green-600 btn-default text-white
+    return (
+        <>
+            {isFetching ? (
+                <div className="flex justify-center item mb-2">
+                    <Loader
+                        visible={isFetching}
+                        type="BallTriangle"
+                        color="#00FA9A"
+                        height={19}
+                        width={19}
+                        timeout={0}
+                        className="ml-2"
+                    />
+                    <p className="font-bold">Processing...</p>
+                </div>
+            ) : (
+                <div>
+                    <div className="flex justify-end mb-2">
+                        <button
+                            onClick={handleDownload}
+                            className="btn w-32 bg-green-600 btn-default text-white
                     btn-outlined bg-transparent rounded-md"
-            >
-              Download PDF
-            </button>
-          </div>
+                        >
+                            Download PDF
+                        </button>
+                    </div>
 
-          <div id="pdf-content">
-            <p class="text-gray-800">
-              Records to download: {recordsStart} - {recordsEnd}
-            </p>
-            <p class="text-gray-800">Records Remaining: {recordsRemaining}</p>
-          </div>
-        </div>
-      )}
-    </>
-  );
+                    <div id="pdf-content">
+                        <p class="text-gray-800">
+                            Records to download: {recordsStart} - {recordsEnd}
+                        </p>
+                        <p class="text-gray-800">Records Remaining: {recordsRemaining}</p>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 }
