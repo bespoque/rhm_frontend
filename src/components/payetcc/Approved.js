@@ -26,9 +26,10 @@ const ApprovedPayeTccList = () => {
             rec.crt_time = dateformat(rec.crt_time, "dd mmm yyyy")
             records.push(rec);
           }
-          records.map(()=>{
+          records.map(()=>  { 
             if (records.find(v => v.status === "Approved")) {
               records.find(v => v.status === "Approved").status = "Pending E.C Signature";
+              
             }
   
           })
