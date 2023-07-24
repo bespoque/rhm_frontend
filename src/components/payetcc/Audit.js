@@ -1,20 +1,11 @@
-import SectionTitle from "../section-title";
-import Widget from "../widget";
-import { SubmitButton } from "../CustomButton/CustomButton";
-import { NewFormInput } from "../FormInput/formInputs";
-import { ViewIndividualTable } from "../tables/viewIndividual"
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CustomPagination } from "../pagination/customPagination";
 import { formatNumber } from "../../functions/numbers";
 import dateformat from "dateformat";
 import Loader from "react-loader-spinner";
-import Widget1 from "../dashboard/widget-1";
-import * as Icons from '../Icons/index';
-import { ViewTccTable } from "../tables/viewTccTable";
-import { ViewApprovedTccTable, ViewAuditTccTable } from "../tables/viewAllPayeTccTable";
+import { ViewAuditTccTable } from "../tables/viewAllPayeTccTable";
 
 const AuditPayeTccList = () => {
   const [tccdata, setTccData] = useState(() => []);
@@ -27,10 +18,9 @@ const AuditPayeTccList = () => {
       let records = [];
       let res = await axios.get(`${url.BASE_URL}paye/list-tcc?status=Audit Checked`)
         .then(function (response) {
-          res = response.data.body;
-          console.log("res.data.body", res);
-          for (let i = 0; i < res.length; i++) {
-            let rec = res[i];
+          let fetchedData = response.data.body;
+          for (let i = 0; i < fetchedData.length; i++) {
+            let rec = fetchedData[i];
             rec.serialNo = num + i
             rec.prc_fee = formatNumber(rec.prc_fee)
             rec.crt_time = dateformat(rec.crt_time, "dd mmm yyyy")
@@ -38,10 +28,10 @@ const AuditPayeTccList = () => {
           }
           setIsFetching(false);
           setTccData(() => records);
-
         })
         .catch(function (error) {
           setIsFetching(false);
+          console.log(error);
         })
     }
     fetchPost();

@@ -24,7 +24,6 @@ const VerifiedPayeTccList = () => {
           let fetchedData = response.data.body;
           for (let i = 0; i < fetchedData.length; i++) {
             let rec = fetchedData[i];
-            console.log("records", rec);
             rec.serialNo = num + i
             rec.prc_fee = formatNumber(rec.prc_fee)
             rec.crt_time = dateformat(rec.crt_time, "dd mmm yyyy")
