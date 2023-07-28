@@ -17,9 +17,6 @@ import { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import jwt from "jsonwebtoken";
 import { formatNumber } from "accounting";
-import Add from '@material-ui/icons/Add'
-import ViewColumn from '@material-ui/icons/ViewColumn'
-import FilterList from '@material-ui/icons/FilterList'
 
 
 const fields = [
@@ -74,12 +71,9 @@ const fields = [
 
 export default function Reportstable({ FilteredData }) {
     const router = useRouter();
-
     let items = FilteredData
 
-    console.log("items", items);
-
-    const { config, palettes, auth } = useSelector(
+    const { auth } = useSelector(
         (state) => ({
             config: state.config,
             palettes: state.palettes,

@@ -66,8 +66,6 @@ const LoginForm = () => {
           name="email"
           label={<KgtinIcon />}
           ref={register({
-            // minLength: 5,
-            // maxLength: 10,
             pattern: {
               value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
               message: "please enter a valid email address",
@@ -78,12 +76,7 @@ const LoginForm = () => {
           required
           placeholder="Email"
         />
-        {/* {errors.email && errors.email.type === "minLength" && (
-          <p className="text-red-600">Enter a valid email</p>
-        )}
-        {errors.email && errors.email.type === "maxLength" && (
-          <p className="text-red-600">Enter a correct password</p>
-        )} */}
+ 
         {errors.email && (
           <p className="text-red-600 bg-white">Enter a valid email</p>
         )}

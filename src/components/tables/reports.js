@@ -1,44 +1,19 @@
-import Widget from "../widget";
-import { formatNumber } from "../../functions/numbers";
-import * as Icons from '../Icons/index';
-import Widget1 from "../dashboard/widget-1";
+
 import dateformat from "dateformat";
-import Link from 'next/link';
-import CustomButton from "../CustomButton/CustomButton";
-import MaterialTable, { MTableToolbar } from "material-table";
-import Search from '@material-ui/icons/Search'
-import ViewColumn from '@material-ui/icons/ViewColumn'
-import SaveAlt from '@material-ui/icons/SaveAlt'
-import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import ChevronRight from '@material-ui/icons/ChevronRight'
-import FirstPage from '@material-ui/icons/FirstPage'
-import LastPage from '@material-ui/icons/LastPage'
-import Add from '@material-ui/icons/Add'
-import Check from '@material-ui/icons/Check'
-import FilterList from '@material-ui/icons/FilterList'
-import Remove from '@material-ui/icons/Remove'
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Clear from "@material-ui/icons/Clear";
 import { shallowEqual, useSelector } from "react-redux";
 import jwt from "jsonwebtoken";
 import setAuthToken from "../../functions/setAuthToken";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
-import ReactToPrint from "react-to-print";
-import { CoatOfArms, KgirsLogo, KogiGov, TccbgImage } from "../Images/Images";
-import QRCode from "react-qr-code";
-import { addDays, subDays } from 'date-fns';
-import { Calendar } from 'react-date-range';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { Controller, useForm } from "react-hook-form";
-import { FormatMoneyComponentBOJ, FormatMoneyComponentReport } from "../FormInput/formInputs";
+import { useForm } from "react-hook-form";
+import { FormatMoneyComponentReport } from "../FormInput/formInputs";
 import { useRouter } from "next/router";
 import Reportstable from "../../pages/reports/reportstable";
-import MultipleCollection from "../../pages/collection-receipt/daily-collection/[ref]";
 
 
 export const StartReportView = () => {
@@ -49,8 +24,6 @@ export const StartReportView = () => {
   const [FilteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
-  const [multipleSearchErr, setmultipleSearchErr] = useState([])
-  // const [multipleSearchData, setmultipleSearchData] = useState([])
 
 
   const router = useRouter();
@@ -102,7 +75,6 @@ export const StartReportView = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors },
   } = useForm()
 
   const {
@@ -128,7 +100,7 @@ export const StartReportView = () => {
         setRevenueItem(revItems)
 
       } catch (e) {
-        // setIsFetching(false);
+        setIsFetching(false);
         console.log(e);
       }
     };
@@ -164,23 +136,8 @@ export const StartReportView = () => {
     console.log("data", data);
     router.push(`/collection-receipt/daily-collection/${data.tranDate}`)
     setIsFetching(true)
-    // axios.post(`${url.BASE_URL}collection/view-collections`, data)
-    //   .then(function (response) {
-    //     let search = response.data.body;
-    //     setIsFetching(false)
-    //     setmultipleSearchData(search)
-    //     console.log("search", search);
-    //   })
-    //   .catch(function (error) {
-    //     setIsFetching(false)
-    //     if (error.response) {
-    //       setmultipleSearchErr(error.response.data.message)
-    //     }
-
-    //   })
   }
 
-  // console.log("main component data", multipleSearchData);
   return (
     <>
       <div className="">
@@ -281,10 +238,7 @@ export const StartReportView = () => {
                   <option value="Remita">Remita</option>
                   <option value="WebPay">WebPay</option>
                   <option value="Paytax">Paytax</option>
-
                 </select>
-                {/* <input type="text" ref={register()} name="channel_id" className="form-control w-full rounded font-light text-gray-500"
-                  /> */}
               </div>
             </div>
 
