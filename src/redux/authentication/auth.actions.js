@@ -12,12 +12,12 @@ export const login = (data) => async (dispatch) => {
     console.log("vetData", vetData);
     const login = await axios.post(`${url.BASE_URL}user/login`, data);
     const auth = login.data.accessToken;
-    const vetToken = await axios.post(`https://bespoque.dev/rhm-live/utils/startAuth.php`, vetData,{
-      headers:{
-        Authorization: `Bearer ${auth}`
-      }
-    });
-    console.log("vetToken", vetToken);
+    // const vetToken = await axios.post(`https://bespoque.dev/rhm-live/utils/startAuth.php`, vetData,{
+    //   headers:{
+    //     Authorization: `Bearer ${auth}`
+    //   }
+    // });
+    // console.log("vetToken", vetToken);
     const userGroup = login.data.userGroups
     
     dispatch({ type: authActionTypes.SET_LOGIN_SUBMITTING });
