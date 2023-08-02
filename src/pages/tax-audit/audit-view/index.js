@@ -211,8 +211,8 @@ const Index = () => {
                             > Assessment
 
                                 {modalIsOpen && (
-                                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-                                        <div className="bg-white p-4 rounded-lg">
+                                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center  bg-opacity-50">
+                                        <div className="bg-white p-4 rounded-lg border">
                                             <p className="font-bold">Assessment Years</p>
                                             <div className="grid grid-cols-4 gap-4">
                                                 {individualYears.map((year) => (
