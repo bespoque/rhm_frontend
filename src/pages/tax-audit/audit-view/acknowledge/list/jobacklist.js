@@ -20,6 +20,7 @@ export default function Jobacklist() {
     const router = useRouter()
     const { JobID } = router?.query
 
+
     const fields = [
         {
             title: "Relationship",
@@ -37,6 +38,10 @@ export default function Jobacklist() {
             title: "Created time",
             field: "createtime",
         },
+        {
+            title: "Action Type",
+            field: "actionType"
+        }
     ];
 
 
@@ -68,6 +73,36 @@ export default function Jobacklist() {
 
         <>
             {isFetching && <ProcessorSpinner />}
+
+            <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl mb-2 shadow-md overflow-hidden md:max-w-2xl p-4">
+                <div className="accordion border border-gray-300 mb-10">
+                    <div
+                        className=' accordion-header text-center bg-gray-100 p-4 cursor-pointer bg-gray-200 '
+                    >
+                        <div className="flex justify-between">
+                            <span>
+                                Job Menu
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="accordion-content p-4">
+                        <button className="btn block p-2 bg-gray-100 w-full m-2">Assessment</button>
+                        <button className="btn block p-2 bg-gray-100 w-full m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)}
+                        >Notification letter</button>
+                        <button className="btn block p-2 bg-blue-100 w-full m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)}>
+                            Acknowledgements
+                        </button>
+                        <button className="btn block p-2 bg-gray-100 w-full m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)}
+                        >Notes</button>
+                        <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
+                        <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
+                    </div>
+                </div>
+            </div>
 
             <MaterialTable title="Job acknowledegements"
                 data={jobAck}
