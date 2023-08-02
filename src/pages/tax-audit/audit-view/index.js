@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { ProcessorSpinner } from '../../../components/spiner';
 import SectionTitle from '../../../components/section-title';
-import { FiPlusCircle } from 'react-icons/fi';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -17,14 +16,13 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
-import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
+
 
 const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
     const [notificationData, setNotificationData] = useState(() => []);
-    const [selectedRow, setSelectedRow] = useState(null);
-    const [dialogData, setDialogData] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const router = useRouter()
     const { id } = router?.query
@@ -56,8 +54,82 @@ const Index = () => {
         }
     ];
 
-  
+    function getIndividualYears(startDate, endDate) {
+        // Parse start date components
+        const startComponents = startDate.split("-");
+        const startYear = parseInt(startComponents[2]);
+        const startMonth = parseInt(startComponents[1]);
+        const startDay = parseInt(startComponents[0]);
 
+        // Parse end date components
+        const endComponents = endDate.split("-");
+        const endYear = parseInt(endComponents[2]);
+        const endMonth = parseInt(endComponents[1]);
+        const endDay = parseInt(endComponents[0]);
+
+        // Initialize the array to store the individual years
+        const years = [];
+
+        // Loop through the years and add them to the array
+        for (let year = startYear; year <= endYear; year++) {
+            years.push(year);
+        }
+
+        return years;
+    }
+
+    // Example usage:
+    const startDate = "01-01-2019";
+    const endDate = "30-12-2022";
+    const individualYears = getIndividualYears(startDate, endDate);
+    console.log(individualYears);
+
+
+    // function getIndividualYears(startDate, endDate) {
+    //     // Parse start date components
+    //     const startComponents = startDate.split("-");
+    //     const startYear = parseInt(startComponents[2]);
+    //     const startMonth = parseInt(startComponents[1]);
+    //     const startDay = parseInt(startComponents[0]);
+
+    //     // Parse end date components
+    //     const endComponents = endDate.split("-");
+    //     const endYear = parseInt(endComponents[2]);
+    //     const endMonth = parseInt(endComponents[1]);
+    //     const endDay = parseInt(endComponents[0]);
+
+    //     // Initialize the array to store the individual years
+    //     const years = [];
+
+    //     // Loop through the years and add them to the array
+    //     for (let year = startYear + 1; year < endYear; year++) {
+    //         years.push(year);
+    //     }
+
+    //     return years;
+    // }
+
+    // // Example usage:
+    // const startDate = "01-01-2019";
+    // const endDate = "30-12-2022";
+    // const individualYears = getIndividualYears(startDate, endDate);
+    // console.log(individualYears);
+
+
+    const openModal = () => {
+        setModalIsOpen(true);
+      };
+    
+      const closeModal = () => {
+        setModalIsOpen(false);
+      };
+
+      const handleCloseModal = (event) => {
+        event.stopPropagation(); // Prevent event bubbling
+        closeModal();
+      };
+
+      console.log("modalIsOpen", modalIsOpen);
     useEffect(() => {
 
         async function fetchPost() {
@@ -92,34 +164,11 @@ const Index = () => {
             }
         }
         fetchPost();
-    }, [router]);
-
-    const handleClosePopup = () => {
-        setSelectedRow(null);
-        setDialogData(null);
-    };
+    }, [id]);
 
 
-    async function handleRowClick(event, rowData) {
-        setSelectedRow(rowData);
-        try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-single.php', {
-                method: 'POST',
-                body: JSON.stringify({
-                    "job_id": rowData.job_id,
-                    "id": rowData.id,
-                })
-            })
-            const dataFetch = await res.json()
-            setDialogData(dataFetch.body)
-            setIsFetching(false)
-        } catch (error) {
-            console.error('Server Error:', error)
-            setDialogData(null)
-        } finally {
-            setIsFetching(false)
-        }
-    }
+
+
 
 
     return (
@@ -157,7 +206,36 @@ const Index = () => {
                         </div>
 
                         <div className="accordion-content p-4">
-                            <button className="btn block p-2 bg-gray-100 w-full m-2">Assessment</button>
+                            <button className="btn block p-2 bg-gray-100 w-full m-2"
+                                onClick={openModal}
+                            > Assessment
+
+                                {modalIsOpen && (
+                                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                        <div className="bg-white p-4 rounded-lg">
+                                            <p className="font-bold">Assessment Years</p>
+                                            <div className="grid grid-cols-4 gap-4">
+                                                {individualYears.map((year) => (
+                                                    <button
+                                                        key={year}
+                                                        className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                                                    >
+                                                        {year}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            <div className="mt-4 flex justify-end">
+                                                <button
+                                                    className="px-4 py-2 bg-red-500 text-white rounded"
+                                                    onClick={handleCloseModal}
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </button>
                             <button className="btn block p-2 bg-blue-100 w-full m-2">Notification letter</button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
@@ -176,7 +254,7 @@ const Index = () => {
 
 
             <p className="flex justify-end m-2">
-                <NewNotificationButton id={id} />
+                {/* <NewNotificationButton id={id} /> */}
             </p>
             <MaterialTable title="Job notifications"
                 data={notificationData}
@@ -189,7 +267,6 @@ const Index = () => {
                             icon: MoreHoriz,
                             tooltip: 'Notification',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-                            // onClick: (event, rowData) => { handleRowClick() },
                         },
                         {
                             icon: NextWeekRounded,
@@ -223,16 +300,6 @@ const Index = () => {
 
             />
 
-            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
-                <DialogTitle>Notification</DialogTitle>
-                <DialogContent>
-                    {dialogData ? (
-                        <Typography>Date: {dialogData.date}</Typography>
-                    ) : (
-                        <Typography>Loading...</Typography>
-                    )}
-                </DialogContent>
-            </Dialog>
 
         </>
     )

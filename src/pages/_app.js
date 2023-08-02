@@ -30,9 +30,11 @@ import '../css/components/user-widgets/widget-2.css';
 import '../css/components/user-widgets/widget-4.css';
 import { PersistGate } from 'redux-persist/integration/react';
 
+
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
+
 
 export default function App({ Component, pageProps }) {
   const { store, persistor } = useStore(pageProps.initialReduxState);

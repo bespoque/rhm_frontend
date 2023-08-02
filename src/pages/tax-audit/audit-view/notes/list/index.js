@@ -92,7 +92,6 @@ export default function Notifiacklist() {
                     </div>
 
                     <div className="accordion-content p-4">
-                        <button className="btn block p-2 bg-gray-100 w-full m-2">Assessment</button>
                         <button className="btn block p-2 bg-gray-100 w-full m-2"
                             onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)}
                         >Notification letter</button>
