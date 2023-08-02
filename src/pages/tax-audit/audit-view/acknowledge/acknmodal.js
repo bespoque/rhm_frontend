@@ -5,7 +5,6 @@ import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../components/spiner';
 
@@ -24,13 +23,11 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const emailAdd = decoded.user
     const staffName = decoded.staffName
 
-    console.log("decoded", decoded);
     const onSubmit = async (data) => {
         data.doneby = emailAdd
         data.job_id = JobID
         data.notification_id = Notifid
         data.ack_by = staffName
-        console.log("data", data);
         setIsLoading(true)
 
         try {
@@ -104,6 +101,26 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                             >
                                 <option value="Brother">Brother</option>
                                 <option value="Mother">Mother</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-2">
+                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
+                                Type
+                            </label>
+                            <select
+                                id="notification_delivery"
+                                name='actionType'
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            >
+                                <option value="Initial">Initial</option>
+                                <option value="Audit">Audit</option>
+                                <option value="Due">Due</option>
+                                <option value="Overdue">Overdue</option>
+                                <option value="Objection">Objection</option>
+                                <option value="Completion">Completion</option>
                             </select>
                         </div>
 

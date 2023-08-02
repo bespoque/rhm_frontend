@@ -49,7 +49,7 @@ const Index = () => {
             field: "createtime",
         },
         {
-            title: "Action Type",
+            title: "Action type",
             field: "actionType"
         }
     ];
@@ -254,7 +254,7 @@ const Index = () => {
 
 
             <p className="flex justify-end m-2">
-                {/* <NewNotificationButton id={id} /> */}
+                <NewNotificationButton id={id} />
             </p>
             <MaterialTable title="Job notifications"
                 data={notificationData}

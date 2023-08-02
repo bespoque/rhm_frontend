@@ -88,6 +88,25 @@ const NotesModal = ({ isOpen, closeModal, JobID }) => {
                                 required
                             />
                         </div>
+                        <div className="mb-1">
+                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
+                                Type
+                            </label>
+                            <select
+                                id="notification_delivery"
+                                name='actionType'
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            >
+                                <option value="Initial">Initial</option>
+                                <option value="Audit">Audit</option>
+                                <option value="Due">Due</option>
+                                <option value="Overdue">Overdue</option>
+                                <option value="Objection">Objection</option>
+                                <option value="Completion">Completion</option>
+                            </select>
+                        </div>
 
                         <div className="mb-2">
                             <label className=" block mb-1">

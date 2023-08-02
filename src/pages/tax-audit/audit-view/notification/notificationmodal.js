@@ -74,7 +74,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 ref={register()}
                             />
                         </div>
-                        <div className="mb-2">
+                        <div className="mb-1">
                             <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
                                 Delivery Method:
                             </label>
@@ -90,7 +90,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 <option value="SMS">SMS</option>
                             </select>
                         </div>
-                        <div className="mb-2">
+                        <div className="mb-1">
                             <label htmlFor="notification_file" className="text-dark  block mb-1">
                                 Notification File:
                             </label>
@@ -105,7 +105,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             />
                         </div>
 
-                        <div className="mb-2">
+                        <div className="mb-1">
                             <label htmlFor="notification_status" className="text-dark  block mb-1">
                                 Notification Status:
                             </label>
@@ -120,7 +120,25 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 <option value="Started">Started</option>
                             </select>
                         </div>
-
+                        <div className="mb-1">
+                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
+                                Type
+                            </label>
+                            <select
+                                id="notification_delivery"
+                                name='actionType'
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            >
+                                <option value="Initial">Initial</option>
+                                <option value="Audit">Audit</option>
+                                <option value="Due">Due</option>
+                                <option value="Overdue">Overdue</option>
+                                <option value="Objection">Objection</option>
+                                <option value="Completion">Completion</option>
+                            </select>
+                        </div>
                         <div className="mb-2">
                             <label htmlFor="notification_note" className="text-dark  block mb-1">
                                 Notification Note:
