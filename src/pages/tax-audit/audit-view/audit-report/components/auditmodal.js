@@ -58,7 +58,7 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="my-3">New Note</h6>
+                    <h6 className="my-3">New audit report</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label className="block mb-1 ">
