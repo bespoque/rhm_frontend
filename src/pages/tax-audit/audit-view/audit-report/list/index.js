@@ -23,24 +23,16 @@ export default function AuditReportList() {
 
     const fields = [
         {
-            title: "Relationship",
-            field: "ack_relationship",
+            title: "status",
+            field: "status",
         },
         {
-            title: "Acknowledged by",
-            field: "ack_by",
-        },
-        {
-            title: "Channel",
-            field: "ack_channel",
+            title: "resolution",
+            field: "resolution",
         },
         {
             title: "Created time",
-            field: "createtime",
-        },
-        {
-            title: "Action Type",
-            field: "actionType"
+            field: "createdate",
         }
     ];
 
@@ -51,10 +43,10 @@ export default function AuditReportList() {
         async function fetchPost() {
 
             try {
-                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-ack-batch.php', {
+                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-auditreports-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "job_id": JobID,
+                        "job_id": JobID
                     })
                 })
                 const dataFetch = await res.json()
