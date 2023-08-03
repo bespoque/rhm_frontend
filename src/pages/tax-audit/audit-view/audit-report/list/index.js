@@ -101,7 +101,6 @@ export default function AuditReportList() {
             </div>
 
             <div className="flex justify-end m-2">
-                t
                 <NewAuditReport JobID={JobID} />
             </div>
 
