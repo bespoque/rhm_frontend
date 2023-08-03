@@ -25,7 +25,7 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
     const onSubmit = async (data) => {
         data.doneby = emailAdd
         data.job_id = JobID
-        data.note_file = "filepath"
+        data.reportfile = "filepath"
         console.log("data", data);
         setIsLoading(true)
 
@@ -60,23 +60,25 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
                 <div className="overflow-y-auto">
                     <h6 className="my-3">New audit report</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
-                        <div className="mb-2">
-                            <label className="block mb-1 ">
-                                Note Headline:
+
+                        <div className="mb-1">
+                            <label className="block  mb-1 text-dark">
+                                Status
                             </label>
-                            <input
-                                type="text"
-                                id="note_headline"
-                                name='note_headline'
+                            <select
+                                name='status'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                            />
+                            >
+                                <option value="Initial">Ongoing</option>
+                                <option value="Audit">Completed</option>
+                            </select>
                         </div>
 
                         <div className="mb-2">
                             <label className=" block mb-1">
-                                Note File:
+                                Report File:
                             </label>
                             <input
                                 type="file"
@@ -87,36 +89,16 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
                                 required
                             />
                         </div>
-                        <div className="mb-1">
-                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Type
-                            </label>
-                            <select
-                                id="notification_delivery"
-                                name='actionType'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Initial">Initial</option>
-                                <option value="Audit">Audit</option>
-                                <option value="Due">Due</option>
-                                <option value="Overdue">Overdue</option>
-                                <option value="Objection">Objection</option>
-                                <option value="Completion">Completion</option>
-                            </select>
-                        </div>
 
                         <div className="mb-2">
                             <label className=" block mb-1">
-                                Note Details:
+                                Resolution:
                             </label>
                             <textarea
-                                id="note_details"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='note_details'
+                                name='resolution'
                             ></textarea>
                         </div>
                         <button
