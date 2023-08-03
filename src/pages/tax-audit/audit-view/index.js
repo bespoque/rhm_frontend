@@ -258,9 +258,9 @@ const Index = () => {
 
 
 
-            <p className="flex justify-end m-2">
+            <div className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
-            </p>
+            </div>
             <MaterialTable title="Job notifications"
                 data={notificationData}
                 columns={fields}

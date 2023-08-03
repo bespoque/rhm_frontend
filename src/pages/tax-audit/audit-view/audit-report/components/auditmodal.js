@@ -6,11 +6,11 @@ import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
-import { ProcessorSpinner } from '../../../../components/spiner';
+import { ProcessorSpinner } from '../../../../../components/spiner';
 
-const NotificationModal = ({ isOpen, closeModal, id }) => {
+const AuditModal = ({ isOpen, closeModal, JobID }) => {
     const [isFetching, setIsLoading] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const router = useRouter()
     const { auth } = useSelector(
         (state) => ({
@@ -23,21 +23,21 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
+        data.doneby = emailAdd
+        data.job_id = JobID
+        data.note_file = "filepath"
         console.log("data", data);
         setIsLoading(true)
 
-        data.doneby = emailAdd
-        data.job_id = id
-        data.notification_file = "filepath"
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnote.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
             toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push(`/tax-audit/audit-view?id=${id}`)
+            router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -54,70 +54,38 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
-                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+                overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-75"
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="text-dark">New Notification</h6>
+                    <h6 className="my-3">New Note</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label htmlFor="notification_date" className="block mb-1  text-dark">
-                                Notification Date:
+                            <label className="block mb-1 ">
+                                Note Headline:
                             </label>
                             <input
-                                type="date"
-                                id="notification_date"
-                                name='notification_date'
+                                type="text"
+                                id="note_headline"
+                                name='note_headline'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             />
                         </div>
-                        <div className="mb-1">
-                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Delivery Method:
-                            </label>
-                            <select
-                                id="notification_delivery"
-                                name='notification_delivery'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Mail">Mail</option>
-                                <option value="Email">Email</option>
-                                <option value="SMS">SMS</option>
-                            </select>
-                        </div>
-                        <div className="mb-1">
-                            <label htmlFor="notification_file" className="text-dark  block mb-1">
-                                Notification File:
+
+                        <div className="mb-2">
+                            <label className=" block mb-1">
+                                Note File:
                             </label>
                             <input
                                 type="file"
                                 id="notification_file"
                                 name="notification_file"
-                                className="border border-gray-300 text-dark rounded px-2 py-1 w-full"
+                                className="border border-gray-300  rounded px-2 py-1 w-full"
                                 // onChange={handleFileChange}
                                 required
-                                ref={register()}
                             />
-                        </div>
-
-                        <div className="mb-1">
-                            <label htmlFor="notification_status" className="text-dark  block mb-1">
-                                Notification Status:
-                            </label>
-                            <select
-                                id="notification_status"
-                                name='notification_status'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Pending">Pending</option>
-                                <option value="Started">Started</option>
-                            </select>
                         </div>
                         <div className="mb-1">
                             <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
@@ -138,35 +106,21 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 <option value="Completion">Completion</option>
                             </select>
                         </div>
+
                         <div className="mb-2">
-                            <label htmlFor="notification_note" className="text-dark  block mb-1">
-                                Notification Note:
+                            <label className=" block mb-1">
+                                Note Details:
                             </label>
                             <textarea
-
-                                id="notification_note"
+                                id="note_details"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='notification_note'
-                            ></textarea>
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_body" className="text-dark  block mb-1">
-                                Notification Body:
-                            </label>
-                            <textarea
-
-                                id="notification_body"
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                                name='notification_body'
+                                name='note_details'
                             ></textarea>
                         </div>
                         <button
-                            className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
+                            className="bg-blue-500 hover:bg-blue-600  py-2 px-4 rounded mt-4"
                             type="submit"
                         >
                             Submit
@@ -184,4 +138,4 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     );
 };
 
-export default NotificationModal;
+export default AuditModal;

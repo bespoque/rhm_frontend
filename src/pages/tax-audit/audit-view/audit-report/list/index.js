@@ -13,6 +13,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import NewAuditReport from '../components/button'
 
 export default function AuditReportList() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -99,7 +100,11 @@ export default function AuditReportList() {
                 </div>
             </div>
 
-            <MaterialTable title="Audit Reports"
+            <div className="flex justify-end m-2">
+                <NewAuditReport JobID={JobID} />
+            </div>
+
+            <MaterialTable title="Job audit reports"
                 data={reports}
                 columns={fields}
 
