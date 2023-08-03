@@ -118,18 +118,18 @@ const Index = () => {
 
     const openModal = () => {
         setModalIsOpen(true);
-      };
-    
-      const closeModal = () => {
-        setModalIsOpen(false);
-      };
+    };
 
-      const handleCloseModal = (event) => {
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
+
+    const handleCloseModal = (event) => {
         event.stopPropagation(); // Prevent event bubbling
         closeModal();
-      };
+    };
 
-      console.log("modalIsOpen", modalIsOpen);
+    console.log("modalIsOpen", modalIsOpen);
     useEffect(() => {
 
         async function fetchPost() {
@@ -242,7 +242,8 @@ const Index = () => {
                                 Acknowledgements
                             </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
-                                >
+                                onClick={() => router.push(`/tax-audit/audit-view/audit-report?JobID=${id}`)}
+                            >
                                 Audit Reoprt
                             </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
