@@ -306,7 +306,7 @@ export const ViewApprovedObjectionSingle = ({
           <div ref={componentRef} className="p-4 mt-5">
             <div className="flex justify-center">
               {apprObjData.notice === "undertaxed" ?
-                <div className="text-justify text-base max-w-prose"  >
+                <div className="text-justify"  >
                   <p className="flex justify-between mt-3"> <span className="font-bold">{apprObjData.file_ref}</span> {today}  </p>
                   <p>{apprObjData.taxPayerName}</p>
                   <p>{apprObjData.kgtin}</p>

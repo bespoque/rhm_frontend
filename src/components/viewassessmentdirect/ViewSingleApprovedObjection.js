@@ -1,11 +1,8 @@
 import Widget from '../widget'
 import SectionTitle from '../section-title';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import axios from "axios";
-import url from '../../config/url';
+import { useEffect, useState } from 'react';
 import Loader from 'react-loader-spinner';
-import setAuthToken from '../../functions/setAuthToken';
 import { ViewApprovedObjectionSingle } from '../tables/viewApprovedObjection';
 
 
