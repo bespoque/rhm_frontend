@@ -435,7 +435,7 @@ export const ViewApprovedObjectionSingle = ({
                         :
                         <div>
                           {apprObjData.notice === "document_review" ?
-                            <div className="text-justify text-xs  max-w-prose" >
+                            <div className="text-justify text-sm  max-w-prose" >
                               <p className="flex justify-between mt-3"> <span>{apprObjData.file_ref}</span> {today}  </p>
                               <p>{apprObjData.taxPayerName}</p>
                               <p>{apprObjData.kgtin}</p>
