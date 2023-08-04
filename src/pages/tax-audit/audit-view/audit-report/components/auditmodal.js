@@ -58,7 +58,7 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
 
             >
                 <div className="overflow-y-auto">
-                    <h6 className="my-3">New audit report</h6>
+                    <h4 className="my-3">New audit report</h4>
                     <form onSubmit={handleSubmit(onSubmit)} >
 
                         <div className="mb-1">
@@ -71,11 +71,11 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
                                 required
                                 ref={register()}
                             >
-                                <option value="Initial">Ongoing</option>
-                                <option value="Audit">Completed</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Completed">Completed</option>
                             </select>
                         </div>
-
+                        
                         <div className="mb-2">
                             <label className=" block mb-1">
                                 Report File:
@@ -88,6 +88,25 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
                                 // onChange={handleFileChange}
                                 required
                             />
+                        </div>
+
+                        <div className="mb-1">
+                            <label className="block  mb-1 text-dark">
+                                Action type
+                            </label>
+                            <select
+                                name='actionType'
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            >
+                                <option value="Initial">Initial</option>
+                                <option value="Audit">Audit</option>
+                                <option value="Due">Due</option>
+                                <option value="Overdue">Overdue</option>
+                                <option value="Objection">Objection</option>
+                                <option value="Completion">Completion</option>
+                            </select>
                         </div>
 
                         <div className="mb-2">
