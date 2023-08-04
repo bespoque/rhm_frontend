@@ -30,14 +30,14 @@ const AuditModal = ({ isOpen, closeModal, JobID }) => {
         setIsLoading(true)
 
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnote.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newauditreport.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
             toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)
+            router.reload();
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
