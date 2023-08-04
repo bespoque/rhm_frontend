@@ -445,36 +445,35 @@ export const ViewApprovedObjectionSingle = ({
                                 <p className="font-bold">RE: {apprObjData.grounds}</p><br />
                               </div>
                               <p>The above Subject refers;</p>
-                              <section>
+                              <p>
                                 We acknowledge the receipt of your letter dated
                                 <span className="font-bold"> {(timeCreated)}, </span>
                                 in respect to the objection of your Direct Assessment.
-                              </section><br />
+                              </p><br />
 
-                              <section>
+                              <p>
                                 We have reviewed your letter of objection in line with section 24[A] of
                                 PITA 2011 as amended.The Management has looked at the reasonability of your objection
                                 and revised your assessment to <span className="font-bold">₦{formatNumber(apprObjData.tax)} {`(${recTaxToWords} Naira only)`} </span>
                                 Instead of <span className="font-bold"> ₦{formatNumber(apprObjData.tp_tax)} {`(${DATaxToWords} Naira only)`} </span>
-                              </section><br />
-                              <section>
+                              </p><br />
+                              <p>
                                 You may wish to peruse the sections 3 and 48 of the Personal Income Tax Act (PITA) 2011
                                 as ammended which create that obligation on every citizen of Nigeria
-                              </section>
-                              <section>
+                              </p><br />
+                              <p>
                                 You are by this expected to make payments to any Kogi State Internal
                                 Revenue Service designated banks using the Assessment ID <span className="font-bold">{apprObjData.assessment_id}</span>.
                                 Otherwise submit the following document for the year <span className="font-bold">{apprObjData.year}</span> to enable
                                 us carry out proper assessment in consideration of your objection:
-                              </section><br />
+                              </p><br />
                               <section>
                                 <ul>
                                   <li>1. Audited financial statements</li>
                                   <li>2. Bank accounts of the directors and</li>
                                   <li>3. Any other relevant document to that effect</li>
                                 </ul>
-                              </section>
-                              <br />
+                              </section><br />
                               <p>
                                 Yours Faithfully..
                               </p>
