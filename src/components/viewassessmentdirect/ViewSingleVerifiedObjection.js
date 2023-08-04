@@ -6,14 +6,13 @@ import axios from "axios";
 import Loader from 'react-loader-spinner';
 import setAuthToken from '../../functions/setAuthToken';
 import url from '../../config/url';
-import { ViewObjection } from '../tables/viewSubmittedObjection';
 import { ViewVerifiedObjection } from '../tables/viewVerifiedObjection';
 
 
 const ViewSingleVerifiedObjection = () => {
   const router = useRouter();
   const [isFetching, setIsFetching] = useState(() => true);
-  const [globalAssId, setGlobalAssId] = useState("")
+
   const [objectionData, setObjectionData] = useState([])
   const [objUploads, setObjUploads] = useState([])
   const [tpKgtin, setTpKgtin] = useState([])
@@ -23,7 +22,7 @@ const ViewSingleVerifiedObjection = () => {
       let routerData = String(router.query.ref);
       let kgtin = routerData.split('_').pop()
       let assessmentId = routerData.split('_').shift()
-      setGlobalAssId(assessmentId)
+     
       setTpKgtin(kgtin)
       setAuthToken()
       const fetchPost = async () => {

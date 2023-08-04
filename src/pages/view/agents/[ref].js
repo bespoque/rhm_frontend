@@ -87,8 +87,7 @@ export default function ViewAgent() {
         }
     }, [router]);
 
-    console.log("agentDetails", agentDetails);
-    console.log("agentTransactions", agentTransactions);
+   
     return (
         <div>
             {isFetching && (
