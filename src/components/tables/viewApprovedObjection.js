@@ -435,7 +435,7 @@ export const ViewApprovedObjectionSingle = ({
                         :
                         <div>
                           {apprObjData.notice === "document_review" ?
-                            <div className="text-justify text-base leading-normal max-w-prose" >
+                            <div className="text-justify text-sm  max-w-prose" >
                               <p className="flex justify-between mt-3"> <span>{apprObjData.file_ref}</span> {today}  </p>
                               <p>{apprObjData.taxPayerName}</p>
                               <p>{apprObjData.kgtin}</p>
@@ -449,14 +449,14 @@ export const ViewApprovedObjectionSingle = ({
                                 We acknowledge the receipt of your letter dated
                                 <span className="font-bold"> {(timeCreated)}, </span>
                                 in respect to the objection of your Direct Assessment.
-                              </section>
+                              </section><br />
 
                               <section>
                                 We have reviewed your letter of objection in line with section 24[A] of
                                 PITA 2011 as amended.The Management has looked at the reasonability of your objection
                                 and revised your assessment to <span className="font-bold">₦{formatNumber(apprObjData.tax)} {`(${recTaxToWords} Naira only)`} </span>
                                 Instead of <span className="font-bold"> ₦{formatNumber(apprObjData.tp_tax)} {`(${DATaxToWords} Naira only)`} </span>
-                              </section>
+                              </section><br />
                               <section>
                                 You may wish to peruse the sections 3 and 48 of the Personal Income Tax Act (PITA) 2011
                                 as ammended which create that obligation on every citizen of Nigeria
@@ -466,7 +466,7 @@ export const ViewApprovedObjectionSingle = ({
                                 Revenue Service designated banks using the Assessment ID <span className="font-bold">{apprObjData.assessment_id}</span>.
                                 Otherwise submit the following document for the year <span className="font-bold">{apprObjData.year}</span> to enable
                                 us carry out proper assessment in consideration of your objection:
-                              </section>
+                              </section><br />
                               <section>
                                 <ul>
                                   <li>1. Audited financial statements</li>
