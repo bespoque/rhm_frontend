@@ -55,22 +55,14 @@ const Index = () => {
     ];
 
     function getIndividualYears(startDate, endDate) {
-        // Parse start date components
         const startComponents = startDate.split("-");
         const startYear = parseInt(startComponents[2]);
-        const startMonth = parseInt(startComponents[1]);
-        const startDay = parseInt(startComponents[0]);
 
-        // Parse end date components
         const endComponents = endDate.split("-");
         const endYear = parseInt(endComponents[2]);
-        const endMonth = parseInt(endComponents[1]);
-        const endDay = parseInt(endComponents[0]);
 
-        // Initialize the array to store the individual years
         const years = [];
 
-        // Loop through the years and add them to the array
         for (let year = startYear; year <= endYear; year++) {
             years.push(year);
         }
@@ -79,10 +71,9 @@ const Index = () => {
     }
 
     // Example usage:
-    const startDate = "01-01-2019";
-    const endDate = "30-12-2022";
+    const startDate = job?.job_auditdate_start;
+    const endDate = job?.job_auditdate_end;
     const individualYears = getIndividualYears(startDate, endDate);
-    console.log(individualYears);
 
 
     // function getIndividualYears(startDate, endDate) {
@@ -167,10 +158,6 @@ const Index = () => {
     }, [id]);
 
 
-
-
-
-
     return (
         <>
             {isFetching && <ProcessorSpinner />}
@@ -191,7 +178,6 @@ const Index = () => {
                         <p className="font-bold"><span className="text-base">Job audit end</span> : <span>{job.job_auditdate_end}</span></p>
                         <p className="font-bold"><span className="text-base">Job initiator</span> : <span>{job.job_initiator}</span></p>
                     </article>
-
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <div className="accordion border border-gray-300 mb-10">
