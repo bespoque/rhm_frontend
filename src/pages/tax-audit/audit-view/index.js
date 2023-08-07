@@ -55,10 +55,10 @@ const Index = () => {
     ];
 
     function getIndividualYears(startDate, endDate) {
-        const startComponents = startDate.split("-");
+        const startComponents = startDate?.split("-");
         const startYear = parseInt(startComponents[2]);
 
-        const endComponents = endDate.split("-");
+        const endComponents = endDate?.split("-");
         const endYear = parseInt(endComponents[2]);
 
         const years = [];
