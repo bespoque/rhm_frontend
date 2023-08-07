@@ -153,18 +153,13 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
   const [assessmentModal, setAssessmentModalModal] = useState(false);
   const [comment, setComment] = useState(false);
   const [fixedValues, fixValues] = useState({ amount: 0 });
-  const [submittedResult, updateResult] = useState({ amount: 0 });
   const {
-    register,
     handleSubmit,
     control,
-    formState: { errors },
   } = useForm()
 
-  const { config, palettes, auth } = useSelector(
+  const {auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -192,7 +187,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
   };
 
   const kgtinString = String(kgtinVal)
-  const items = payerprop;
   const assessment_id = assId
   const createdTime = dateformat(assobj.createtime, "dd mmm yyyy")
   const employedCal = Number(assobj.employed)
@@ -310,7 +304,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
     //     toast.error("Failed! please try again");
     //   })
 
-    console.log(data);
   };
 
   return (
