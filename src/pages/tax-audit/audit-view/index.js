@@ -75,38 +75,6 @@ const Index = () => {
     const endDate = job?.job_auditdate_end;
     const individualYears = getIndividualYears(startDate, endDate);
 
-
-    // function getIndividualYears(startDate, endDate) {
-    //     // Parse start date components
-    //     const startComponents = startDate.split("-");
-    //     const startYear = parseInt(startComponents[2]);
-    //     const startMonth = parseInt(startComponents[1]);
-    //     const startDay = parseInt(startComponents[0]);
-
-    //     // Parse end date components
-    //     const endComponents = endDate.split("-");
-    //     const endYear = parseInt(endComponents[2]);
-    //     const endMonth = parseInt(endComponents[1]);
-    //     const endDay = parseInt(endComponents[0]);
-
-    //     // Initialize the array to store the individual years
-    //     const years = [];
-
-    //     // Loop through the years and add them to the array
-    //     for (let year = startYear + 1; year < endYear; year++) {
-    //         years.push(year);
-    //     }
-
-    //     return years;
-    // }
-
-    // // Example usage:
-    // const startDate = "01-01-2019";
-    // const endDate = "30-12-2022";
-    // const individualYears = getIndividualYears(startDate, endDate);
-    // console.log(individualYears);
-
-
     const openModal = () => {
         setModalIsOpen(true);
     };
