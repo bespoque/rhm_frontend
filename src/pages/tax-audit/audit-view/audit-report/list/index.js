@@ -14,6 +14,7 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 import NewAuditReport from '../components/button'
+import { MoreHoriz } from '@material-ui/icons'
 
 export default function AuditReportList() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -136,7 +137,16 @@ export default function AuditReportList() {
             <MaterialTable title="Job audit reports"
                 data={reports}
                 columns={fields}
+                actions={
+                    [
 
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'View',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/audit-report/edit?${JobID}`),
+                        },
+                    ]
+                }
                 options={{
                     search: true,
                     paging: true,
