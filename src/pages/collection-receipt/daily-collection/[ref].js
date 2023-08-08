@@ -48,9 +48,9 @@ export default function MultipleCollection() {
                         tranDate
                     );
                     let search = response.data.body;
-                    setIsFetching(false);
-                    setmultipleSearchData(search);
                     console.log('search', search);
+                    setmultipleSearchData(search);
+                    setIsFetching(false);
                 } catch (error) {
                     setIsFetching(false);
                     console.log('Error', error);
@@ -201,7 +201,7 @@ export default function MultipleCollection() {
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>PAID AT:</p>
-                 <p class=""> ${record.channel_id || "-"} </p>
+                 <p class="">  Bank  </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
