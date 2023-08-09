@@ -1,5 +1,4 @@
 import SectionTitle from "../section-title";
-import Widget from "../widget";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -37,7 +36,6 @@ const PrintSingleTccPaye = () => {
             setOldSig(response.data.body.tcc[0].signature)
             let payslipY2 = response.data.body?.payslipY2 ?? [];
             let payslipY3 = response.data.body?.payslipY3 ?? [];
-            console.log("payslipY2", payslipY2);
             let uploads = response.data.body.tccUploads
             setYrOnePaySl(response.data.body.payslipY1[0])
             setYrTwoPaySl(payslipY2)
