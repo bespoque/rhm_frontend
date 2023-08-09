@@ -338,6 +338,7 @@ export default function AssessmentReportstable({ FilteredData }) {
           paging: true,
           filtering: true,
           exportButton: true,
+          exportAllData: true,
           actionsColumnIndex: -1
         }}
         icons={{
