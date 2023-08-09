@@ -274,7 +274,7 @@ export const ViewSinglePayeTccPrintTable = ({
                 <div>
                   <h4 className="text-green-600">KOGI STATE GOVERNMENT</h4>
                   <div className="text-center">
-                    <h3 className="text-red-600">TAX CLEARANCE CERTIFICATE</h3>
+                    <h6 className="text-red-600">TAX CLEARANCE CERTIFICATE</h6>
                   </div>
                 </div>
               </div>
@@ -458,7 +458,7 @@ export const ViewSinglePayeTccPrintTable = ({
                 <p className="mb-2"><span className="font-bold">3.</span> His/her known source(s) of income are: <span>Employment, Trade/Professional</span> </p>
                 <p><span className="font-bold">4.</span> This certificate expires on: <span>31st Dec {dueDateYear}</span> </p>
               </div>
-              <h1 className="text-red-600">INCOME TAX CLEARANCE CERTIFICATE</h1>
+              <h3 className="text-red-600">INCOME TAX CLEARANCE CERTIFICATE</h3>
               <div className="flex justify-end mt-16">
                 {/* <div></div> */}
                 <div className="mr-20">
