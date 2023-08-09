@@ -53,7 +53,7 @@ export const StartAssessmentReportView = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
 
-  const router = useRouter();
+
 
   const [state, setState] = useState([
     {
@@ -102,9 +102,7 @@ export const StartAssessmentReportView = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors },
   } = useForm()
-
 
 
   let watchYear = watch("year", "");
@@ -159,36 +157,7 @@ export const StartAssessmentReportView = () => {
     })
 }
 
-  //   try {
-  //     let res = await axios.post(`${url.BASE_URL}forma/list-assessment-report`, data);
-  //     setIsFetching(false);
-  //     res = res.data.body.assessmentApproved;
-  //     setFilteredData(res)
-  //     console.log("res", res);
-  //     setTableState('')
-  //     // let records = [];
-  //     // let num = 1
-  //     // for (let i = 0; i < res.length; i++) {
-  //     //   let rec = res[i];
-  //     //   rec.serialNo = num + i
-  //     //   // rec.totalTaxFormated = formatNumber((Number(rec.add_assmt) + Number(rec.tax) ))
-  //     //   // rec.totalTaxDue = (Number(rec.add_assmt) + Number(rec.tax) )
-  //     //   // rec.balance = formatNumber(Number(rec.taxPaid)  - (Number(rec.totalTaxDue)) )
-  //     //   // rec.overallGross = formatNumber(Number(rec.employed) + Number(rec.self_employed) + Number(rec.other_income))
-  //     //   // rec.createtime = dateformat(rec.createtime, "dd mmm yyyy")
-  //     //   records.push(rec);
-
-  //     // }
-  //     // setIsFetching(false);
-  //     // setPost(() => records);
-
-  //   } catch (error) {
-  //     setIsFetching(false);
-  //     setTableState('')
-  //     console.log(error);
-  //   }
-
-  // }
+  
 
 
 
