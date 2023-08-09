@@ -289,7 +289,7 @@ export const ViewSinglePayeTccPrintTable = ({
 
               <div className="flex justify-between">
                 <div className="ml-4">
-                  {Array.isArray(oldPass.data) && oldPass.data.length !== 0 || Array.isArray(oldSign.data) && oldSign.data.length !== 0 ?
+                  {(Array.isArray(oldPass.data) && oldPass.data.length !== 0 ) || (Array.isArray(oldSign.data) && oldSign.data.length !== 0) ?
                     <div className="flex">
                       <div>
                         <img
