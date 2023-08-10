@@ -236,6 +236,8 @@ export const StartReportView = () => {
                   <option value="Remita">Remita</option>
                   <option value="WebPay">WebPay</option>
                   <option value="Credo">Credo</option>
+                  <option value="Offline">Offline</option>
+                  <option value="Monnify">Monnify</option>
                   <option value="Paytax">Paytax</option>
                 </select>
               </div>
