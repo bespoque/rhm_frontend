@@ -37,18 +37,16 @@ export const StartReportView = () => {
     }
   ]);
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
   );
 
-  const reportRange = [39]
+ 
   const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
+  
 
   let startDate
   let endDate
@@ -237,6 +235,7 @@ export const StartReportView = () => {
                   <option value="Paystack">Paystack</option>
                   <option value="Remita">Remita</option>
                   <option value="WebPay">WebPay</option>
+                  <option value="Credo">Credo</option>
                   <option value="Paytax">Paytax</option>
                 </select>
               </div>
