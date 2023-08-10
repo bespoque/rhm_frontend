@@ -134,10 +134,8 @@ export default function AssessmentReportstable({ FilteredData }) {
     shallowEqual
   );
 
-  console.log("createErrors", createErrors);
 
   const DeleteRange = [1, 12]
-  const reportRange = [39, 9, 20]
   const decoded = jwt.decode(auth);
   const userGroup = decoded.groups
 

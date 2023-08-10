@@ -6,6 +6,9 @@ import url from "../../../config/url";
 import setAuthToken from "../../../functions/setAuthToken";
 import { formatNumber } from "../../../functions/numbers";
 import Loader from "react-loader-spinner";
+import { shallowEqual, useSelector } from "react-redux";
+import jwt from "jsonwebtoken";
+import { toWords } from 'number-to-words';
 
 
 export default function MultipleCollection() {
@@ -17,8 +20,33 @@ export default function MultipleCollection() {
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;
     const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
     const recordsRemaining = totalRecords - recordsEnd;
-
     const router = useRouter();
+
+    const { auth } = useSelector(
+        (state) => ({
+          auth: state.authentication.auth,
+        }),
+        shallowEqual
+      );
+
+   
+    
+    
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const formattedDateTime = new Date().toLocaleDateString(undefined, options);
+    
+
+      const decoded = jwt.decode(auth);
+      const staff = decoded.staffName
+
 
     const getStyles = () => {
         const stylesheets = Array.from(document.styleSheets);
@@ -48,7 +76,6 @@ export default function MultipleCollection() {
                         tranDate
                     );
                     let search = response.data.body;
-                    console.log('search', search);
                     setmultipleSearchData(search);
                     setIsFetching(false);
                 } catch (error) {
@@ -192,6 +219,7 @@ export default function MultipleCollection() {
                  <div class="col-span-4">
                      <p class="">NGN ${formatNumber(record.amount) || "-"
                         }</p>
+                        <p>(${toWords(record.amount)} Naira only)</p>
                  </div>
              </div>
              <div class="grid grid-cols-7 gap-2">
@@ -218,7 +246,7 @@ export default function MultipleCollection() {
          </div>
 
          <div class="flex justify-between">
-             <div></div>
+             <div class="self-end"><small><< Printed by ${staff} on ${formattedDateTime} >></small></div>
              <div class="mt-2">
                  <img src="/images/signature.png" width='100' height='30' />
                  <hr />

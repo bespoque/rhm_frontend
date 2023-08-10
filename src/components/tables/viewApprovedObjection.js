@@ -1,6 +1,5 @@
 import { formatNumber } from "../../functions/numbers";
 import * as Icons from '../Icons/index';
-import dateformat from "dateformat";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import 'react-toastify/dist/ReactToastify.css';
@@ -135,7 +134,9 @@ export const ViewApprovedObjectionSingle = ({
   const [textareaValue, setTextareaValue] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [status, setStatus] = useState('');
-
+  const router = useRouter();
+  const componentRef = useRef();
+  
   const { auth } = useSelector(
     (state) => ({
       auth: state.authentication.auth,
@@ -216,8 +217,7 @@ export const ViewApprovedObjectionSingle = ({
   };
 
 
-  const router = useRouter();
-  const componentRef = useRef();
+ 
   const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
   let today = new Date().toLocaleDateString('en-us', options);
   let timeCreated = new Date(apprObjData.createtime).toDateString()
