@@ -74,7 +74,7 @@ const fields = [
 export const ViewPayeTccTablePrint = ({ tccdata }) => {
   let items = tccdata;
 
-  const {  auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
       auth: state.authentication.auth,
     }),
@@ -240,7 +240,6 @@ export const ViewSinglePayeTccPrintTable = ({
       <div className="m-3 flex justify-end">
         <div onClick={ChangePrint}>
           <ReactToPrint
-            // pageStyle="@page { size: 7.5in 13in  }"
             trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
             btn-outlined bg-transparent rounded-md"
               type="submit"
@@ -280,7 +279,7 @@ export const ViewSinglePayeTccPrintTable = ({
 
               <div className="flex justify-between">
                 <div className="ml-4">
-                  {(Array.isArray(oldPass.data) && oldPass.data.length !== 0 ) || (Array.isArray(oldSign.data) && oldSign.data.length !== 0) ?
+                  {(Array.isArray(oldPass.data) && oldPass.data.length !== 0) || (Array.isArray(oldSign.data) && oldSign.data.length !== 0) ?
                     <div className="flex">
                       <div>
                         <img
