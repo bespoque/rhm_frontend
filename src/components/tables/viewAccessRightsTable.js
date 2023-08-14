@@ -147,26 +147,17 @@ export const RightsTable = ({ rightsData }) => {
   );
 };
 
-export const ViewSingleBojTable = ({ additionalAsse, payerprop, assId, payerArr, assobj, taxcal,
+export const ViewSingleBojTable = ({ additionalAsse, assId, payerArr, assobj, taxcal,
   childObj, resAddObj, rentIncome, spouseObj, domesticStaff, selfEmployment, vehicles, land, employed, lap, nhis, expenses, pensionDed }) => {
   const [isFetching, setIsFetching] = useState(() => false);
   const router = useRouter();
   const [modal, setModal] = useState(false);
   const [comment, setComment] = useState(false);
 
-  const [fixedValues, fixValues] = useState({ amount: 0 });
-  const [submittedResult, updateResult] = useState({ amount: 0 });
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
 
-  const { config, palettes, auth } = useSelector(
+
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -189,7 +180,6 @@ export const ViewSingleBojTable = ({ additionalAsse, payerprop, assId, payerArr,
   };
 
   const kgtinString = String(kgtinVal)
-  const items = payerprop;
   const assessment_id = assId
   const createdTime = dateformat(assobj.createtime, "dd mmm yyyy")
   const employedCal = Number(assobj.employed)
@@ -261,7 +251,6 @@ export const ViewSingleBojTable = ({ additionalAsse, payerprop, assId, payerArr,
       <ToastContainer />
       {modal && (
         <div className="modal">
-          {/* <div onClick={toggleModal} className="overlay"></div> */}
           <div className="modal-content" width="300">
             <p>Are you sure you want to decline?</p>
             <p>Please state reason why</p>

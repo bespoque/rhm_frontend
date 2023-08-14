@@ -38,7 +38,7 @@ import { Controller, useForm } from "react-hook-form";
 import { FormatMoneyComponentBOJ, FormatMoneyComponentReport } from "../FormInput/formInputs";
 import { useRouter } from "next/router";
 import Reportstable from "../../pages/reports/reportstable";
-import MultipleCollection from "../../pages/collection-receipt/daily-collection/[ref]";
+
 
 
 export const StartReportView = () => {
@@ -49,8 +49,7 @@ export const StartReportView = () => {
   const [FilteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
-  const [multipleSearchErr, setmultipleSearchErr] = useState([])
-  // const [multipleSearchData, setmultipleSearchData] = useState([])
+
 
 
   const router = useRouter();
@@ -64,10 +63,9 @@ export const StartReportView = () => {
     }
   ]);
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
+     
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -102,13 +100,8 @@ export const StartReportView = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors },
   } = useForm()
 
-  const {
-    register: registerCollSearch,
-    handleSubmit: handleColSubmit,
-  } = useForm()
 
 
   let startFigure = watch("amountStart", "0").replace(/,/g, '')
@@ -147,9 +140,7 @@ export const StartReportView = () => {
     axios.post(`${url.BASE_URL}collection/view-collection-report`, data)
       .then(function (response) {
         let search = response.data.body;
-        console.log("search", search);
         setFilteredData(search)
-        console.log("FilteredData", FilteredData);
         setIsFetching(false)
         setTableState('')
       })
@@ -160,27 +151,6 @@ export const StartReportView = () => {
       })
   }
 
-  const ColSearch = (data) => {
-    console.log("data", data);
-    router.push(`/collection-receipt/daily-collection/${data.tranDate}`)
-    setIsFetching(true)
-    // axios.post(`${url.BASE_URL}collection/view-collections`, data)
-    //   .then(function (response) {
-    //     let search = response.data.body;
-    //     setIsFetching(false)
-    //     setmultipleSearchData(search)
-    //     console.log("search", search);
-    //   })
-    //   .catch(function (error) {
-    //     setIsFetching(false)
-    //     if (error.response) {
-    //       setmultipleSearchErr(error.response.data.message)
-    //     }
-
-    //   })
-  }
-
-  // console.log("main component data", multipleSearchData);
   return (
     <>
       <div className="">

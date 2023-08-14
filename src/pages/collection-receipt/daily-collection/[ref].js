@@ -12,7 +12,6 @@ import ReactToPrint from "react-to-print";
 
 
 export default function MultipleCollection() {
-    const [colData, setColData] = useState([]);
     const [multipleSearchData, setmultipleSearchData] = useState([])
     const [isFetching, setIsFetching] = useState(false);
     const router = useRouter();
@@ -26,13 +25,6 @@ export default function MultipleCollection() {
             setAuthToken();
             const fetchPost = async () => {
                 setIsFetching(true)
-                // try {
-                //     let res = await axios.post(`${url.BASE_URL}collection/view-collections`, paymentPayload);
-                //     res = res.data.body;
-                //     setColData(res)
-                // } catch (e) {
-                //     console.log(e);
-                // }
                 axios.post(`${url.BASE_URL}collection/view-collections`, tranDate)
                     .then(function (response) {
                         let search = response.data.body;
@@ -42,39 +34,12 @@ export default function MultipleCollection() {
                     })
                     .catch(function (error) {
                         setIsFetching(false)
-                        // if (error.response) {
-                        //     setmultipleSearchErr(error.response.data.message)
-                        // }
 
                     })
             };
             fetchPost();
         }
     }, [router]);
-
-    // let a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
-    // let b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-
-    // function inWords(num) {
-    //     if ((num = num.toString()).length > 12) return 'overflow';
-    //    let n = ('00000000000' + num).substr(-12).match(/^(\d{3})(\d{3})(\d{3})(\d{1})(\d{2})$/);
-    //     if (!n) return; let str = '';
-    //     str += (n[1] != 0) ? (Number(n[1]) > 99 ? this.a[Number(n[1][0])] + 'hundred ' : '') + (a[Number(n[1])] || b[n[1][1]] + ' ' + a[n[1][2]]) + 'billion ' : '';
-    //     str += (n[2] != 0) ? (Number(n[2]) > 99 ? this.a[Number(n[2][0])] + 'hundred ' : '') + (a[Number(n[2])] || b[n[2][1]] + ' ' + a[n[2][2]]) + 'million ' : '';
-    //     str += (n[3] != 0) ? (Number(n[3]) > 99 ? this.a[Number(n[3][0])] + 'hundred ' : '') + (a[Number(n[3])] || b[n[3][1]] + ' ' + a[n[3][2]]) + 'thousand ' : '';
-    //     str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-    //     str += (Number(n[5]) !== 0) ? ((str !== '') ? 'and ' : '') +
-    //         (this.a[Number(n[5])] || this.b[n[5][0]] + ' ' +
-    //             this.a[n[5][1]]) + '' : '';
-    //     return str;
-    // }
-
-    // let amount
-    // colData.forEach((el) => {
-    //     amount = el.amount
-    // })
-    // console.log("amount", amount);
-    // let wordVal = NumInWords(amount)
 
     return (
         <>

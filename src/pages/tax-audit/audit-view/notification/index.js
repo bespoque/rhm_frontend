@@ -12,8 +12,6 @@ const Notification = () => {
     const { Notifid, JobID } = router?.query
 
     useEffect(() => {
-
-        
         async function fetchPost() {
 
             try {
@@ -34,7 +32,7 @@ const Notification = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [Notifid, JobID]);
 
 
     return (

@@ -16,6 +16,7 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
+import dateformat from "dateformat";
 
 
 const Index = () => {
@@ -56,10 +57,16 @@ const Index = () => {
 
     function getIndividualYears(startDate, endDate) {
         const startComponents = startDate?.split("-");
-        const startYear = parseInt(startComponents[2]);
+        const startYear = startComponents.reduce((longest, current) => {
+            return current.length > longest.length ? current : longest;
+          }, '');
+        // const startYear = parseInt(startComponents[0]);
 
         const endComponents = endDate?.split("-");
-        const endYear = parseInt(endComponents[2]);
+        const endYear = endComponents.reduce((longest, current) => {
+            return current.length > longest.length ? current : longest;
+          }, '');
+        // const endYear = parseInt(endComponents[0]);
 
         const years = [];
 
@@ -69,6 +76,7 @@ const Index = () => {
 
         return years;
     }
+
 
     // Example usage:
     const startDate = job?.job_auditdate_start || "";
@@ -88,7 +96,12 @@ const Index = () => {
         closeModal();
     };
 
-    console.log("modalIsOpen", modalIsOpen);
+    const handleButtonClick = (year) => {
+        window.open(`/tax-audit/audit-view/assessment?year=${year}&kgtin=${job?.job_kgtin}`, "_blank")
+        // alert(`Clicked on year: ${year}_${job?.job_kgtin}`);
+    };
+
+
     useEffect(() => {
 
         async function fetchPost() {
@@ -173,6 +186,8 @@ const Index = () => {
                                                     <button
                                                         key={year}
                                                         className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                                                        onClick={() => handleButtonClick(year)}
+
                                                     >
                                                         {year}
                                                     </button>

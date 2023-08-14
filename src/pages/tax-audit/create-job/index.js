@@ -22,7 +22,7 @@ const CreateJob = () => {
     const [jsonData, setJsonData] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
     const [tpDetail, setTpDetail] = useState({})
 const router = useRouter()
     const { auth } = useSelector(
@@ -139,7 +139,7 @@ const router = useRouter()
                 isOpen={showModal}
                 onRequestClose={closeModal}
                 contentLabel="Options Modal"
-                className="bg-white rounded p-4 max-w-sm border mx-auto"
+                className="bg-white rounded p-4 max-w-sm border overflow-auto mx-auto"
                 overlayClassName="fixed inset-20 opacity-100"
             >
                 {jsonData ? (
