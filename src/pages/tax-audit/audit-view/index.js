@@ -16,7 +16,7 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
-import dateformat from "dateformat";
+
 
 
 const Index = () => {
@@ -59,14 +59,11 @@ const Index = () => {
         const startComponents = startDate?.split("-");
         const startYear = startComponents.reduce((longest, current) => {
             return current.length > longest.length ? current : longest;
-          }, '');
-        // const startYear = parseInt(startComponents[0]);
-
+        }, '');
         const endComponents = endDate?.split("-");
         const endYear = endComponents.reduce((longest, current) => {
             return current.length > longest.length ? current : longest;
-          }, '');
-        // const endYear = parseInt(endComponents[0]);
+        }, '');
 
         const years = [];
 
@@ -98,14 +95,12 @@ const Index = () => {
 
     const handleButtonClick = (year) => {
         window.open(`/tax-audit/audit-view/assessment?year=${year}&kgtin=${job?.job_kgtin}`, "_blank")
-        // alert(`Clicked on year: ${year}_${job?.job_kgtin}`);
-    };
+       };
 
 
     useEffect(() => {
 
         async function fetchPost() {
-
             try {
                 const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
@@ -213,7 +208,7 @@ const Index = () => {
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
                             >
-                                Audit Reoprt
+                                Audit Report
                             </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}

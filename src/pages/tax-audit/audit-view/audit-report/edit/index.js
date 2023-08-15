@@ -5,15 +5,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 import { useForm } from 'react-hook-form';
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 function Index() {
-    const [isFetching, setIsLoading] = useState(false);
-    const router = useRouter()
+    const [isFetching, setIsLoading] = useState(() => true);
     const [data, setData] = useState()
     const { register, handleSubmit } = useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter()
     const { jobId, reportId } = router?.query
-
+    
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -22,7 +24,15 @@ function Index() {
         setIsModalOpen(false);
     };
 
-    
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
+
     useEffect(() => {
         async function fetchPost() {
             try {
@@ -47,15 +57,19 @@ function Index() {
     }, [jobId, reportId]);
 
     const onSubmit = async (data) => {
-      
-        setIsLoading(true)
+        data.job_id = jobId
+        data.auditreport_id = reportId
+        data.doneby = emailAdd
+        data.reportfile = "filepath"
 
+        setIsLoading(true)
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newauditreview.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
+            console.log("dataFetch", dataFetch);
             toast.success(dataFetch.message);
             setIsLoading(false)
             // router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
@@ -79,83 +93,40 @@ function Index() {
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
             >
                 <div className="overflow-y-auto">
-                    <h6 className="my-3">New Acknowledgement</h6>
+                    <h6 className="my-3">New Report Review</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label className="block mb-1  ">
-                               Acknowledgement Date:
-                            </label>
-                            <input
-                                type="date"
-                                id="ack_datetime"
-                                name='ack_datetime'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            />
-                        </div>
-                        <div className="mb-2">
                             <label className="block  mb-1 ">
-                                Delivery Method:
+                                Status:
                             </label>
                             <select
-                                id="ack_channel"
-                                name='ack_channel'
+                                id="status"
+                                name='status'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                             >
-                                <option value="ups">UPS Door Delivery</option>
-                                <option value="dhl">DHL Door Delivery</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Denied">Denied</option>
                             </select>
                         </div>
-                        <div className="mb-2">
-                            <label className="block  mb-1 ">
-                                Relationship:
-                            </label>
-                            <select
-                                id="ack_relationship"
-                                name='ack_relationship'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Brother">Brother</option>
-                                <option value="Mother">Mother</option>
-                            </select>
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Type
-                            </label>
-                            <select
-                                id="notification_delivery"
-                                name='actionType'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Initial">Initial</option>
-                                <option value="Audit">Audit</option>
-                                <option value="Due">Due</option>
-                                <option value="Overdue">Overdue</option>
-                                <option value="Objection">Objection</option>
-                                <option value="Completion">Completion</option>
-                            </select>
-                        </div>
-
                         <div className="mb-2">
                             <label className="block mb-1">
-                                Note:
+                                Upload document:
+                            </label>
+                            <input type="file" name="" required id="" />
+                        </div>
+                        <div className="mb-2">
+                            <label className="block mb-1">
+                                Details:
                             </label>
                             <textarea
 
-                                id="ack_note"
+                                id="details"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                                name='ack_note'
+                                name='details'
                             ></textarea>
                         </div>
 

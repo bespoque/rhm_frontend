@@ -14,7 +14,7 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 import NewAuditReport from '../components/button'
-import { MoreHoriz } from '@material-ui/icons'
+import { MoreHoriz, BarChart } from '@material-ui/icons'
 
 export default function AuditReportList() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -117,7 +117,7 @@ export default function AuditReportList() {
                             </button>
                             <button className="btn block p-2 bg-blue-100 w-full m-2"
                             >
-                                Audit Reoprt
+                                Audit Report
                             </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)}
@@ -144,6 +144,11 @@ export default function AuditReportList() {
                             icon: MoreHoriz,
                             tooltip: 'View',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/audit-report/edit?jobId=${JobID}&reportId=${rowData.id}`),
+                        },
+                        {
+                            icon: BarChart,
+                            tooltip: 'Reviews',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/audit-report/reviews?jobId=${JobID}&reportId=${rowData.id}`),
                         },
                     ]
                 }

@@ -124,7 +124,7 @@ export default function Jobacklist() {
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${JobID}`)}
                             >
-                                Audit Reoprt
+                                Audit Report
                             </button>
                             <button className="btn block p-2 bg-gray-100 w-full m-2"
                                 onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${JobID}`)}
