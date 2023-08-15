@@ -14,11 +14,13 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 
 export default function Reviews() {
     const [isFetching, setIsLoading] = useState(() => true);
     const [data, setData] = useState()
+    const [selectedRow, setSelectedRow] = useState(null);
     const router = useRouter()
     const { jobId, reportId } = router?.query
 
@@ -37,6 +39,13 @@ export default function Reviews() {
         }
     ];
 
+    const handleRowClick = (event, rowData) => {
+        setSelectedRow(rowData);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+    };
 
     useEffect(() => {
         async function fetchPost() {
@@ -65,12 +74,12 @@ export default function Reviews() {
         <>
             {isFetching && <ProcessorSpinner />}
             <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded my-2" onClick={() => router.back()}>
-               Back
+                Back
             </button>
             <MaterialTable title="Audit Report Reviews"
                 data={data}
                 columns={fields}
-
+                onRowClick={handleRowClick}
                 options={{
                     search: true,
                     paging: true,
@@ -93,6 +102,14 @@ export default function Reviews() {
                 }}
 
             />
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
+                <DialogTitle>Review</DialogTitle>
+                <DialogContent>
+                    <Typography> <p className="font-bold">Status: <span>{selectedRow?.status}</span></p></Typography>
+                    <Typography> <p className="font-bold">Details: <span>{selectedRow?.details}</span></p></Typography>
+                    <Typography> <p className="font-bold">File: <a href='https://google.com' className='underline' target='_blank' rel='noreferrer'>{selectedRow?.reviewfile}</a></p></Typography>
+                </DialogContent>
+            </Dialog>
         </>
     )
 

@@ -21,9 +21,9 @@ export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [notifAck, setNotifAck] = useState([]);
     const router = useRouter()
-    const { JobID } = router?.query
     const [selectedRow, setSelectedRow] = useState(null);
     const [job, setJob] = useState(() => []);
+    const { JobID } = router?.query
     const fields = [
         {
             title: "Headline",
