@@ -67,7 +67,7 @@ export const KogiGov = () => {
       layout="fixed"
       src="/images/kog_govt.png"
       alt="login"
-      width={85}
+      width={90}
       height={60}
     />
   );

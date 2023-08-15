@@ -262,7 +262,7 @@ export const ViewSinglePayeTccPrintTable = ({
               </div>
               <div className="flex justify-center">
                 <div>
-                  <h2 className="text-green-600">KOGI STATE GOVERNMENT</h2>
+                  <p className="text-green-600 text-xl">KOGI STATE GOVERNMENT</p>
                   <div className="text-center">
                     <p className="text-red-600 text-lg">TAX CLEARANCE CERTIFICATE</p>
                   </div>
