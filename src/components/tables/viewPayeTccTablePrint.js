@@ -318,7 +318,7 @@ export const ViewSinglePayeTccPrintTable = ({
                 <div>
                   <div>
                     <small className="leading-none block">File No</small>
-                    <small>{PayeTccData.file_ref}</small>
+                    <small className="font-bold">{PayeTccData.file_ref}</small>
                   </div>
                   <div className="grid grid-cols-2 gap-2 place-items-start">
                     <div className="">
