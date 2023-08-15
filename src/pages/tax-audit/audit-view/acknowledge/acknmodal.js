@@ -10,7 +10,7 @@ import { ProcessorSpinner } from '../../../../components/spiner';
 
 const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const router = useRouter()
     const { auth } = useSelector(
         (state) => ({

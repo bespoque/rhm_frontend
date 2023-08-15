@@ -143,7 +143,7 @@ export default function AuditReportList() {
                         {
                             icon: MoreHoriz,
                             tooltip: 'View',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/audit-report/edit?${JobID}`),
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/audit-report/edit?jobId=${JobID}&reportId=${rowData.id}`),
                         },
                     ]
                 }
