@@ -253,7 +253,7 @@ export const ViewSinglePayeTccPrintTable = ({
 
       <section ref={componentRef} className="flex justify-center mt-5">
         <div className="bg-cover bg-center" style={{ backgroundImage: `url(/images/KGIRS_TCC.jpg)` }}>
-          <div className="px-16">
+          <div className="px-20">
             <div >
               <div className="flex justify-center mt-16">
                 <CoatOfArms />
