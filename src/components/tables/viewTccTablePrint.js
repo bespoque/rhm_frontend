@@ -327,7 +327,7 @@ export const ViewSingleTccPrintTable = ({
                   <div>
                     <small className="leading-none block">File No</small>
                     {payerDetails.map((data, i) => (
-                      <small>{data.file_ref}</small>
+                      <small className="font-bold">{data.file_ref}</small>
                     ))}
                   </div>
                   <div className="grid grid-cols-2 gap-2 place-items-start">
