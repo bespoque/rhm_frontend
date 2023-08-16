@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { SubmitButton } from '../../components/CustomButton/CustomButton'
 import axios from "axios";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
@@ -11,22 +10,14 @@ import { useRouter } from 'next/router';
 
 
 export default function Index() {
-    const [department, setDepartment] = useState([])
-    const [taxOffice, setTaxOffice] = useState([])
-    const [sector, setSector] = useState([])
-    const [incomeSource, setIncomSource] = useState([])
-    const [state, setState] = useState([])
     const [isFetching, setIsFetching] = useState(false)
-    const [lga, setLga] = useState([])
     const [indvRecord, setindividualRec] = useState([])
-    const [userBVN, setUserBvn] = useState('')
 
 
     const {
         register,
         handleSubmit,
-        control,
-        formState: { errors }, } = useForm()
+    } = useForm()
 
     let IndividualBVN
 
@@ -169,8 +160,11 @@ export default function Index() {
 
                                 <div className="form-group ">
                                     <p>Gender</p>
-                                    <input readOnly defaultValue={ind.gender} name="gender" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
-                                    />
+                                    <select defaultValue={ind.gender} name="gender" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
+                                        <option value={ind.gender}>{ind.gender}</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
                                 </div>
 
                                 <div className="form-group ">
@@ -213,10 +207,10 @@ export default function Index() {
                                 </div>
 
                                 {/* <div className="form-group ">
-                            <p>NIN</p>
-                            <input name="nin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
-                            />
-                        </div> */}
+                                    <p>NIN</p>
+                                    <input name="nin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    />
+                                </div> */}
 
                                 <div className="form-group ">
                                     <p>Birth Place</p>
@@ -225,7 +219,7 @@ export default function Index() {
                                 </div>
                                 <div className="form-group ">
                                     <p>Occupation</p>
-                                    <input readOnly defaultValue={ind.occupation} name="occupation" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.occupation} name="occupation" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
                                 </div>
                                 <div className="form-group ">
@@ -246,7 +240,7 @@ export default function Index() {
                                 </div>
                                 <div className="form-group ">
                                     <p>Ward</p>
-                                    <input readOnly defaultValue={ind.ward} name="ward" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.ward} name="ward" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
                                 </div>
                                 <div className="form-group ">
@@ -265,11 +259,11 @@ export default function Index() {
                                     <input readOnly defaultValue={ind.stateOfOrigin} name="state_of_origin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
                                 </div>
-                                <div className="form-group ">
+                                {/* <div className="form-group ">
                                     <p>Sector</p>
                                     <input readOnly defaultValue={ind.sector} name="sector" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
-                                </div>
+                                </div> */}
                                 <div className="form-group ">
                                     <p>Category</p>
                                     <input readOnly defaultValue={ind.category} name="category" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
@@ -286,14 +280,14 @@ export default function Index() {
                                     <input readOnly defaultValue={ind.tax_authority} name="tax_authority" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
                                 </div>
-                                <div className="form-group ">
+                                {/* <div className="form-group ">
                                     <p>Employer TIN</p>
                                     <input readOnly defaultValue={ind.employer_tin} name="employer_tin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                                </div>
-                                <div className="form-group ">
+                                </div> */}
+                                {/* <div className="form-group ">
                                     <p>Employer's Name</p>
                                     <input readOnly defaultValue={ind.employer_name} name="employer_name" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                                </div>
+                                </div> */}
 
                             </div>
 

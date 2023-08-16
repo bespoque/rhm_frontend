@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { SubmitButton } from '../../components/CustomButton/CustomButton'
 import axios from "axios";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
@@ -11,7 +10,6 @@ import { useRouter } from 'next/router';
 
 
 export default function Index() {
-    const [department, setDepartment] = useState([])
     const [taxOffice, setTaxOffice] = useState([])
     const [sector, setSector] = useState([])
     const [incomeSource, setIncomSource] = useState([])
@@ -23,10 +21,11 @@ export default function Index() {
     const {
         register,
         handleSubmit,
-        control,
-        formState: { errors }, } = useForm()
+        formState: { errors }
+    } = useForm()
 
-    // console.log(decoded);
+    const kogiLga = lga.filter(item => item.jtb_states === 22);
+ 
 
     useEffect(() => {
 
@@ -71,7 +70,7 @@ export default function Index() {
                 } else {
                     toast.error("Failed to create Taxpayer!");
                 }
-                
+
             })
     };
 
@@ -105,9 +104,9 @@ export default function Index() {
                         <div className="form-group ">
                             <p>Title</p>
                             <select name="indv_title" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                <option value="mr">Mr</option>
-                                <option value="mrs">Mrs</option>
-                                <option value="mrss">Miss</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Mrss">Miss</option>
                             </select>
                         </div>
 
@@ -149,8 +148,8 @@ export default function Index() {
                         <div className="form-group ">
                             <p>Gender</p>
                             <select name="gender" ref={register({ required: "Gender is Required" })} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                <option value="Male">Female</option>
-                                <option value="Female">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
                             </select>
                             {errors.gender && <small className="text-red-600">{errors.gender.message}</small>}
                         </div>
@@ -158,8 +157,8 @@ export default function Index() {
                         <div className="form-group ">
                             <p>Marital Status</p>
                             <select name="marital_status" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                <option value="Sigle">Single</option>
-                                <option value="Married">Married</option>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
                             </select>
                         </div>
 
@@ -172,7 +171,7 @@ export default function Index() {
                         <div className="form-group ">
                             <p>LGA</p>
                             <select name="lga" ref={register({ required: "LGA is Required" })} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                {lga.map((lg) => <option key={lg.idlga} value={lg.name}>{lg.name}</option>)}
+                                {kogiLga.map((lg) => <option key={lg.idlga} value={lg.name}>{lg.name}</option>)}
                             </select>
                             {errors.lga && <small className="text-red-600">{errors.lga.message}</small>}
                         </div>
@@ -180,7 +179,6 @@ export default function Index() {
                             <p>BVN</p>
                             <input name="bvn" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
-                            {/* {errors.bvn && <small className="text-red-600">{errors.bvn.message}</small>} */}
                         </div>
                         <div className="form-group ">
                             <p>Tax Office</p>
@@ -201,7 +199,7 @@ export default function Index() {
                             />
                         </div>
                         <div className="form-group">
-                            <p>Mobile Number</p>
+                            <p>Alternate phone number</p>
                             <input name="mobile_number" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                         </div>
@@ -261,12 +259,12 @@ export default function Index() {
                                 {state.map((st) => <option key={st.jtb_idstates} value={st.jtb_idstates}>{st.state}</option>)}
                             </select>
                         </div>
-                        <div className="form-group ">
+                        {/* <div className="form-group ">
                             <p>Sector</p>
                             <select name="sector" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 {sector.map((sect) => <option key={sect.id} value={sect.sector_name}>{sect.sector_name}</option>)}
                             </select>
-                        </div>
+                        </div> */}
                         <div className="form-group ">
                             <p>Category</p>
                             <select name="category" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
@@ -281,18 +279,18 @@ export default function Index() {
                                 {incomeSource.map((src) => <option key={src.id} value={src.source}>{src.source}</option>)}
                             </select>
                         </div>
-                        {/* <div className="form-group ">
-                            <p>Tax Authority</p>
-                            <input disabled name="emptin" value="Kogi State Internal Revenue Service" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                        </div> */}
                         <div className="form-group ">
+                            <p>Tax Authority</p>
+                            <input readOnly name="tax_authority" value="KGIRS" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
+                        </div>
+                        {/* <div className="form-group ">
                             <p>Employer TIN</p>
                             <input name="employer_tin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
                         </div>
                         <div className="form-group ">
                             <p>Employer's Name</p>
                             <input name="employer_name" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                        </div>
+                        </div> */}
 
                     </div>
 
