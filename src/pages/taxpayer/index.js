@@ -92,7 +92,7 @@ export default function Index() {
                             timeout={0}
                             className="ml-2"
                         />
-                        <p className="font-bold">Creating User...</p>
+                        <p className="font-bold">Creating Taxpayer...</p>
                     </div>
                 )}
                 <div className="flex justify-center mb-4">
@@ -157,8 +157,8 @@ export default function Index() {
                         <div className="form-group ">
                             <p>Marital Status</p>
                             <select name="marital_status" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                <option value="single">Single</option>
-                                <option value="married">Married</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
                             </select>
                         </div>
 
