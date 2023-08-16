@@ -265,13 +265,13 @@ export default function Index() {
                                 {sector.map((sect) => <option key={sect.id} value={sect.sector_name}>{sect.sector_name}</option>)}
                             </select>
                         </div> */}
-                        <div className="form-group ">
+                        {/* <div className="form-group ">
                             <p>Category</p>
                             <select name="category" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 <option value="Agric">Agric</option>
                                 <option value="Fishery">Fishery</option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className="form-group ">
                             <p>Income Source</p>

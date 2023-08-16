@@ -427,6 +427,14 @@ export default function SinglePayerProfile() {
                     }
                   </section>
                 </div>
+                <section className='mb-2'>
+                    <p>Registerd by</p>
+                    {
+                      payerProfile?.enter_by === null || payerProfile?.enter_by === "" ?
+                        <p className="font-bold">-</p> :
+                        <p className="font-bold">{payerProfile?.enter_by}</p>
+                    }
+                  </section>
 
               </div>
             </div>

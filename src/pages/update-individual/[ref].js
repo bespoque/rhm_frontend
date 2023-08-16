@@ -154,13 +154,13 @@ export default function Index() {
 
                                 <div className="form-group ">
                                     <p>Phone Number</p>
-                                    <input defaultValue={ind.phone_number} name="phone_number" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.phone_number} name="phone_number" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
 
                                 <div className="form-group ">
                                     <p>Gender</p>
-                                    <select defaultValue={ind.gender} name="gender" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
+                                    <select defaultValue={ind.gender} name="gender" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light">
                                         <option value={ind.gender}>{ind.gender}</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -219,7 +219,7 @@ export default function Index() {
                                 </div>
                                 <div className="form-group ">
                                     <p>Occupation</p>
-                                    <input defaultValue={ind.occupation} name="occupation" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.occupation} name="occupation" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
                                 <div className="form-group ">
@@ -230,22 +230,22 @@ export default function Index() {
 
                                 <div className="form-group ">
                                     <p>House no</p>
-                                    <input defaultValue={ind.house_no} name="house_no" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.house_no} name="house_no" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
                                 <div className="form-group ">
                                     <p>Street</p>
-                                    <input defaultValue={ind.street} name="street" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.street} name="street" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
                                 <div className="form-group ">
                                     <p>Ward</p>
-                                    <input defaultValue={ind.ward} name="ward" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.ward} name="ward" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
                                 <div className="form-group ">
                                     <p>City</p>
-                                    <input defaultValue={ind.city} name="city" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                    <input defaultValue={ind.city} name="city" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light"
                                     />
                                 </div>
                                 <div className="form-group ">
@@ -264,11 +264,11 @@ export default function Index() {
                                     <input readOnly defaultValue={ind.sector} name="sector" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
                                 </div> */}
-                                <div className="form-group ">
+                                {/* <div className="form-group ">
                                     <p>Category</p>
                                     <input readOnly defaultValue={ind.category} name="category" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                     />
-                                </div>
+                                </div> */}
 
                                 <div className="form-group ">
                                     <p>Income Source</p>
