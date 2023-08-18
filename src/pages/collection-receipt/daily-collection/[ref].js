@@ -30,8 +30,6 @@ export default function MultipleCollection() {
       );
 
    
-    
-    
       const options = {
         weekday: 'long',
         year: 'numeric',
@@ -229,7 +227,7 @@ export default function MultipleCollection() {
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>PAID AT:</p>
-                 <p class="">  Bank  </p>
+                 <p class="col-span-3">  ${record?.bank  || ""}(${record?.pmt_meth})  </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
