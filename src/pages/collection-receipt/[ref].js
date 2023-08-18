@@ -10,6 +10,8 @@ import QRCode from 'react-qr-code';
 import ReactToPrint from "react-to-print";
 import setAuthToken from '../../functions/setAuthToken';
 import { toWords } from 'number-to-words';
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 export default function Index() {
     const [colData, setColData] = useState([]);
@@ -17,6 +19,27 @@ export default function Index() {
     const componentRef = useRef();
     const [isFetching, setIsFetching] = useState(true);
     const urlNew = "https://bespoque.dev/quickpay-live/"
+
+    const { auth } = useSelector(
+        (state) => ({
+          auth: state.authentication.auth,
+        }),
+        shallowEqual
+      );
+
+      const decoded = jwt.decode(auth);
+      const staff = decoded.staffName
+
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const formattedDateTime = new Date().toLocaleDateString(undefined, options);
     useEffect(() => {
         setAuthToken()
         if (router && router.query) {
@@ -99,7 +122,6 @@ export default function Index() {
                     <div>
                         <ReactToPrint
                             pageStyle='@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
-                            // pageStyle="@page { size: 7.5in 13in  }"
                             trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
                             btn-outlined bg-transparent rounded-md"
                                 type="submit"
@@ -195,7 +217,7 @@ export default function Index() {
                         </div>
 
                         <div className="flex justify-between">
-                            <div></div>
+                            <div class="self-end"><small>{'<<'} Printed by {staff} on {formattedDateTime} {'>>'}</small></div>
                             <div className="mt-2">
                                 <SignatureCol />
                                 <hr />
