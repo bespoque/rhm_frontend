@@ -9,6 +9,7 @@ import Loader from "react-loader-spinner";
 import QRCode from 'react-qr-code';
 import ReactToPrint from "react-to-print";
 import setAuthToken from '../../functions/setAuthToken';
+import { toWords } from 'number-to-words';
 
 export default function Index() {
     const [colData, setColData] = useState([]);
@@ -24,13 +25,13 @@ export default function Index() {
                 "idpymt": paymentID
             }
             const fetchPost = async () => {
-                setIsFetching(true)
+
                 if (paymentID.includes("FA")) {
                     try {
                         let response = await fetch(`${urlNew}getpayment.php?paymentref=${paymentID}&by=assessment`, {
                             method: 'GET',
                         });
-                        
+
                         const data = await response.json()
                         setIsFetching(false)
                         let res = [data.body];
@@ -56,6 +57,7 @@ export default function Index() {
                     try {
                         let res = await axios.post(`${url.BASE_URL}collection/view-collections`, paymentPayload);
                         res = res.data.body;
+                        setIsFetching(false)
                         setColData(res)
                     } catch (e) {
                         console.log(e);
@@ -125,21 +127,21 @@ export default function Index() {
                             <div>
                                 <div className="grid grid-cols-6 gap-2">
                                     <p>PAID BY:</p>
-                                    <p className="font-bold col-span-2">{el?.taxpayerName || el?.taxPayerName}</p>
+                                    <p className="col-span-2">{el?.taxpayerName || el?.taxPayerName}</p>
                                 </div>
                                 <div className="grid grid-cols-6 gap-2">
                                     <p>PAYER ID:</p>
-                                    <p className="font-bold col-span-2">{el.t_payer}</p>
+                                    <p className="col-span-2">{el.t_payer}</p>
                                 </div>
                                 <div className="grid grid-cols-6 gap-2">
                                     <p>ADDRESS:</p>
-                                    <p className="font-bold col-span-2">{el?.taxpayerAddress || el?.taxPayerAddress}</p>
+                                    <p className="col-span-2">{el?.taxpayerAddress || el?.taxPayerAddress || "-"}</p>
                                 </div>
                                 <div className="flex mt-10">
                                     <div className='w-16 border-b-2'>
                                     </div>
-                                    <p className='align-self-center'>Details</p>
-                                    <div className="border-b-2 w-3/4 ">
+                                    <p className="align-self-center">Details</p>
+                                    <div className="border-b-2 w-3/4">
                                     </div>
                                 </div>
                             </div>
@@ -154,40 +156,39 @@ export default function Index() {
                         <div className="mt-3">
                             <div className="grid grid-cols-6 gap-2">
                                 <p>PAYMENT DATE:</p>
-                                <p className="font-bold col-span-2">{el.tran_date}</p>
+                                <p className="col-span-2">{el.tran_date}</p>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
                                 <p>AMOUNT:</p>
                                 <div className="col-span-4">
-                                    <p className="font-bold">NGN {formatNumber(el.amount)}</p>
-                                    {/* <small>Eighty thousand seven hundred and thirty two naira only</small> */}
+                                    <p className="">NGN {formatNumber(el.amount)}</p>
+                                    <p>({toWords(el.amount)} Naira only)</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
-                                <p>BEING:</p>
+                                <p>Details:</p>
                                 <div className="col-span-3">
-                                    <p className="font-bold"> {`Payment for (${el?.details})`} </p>
+                                    <p> {el?.details} </p>
                                     {/* <small>{el.revenueItem}</small> */}
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
                                 <p>PAID AT:</p>
                                 {el?.channel_id === "Offline" ?
-                                <p className="font-bold"> {`POS ${el?.channel_id}`} </p>
-                                :
-                                <p className="font-bold"> {el?.bank || el?.channel_id} </p>
-                                
+                                    <p> {`POS ${el?.channel_id}`} </p>
+                                    :
+                                    <p> {el?.bank || ""} ({el.pmt_meth}) </p>
                                 }
                             </div>
                             <div className="grid grid-cols-6 gap-2">
                                 <p>AGENCY:</p>
                                 <div className="col-span-3">
-                                    <p className="font-bold"> INTERNAL REVENUE SERVICE </p>
+                                    <p> INTERNAL REVENUE SERVICE </p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
                                 <p>TAX STATION:</p>
-                                <p className="font-bold"> {el.station} </p>
+                                <p> {el.station || "-"} </p>
                             </div>
                             <div className="border-b-2 mt-3 w-4/4 ">
                             </div>

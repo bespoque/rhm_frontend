@@ -67,8 +67,8 @@ export const KogiGov = () => {
       layout="fixed"
       src="/images/kog_govt.png"
       alt="login"
-      width={90}
-      height={60}
+      width={83}
+      height={40}
     />
   );
 };
@@ -78,8 +78,8 @@ export const CoatOfArms = () => {
       layout="fixed"
       src="/images/icons/coat of arms.png"
       alt="login"
-      width={85}
-      height={60}
+      width={70}
+      height={15}
     />
   );
 };
