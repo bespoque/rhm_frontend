@@ -199,7 +199,7 @@ export default function Index() {
                                 {el?.channel_id === "Offline" ?
                                     <p> {`POS ${el?.channel_id}`} </p>
                                     :
-                                    <p> {el?.bank || ""} ({el.pmt_meth}) </p>
+                                    <p> {el?.bank || ""} ({el.channel_id}) </p>
                                 }
                             </div>
                             <div className="grid grid-cols-6 gap-2">

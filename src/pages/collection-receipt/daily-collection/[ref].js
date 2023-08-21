@@ -227,7 +227,7 @@ export default function MultipleCollection() {
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>PAID AT:</p>
-                 <p class="col-span-3">  ${record?.bank  || ""}(${record?.pmt_meth})  </p>
+                 <p class="col-span-3">  ${record?.bank  || ""}(${record?.channel_id})  </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
