@@ -83,16 +83,22 @@ const Index = () => {
         setStartModal(!startModal);
     };
 
+    const filteredJobs = jobs.filter(obj => obj.job_user.includes(emailAdd));
+
     useEffect(() => {
         async function fetchPost() {
             setIsFetching(true)
             try {
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
+                // const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
-                        "param1": "job_user",
-                        "param2": emailAdd
+                        "post": "action"
                     })
+                    // body: JSON.stringify({
+                    //     "param1": "job_user",
+                    //     "param2": emailAdd
+                    // })
                 })
 
                 const dataFetch = await response.json()
@@ -178,7 +184,7 @@ const Index = () => {
             )}
 
             <MaterialTable title="My jobs"
-                data={jobs}
+                data={filteredJobs}
                 columns={fields}
 
                 actions={

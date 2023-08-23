@@ -25,6 +25,7 @@ const Index = () => {
     const [notificationData, setNotificationData] = useState(() => []);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+
     const router = useRouter()
     const { id } = router?.query
 
@@ -60,6 +61,7 @@ const Index = () => {
         const startYear = startComponents.reduce((longest, current) => {
             return current.length > longest.length ? current : longest;
         }, '');
+
         const endComponents = endDate?.split("-");
         const endYear = endComponents.reduce((longest, current) => {
             return current.length > longest.length ? current : longest;
@@ -75,10 +77,15 @@ const Index = () => {
     }
 
 
-    // Example usage:
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
     const individualYears = getIndividualYears(startDate, endDate);
+
+    const dateStart = new Date(startDate);
+    const dateEnd = new Date(endDate);
+
+    const auditStartYr = dateStart.getFullYear()
+    const auditEndYr = dateEnd.getFullYear()
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -95,8 +102,9 @@ const Index = () => {
 
     const handleButtonClick = (year) => {
         window.open(`/tax-audit/audit-view/assessment?year=${year}&kgtin=${job?.job_kgtin}`, "_blank")
-       };
+    };
 
+    const usersArr = String(job.job_user).split(',')
 
     useEffect(() => {
 
@@ -106,10 +114,12 @@ const Index = () => {
                     method: 'POST',
                     body: JSON.stringify({
                         "param1": "id",
-                        "param2": id,
+                        "param2": id
                     })
                 })
 
+                const dataFetchJobDet = await response.json()
+                setJob(dataFetchJobDet.body[0])
 
                 const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-batch.php', {
                     method: 'POST',
@@ -120,8 +130,7 @@ const Index = () => {
                 const dataFetch = await res.json()
                 setNotificationData(dataFetch.body)
 
-                const dataFetchJobDet = await response.json()
-                setJob(dataFetchJobDet.body[0])
+
                 setIsFetching(false)
             } catch (error) {
                 setIsFetching(false)
@@ -134,6 +143,7 @@ const Index = () => {
     }, [id]);
 
 
+
     return (
         <>
             {isFetching && <ProcessorSpinner />}
@@ -142,18 +152,39 @@ const Index = () => {
 
 
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
-                <div className="w-full flex items-center lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
-                    <article className="p-2">
-                        <p className="font-bold"><span className="text-base">Tax Id</span> : <span>{job.job_kgtin}</span></p>
-                        <p className="font-bold"><span className="text-base">Auditor</span> : <span>{job.job_user}</span></p>
-                        <p className="font-bold"> <span className="text-base">Type</span>: <span>{job.job_job_type}</span></p>
-                        <p className="font-bold"><span className="text-base">Job start status</span> : <span>{job.job_start_status}</span></p>
-                        <p className="font-bold"><span className="text-base">Job progress status</span> : <span>{job.job_progress_status}</span></p>
-                        <p className="font-bold"><span className="text-base">Job start date</span> : <span>{job.job_startdate}</span></p>
-                        <p className="font-bold"><span className="text-base">Job audit start</span> : <span>{job.job_auditdate_start}</span></p>
-                        <p className="font-bold"><span className="text-base">Job audit end</span> : <span>{job.job_auditdate_end}</span></p>
-                        <p className="font-bold"><span className="text-base">Job initiator</span> : <span>{job.job_initiator}</span></p>
-                    </article>
+                <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
+                    <div className="p-2 max-w-xs">
+                        <p className="font-semibold text-gray-500">Taxpayer Details</p>
+                        <hr />
+                        <div className="flex justify-between">
+                            <p>Taxpayer: <p></p> </p>
+                            <p>Tax Id <p className="font-semibold">{job?.job_kgtin}</p></p>
+                        </div>
+                        <p className="font-semibold text-gray-500">Job Details</p>
+                        <hr />
+                        <div className="flex justify-between my-2">
+                            <p>Type: <p className="font-semibold">{job?.job_job_type}</p> </p>
+                            <p>Start date <p className="font-semibold">{job?.job_startdate}</p></p>
+                        </div>
+                        <div>
+                            <p>Audit Period</p>
+                            <p className="font-semibold">Jan, {auditStartYr} - Dec, {auditEndYr}</p>
+                        </div>
+                        <div className="mt-2 mb-4">
+                            <p>Status</p>
+                            <p className="font-semibold">{job.job_progress_status}</p>
+                        </div>
+                        <hr />
+                        <div className="flex justify-between gap-2">
+                            <p>Auditor
+                                {usersArr.map((user) => (
+                                    <p className="font-semibold">{user}</p>
+                                ))
+                                }
+                            </p>
+                            <p>Initiator <p className="font-semibold">{job.job_initiator}</p></p>
+                        </div>
+                    </div>
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
                     <div className="accordion border border-gray-300 mb-10">
