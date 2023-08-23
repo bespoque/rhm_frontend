@@ -11,6 +11,7 @@ import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
+import { Select, Space } from "antd";
 
 const CreateJob = () => {
     const [taxId, setTaxId] = useState('');
@@ -20,11 +21,12 @@ const CreateJob = () => {
     const [emailValue, setEmailValue] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [jsonData, setJsonData] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [kgtinStatus, setKgtinStatus] = useState(true)
     const { register, handleSubmit } = useForm();
     const [tpDetail, setTpDetail] = useState({})
-const router = useRouter()
+    const [rhmUsers, setRhmUsers] = useState([])
+    const [selectedValues, setSelectedValues] = useState([]);
+    const router = useRouter()
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -32,12 +34,23 @@ const router = useRouter()
         shallowEqual
     );
 
+    const handleChange = (values) => {
+        // setSelectedValues(values);
+        console.log("Selected:", String(values));
+    };
+
+
+    const options = [];
+    for (let i = 0; i < rhmUsers.length; i++) {
+        options.push({
+            value: rhmUsers[i].email,
+            label: rhmUsers[i].name,
+        });
+    }
+
+
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
-
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
 
     const handleTaxIdChange = (e) => {
         const { value } = e.target;
@@ -88,10 +101,12 @@ const router = useRouter()
                 KGTIN: taxId
             });
             setIsFetching(false)
+            setKgtinStatus(false)
             setTpDetail(response.data.body)
             setValidationResult(response.data.body.tp_name);
         } catch (error) {
             setIsFetching(false)
+            setKgtinStatus(true)
             if (error.response) {
                 setValidationResult(error.response.data.message);
             } else {
@@ -104,6 +119,26 @@ const router = useRouter()
         if (taxId.length === 10) {
             validateTP(taxId);
         }
+        const fetchPost = async () => {
+            try {
+                const response = await fetch("https://bespoque.dev/rhm/fix/getRHMUsers.php", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "param": "all"
+                    })
+                })
+                const dataFetch = await response.json()
+                setRhmUsers(dataFetch.body)
+            } catch (error) {
+                console.log("error");
+                // if (error.response) {
+
+                // } else {
+
+                // }
+            }
+        }
+        fetchPost()
     }, [taxId]);
 
 
@@ -126,8 +161,6 @@ const router = useRouter()
         } catch (error) {
             console.error('Server Error:', error)
             setIsFetching(false)
-        } finally {
-            setIsSubmitting(false)
         }
     }
 
@@ -181,14 +214,14 @@ const router = useRouter()
                 </form>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
-                    <div className="grid grid-cols-2 mx-auto  max-w-md mb-4">
+                    <div className="grid grid-cols-2 gap-4 mx-auto  max-w-md mb-4">
                         <div>
-                            <label htRmlFor="cluster_status" className="block mb-1">Job Type:</label>
+                            <label className="block mb-1">Job Type:</label>
                             <select
                                 required
                                 id="job_job_type"
                                 name="job_job_type"
-                                className="border border-gray-300"
+                                className="border rounded-md border-gray-300 w-full"
                                 ref={register()}
                             >
                                 <option value="">Select type</option>
@@ -196,20 +229,16 @@ const router = useRouter()
                                 <option value="Tax audit only">Tax Audit Only</option>
                             </select>
                         </div>
-                        {/* <div className="place-self-center">
-                            <label className="block mb-1">Upload audit doc:</label>
-                            <input type="file" onChange={handleFileChange} />
-                        </div> */}
                         <div>
-                            <label  className="block mb-1">Job start date:</label>
-                            <input className="flex justify-center"
+                            <label className="block mb-1">Job start date:</label>
+                            <input className="border rounded-md border-gray-300 w-full"
                                 type="date"
                                 name="job_startdate"
                                 ref={register()}
                             />
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-1">
+                    <div className="grid grid-cols-2 mx-auto gap-4 max-w-md mb-4">
                         <div>
                             <label className="block mb-1">Audit start date:</label>
                             <input
@@ -217,36 +246,10 @@ const router = useRouter()
                                 type="date"
                                 id="job_auditdate_start"
                                 name="job_auditdate_start"
-                                className="border border-gray-300 w-full"
+                                className="border rounded-md border-gray-300 w-full"
                                 ref={register()}
                             />
-
                         </div>
-                        <div>
-                            <label className="block mb-1">Auditor:</label>
-                            <input
-                                required
-                                type="text"
-                                placeholder='enter email'
-                                value={inputValue}
-                                onChange={handleInputChange}
-                                className="border border-gray-300 p-2 w-full"
-                            />
-                            <input
-                                required
-                                type="text"
-                                id="job_user"
-                                name="job_user"
-                                value={emailValue}
-                                className="border border-gray-300 p-2 mt-2 w-full"
-                                ref={register()}
-                            />
-
-                            <span className="flex justify-center text-blue-600 font-bold py-2 px-4 
-                        rounded focus:outline-none bg-blue-100 hover:bg-blue-200
-                        focus:shadow-outline cursor-pointer mt-2" onClick={handleButtonClick}><p>Search user</p></span>
-                        </div>
-
 
                         <div>
                             <label className="block mb-1">Audit end date:</label>
@@ -255,19 +258,56 @@ const router = useRouter()
                                 type="date"
                                 id="job_auditdate_end"
                                 name="job_auditdate_end"
-                                className="border border-gray-300 p-2 w-full"
+                                className="border rounded-md border-gray-300 w-full"
                                 ref={register()}
                             />
                         </div>
                     </div>
+
+                    <div className="grid grid-cols-2 mx-auto gap-4 max-w-md mb-4">
+                        <div>
+                            <label className="block mb-1">Action type:</label>
+                            <select
+                                required
+                                name="actionType"
+                                className="border rounded-md border-gray-300 w-full"
+                                ref={register()}
+                            >
+                                <option value="">Select type</option>
+                                <option value="Audit Visit">Audit Visit</option>
+                                <option value="Demand Notice">Demand Notice</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">Audit end date:</label>
+                            <Space
+                                direction="vertical"
+                                style={{
+                                    width: '100%',
+                                }}
+                            >
+                                <Select
+                                    mode="multiple"
+                                    size={'large'}
+                                    placeholder="Please select"
+                                    onChange={handleChange}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    options={options}
+                                />
+                            </Space>
+                        </div>
+                    </div>
                     <div class="mt-4 flex justify-center">
                         <button
-                            className={`${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
+                            className={`${kgtinStatus ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-700'
                                 } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={kgtinStatus}
                         >
-                            {isSubmitting ? 'Saving...' : 'Create'}
+                            Create
                         </button>
                     </div>
                 </form>
