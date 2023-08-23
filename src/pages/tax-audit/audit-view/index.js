@@ -193,7 +193,7 @@ const Index = () => {
                         <hr />
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
-                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={openModal}
                         > Assessment
 
@@ -225,21 +225,21 @@ const Index = () => {
                                 </div>
                             )}
                         </button>
-                        <button className="btn block p-2 bg-gray-100 rounded m-2">Notification letter</button>
-                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Notification letter</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Acknowledgements
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
                         >
                             Audit Report
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
                         >Notes</button>
-                        <button className="btn block p-2 bg-blue-100 rounded m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded m-2">Objections</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button>
                     </div>
 
                 </div>
