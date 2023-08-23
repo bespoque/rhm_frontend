@@ -187,71 +187,63 @@ const Index = () => {
                     </div>
                 </div>
                 <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-                    <div className="accordion border border-gray-300 mb-10">
-                        <div
-                            className=' accordion-header text-center bg-gray-100 p-4 cursor-pointer bg-gray-200 '
-                        >
-                            <div className="flex justify-between">
-                                <span>
-                                    Job Menu
-                                </span>
-                            </div>
-                        </div>
 
-                        <div className="accordion-content p-4">
-                            <button className="btn block p-2 bg-gray-100 w-full m-2"
-                                onClick={openModal}
-                            > Assessment
+                    <div className="max-w-xs">
+                        <p className="font-semibold text-gray-500">Menu</p>
+                        <hr />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 p-2">
+                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                            onClick={openModal}
+                        > Assessment
 
-                                {modalIsOpen && (
-                                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center  bg-opacity-50">
-                                        <div className="bg-white p-4 rounded-lg border">
-                                            <p className="font-bold">Assessment Years</p>
-                                            <div className="grid grid-cols-4 gap-4">
-                                                {individualYears.map((year) => (
-                                                    <button
-                                                        key={year}
-                                                        className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-                                                        onClick={() => handleButtonClick(year)}
-
-                                                    >
-                                                        {year}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                            <div className="mt-4 flex justify-end">
+                            {modalIsOpen && (
+                                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50">
+                                    <div className="bg-white p-4 rounded-lg border">
+                                        <p className="font-bold">Assessment Years</p>
+                                        <div className="grid grid-cols-4 gap-4">
+                                            {individualYears.map((year) => (
                                                 <button
-                                                    className="px-4 py-2 bg-red-500 text-white rounded"
-                                                    onClick={handleCloseModal}
+                                                    key={year}
+                                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                                                    onClick={() => handleButtonClick(year)}
+
                                                 >
-                                                    Close
+                                                    {year}
                                                 </button>
-                                            </div>
+                                            ))}
+                                        </div>
+                                        <div className="mt-4 flex justify-end">
+                                            <button
+                                                className="px-4 py-2 bg-red-500 text-white rounded"
+                                                onClick={handleCloseModal}
+                                            >
+                                                Close
+                                            </button>
                                         </div>
                                     </div>
-                                )}
-                            </button>
-                            <button className="btn block p-2 bg-blue-100 w-full m-2">Notification letter</button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2"
-                                onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
-                                Acknowledgements
-                            </button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2"
-                                onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
-                            >
-                                Audit Report
-                            </button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2"
-                                onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
-                            >Notes</button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2">Compliance</button>
-                            <button className="btn block p-2 bg-gray-100 w-full m-2">Objections</button>
-                        </div>
+                                </div>
+                            )}
+                        </button>
+                        <button className="btn block p-2 bg-gray-100 rounded m-2">Notification letter</button>
+                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
+                            Acknowledgements
+                        </button>
+                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
+                        >
+                            Audit Report
+                        </button>
+                        <button className="btn block p-2 bg-blue-100 rounded m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
+                        >Notes</button>
+                        <button className="btn block p-2 bg-blue-100 rounded m-2">Compliance</button>
+                        <button className="btn block p-2 bg-blue-100 rounded m-2">Objections</button>
                     </div>
+
                 </div>
             </div>
-
-
 
             <div className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
