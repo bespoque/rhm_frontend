@@ -3,7 +3,6 @@ import axios from 'axios';
 import { ProcessorSpinner } from '../../../components/spiner';
 import setAuthToken from '../../../functions/setAuthToken';
 import { useForm } from 'react-hook-form';
-import Modal from 'react-modal';
 import SectionTitle from '../../../components/section-title';
 import { shallowEqual, useSelector } from 'react-redux';
 import url from '../../../config/url'
@@ -17,10 +16,6 @@ const CreateJob = () => {
     const [taxId, setTaxId] = useState('');
     const [validationResult, setValidationResult] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [jsonData, setJsonData] = useState(null);
     const [kgtinStatus, setKgtinStatus] = useState(true)
     const { register, handleSubmit } = useForm();
     const [tpDetail, setTpDetail] = useState({})
@@ -35,8 +30,7 @@ const CreateJob = () => {
     );
 
     const handleChange = (values) => {
-        // setSelectedValues(values);
-        console.log("Selected:", String(values));
+        setSelectedValues(String(values));
     };
 
 
@@ -44,10 +38,9 @@ const CreateJob = () => {
     for (let i = 0; i < rhmUsers.length; i++) {
         options.push({
             value: rhmUsers[i].email,
-            label: rhmUsers[i].name,
+            label: rhmUsers[i].name
         });
     }
-
 
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
@@ -57,40 +50,7 @@ const CreateJob = () => {
         const onlyNumbers = value.replace(/[^0-9]/g, '');
         setTaxId(onlyNumbers);
     };
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
-    };
-    const handleButtonClick = () => {
-        if (inputValue === "") {
-            alert("Please Job to a user")
-        } else {
-            setShowModal(true);
-            fetchData();
 
-        }
-    };
-    const fetchData = () => {
-        const requestBody = {
-            param: inputValue
-        };
-
-        fetch('https://bespoque.dev/rhm/cluster/users-get.php', {
-            method: 'POST',
-            body: JSON.stringify(requestBody)
-        })
-            .then((response) => response.json())
-            .then((data) => setJsonData(data.body))
-            .catch((error) => console.log(error));
-    };
-    const handleOptionClick = (option) => {
-        setInputValue(option.name);
-        setEmailValue(option.email);
-        setShowModal(false);
-    };
-
-    const closeModal = () => {
-        setShowModal(false);
-    };
 
 
     setAuthToken()
@@ -147,7 +107,8 @@ const CreateJob = () => {
         jobdata.job_start_status = "Pending"
         jobdata.job_progress_status = "Pending"
         jobdata.job_initiator = emailAdd
-
+        jobdata.job_user = selectedValues
+        console.log("jobdata", jobdata);
         setIsFetching(true)
         try {
             const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newjob.php', {
@@ -156,8 +117,12 @@ const CreateJob = () => {
             })
             setIsFetching(false)
             const dataFetch = await response.json()
-            toast.success(dataFetch.message);
-            router.push("/tax-audit/all-jobs")
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message)
+            } else {
+                toast.success(dataFetch.message);
+                router.push("/tax-audit/all-jobs")
+            }
         } catch (error) {
             console.error('Server Error:', error)
             setIsFetching(false)
@@ -168,29 +133,7 @@ const CreateJob = () => {
         <>
             <ToastContainer />
             <SectionTitle title={"Create new Job"} />
-            <Modal
-                isOpen={showModal}
-                onRequestClose={closeModal}
-                contentLabel="Options Modal"
-                className="bg-white rounded p-4 max-w-sm border overflow-auto mx-auto"
-                overlayClassName="fixed inset-20 opacity-100"
-            >
-                {jsonData ? (
-                    <ul>
-                        {jsonData.map((option) => (
-                            <li
-                                key={option.id}
-                                onClick={() => handleOptionClick(option)}
-                                className="cursor-pointer p-2 hover:bg-gray-100"
-                            >
-                                {option.name}
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>Loading data...</p>
-                )}
-            </Modal>
+
             {isFetching && <ProcessorSpinner />}
             <div className="mx-auto mt-8">
                 <form onSubmit={validateTP} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto">
