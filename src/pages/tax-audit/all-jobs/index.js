@@ -29,10 +29,10 @@ const Index = () => {
             title: "Job initiator",
             field: "job_initiator",
         },
-        {
-            title: "Auditor",
-            field: "job_user",
-        },
+        // {
+        //     title: "Auditor",
+        //     field: "job_user",
+        // },
         {
             title: "Job type",
             field: "job_job_type",
