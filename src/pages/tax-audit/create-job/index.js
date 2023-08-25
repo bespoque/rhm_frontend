@@ -223,7 +223,7 @@ const CreateJob = () => {
                         </div>
 
                         <div>
-                            <label className="block mb-1">Audit end date:</label>
+                            <label className="block mb-1">Auditor:</label>
                             <Space
                                 direction="vertical"
                                 style={{
