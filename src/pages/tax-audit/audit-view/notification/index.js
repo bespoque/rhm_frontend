@@ -13,7 +13,6 @@ const Notification = () => {
 
     useEffect(() => {
         async function fetchPost() {
-
             try {
                 const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-single.php', {
                     method: 'POST',
@@ -41,11 +40,9 @@ const Notification = () => {
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <h2 className="text-xl font-semibold">Notification Details</h2>
                 <div className="flex justify-end gap-2 items-center mb-4">
+                <p><a href={notice?.notification_file} rel="noreferrer" target="_blank" className="p-2 bg-green-400 text-white rounded">View letter</a></p>
                     <NewNotificationButton id={JobID} />
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                        Email Notification
-                    </button>
-                  <NewAckButton  Notifid={Notifid} JobID={JobID}/>
+                    <NewAckButton Notifid={Notifid} JobID={JobID} />
                 </div>
                 <p className="">
                     <span className="font-semibold">Notification Date:</span>{' '}
@@ -63,6 +60,7 @@ const Notification = () => {
                     <span className="font-semibold">Notification Body:</span>{' '}
                     {notice?.notification_body}
                 </p>
+                
                 <p className="">
                     <span className="font-semibold">Notification Note:</span>{' '}
                     {notice?.notification_note}
