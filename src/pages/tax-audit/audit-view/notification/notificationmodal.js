@@ -87,8 +87,8 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 required
                                 ref={register()}
                             >
+                                <option value="Email">E-mail</option>
                                 <option value="Mail">Mail</option>
-                                <option value="Email">Email</option>
                                 <option value="SMS">SMS</option>
                             </select>
                         </div>
