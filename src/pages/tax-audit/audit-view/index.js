@@ -13,7 +13,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded } from "@material-ui/icons";
+import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
 
@@ -257,13 +257,19 @@ const Index = () => {
 
                         {
                             icon: MoreHoriz,
-                            tooltip: 'Notification',
+                            tooltip: 'Details',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
                         },
                         {
                             icon: NextWeekRounded,
                             tooltip: 'Acknowledgement',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+
+                        },
+                        {
+                            icon: Email,
+                            tooltip: 'Letter',
+                            // onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
                         },
                     ]
