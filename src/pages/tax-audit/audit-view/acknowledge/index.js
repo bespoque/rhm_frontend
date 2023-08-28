@@ -32,7 +32,7 @@ const Notification = () => {
             }
         }
         fetchPost();
-    }, [router]);
+    }, [id]);
 
 
     return (

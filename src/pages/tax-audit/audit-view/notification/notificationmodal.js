@@ -23,7 +23,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
-        console.log("data", data);
         setIsLoading(true)
 
         data.doneby = emailAdd
@@ -35,9 +34,13 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
-            toast.success(dataFetch.message);
             setIsLoading(false)
-            router.push(`/tax-audit/audit-view?id=${id}`)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+            } else {
+                toast.success(dataFetch.message);
+                router.push(`/tax-audit/audit-view?id=${id}`)
+            }
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -90,21 +93,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             </select>
                         </div>
                         <div className="mb-1">
-                            <label htmlFor="notification_file" className="text-dark  block mb-1">
-                                Notification File:
-                            </label>
-                            <input
-                                type="file"
-                                id="notification_file"
-                                name="notification_file"
-                                className="border border-gray-300 text-dark rounded px-2 py-1 w-full"
-                                // onChange={handleFileChange}
-                                required
-                                ref={register()}
-                            />
-                        </div>
-
-                        <div className="mb-1">
                             <label htmlFor="notification_status" className="text-dark  block mb-1">
                                 Notification Status:
                             </label>
@@ -130,12 +118,9 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 required
                                 ref={register()}
                             >
-                                <option value="Initial">Initial</option>
-                                <option value="Audit">Audit</option>
-                                <option value="Due">Due</option>
-                                <option value="Overdue">Overdue</option>
-                                <option value="Objection">Objection</option>
-                                <option value="Completion">Completion</option>
+                                <option value="Audit Visit">Audit Visit</option>
+                                <option value="Demand Notice">Demand Notice</option>
+                                <option value="Assessment">Assessment</option>
                             </select>
                         </div>
                         <div className="mb-2">
