@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 
 export default function Index() {
     const [taxOffice, setTaxOffice] = useState([])
-    const [sector, setSector] = useState([])
     const [incomeSource, setIncomSource] = useState([])
     const [state, setState] = useState([])
     const [isFetching, setIsFetching] = useState(false)
@@ -25,7 +24,7 @@ export default function Index() {
     } = useForm()
 
     const kogiLga = lga.filter(item => item.jtb_states === 22);
- 
+
 
     useEffect(() => {
 
@@ -36,13 +35,11 @@ export default function Index() {
                 console.log(res);
                 let itemsBody = res.data.body
                 let taxOffice = itemsBody.taxOffice
-                let sector = itemsBody.sector
                 let incSource = itemsBody.incomeSource
                 let stat = itemsBody.state
                 let lg = itemsBody.lga
                 setIncomSource(incSource)
                 setTaxOffice(taxOffice)
-                setSector(sector)
                 setState(stat)
                 setLga(lg)
             } catch (e) {
@@ -204,12 +201,6 @@ export default function Index() {
                             />
                         </div>
 
-                        {/* <div className="form-group ">
-                            <p>NIN</p>
-                            <input name="nin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
-                            />
-                        </div> */}
-
                         <div className="form-group ">
                             <p>Birth Place</p>
                             <input name="birth_place" ref={register({ required: "Birth Place is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
@@ -259,20 +250,6 @@ export default function Index() {
                                 {state.map((st) => <option key={st.jtb_idstates} value={st.jtb_idstates}>{st.state}</option>)}
                             </select>
                         </div>
-                        {/* <div className="form-group ">
-                            <p>Sector</p>
-                            <select name="sector" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                {sector.map((sect) => <option key={sect.id} value={sect.sector_name}>{sect.sector_name}</option>)}
-                            </select>
-                        </div> */}
-                        {/* <div className="form-group ">
-                            <p>Category</p>
-                            <select name="category" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                <option value="Agric">Agric</option>
-                                <option value="Fishery">Fishery</option>
-                            </select>
-                        </div> */}
-
                         <div className="form-group ">
                             <p>Income Source</p>
                             <select name="income_source" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
@@ -283,15 +260,6 @@ export default function Index() {
                             <p>Tax Authority</p>
                             <input readOnly name="tax_authority" value="KGIRS" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
                         </div>
-                        {/* <div className="form-group ">
-                            <p>Employer TIN</p>
-                            <input name="employer_tin" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                        </div>
-                        <div className="form-group ">
-                            <p>Employer's Name</p>
-                            <input name="employer_name" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
-                        </div> */}
-
                     </div>
 
                     <div className="mb-6 flex justify-center">
