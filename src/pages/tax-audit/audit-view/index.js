@@ -269,7 +269,7 @@ const Index = () => {
                         {
                             icon: Email,
                             tooltip: 'Letter',
-                            // onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: (event, rowData) => window.open(rowData.notification_file, "_blank"),
 
                         },
                     ]
