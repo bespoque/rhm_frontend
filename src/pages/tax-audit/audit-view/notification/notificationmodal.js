@@ -56,7 +56,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto"
+                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto overflow-y-scroll"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >

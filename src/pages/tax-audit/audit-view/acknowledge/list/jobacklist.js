@@ -139,7 +139,7 @@ export default function Jobacklist() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
 
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2" onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)} > Notification letter</button>
+                        <button className="btn block p-2 bg-blue-200 rounded-tr-lg m-2" onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)} > Notification letter</button>
                         <button className="btn block p-2 bg-gray-100  rounded-tl-lg m-2">
                             Acknowledgements
                         </button>

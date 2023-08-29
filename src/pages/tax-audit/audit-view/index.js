@@ -226,7 +226,7 @@ const Index = () => {
                             )}
                         </button> */}
                         <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Notification letter</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
+                        <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Acknowledgements
                         </button>
