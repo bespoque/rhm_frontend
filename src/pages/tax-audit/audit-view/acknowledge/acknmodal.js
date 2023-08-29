@@ -40,30 +40,30 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
         data.doneby = emailAdd
         data.job_id = JobID
         data.notification_id = Notifid
-        console.log("data", data);
-        // setIsLoading(true)
+        
+        setIsLoading(true)
 
-        // try {
-        //     const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
-        //         method: 'POST',
-        //         body: JSON.stringify(data)
-        //     })
-        //     const dataFetch = await res.json()
-        //     toast.success(dataFetch.message);
-        //     setIsLoading(false)
-        //     if (dataFetch.status === "400") {
-        //         toast.error(dataFetch.message);
-        //     } else {
-        //         toast.success(dataFetch.message);
-        //         router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
-        //     }
+        try {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            const dataFetch = await res.json()
+            toast.success(dataFetch.message);
+            setIsLoading(false)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+            } else {
+                toast.success(dataFetch.message);
+                router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
+            }
            
-        // } catch (error) {
-        //     setIsLoading(false)
-        //     console.error('Server Error:', error)
-        // } finally {
-        //     setIsLoading(false)
-        // }
+        } catch (error) {
+            setIsLoading(false)
+            console.error('Server Error:', error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
