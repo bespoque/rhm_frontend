@@ -146,8 +146,8 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                         required
                                         ref={register()}
                                     >
-                                        <option value="Accepted">Accepted</option>
-                                        <option value="Rejected">Rejected</option>
+                                        <option value="ACCEPTED">Accepted</option>
+                                        <option value="REJECTED">Rejected</option>
                                     </select>
                                 </div>
                             </div>
