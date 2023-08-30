@@ -28,10 +28,6 @@ const Index = () => {
     const router = useRouter()
     const fields = [
         {
-            title: "Id",
-            field: "id",
-        },
-        {
             title: "Tax Id",
             field: "job_kgtin",
         },
