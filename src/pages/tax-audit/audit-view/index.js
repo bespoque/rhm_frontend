@@ -16,6 +16,9 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './notification/button';
+import Modal from '@material-ui/core/Modal';
+
+
 
 
 
@@ -24,6 +27,8 @@ const Index = () => {
     const [job, setJob] = useState(() => []);
     const [notificationData, setNotificationData] = useState(() => []);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedPdfUrl, setSelectedPdfUrl] = useState('');
+    const [isModalOpenPDF, setIsModalOpenPDF] = useState(false);
 
 
     const router = useRouter()
@@ -230,7 +235,7 @@ const Index = () => {
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Acknowledgements
                         </button>
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
                         >
                             Audit Report
@@ -239,7 +244,7 @@ const Index = () => {
                             onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
                         >Notes</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button> */}
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button>
                     </div>
 
                 </div>
@@ -269,7 +274,10 @@ const Index = () => {
                         {
                             icon: Email,
                             tooltip: 'Letter',
-                            onClick: (event, rowData) => window.open(rowData.notification_file, "_blank"),
+                            onClick: (event, rowData) => {
+                                setSelectedPdfUrl(rowData.notification_file);
+                                setIsModalOpenPDF(true);
+                            }
 
                         },
                     ]
@@ -297,7 +305,22 @@ const Index = () => {
                 }}
 
             />
-
+            <Modal
+                open={isModalOpenPDF}
+                onClose={() => setIsModalOpenPDF(false)}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <iframe
+                    title="PDF Viewer"
+                    src={selectedPdfUrl}
+                    width="50%"
+                    height="600"
+                />
+            </Modal>
 
         </>
     )

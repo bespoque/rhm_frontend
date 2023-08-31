@@ -13,11 +13,12 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from 'material-table';
-import { PlayCircleOutline, WarningRounded } from "@material-ui/icons";
+import { PlayCircleOutline, WarningRounded, MoreHoriz } from "@material-ui/icons";
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 
 const Index = () => {
@@ -25,6 +26,7 @@ const Index = () => {
     const [jobs, setJobs] = useState(() => []);
     const [startModal, setStartModal] = useState(false);
     const [startJobFields, setStartJobFields] = useState(() => { });
+    const [selectedRow, setSelectedRow] = useState(null);
     const router = useRouter()
     const fields = [
         {
@@ -47,22 +49,22 @@ const Index = () => {
             title: "Progress status",
             field: "job_progress_status",
         },
-        {
-            title: "Job start date",
-            field: "job_startdate",
-        },
-        {
-            title: "Audit start date",
-            field: "job_auditdate_start",
-        },
-        {
-            title: "Audit end date",
-            field: "job_auditdate_end",
-        },
-        {
-            title: "Created time",
-            field: "createtime",
-        },
+        // {
+        //     title: "Job start date",
+        //     field: "job_startdate",
+        // },
+        // {
+        //     title: "Audit start date",
+        //     field: "job_auditdate_start",
+        // },
+        // {
+        //     title: "Audit end date",
+        //     field: "job_auditdate_end",
+        // },
+        // {
+        //     title: "Created time",
+        //     field: "createtime",
+        // },
 
     ];
 
@@ -78,6 +80,22 @@ const Index = () => {
     const toggleStart = () => {
         setStartModal(!startModal);
     };
+
+    const handleRowClick = (event, rowData) => {
+        setSelectedRow(rowData);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+    };
+
+    const formatDateToEnglishReadable = dateStr =>
+        new Date(dateStr).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+
 
     const filteredJobs = jobs.filter(obj => obj.job_user.includes(emailAdd));
 
@@ -131,7 +149,7 @@ const Index = () => {
 
     return (
         <>
-        <ToastContainer />
+            <ToastContainer />
             {startModal && (
                 <div className="modal">
                     <div className="modal-content" width="300">
@@ -182,9 +200,13 @@ const Index = () => {
             <MaterialTable title="My jobs"
                 data={filteredJobs}
                 columns={fields}
-
                 actions={
                     [
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'Details',
+                            onClick: handleRowClick
+                        },
                         {
                             icon: PlayCircleOutline,
                             tooltip: 'Start Job',
@@ -206,7 +228,7 @@ const Index = () => {
                             }
 
 
-                        },
+                        }
                     ]
                 }
 
@@ -232,6 +254,15 @@ const Index = () => {
                 }}
 
             />
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
+                <DialogTitle>Job Details</DialogTitle>
+                <DialogContent>
+                    <Typography> <p>Start date: <span className="font-bold">{formatDateToEnglishReadable(selectedRow?.job_startdate)}</span></p></Typography>
+                    <Typography> <p>Audit start date: <span className="font-bold">{formatDateToEnglishReadable(selectedRow?.job_auditdate_start)}</span></p></Typography>
+                    <Typography> <p>Audit end date: <span className="font-bold">{formatDateToEnglishReadable(selectedRow?.job_auditdate_end)}</span></p></Typography>
+                    <Typography> <p>Progress status: <span className="font-bold">{selectedRow?.job_progress_status}</span></p></Typography>
+                </DialogContent>
+            </Dialog>
 
             <style
                 jsx>{

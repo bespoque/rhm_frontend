@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import jwt from "jsonwebtoken";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import { useForm } from "react-hook-form";
 import { FormatMoneyComponent } from "../FormInput/formInputs";
 import Search from '@material-ui/icons/Search'
@@ -84,20 +84,9 @@ const fields = [
 ];
 
 export const ViewCompletedTable = ({ submittedData }) => {
-  // let items = submittedData;
 
-  const { config, palettes, auth } = useSelector(
-    (state) => ({
-      config: state.config,
-      palettes: state.palettes,
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
 
-  const reportRange = [39, 20, 9]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
+
 
   return (
     <>
@@ -147,20 +136,16 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
   const [modal, setModal] = useState(false);
   const [assessmentModal, setAssessmentModalModal] = useState(false);
   const [comment, setComment] = useState(false);
-console.log("assobj", assobj);
   const [fixedValues, fixValues] = useState({ amount: 0 });
-  const [submittedResult, updateResult] = useState({ amount: 0 });
+
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
   } = useForm()
 
-  const { config, palettes, auth } = useSelector(
+  const {auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -188,7 +173,6 @@ console.log("assobj", assobj);
   };
 
   const kgtinString = String(kgtinVal)
-  const items = payerprop;
   const assessment_id = assId
   const createdTime = dateformat(assobj.createtime, "dd mmm yyyy")
   const employedCal = Number(assobj.employed)
@@ -222,7 +206,7 @@ console.log("assobj", assobj);
       status: "Approved",
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}forma/set-status`, apprDataObj);
+       await axios.put(`${url.BASE_URL}forma/set-status`, apprDataObj);
       setIsFetching3(false)
       toast.success("Success!");
       router.push('/view/completeddirect')
@@ -241,7 +225,7 @@ console.log("assobj", assobj);
       status: "Verified",
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}forma/set-status`, bojDataObj);
+       await axios.put(`${url.BASE_URL}forma/set-status`, bojDataObj);
       setIsFetching3(false)
       router.push('/view/listverifiedboj')
     } catch (error) {
@@ -261,7 +245,7 @@ console.log("assobj", assobj);
       status: "Declined"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}forma/set-status`, declineDataObj);
+       await axios.put(`${url.BASE_URL}forma/set-status`, declineDataObj);
       setIsFetching2(false)
       router.push('/view/completeddirect')
       toast.success("Success!");
