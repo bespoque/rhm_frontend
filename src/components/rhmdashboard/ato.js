@@ -627,14 +627,14 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
               {taxOff === "Anyigba" ?
                 <Widget1
                   color="green"
-                  title="Assessed Amount"
+                  title="Total Assessed Amount"
                   description={formatNumber("93500")}
                   right={<RevenueItems />}
                 />
                 :
                 <Widget1
                   color="green"
-                  title="Assessed Amount"
+                  title="Total Assessed Amount"
                   description={formatNumber(ind.amountCollected)}
                   right={<RevenueItems />}
                 />

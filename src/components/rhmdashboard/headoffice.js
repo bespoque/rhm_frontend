@@ -1399,7 +1399,7 @@ export const AssesmentCount = ({
           <div className="w-full lg:w-1/5">
             <Widget1
               color="green"
-              title="Assessed Amount"
+              title="Total Assessed Amount"
               description={formatNumber(ind.amountCollected)}
               right={<RevenueItems />}
             />

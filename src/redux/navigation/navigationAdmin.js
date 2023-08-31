@@ -1,7 +1,5 @@
 import { RhmDashboard, ManageTaxpayer, DirectAssessment, Paye, Collections, Settings } from '../../components/Icons/index';
 
-// Added non individual navigation to side menu
-
 const initialState = [
   {
     title: 'Applications',
@@ -18,11 +16,6 @@ const initialState = [
         icon: <ManageTaxpayer />,
         title: 'Manage Taxpayer',
         items: [
-          // {
-          //   title: 'Dashboard',
-          //   url: '/',
-          //   items: [],
-          // },
           {
             title: 'Individual',
             items: [
@@ -538,71 +531,71 @@ const initialState = [
 
       //   ],
       // },
-      {
-        url: '/',
-        icon: <Settings />,
-        title: 'Cluster Management',
-        items: [
+      // {
+      //   url: '/',
+      //   icon: <Settings />,
+      //   title: 'Cluster Management',
+      //   items: [
 
-          {
-            title: 'Clusters',
-            items: [
-              { title: 'Create', url: '/cluster-management/cluster-group', items: [] },
-              {
-                title: 'View',
-                url: '/cluster-management/cluster-group/list',
-                items: [],
-              },
-              {
-                title: 'Add user',
-                url: '/cluster-management/cluster-group/users',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Targets',
-            items: [
-              { title: 'Create', url: '/cluster-management/cluster-target', items: [] },
-              {
-                title: 'View',
-                url: '/cluster-management/cluster-target/list',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'My cluster',
-            items: [
-              {
-                title: 'View',
-                url: '/cluster-management/my-cluster/list',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Cluster Head',
-            items: [
-              {
-                title: 'View',
-                url: '/cluster-management/cluster-head/list-clusters',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Area Tax Manager',
-            items: [
-              {
-                title: 'View',
-                url: '/cluster-management/atm-cluster/list-clusters',
-                items: [],
-              },
-            ],
-          },
-        ],
-      },
+      //     {
+      //       title: 'Clusters',
+      //       items: [
+      //         { title: 'Create', url: '/cluster-management/cluster-group', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/cluster-management/cluster-group/list',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Add user',
+      //           url: '/cluster-management/cluster-group/users',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Targets',
+      //       items: [
+      //         { title: 'Create', url: '/cluster-management/cluster-target', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/cluster-management/cluster-target/list',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'My cluster',
+      //       items: [
+      //         {
+      //           title: 'View',
+      //           url: '/cluster-management/my-cluster/list',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Cluster Head',
+      //       items: [
+      //         {
+      //           title: 'View',
+      //           url: '/cluster-management/cluster-head/list-clusters',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Area Tax Manager',
+      //       items: [
+      //         {
+      //           title: 'View',
+      //           url: '/cluster-management/atm-cluster/list-clusters',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
 ];
