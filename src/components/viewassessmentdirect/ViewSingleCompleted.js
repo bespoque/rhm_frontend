@@ -1,6 +1,5 @@
 import Widget from '../widget'
 import SectionTitle from '../section-title';
-import { StartSingleIndividualAssessment } from '../assessment/viewAssessment';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from "axios";
@@ -8,7 +7,7 @@ import Loader from 'react-loader-spinner';
 import { ViewSingleCompletedTable } from '../tables/viewCompletedDirect';
 import setAuthToken from '../../functions/setAuthToken';
 import url from '../../config/url';
-import { afterComma, repVa } from '../../functions/numbers';
+
 
 const ViewSingleCompleted = () => {
   const router = useRouter();
