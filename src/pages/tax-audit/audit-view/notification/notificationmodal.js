@@ -5,8 +5,8 @@ import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../components/spiner';
+import { useRouter } from 'next/router';
 
 const NotificationModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
@@ -39,7 +39,9 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 toast.error(dataFetch.message);
             } else {
                 toast.success(dataFetch.message);
-                router.push(`/tax-audit/audit-view?id=${id}`)
+                closeModal()
+                router.reload()
+                
             }
         } catch (error) {
             setIsLoading(false)
