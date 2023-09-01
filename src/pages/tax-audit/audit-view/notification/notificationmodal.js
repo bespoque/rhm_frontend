@@ -27,7 +27,8 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
         data.doneby = emailAdd
         data.job_id = id
-        data.notification_file = "filepath"
+        data.notification_status = "Pending"
+        // data.notification_file = "filepath"
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
                 method: 'POST',
@@ -62,12 +63,12 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >
-                <div className="overflow-y-auto">
+                <div className="">
                     <h6 className="text-dark">New Notification</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label htmlFor="notification_date" className="block mb-1  text-dark">
-                                Notification Date:
+                                Visit Date:
                             </label>
                             <input
                                 type="date"
@@ -90,24 +91,20 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 ref={register()}
                             >
                                 <option value="Email">E-mail</option>
-                                <option value="Mail">Mail</option>
-                                <option value="SMS">SMS</option>
                             </select>
                         </div>
                         <div className="mb-1">
                             <label htmlFor="notification_status" className="text-dark  block mb-1">
-                                Notification Status:
+                                File Ref:
                             </label>
-                            <select
-                                id="notification_status"
-                                name='notification_status'
+                            <input type="text"
+                                id="notification_fileno"
+                                name='notification_fileno'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                            >
-                                <option value="Pending">Pending</option>
-                                <option value="Started">Started</option>
-                            </select>
+                            />
+                          
                         </div>
                         <div className="mb-1">
                             <label htmlFor="notification_delivery" className="block  mb-1 text-dark">

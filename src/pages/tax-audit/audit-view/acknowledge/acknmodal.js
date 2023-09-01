@@ -11,8 +11,7 @@ import { ProcessorSpinner } from '../../../../components/spiner';
 const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm();
-    const [showRescheduleFields, setShowRescheduleFields] = useState(false);
-    const [approveResch, setApprResch] = useState(false);
+
 
     const router = useRouter()
     const { auth } = useSelector(
@@ -25,16 +24,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
 
-    const handleRadioChange = (event) => {
-        const value = event.target.value;
-        if (value === 'YES') {
-            setShowRescheduleFields(true);
-            setApprResch(true)
-        } else {
-            setShowRescheduleFields(false);
-            setApprResch(false)
-        }
-    };
 
     const onSubmit = async (data) => {
         data.doneby = emailAdd
@@ -49,7 +38,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 body: JSON.stringify(data)
             })
             const dataFetch = await res.json()
-            toast.success(dataFetch.message);
             setIsLoading(false)
             if (dataFetch.status === "400") {
                 toast.error(dataFetch.message);
@@ -80,79 +68,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                     <h6 className="my-3">New Acknowledgement</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
-                            <label className="block mb-1">
-                                Request Change of Visit?
-                            </label>
-                            <div className="flex items-center">
-                                <label className="mr-2">
-                                </label>
-                                <input
-                                    type="radio"
-                                    name="ack_reschedule"
-                                    value="YES"
-                                    className="rounded px-2"
-                                    onChange={handleRadioChange}
-                                    ref={register()}
-                                />
-                                <span className="ml-1">YES</span>
-
-                                <input
-                                    type="radio"
-                                    name="ack_reschedule"
-                                    value="NO"
-                                    className="rounded ml-2 px-2"
-                                    onChange={handleRadioChange}
-                                    ref={register()}
-                                />
-                                <span className="ml-1">NO</span>
-                            </div>
-                        </div>
-                        {showRescheduleFields && (
-                            <div className="border p-2">
-                                <div className="mb-2">
-                                    <label className="block mb-1">
-                                        Reschedule Date:
-                                    </label>
-                                    <input
-                                        type="date"
-                                        id="ack_reschedule_date"
-                                        name="ack_reschedule_date"
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
-                                        required
-                                        ref={register()}
-                                    />
-                                </div>
-                                <div className="mb-2">
-                                    <label className="block mb-1">
-                                        Reschedule Reason:
-                                    </label>
-                                    <textarea
-                                        id="ack_reschedule_reason"
-                                        name="ack_reschedule_reason"
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
-                                        required
-                                        ref={register()}
-                                    > </textarea>
-                                </div>
-                                <div className="mb-2">
-                                    <label className="block mb-1">
-                                        Reschedule Status:
-                                    </label>
-                                    <select
-
-                                        id="ack_reschedule_status"
-                                        name="ack_reschedule_status"
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
-                                        required
-                                        ref={register()}
-                                    >
-                                        <option value="ACCEPTED">Accepted</option>
-                                        <option value="REJECTED">Rejected</option>
-                                    </select>
-                                </div>
-                            </div>
-                        )}
-                        <div className="mb-2">
                             <label className="block mb-1  ">
                                 Acknowledgement Date:
                             </label>
@@ -176,9 +91,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                 required
                                 ref={register()}
                             >
-                                <option value="ups">UPS Door Delivery</option>
-                                <option value="dhl">DHL Door Delivery</option>
-                                <option value="Rider">Rider</option>
+                                <option value="courier">Courier</option>
                             </select>
                         </div>
                         <div className="mb-2">
@@ -207,6 +120,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                 <option value="relative">Relative</option>
                                 <option value="colleague">Colleague</option>
                                 <option value="neighbour">Neighbour</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
 

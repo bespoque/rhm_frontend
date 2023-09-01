@@ -14,9 +14,14 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 
+
+
+
 export default function Jobacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [jobAck, setJobAck] = useState([]);
+   
+   
     const router = useRouter()
     const [job, setJob] = useState(() => []);
     const { JobID } = router?.query
@@ -31,6 +36,8 @@ export default function Jobacklist() {
     const auditEndYr = dateEnd.getFullYear()
 
     const usersArr = String(job.job_user).split(',')
+
+
 
 
     const fields = [
@@ -96,6 +103,8 @@ export default function Jobacklist() {
 
         <>
             {isFetching && <ProcessorSpinner />}
+
+
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
                 <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
                     <div className="p-2 max-w-xs">
@@ -139,7 +148,7 @@ export default function Jobacklist() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
 
-                        <button className="btn block p-2 bg-blue-200 rounded-tr-lg m-2" onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)} > Notification letter</button>
+                        <button className="btn block p-2 bg-blue-200 rounded-tr-lg m-2" onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)} > Notifications</button>
                         <button className="btn block p-2 bg-gray-100  rounded-tl-lg m-2">
                             Acknowledgements
                         </button>
@@ -160,7 +169,6 @@ export default function Jobacklist() {
             <MaterialTable title="Job acknowledegements"
                 data={jobAck}
                 columns={fields}
-
                 options={{
                     search: true,
                     paging: true,

@@ -1,4 +1,4 @@
-import MaterialTable from 'material-table'
+
 import React, { useEffect, useState } from 'react'
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../../../components/Icons/index'
@@ -13,12 +13,27 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import { HomeRounded } from '@material-ui/icons'
+import { useForm } from 'react-hook-form'
+import Modal from 'react-modal';
+import MaterialTable from '@material-table/core'
+
 
 export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [notifAck, setNotifAck] = useState([]);
     const router = useRouter()
     const { JobID, Notifid } = router?.query
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { register } = useForm();
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const fields = [
         {
@@ -68,10 +83,89 @@ export default function Notifiacklist() {
     return (
         <>
             {isFetching && <ProcessorSpinner />}
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto overflow-y-scroll"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+
+            >
+                <div>
+                    <h6 className="text-dark text-center">Reschedule Visit</h6>
+                    <form  >
+                        <div className="p-2">
+                            <div className="mb-2">
+                                <label className="block mb-1">
+                                    Reschedule Date:
+                                </label>
+                                <input
+                                    type="date"
+                                    id="ack_reschedule_date"
+                                    name="ack_reschedule_date"
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
+                                    ref={register()}
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block mb-1">
+                                    Reschedule Reason:
+                                </label>
+                                <textarea
+                                    id="ack_reschedule_reason"
+                                    name="ack_reschedule_reason"
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
+                                    ref={register()}
+                                > </textarea>
+                            </div>
+                            <div className="mb-2">
+                                <label className="block mb-1">
+                                    Reschedule Status:
+                                </label>
+                                <select
+
+                                    id="ack_reschedule_status"
+                                    name="ack_reschedule_status"
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
+                                    ref={register()}
+                                >
+                                    <option value="ACCEPTED">Accepted</option>
+                                    <option value="REJECTED">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
+                            type="submit"
+                        >
+                            Submit
+                        </button>
+                        <button
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded mt-4 ml-2"
+                            onClick={closeModal}
+                        >
+                            Close
+                        </button>
+                    </form>
+                </div>
+            </Modal>
 
             <MaterialTable title="Notification acknowledegements"
                 data={notifAck}
                 columns={fields}
+                actions={
+                    [
+                        {
+                            icon: HomeRounded,
+                            tooltip: 'Reschedule Visit',
+                            onClick: (event, rowData) => openModal()
+                        },
+
+                    ]
+                }
                 options={{
                     search: true,
                     paging: true,
