@@ -205,7 +205,7 @@ export default function Index() {
                             <div className="grid grid-cols-6 gap-2">
                                 <p>AGENCY:</p>
                                 <div className="col-span-3">
-                                    <p> INTERNAL REVENUE SERVICE </p>
+                                    <p> {el?.revenueItem || "INTERNAL REVENUE SERVICE"} </p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
