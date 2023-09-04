@@ -205,12 +205,12 @@ export default function Index() {
                             <div className="grid grid-cols-6 gap-2">
                                 <p>AGENCY:</p>
                                 <div className="col-span-3">
-                                    <p> {el?.revenueItem || "INTERNAL REVENUE SERVICE"} </p>
+                                    <p> { el?.mda || el?.revenueItem || "INTERNAL REVENUE SERVICE"} </p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
                                 <p>TAX STATION:</p>
-                                <p> {el.station || "-"} </p>
+                                <p> {el?.station || "-"} </p>
                             </div>
                             <div className="border-b-2 mt-3 w-4/4 ">
                             </div>
