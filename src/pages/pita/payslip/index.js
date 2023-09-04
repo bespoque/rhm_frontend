@@ -261,22 +261,22 @@ export default function Payslip() {
             data.payroll_year = payroll_year.getFullYear()
             data.tax = (data.tax).replace(/,/g, '')
             data.consolidated_relief = consolidatedReliefS
-            // axios.post(`${url.BASE_URL}paye/payslip`, data)
-            //     .then(function (response) {
-            //         setIsFetching(false)
-            //         toast.success("Created Successfully!");
-            //         setCreateError("")
-            //         router.push(`/pita/payslip/${response.data.body.payroll_year}_${response.data.body.id}`)
+            axios.post(`${url.BASE_URL}paye/payslip`, data)
+                .then(function (response) {
+                    setIsFetching(false)
+                    toast.success("Created Successfully!");
+                    setCreateError("")
+                    router.push(`/pita/payslip/${response.data.body.payroll_year}_${response.data.body.id}`)
 
-            //     })
-            //     .catch(function (error) {
-            //         setIsFetching(false)
-            //         if (error.response) {
-            //             setCreateError(() => error.response.data.message);
-            //         } else {
-            //             toast.error("Failed to add Income Details!");
-            //         }
-            //     })
+                })
+                .catch(function (error) {
+                    setIsFetching(false)
+                    if (error.response) {
+                        setCreateError(() => error.response.data.message);
+                    } else {
+                        toast.error("Failed to add Income Details!");
+                    }
+                })
         }
 
     }
