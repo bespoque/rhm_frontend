@@ -28,6 +28,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         data.doneby = emailAdd
         data.job_id = id
         data.notification_status = "Pending"
+        data.notification_delivery = "Email"
         // data.notification_file = "filepath"
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
@@ -42,7 +43,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                 toast.success(dataFetch.message);
                 closeModal()
                 router.reload()
-                
+
             }
         } catch (error) {
             setIsLoading(false)
@@ -80,18 +81,16 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             />
                         </div>
                         <div className="mb-1">
-                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Delivery Method:
+                            <label className="block  mb-1 text-dark">
+                                Recipient Email:
                             </label>
-                            <select
-                                id="notification_delivery"
-                                name='notification_delivery'
+                            <input
+                                name='notification_note'
+                                type="email"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                            >
-                                <option value="Email">E-mail</option>
-                            </select>
+                            />
                         </div>
                         <div className="mb-1">
                             <label htmlFor="notification_status" className="text-dark  block mb-1">
@@ -104,7 +103,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 required
                                 ref={register()}
                             />
-                          
+
                         </div>
                         <div className="mb-1">
                             <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
@@ -122,19 +121,17 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 <option value="Assessment">Assessment</option>
                             </select>
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="notification_note" className="text-dark  block mb-1">
+                        {/* <div className="mb-2">
+                            <label className="text-dark  block mb-1">
                                 Notification Note:
                             </label>
                             <textarea
-
-                                id="notification_note"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
                                 name='notification_note'
                             ></textarea>
-                        </div>
+                        </div> */}
 
                         <div className="mb-2">
                             <label htmlFor="notification_body" className="text-dark  block mb-1">
