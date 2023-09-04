@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import Widget from '../../../components/widget'
 import axios from "axios";
@@ -23,6 +23,7 @@ export default function Payslip() {
     const [station, setTaxStation] = useState([])
     const [numberVal, setNumberVal] = useState({ amount: "" });
     const [createError, setCreateError] = useState("");
+    const [taxValue, setTaxValue] = useState(() => 0);
 
 
     const router = useRouter();
@@ -30,14 +31,12 @@ export default function Payslip() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
     } = useForm(
         { mode: "onBlur", }
     )
 
     const {
         register: registerTp,
-        formState: { errors: errors2 },
         handleSubmit: handleSubmitTp,
 
     } = useForm(
@@ -47,7 +46,6 @@ export default function Payslip() {
     const {
         register: registerForm,
         watch,
-        formState: { dirtyFields },
         control,
         handleSubmit: handleSubmitForm,
 
@@ -58,7 +56,7 @@ export default function Payslip() {
     let otherReliefWatch = watch("other_relief", "0").replace(/,/g, '')
     let upfrontWatch = watch("upfront", "0").replace(/,/g, '')
     let watch_relief_notes = watch("other_relief_notes", "")
-    
+
 
     let housing = watch("housing", "0").replace(/,/g, '')
     let trans_allw = watch("trans_allw", "0").replace(/,/g, '')
@@ -80,24 +78,15 @@ export default function Payslip() {
     let allowance = (Number(housing) + Number(trans_allw) + Number(leave_allw) + Number(upfrontWatch) + Number(utilities) + Number(other_allw) + Number(benefits) + Number(month_13));
     let totalRelief = (Number(pension) + Number(nhf) + Number(lap));
 
-
     let consolidatedIncome = (Number(basic) + Number(allowance));
-    // console.log("Consl", consolidatedIncome);
-
-    // consolidatedIncome = consolidatedIncome / no_months * 12;
-    // totalRelief = totalRelief / no_months * 12;
-    
 
     let gross_inc = Number(consolidatedIncome) - Number(totalRelief);
-    // console.log(gross_inc, ' gross')
-
 
     if (consolidatedIncome < 300000.0) {
         consolidatedRelief = 0;
-        //console.log(gross_inc);
+
     } else {
         consolidatedRelief = 200000 + 0.2 * gross_inc;
-        // console.log("Gross INC", gross_inc);
     }
 
     let totalDeduction = consolidatedRelief + totalRelief + Number(otherReliefWatch);
@@ -155,24 +144,19 @@ export default function Payslip() {
         //console.log(tax + ' 7');
     }
 
-    // tax = tax / 12 * no_months;
     tax = tax / 12 * no_months;
 
-    /////////////////////////////////////////////////////////////////
+
     let consolidatedIncomeS = (Number(basic) + ((Number(allowance) / 12) * Number(no_months)));
     let consolidatedReliefS = Number(consolidatedRelief) / 12 * Number(no_months);
     let chargeableIncomeS = Number(chargeableIncome / 12) * Number(no_months);
     let grossInc = (Number(consolidatedIncomeS / 12 * no_months));
 
-    // tax_paid = tax;
-
-    //   let JsonTax = String(tax_paid)
-    //   dev_levy = "1000"
-
 
 
     setAuthToken()
     useEffect(() => {
+
         const fetchPost = async () => {
             try {
                 let res = await axios.get(`${url.BASE_URL}user/items`);
@@ -180,11 +164,23 @@ export default function Payslip() {
                 setTaxStation(office)
 
             } catch (e) {
-                // setIsFetching(false);
+                console.log(e);
             }
         };
         fetchPost();
     }, [])
+
+    const handleInputChange = useCallback((event) => {
+        const rawValue = event.target.value;
+        const formattedValue = rawValue.replace(/\D/g, '')
+        // .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // thousand seperator
+        setTaxValue(formattedValue);
+    }, [])
+
+    useEffect(() => {
+        setTaxValue(tax);
+
+    }, [tax]);
 
     const searchOrg = (data) => {
         data.tpType = "Non-Individual"
@@ -194,7 +190,6 @@ export default function Payslip() {
             .then(function (response) {
                 setIsFetching(false)
                 let organization = response.data.body.taxpayer
-                console.log("org", organization);
                 if (organization === [] || organization === "" || organization === null) {
                     toast.error("Organization does not exist");
                 } else {
@@ -237,6 +232,8 @@ export default function Payslip() {
             })
     }
 
+
+
     const createPayslip = (data) => {
         console.log(data);
         if (data.org_id === "" || data.paye_tp === "") {
@@ -247,7 +244,6 @@ export default function Payslip() {
         }
         else {
             setIsFetching(true)
-            // data.basic = (data.basic).replace(/,/g, '')
             data.basic = grossInc
             data.other_allw = (data.other_allw).replace(/,/g, '')
             data.pension = (data.pension).replace(/,/g, '')
@@ -263,25 +259,24 @@ export default function Payslip() {
             data.housing = (data.housing).replace(/,/g, '')
             data.other_relief = (data.other_relief).replace(/,/g, '')
             data.payroll_year = payroll_year.getFullYear()
-            data.tax = tax
+            data.tax = (data.tax).replace(/,/g, '')
             data.consolidated_relief = consolidatedReliefS
+            // axios.post(`${url.BASE_URL}paye/payslip`, data)
+            //     .then(function (response) {
+            //         setIsFetching(false)
+            //         toast.success("Created Successfully!");
+            //         setCreateError("")
+            //         router.push(`/pita/payslip/${response.data.body.payroll_year}_${response.data.body.id}`)
 
-            axios.post(`${url.BASE_URL}paye/payslip`, data)
-                .then(function (response) {
-                    setIsFetching(false)
-                    toast.success("Created Successfully!");
-                    setCreateError("")
-                    router.push(`/pita/payslip/${response.data.body.payroll_year}_${response.data.body.id}`)
-
-                })
-                .catch(function (error) {
-                    setIsFetching(false)
-                    if (error.response) {
-                        setCreateError(() => error.response.data.message);
-                    } else {
-                        toast.error("Failed to add Income Details!");
-                    }
-                })
+            //     })
+            //     .catch(function (error) {
+            //         setIsFetching(false)
+            //         if (error.response) {
+            //             setCreateError(() => error.response.data.message);
+            //         } else {
+            //             toast.error("Failed to add Income Details!");
+            //         }
+            //     })
         }
 
     }
@@ -351,8 +346,6 @@ export default function Payslip() {
                 <p className="text-red-600 mb-3">{createError}</p>
                 <Widget>
                     <div className="flex gap-2 justify-center ">
-
-                        {/* <div className="grid grid-cols-2 gap-4 w-1/2 border-r"> */}
                         <div className="grid grid-cols-3 gap-4">
                             <div className="form-group ">
                                 <p>Organization/Employer <small className="font-bold text-red-600">*</small></p>
@@ -371,8 +364,6 @@ export default function Payslip() {
                                     name="payroll_year"
                                     ref={registerForm()}
                                     control={control}
-
-                                    // defaultValue={new Date()}
                                     render={({ onChange, value }) => {
                                         return (
                                             <DatePicker
@@ -582,7 +573,7 @@ export default function Payslip() {
                             </div>
                             <div className="form-group">
                                 <p>Reason for Other Deduction</p>
-                                <textarea name="other_relief_notes" ref={registerForm()}id="" cols="30" rows="2"></textarea>
+                                <textarea name="other_relief_notes" ref={registerForm()} id="" cols="30" rows="2"></textarea>
                             </div>
                             <p className="form-group"></p>
 
@@ -602,7 +593,15 @@ export default function Payslip() {
                                 <p className="font-bold">{formatNumber(chargeableIncomeS)}</p>
                             </div>
                             <div className="form-group">
+
                                 <p className="font-bold">Tax Payable</p>
+                                <input
+                                    type="text"
+                                    name="tax"
+                                    ref={registerForm()}
+                                    value={formatNumber(taxValue)}
+                                    onChange={handleInputChange}
+                                />
                                 <p className="font-bold">{formatNumber(tax)}</p>
                             </div>
                         </div>

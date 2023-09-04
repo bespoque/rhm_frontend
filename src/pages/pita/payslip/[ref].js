@@ -25,8 +25,6 @@ export default function UploadPayslip() {
             let year = routerData.split('_').shift()
             setPayrollId(payRID)
             setPaySlipYear(year)
-            console.log("payRID", payRID);
-            console.log("year", year);
         }
     }, [router]);
 
