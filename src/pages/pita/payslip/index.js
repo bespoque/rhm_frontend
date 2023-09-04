@@ -602,7 +602,7 @@ export default function Payslip() {
                                     value={formatNumber(taxValue)}
                                     onChange={handleInputChange}
                                 />
-                                <p className="font-bold">{formatNumber(tax)}</p>
+                                {/* <p className="font-bold">{formatNumber(tax)}</p> */}
                             </div>
                         </div>
                     </div>
