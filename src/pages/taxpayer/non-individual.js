@@ -47,7 +47,6 @@ export default function NonInd() {
     const onSubmit = (data) => {
         setIsFetching(true)
         axios.post(`${url.BASE_URL}taxpayer/new-non-individual`, data)
-            // axios.post(`${url.BASE_URL}user/signup`, data)
             .then(function (response) {
                 setIsFetching(false)
                 toast.success("Created Successfully!");

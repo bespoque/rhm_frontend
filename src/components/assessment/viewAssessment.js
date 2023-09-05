@@ -223,13 +223,13 @@ export const StartAssessment = () => {
               </div>
 
               <div className="w-full lg:w-2/5 py-2 self-center">
-                <a
+                <button
                   onClick={verifiyKGTIN}
                   style={{ backgroundColor: "#84abeb" }}
                   className="btn btn-default text-white btn-outlined bg-transparent rounded-md"
                 >
                   Verify
-                </a>
+                </button>
               </div>
 
               <div className="w-full lg:w-4/5">

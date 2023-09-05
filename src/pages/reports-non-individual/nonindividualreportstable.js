@@ -83,8 +83,8 @@ export default function NonIndividualReportstable({ FilteredData }) {
                     {
                         icon: Edit,
                         tooltip: 'Edit Payer',
-                        onClick: (event, rowData) => router.push(`/update-individual/${rowData.KGTIN}`),
-                        hidden: true
+                        onClick: (event, rowData) => router.push(`/view/nonindividual/${rowData.KGTIN}`),
+                        // hidden: true
                     }
                 ]}
                 icons={{
