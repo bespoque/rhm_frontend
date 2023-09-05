@@ -29,6 +29,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         data.job_id = id
         data.notification_status = "Pending"
         data.notification_delivery = "Email"
+        data.notification_note = "Audit Visit"
         // data.notification_file = "filepath"
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
@@ -85,7 +86,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 Recipient Email:
                             </label>
                             <input
-                                name='notification_note'
+                                name="notification_email"
                                 type="email"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
