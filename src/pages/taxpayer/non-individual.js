@@ -113,8 +113,8 @@ export default function NonInd() {
                         </div>
 
                         <div className="form-group ">
-                            <p>Enterprise Reg Number</p>
-                            <input required name="enterprise_reg_no" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                            <p>Enterprise Reg Number <span className="text-red-400">*</span></p>
+                            <input  name="enterprise_reg_no" required ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                         </div>
 
