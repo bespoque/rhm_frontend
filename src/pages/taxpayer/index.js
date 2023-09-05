@@ -99,7 +99,7 @@ export default function Index() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-3 gap-4">
                         <div className="form-group ">
-                            <p>Title</p>
+                            <p>Title <span className="text-red-400">*</span></p>
                             <select name="indv_title" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
@@ -108,14 +108,14 @@ export default function Index() {
                         </div>
 
                         <div className="form-group">
-                            <p>Surname</p>
+                            <p>Surname <span className="text-red-400">*</span></p>
                             <input name="surname" type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" ref={register({ required: "Surname is required" })}
                             />
                             {errors.surname && <small className="text-red-600">{errors.surname.message}</small>}
                         </div>
 
                         <div className="form-group ">
-                            <p>First Name</p>
+                            <p>First Name <span className="text-red-400">*</span></p>
                             <input name="first_name" ref={register({ required: "First name is required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                             {errors.first_name && <small className="text-red-600">{errors.first_name.message}</small>}
@@ -128,7 +128,7 @@ export default function Index() {
                         </div>
 
                         <div className="form-group ">
-                            <p>Date of Birth</p>
+                            <p>Date of Birth <span className="text-red-400">*</span></p>
                             <input name="birth_date" ref={register({ required: "Birthdate is required" })} type="date" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                             {errors.birth_date && <small className="text-red-600">{errors.birth_date.message}</small>}
@@ -136,14 +136,14 @@ export default function Index() {
 
 
                         <div className="form-group ">
-                            <p>Phone Number</p>
+                            <p>Phone Number <span className="text-red-400">*</span></p>
                             <input name="phone_number" ref={register({ required: "Phone number is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                             {errors.phone_number && <small className="text-red-600">{errors.phone_number.message}</small>}
                         </div>
 
                         <div className="form-group ">
-                            <p>Gender</p>
+                            <p>Gender <span className="text-red-400">*</span></p>
                             <select name="gender" ref={register({ required: "Gender is Required" })} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 <option value="Female">Female</option>
                                 <option value="Male">Male</option>
@@ -152,7 +152,7 @@ export default function Index() {
                         </div>
 
                         <div className="form-group ">
-                            <p>Marital Status</p>
+                            <p>Marital Status <span className="text-red-400">*</span></p>
                             <select name="marital_status" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
@@ -160,7 +160,7 @@ export default function Index() {
                         </div>
 
                         <div className="form-group ">
-                            <p>State of residence</p>
+                            <p>State of residence <span className="text-red-400">*</span></p>
                             <input readOnly name="state_of_residence" value="Kogi" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                         </div>
@@ -178,7 +178,7 @@ export default function Index() {
                             />
                         </div>
                         <div className="form-group ">
-                            <p>Tax Office</p>
+                            <p>Tax Office <span className="text-red-400">*</span></p>
                             <select name="tax_office" ref={register({ required: "Tax office is Required" })} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
                                 {taxOffice.map((office) => <option key={office.idstation} value={office.station_code}>{office.name}</option>)}
                             </select>
@@ -202,7 +202,7 @@ export default function Index() {
                         </div>
 
                         <div className="form-group ">
-                            <p>Birth Place</p>
+                            <p>Birth Place <span className="text-red-400">*</span></p>
                             <input name="birth_place" ref={register({ required: "Birth Place is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                             />
                             {errors.birth_place && <small className="text-red-600">{errors.birth_place.message}</small>}
@@ -256,9 +256,9 @@ export default function Index() {
                                 {incomeSource.map((src) => <option key={src.id} value={src.source}>{src.source}</option>)}
                             </select>
                         </div>
-                        <div className="form-group ">
+                        <div className="form-group col-span-2">
                             <p>Tax Authority</p>
-                            <input readOnly name="tax_authority" value="KGIRS" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
+                            <input readOnly name="tax_authority" value="Kogi State Internal Revenue Service" ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" />
                         </div>
                     </div>
 
