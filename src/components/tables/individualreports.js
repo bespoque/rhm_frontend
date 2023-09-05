@@ -1,31 +1,21 @@
 import dateformat from "dateformat";
-import { shallowEqual, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import setAuthToken from "../../functions/setAuthToken";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
-import { addDays, subDays } from 'date-fns';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { useRouter } from "next/router";
-import Reportstable from "../../pages/reports/reportstable";
 import IndividualReportstable from "../../pages/reports-individual/individualreportstable";
 import { useForm } from "react-hook-form";
 
 export const StartIndividualReportView = () => {
-  const [fixedValues, SetFixValuesStart] = useState({ amount: 0 });
-  const [fixedValuesend, SetFixValuesEnd] = useState({ amount: 0 });
-  const [revenueItem, setRevenueItem] = useState([]);
   const [station, setStation] = useState([]);
   const [FilteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
 
-
-  const router = useRouter();
 
   const [state, setState] = useState([
     {
@@ -36,19 +26,6 @@ export const StartIndividualReportView = () => {
     }
   ]);
 
-  const { config, palettes, auth } = useSelector(
-    (state) => ({
-      config: state.config,
-      palettes: state.palettes,
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
-
-
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
 
   let startDate
   let endDate
@@ -73,9 +50,6 @@ export const StartIndividualReportView = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    control,
-    formState: { errors },
   } = useForm()
 
 
@@ -119,7 +93,6 @@ export const StartIndividualReportView = () => {
         setFilteredData(records)
         setIsFetching(false)
         setTableState('')
-        console.log("records", records);
       })
       .catch(function (error) {
         setTableState('')
@@ -191,7 +164,6 @@ export const StartIndividualReportView = () => {
             </div>
 
           </div>
-
 
         </form>
       </div>
