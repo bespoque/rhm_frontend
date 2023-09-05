@@ -1,11 +1,7 @@
 import Widget from "../widget";
 import { formatNumber } from "../../functions/numbers";
-import * as Icons from '../Icons/index';
-import Widget1 from "../dashboard/widget-1";
 import dateformat from "dateformat";
 import Link from 'next/link';
-import { SelectAnnual } from "../forms/selects";
-import SectionTitle from "../section-title";
 import { useEffect, useState } from "react";
 import { FiTriangle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
@@ -16,12 +12,9 @@ import { useRouter } from "next/router";
 import Loader from "react-loader-spinner";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FormatMoneyComponent } from "../FormInput/formInputs";
-import { CastForEducation, WarningRounded } from "@material-ui/icons";
+import { WarningRounded } from "@material-ui/icons";
 
 export const StartAssessment = () => {
-  const [kgtEnentered, setKgtEentered] = useState('')
-  const [validkgtinmessage, Setvalidkgtinmessage] = useState('')
   const [invalidkgtinmessage, Setinvalidkgtinmessage] = useState('')
   const [disabled, setDisabled] = useState(true);
   const [validmsg, setvalidmsg] = useState("hidden");
@@ -131,7 +124,6 @@ export const StartAssessment = () => {
       setIsFetching(false)
       let userpayer = res.data.body
       setpayerDetails(userpayer)
-      Setvalidkgtinmessage("KGTIN is Valid");
       setDisabled(false)
       setvalidmsg('')
       setinvalidmsg('hidden')
@@ -187,7 +179,6 @@ export const StartAssessment = () => {
                 />
               </div>
               <p>{validateMssg}</p>
-              {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
               <div className="mt-2 flex justify-between">
                 <button onClick={toggleModal}
                   className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
