@@ -36,17 +36,17 @@ const Index = () => {
 
     const fields = [
         {
-            title: "Date",
+            title: "Notice Date",
             field: "notification_date",
         },
         {
             title: "Status",
             field: "notification_status",
         },
-        {
-            title: "Delivery",
-            field: "notification_delivery",
-        },
+        // {
+        //     title: "Delivery",
+        //     field: "notification_delivery",
+        // },
         {
             title: "Created by",
             field: "doneby",
@@ -234,6 +234,10 @@ const Index = () => {
                         <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Acknowledgements
+                        </button>
+                        <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
+                            Visit Log
                         </button>
                         {/* <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
