@@ -277,15 +277,14 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
     data.assessment_id = assessment_id
     console.log("data", data);
     try {
-      const response = await fetch("https://bespoque.dev/rhm-live/fix-update-assessmentamount.php", {
+      const response = await fetch("https://bespoque.dev/rhm-live/fix/fix-update-assessmentamount.php", {
         method: "POST",
         body: JSON.stringify(data)
       })
       setIsFetching2(false)
       const dataFetch = await response.json()
-      console.log("dataFetch", dataFetch);
       toast.success(dataFetch.message);
-      router.push("/view/completeddirect")
+      // router.push("/view/completeddirect")
     } catch (error) {
       setIsFetching2(false)
       toast.error("Failed! please try again");
