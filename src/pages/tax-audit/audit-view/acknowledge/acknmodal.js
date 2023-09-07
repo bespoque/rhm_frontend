@@ -43,7 +43,8 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 toast.error(dataFetch.message);
             } else {
                 toast.success(dataFetch.message);
-                router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
+                window.reload()
+                // router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
             }
            
         } catch (error) {

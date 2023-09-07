@@ -43,10 +43,6 @@ const Index = () => {
             title: "Status",
             field: "notification_status",
         },
-        // {
-        //     title: "Delivery",
-        //     field: "notification_delivery",
-        // },
         {
             title: "Created by",
             field: "doneby",
