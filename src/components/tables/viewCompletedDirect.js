@@ -284,7 +284,7 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
       setIsFetching2(false)
       const dataFetch = await response.json()
       toast.success(dataFetch.message);
-      // router.push("/view/completeddirect")
+      router.push("/view/completeddirect")
     } catch (error) {
       setIsFetching2(false)
       toast.error("Failed! please try again");
