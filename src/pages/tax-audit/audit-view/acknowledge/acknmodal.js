@@ -11,9 +11,8 @@ import { ProcessorSpinner } from '../../../../components/spiner';
 const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm();
-
-
     const router = useRouter()
+    
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -43,7 +42,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 toast.error(dataFetch.message);
             } else {
                 toast.success(dataFetch.message);
-                window.reload()
+                router.reload()
                 // router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
             }
            
