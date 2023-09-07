@@ -190,7 +190,7 @@ export default function Index() {
                             <div className="grid grid-cols-6 gap-2">
                                 <p>Details:</p>
                                 <div className="col-span-3">
-                                    <p> {el?.revenueItem} </p>
+                                    <p> {el?.details || el?.revenueItem} </p>
                                     {/* <small>{el.revenueItem}</small> */}
                                 </div>
                             </div>
