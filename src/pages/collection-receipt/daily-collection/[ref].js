@@ -15,8 +15,18 @@ export default function MultipleCollection() {
     const [multipleSearchData, setmultipleSearchData] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const filteredRecords = multipleSearchData.filter(
+        (record) =>
+            !(
+                record.details.toLowerCase().includes('undergraduate') ||
+                record.details.toLowerCase().includes('school fees') ||
+                record.details.toLowerCase().includes('tuition fees')
+            )
+    );
+
     const recordsPerPage = 100;
-    const totalRecords = multipleSearchData.length;
+    const totalRecords = filteredRecords.length;
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;
     const recordsEnd = Math.min(currentPage * recordsPerPage, totalRecords);
     const recordsRemaining = totalRecords - recordsEnd;
@@ -24,13 +34,13 @@ export default function MultipleCollection() {
 
     const { auth } = useSelector(
         (state) => ({
-          auth: state.authentication.auth,
+            auth: state.authentication.auth,
         }),
         shallowEqual
-      );
+    );
 
-   
-      const options = {
+
+    const options = {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -38,12 +48,13 @@ export default function MultipleCollection() {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-      };
-      const formattedDateTime = new Date().toLocaleDateString(undefined, options);
-    
+    };
+    const formattedDateTime = new Date().toLocaleDateString(undefined, options);
 
-      const decoded = jwt.decode(auth);
-      const staff = decoded.staffName
+
+    const decoded = jwt.decode(auth);
+    const staff = decoded.staffName
+
 
 
     const getStyles = () => {
@@ -86,7 +97,7 @@ export default function MultipleCollection() {
     }, [router]);
 
     const handleDownload = async () => {
-        const currentRecords = multipleSearchData.slice(
+        const currentRecords = filteredRecords.slice(
             (currentPage - 1) * recordsPerPage,
             currentPage * recordsPerPage
         );
@@ -121,11 +132,11 @@ export default function MultipleCollection() {
                 '/images/logo2.png',
                 '/images/signature.png',
             ];
-    
+
             for (const element of qrCodeBase64Array) {
                 imagesToPreload.push(element);
             }
-            
+
             const promises = imagesToPreload.map((image) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
@@ -153,7 +164,7 @@ export default function MultipleCollection() {
             printWindow.print();
             printWindow.close();
 
-            if (currentPage < Math.ceil(multipleSearchData.length / recordsPerPage)) {
+            if (currentPage < Math.ceil(filteredRecords.length / recordsPerPage)) {
                 setCurrentPage(currentPage + 1);
             }
         }
@@ -227,12 +238,12 @@ export default function MultipleCollection() {
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>PAID AT:</p>
-                 <p class="col-span-3">  ${record?.bank  || ""}(${record?.channel_id})  </p>
+                 <p class="col-span-3">  ${record?.bank || ""}(${record?.channel_id})  </p>
              </div>
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
                  <div class="col-span-3">
-                     <p class="">${ record?.mda || record?.revenueItem || "KOGI STATE INTERNAL REVENUE SERVICE (KGIRS)"} </p>
+                     <p class="">${record?.mda || record?.revenueItem || "KOGI STATE INTERNAL REVENUE SERVICE (KGIRS)"} </p>
                  </div>
              </div>
              <div class="grid grid-cols-6 gap-2">
