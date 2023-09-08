@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
-import { formatNumber } from '../../functions/numbers';
 
 
 export default function Index() {
