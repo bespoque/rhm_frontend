@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import axios from "axios";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 import Loader from 'react-loader-spinner';
 import { useRouter } from 'next/router';
+import { formatNumber } from '../../functions/numbers';
 
 
 export default function Index() {
@@ -34,23 +35,56 @@ export default function Index() {
     };
 
     const handleInputChange = (e) => {
-        const { value } = e.target;
-    
-        // Validate BVN and NIN as numbers
-        if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(value)) {
-          // If it's not a number, don't update inputValue
-          return;
-        }
-    
-        setInputValue(value);
-      };
+        setInputValue(e.target.value);
+    };
 
-    const handleInputBlur = () => {
-        // Validate BVN and NIN as numbers
-        if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(inputValue)) {
-            setInputValue(''); // Clear the input
+    const handleIdVal = async (e) => {
+        e.preventDefault();
+
+        const requestBody = {
+            id: inputValue,
+            src: selectedOption
+        };
+
+        try {
+            const response = await fetch('https://rhmapi.abssin.com/api/v1/identity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('POST request successful:', responseData);
+            } else {
+                console.error('POST request failed:', response.status);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
+
+    // const handleInputChange = (e) => {
+    //     const { value } = e.target;
+
+    //     // Validate BVN and NIN as numbers
+    //     if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(value)) {
+    //         // If it's not a number, don't update inputValue
+    //         return;
+    //     }
+
+    //     setInputValue(value);
+    // };
+
+
+    // const handleInputBlur = () => {
+    //     // Validate BVN and NIN as numbers
+    //     if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(inputValue)) {
+    //         setInputValue(''); // Clear the input
+    //     }
+    // };
 
     useEffect(() => {
 
@@ -58,7 +92,6 @@ export default function Index() {
         const fetchPost = async () => {
             try {
                 let res = await axios.get(`${url.BASE_URL}user/items`);
-                console.log(res);
                 let itemsBody = res.data.body
                 let taxOffice = itemsBody.taxOffice
                 let incSource = itemsBody.incomeSource
@@ -100,22 +133,27 @@ export default function Index() {
 
     return (
         <div>
+            <div className="flex justify-center mb-4">
+                <h6 className="p-2 font-bold">Register Individual Taxpayer</h6>
+            </div>
             <ToastContainer />
-            <h1 className="text-2xl font-bold mb-4">Select an Option:</h1>
-            <div className="flex justify-center">
-                <div className="p-4 grid grid-cols-2 gap-4">
+            <p className=" font-bold mb-4 text-center">Select an ID:</p>
+            <form onSubmit={handleIdVal} className="flex justify-center">
+                <div className="p-4 grid grid-cols-3 gap-4">
                     <div>
                         <select
-                            className="w-full p-2 border border-gray-300 rounded-md"
+                            className="w-full border border-gray-300 rounded-md"
                             onChange={handleSelectChange}
                             value={selectedOption}
+                            required
                         >
                             <option value="">Select an option</option>
                             <option value="BVN">BVN</option>
-                            <option value="Driver's License">Driver's License</option>
+                            {/* <option value="Driver's License">Driver's License</option>
                             <option value="Voter's Card No.">Voter's Card No.</option>
-                            <option value="PASSPORT">PASSPORT</option>
+                            <option value="PASSPORT">PASSPORT</option> */}
                             <option value="NIN">NIN</option>
+                            <option value="NIN-PHONE">NIN-PHONE</option>
                         </select>
                     </div>
                     <div>
@@ -123,21 +161,31 @@ export default function Index() {
                             <div>
                                 {/* <label className="block text-sm font-semibold">Enter {selectedOption}:</label> */}
                                 <input
-                                    // type={selectedOption === 'BVN' || selectedOption === 'NIN' ? 'number' : 'text'}
-                                    type="text"
+                                    type={selectedOption === 'BVN' || selectedOption === 'NIN' || selectedOption === 'NIN-PHONE' ? 'number' : 'text'}
+                                    // type="text"
                                     className={`w-full p-2 border border-gray-300 rounded-md ${(selectedOption === 'BVN' || selectedOption === 'NIN') &&
                                         'appearance-none w-px' /* Add classes to remove arrows on number input fields */
                                         }`}
+                                    required
                                     value={inputValue}
                                     placeholder={`Enter ${selectedOption}`}
                                     onChange={handleInputChange}
-                                    onBlur={handleInputBlur}
+                                // onBlur={handleInputBlur}
                                 />
+
                             </div>
                         )}
                     </div>
+                    <div>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
 
             <div className="block p-6 rounded-lg bg-white w-full">
 
@@ -155,9 +203,7 @@ export default function Index() {
                         <p className="font-bold">Creating Taxpayer...</p>
                     </div>
                 )}
-                <div className="flex justify-center mb-4">
-                    <h6 className="p-2 font-bold">Register Individual Taxpayer</h6>
-                </div>
+
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-3 gap-4">
