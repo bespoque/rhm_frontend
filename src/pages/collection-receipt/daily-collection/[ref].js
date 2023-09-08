@@ -18,11 +18,7 @@ export default function MultipleCollection() {
 
     const filteredRecords = multipleSearchData.filter(
         (record) =>
-            !(
-                record.details.toLowerCase().includes('undergraduate') ||
-                record.details.toLowerCase().includes('school fees') ||
-                record.details.toLowerCase().includes('tuition fees')
-            )
+            record.pmt_meth !== 'Remita' || record.channel_id !== 'Remita'
     );
 
     const recordsPerPage = 100;
