@@ -5,7 +5,7 @@ import setAuthToken from "../../functions/setAuthToken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
-import Loader from 'react-loader-spinner';
+import ProcessorSpinner from '../../components/spiner/index';
 import { useRouter } from 'next/router';
 
 
@@ -18,6 +18,8 @@ export default function Index() {
     const [createError, setCreateError] = useState("")
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
+    const [idData, setIdData] = useState('');
+
     const router = useRouter();
     const {
         register,
@@ -27,6 +29,7 @@ export default function Index() {
 
     const kogiLga = lga.filter(item => item.jtb_states === 22);
 
+    console.log("idData", idData);
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -39,7 +42,7 @@ export default function Index() {
 
     const handleIdVal = async (e) => {
         e.preventDefault();
-
+        setIsFetching(true)
         const requestBody = {
             id: inputValue,
             src: selectedOption
@@ -56,9 +59,11 @@ export default function Index() {
 
             if (response.ok) {
                 const responseData = await response.json();
-                console.log('POST request successful:', responseData);
+                setIsFetching(false)
+                setIdData(responseData);
             } else {
                 console.error('POST request failed:', response.status);
+                setIsFetching(false)
             }
         } catch (error) {
             console.error('Error:', error);
@@ -132,6 +137,7 @@ export default function Index() {
 
     return (
         <div>
+            {isFetching && <ProcessorSpinner />}
             <div className="flex justify-center mb-4">
                 <h6 className="p-2 font-bold">Register Individual Taxpayer</h6>
             </div>
@@ -156,7 +162,7 @@ export default function Index() {
                         </select>
                     </div>
                     <div>
-                        {selectedOption && (
+                        {/* {selectedOption && ( */}
                             <div>
                                 {/* <label className="block text-sm font-semibold">Enter {selectedOption}:</label> */}
                                 <input
@@ -173,7 +179,7 @@ export default function Index() {
                                 />
 
                             </div>
-                        )}
+                        {/* )} */}
                     </div>
                     <div>
                         <button
@@ -188,20 +194,7 @@ export default function Index() {
 
             <div className="block p-6 rounded-lg bg-white w-full">
 
-                {isFetching && (
-                    <div className="flex justify-center item mb-2">
-                        <Loader
-                            visible={isFetching}
-                            type="BallTriangle"
-                            color="#00FA9A"
-                            height={19}
-                            width={19}
-                            timeout={0}
-                            className="ml-2"
-                        />
-                        <p className="font-bold">Creating Taxpayer...</p>
-                    </div>
-                )}
+                
 
 
                 <form onSubmit={handleSubmit(onSubmit)}>
