@@ -16,6 +16,8 @@ export default function Index() {
     const [isFetching, setIsFetching] = useState(false)
     const [lga, setLga] = useState([])
     const [createError, setCreateError] = useState("")
+    const [selectedOption, setSelectedOption] = useState('');
+    const [inputValue, setInputValue] = useState('');
     const router = useRouter();
     const {
         register,
@@ -25,6 +27,30 @@ export default function Index() {
 
     const kogiLga = lga.filter(item => item.jtb_states === 22);
 
+
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+        setInputValue('');
+    };
+
+    const handleInputChange = (e) => {
+        const { value } = e.target;
+    
+        // Validate BVN and NIN as numbers
+        if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(value)) {
+          // If it's not a number, don't update inputValue
+          return;
+        }
+    
+        setInputValue(value);
+      };
+
+    const handleInputBlur = () => {
+        // Validate BVN and NIN as numbers
+        if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(inputValue)) {
+            setInputValue(''); // Clear the input
+        }
+    };
 
     useEffect(() => {
 
@@ -75,6 +101,44 @@ export default function Index() {
     return (
         <div>
             <ToastContainer />
+            <h1 className="text-2xl font-bold mb-4">Select an Option:</h1>
+            <div className="flex justify-center">
+                <div className="p-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <select
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            onChange={handleSelectChange}
+                            value={selectedOption}
+                        >
+                            <option value="">Select an option</option>
+                            <option value="BVN">BVN</option>
+                            <option value="Driver's License">Driver's License</option>
+                            <option value="Voter's Card No.">Voter's Card No.</option>
+                            <option value="PASSPORT">PASSPORT</option>
+                            <option value="NIN">NIN</option>
+                        </select>
+                    </div>
+                    <div>
+                        {selectedOption && (
+                            <div>
+                                {/* <label className="block text-sm font-semibold">Enter {selectedOption}:</label> */}
+                                <input
+                                    // type={selectedOption === 'BVN' || selectedOption === 'NIN' ? 'number' : 'text'}
+                                    type="text"
+                                    className={`w-full p-2 border border-gray-300 rounded-md ${(selectedOption === 'BVN' || selectedOption === 'NIN') &&
+                                        'appearance-none w-px' /* Add classes to remove arrows on number input fields */
+                                        }`}
+                                    value={inputValue}
+                                    placeholder={`Enter ${selectedOption}`}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputBlur}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
             <div className="block p-6 rounded-lg bg-white w-full">
 
                 {isFetching && (
