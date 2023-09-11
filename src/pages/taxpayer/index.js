@@ -5,9 +5,10 @@ import setAuthToken from "../../functions/setAuthToken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
-import ProcessorSpinner from '../../components/spiner';
+import ProcessorSpinner, { AuthSpinner } from '../../components/spiner/index';
 import { useRouter } from 'next/router';
-import { formatTimezone } from 'dateformat';
+import Loader from 'react-loader-spinner';
+
 
 
 export default function Index() {
@@ -146,17 +147,36 @@ export default function Index() {
             })
     };
 
-    // function formatDateToMMDDYYYY(inputDate) {
-    //     var components = inputDate?.split("-");
+    function formatDateToMMDDYYYY(inputDate) {
+        var components = inputDate?.split("-") || new Date();
 
-    //     var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
+        var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
 
-    //     return formattedDate;
-    // }
+        return formattedDate;
+    }
+
+    console.log("formatDateToMMDDYYYY(idData?.birth_date)", formatDateToMMDDYYYY(idData?.birth_date));
 
     return (
         <div>
-            {/* {isFetching && (<ProcessorSpinner />)} */}
+            {isFetching &&
+                <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen  z-50 overflow-hidden bg-black opacity-75 flex flex-col items-center justify-center">
+                    <Loader
+                        visible={isFetching}
+                        type="ThreeDots"
+                        color="#00FA9A"
+                        height={19}
+                        width={19}
+                        timeout={0}
+                        className="ml-2"
+                    />
+                    <p className="w-1/3 text-center text-white">
+                        Processing...
+                    </p>
+                </div>
+            }
+
+            {/* {isFetching && <ProcessorSpinner />} */}
             <div className="flex justify-center mb-4">
                 <h6 className="p-2 font-bold">Register Individual Taxpayer</h6>
             </div>
@@ -245,9 +265,9 @@ export default function Index() {
                                 />
                             </div>
 
-                            <div className="form-group hidden">
+                            <div className="form-group">
                                 <p>Date of Birth <span className="text-red-400">*</span></p>
-                                <input name="birth_date" readOnly value={idData?.birth_date} required ref={register({ required: "Birthdate is required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="birth_date" readOnly value={formatDateToMMDDYYYY(idData?.birth_date)} required ref={register({ required: "Birthdate is required" })} type="date" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.birth_date && <small className="text-red-600">{errors.birth_date.message}</small>}
                             </div>
@@ -324,6 +344,14 @@ export default function Index() {
                             </div>
 
                             <div className="form-group ">
+                                <p>State of Origin <span className="text-red-400">*</span></p>
+                                <select name="state_of_origin" required ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
+                                    <option value="">Please select</option>
+                                    {state.map((st) => <option key={st.jtb_idstates} value={st.jtb_idstates}>{st.state}</option>)}
+                                </select>
+                            </div>
+
+                            <div className="form-group ">
                                 <p>Birth Place <span className="text-red-400">*</span></p>
                                 <input name="birth_place" required ref={register({ required: "Birth Place is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
@@ -366,12 +394,9 @@ export default function Index() {
                                 />
                             </div>
 
-                            <div className="form-group ">
-                                <p>State of Origin</p>
-                                <select name="state_of_origin" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
-                                    {state.map((st) => <option key={st.jtb_idstates} value={st.jtb_idstates}>{st.state}</option>)}
-                                </select>
-                            </div>
+
+
+                        
                             <div className="form-group ">
                                 <p>Income Source</p>
                                 <select name="income_source" ref={register()} className="form-control SlectBox mb-4 w-full rounded font-light text-gray-500">
