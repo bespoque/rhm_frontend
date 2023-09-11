@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import jwt from "jsonwebtoken";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import { useForm } from "react-hook-form";
 import { FormatMoneyComponent } from "../FormInput/formInputs";
 import Search from '@material-ui/icons/Search'
@@ -25,6 +25,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from "material-table";
+
 
 const fields = [
   {
@@ -144,7 +145,7 @@ export const ViewCompletedTable = ({ submittedData }) => {
   );
 };
 
-export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, payerArr, assobj, taxcal,
+export const ViewSingleCompletedTable = ({ assId, payerArr, assobj, taxcal,
   childObj, resAddObj, rentIncome, spouseObj, domesticStaff, selfEmployment, vehicles, land, employed, lap, nhis, expenses, pensionDed }) => {
   const [isFetching2, setIsFetching2] = useState(() => false);
   const [isFetching3, setIsFetching3] = useState(() => false);
@@ -158,14 +159,14 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
     control,
   } = useForm()
 
-  const {auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
       auth: state.authentication.auth,
     }),
     shallowEqual
   );
 
-  console.log("taxcal", taxcal);
+  console.log("fixedValues", fixedValues);
 
   const Approval = [2, 3, 1]
   const decoded = jwt.decode(auth);
@@ -199,17 +200,6 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
 
   const deductionsTotal = (pfcdata + nhisdata + lapdata)
 
-  let addAssAmount
-
-  additionalAsse.forEach((el, i) => (
-    addAssAmount = el.amount
-  ))
-
-  if (addAssAmount == null || addAssAmount == undefined || addAssAmount == "") {
-    addAssAmount = 0
-  } else {
-    addAssAmount = addAssAmount
-  }
 
   setAuthToken();
   let approveAss = async (e) => {
@@ -273,9 +263,9 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
   const SubmitAdditionalAssessnet = async (data) => {
     setIsFetching2(true)
     // data.amount = fixedValues.amount
-    data.newamount = (Number(fixedValues.amount) +  Number(taxcal?.tax) + Number(taxcal?.devy_levy))
+    data.newamount = (Number(fixedValues.amount) + Number(taxcal.tax) + Number(assobj.dev_levy))
     data.assessment_id = assessment_id
-    console.log("data", data);
+
     try {
       const response = await fetch("https://bespoque.dev/rhm-live/fix/fix-update-assessmentamount.php", {
         method: "POST",
@@ -283,8 +273,12 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
       })
       setIsFetching2(false)
       const dataFetch = await response.json()
-      toast.success(dataFetch.message);
-      router.push("/view/completeddirect")
+      if (dataFetch.status === "400") {
+        toast.error(dataFetch.message);
+      } else {
+        toast.success(dataFetch.message);
+        router.push("/view/completeddirect")
+      }
     } catch (error) {
       setIsFetching2(false)
       toast.error("Failed! please try again");
@@ -556,10 +550,7 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
               </tr>
               <tr>
                 <td className="border-r-2 p-1">Trade, Professional e.t.c</td>
-                {assobj == null || assobj == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(assobj.self_employed)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(assobj?.self_employed)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1">Share of Partnership</td>
@@ -569,12 +560,12 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
                 <td className="border-r-2 p-1">Employment</td>
                 {assobj == null || assobj == ""
                   ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(assobj.employed)}</td>
+                  <td className='p-1 text-right font-bold'>{formatNumber(assobj?.employed)}</td>
                 }
               </tr>
               <tr>
                 <td className="border-r-2 p-1">Other Income</td>
-                <td className="p-1 text-right font-bold">{formatNumber(assobj.other_income)}</td>
+                <td className="p-1 text-right font-bold">{formatNumber(assobj?.other_income)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Gross Income</td>
@@ -582,17 +573,11 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
               </tr>
               <tr>
                 <td className="border-r-2 p-1">PFC</td>
-                {assobj == null || assobj == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(assobj.pension)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(assobj?.pension)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1">NHIS</td>
-                {assobj == null || assobj == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(assobj.nhis)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(assobj?.nhis)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1">NHF</td>
@@ -600,10 +585,7 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
               </tr>
               <tr>
                 <td className="border-r-2 p-1">Life Assurance Premium</td>
-                {assobj == null || assobj == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(assobj.lap)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(assobj?.lap)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Total</td>
@@ -643,92 +625,61 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
               </tr>
               <tr>
                 <td className="border-r-2 p-1">Consolidated relief Allowance</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.consolidatedRelief)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.consolidatedRelief)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right">Chargeable Income</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.chargeableIncome)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.chargeableIncome)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center font-bold">Tax due for payment</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">7% on 300,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax7)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax7)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">11% on 300,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax11)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax11)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">15% on 500,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax15)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax15)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">19% on 500,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax19)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax19)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">21% on 1,600,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax21)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax21)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">24% on above 3,200,000.00</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(taxcal.tax24)}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(taxcal?.tax24)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">1%(Minimun Tax)</td>
-                <td className="p-1 text-right font-bold">{formatNumber(taxcal.tax1)}</td>
+                <td className="p-1 text-right font-bold">{formatNumber(taxcal?.tax1)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">Total</td>
-                <td className="p-1 text-right font-bold">{formatNumber(taxcal.tax)}</td>
+                <td className="p-1 text-right font-bold">{formatNumber(taxcal?.tax)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-center">Dev. Levy</td>
-                <td className="p-1 text-right font-bold">{formatNumber(assobj.dev_levy)}</td>
+                <td className="p-1 text-right font-bold">{formatNumber(assobj?.dev_levy)}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Total Tax due </td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(Number(taxcal.tax) + Number(assobj.dev_levy))}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(Number(assobj?.dev_levy) + Number(assobj?.tax))}</td>
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Additional Assessment</td>
-                {addAssAmount == null || addAssAmount == "" || addAssAmount == 0
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className="p-1 text-right font-bold">{formatNumber(addAssAmount)}</td>
-                }
+
+                <td className="p-1 text-right font-bold">{formatNumber((Number(assobj?.dev_levy) + Number(assobj?.tax)) - Number(taxcal?.tax))}</td>
+
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Set off WHT </td>
@@ -744,10 +695,7 @@ export const ViewSingleCompletedTable = ({ additionalAsse, payerprop, assId, pay
               </tr>
               <tr>
                 <td className="border-r-2 p-1 text-right font-bold">Total Tax Due for Payment</td>
-                {taxcal == null || taxcal == ""
-                  ? <td className="p-1 text-right font-bold">0</td> :
-                  <td className='p-1 text-right font-bold'>{formatNumber(Number(taxcal.tax) + (Number(addAssAmount)) + Number(assobj.dev_levy))}</td>
-                }
+                <td className='p-1 text-right font-bold'>{formatNumber(Number(assobj?.dev_levy) + Number(assobj?.tax))}</td>
               </tr>
             </tbody>
           </table>

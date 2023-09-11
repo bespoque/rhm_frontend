@@ -30,7 +30,7 @@ const ViewSingleCompleted = () => {
   const [pensionDed, setPensionDed] = useState([])
   const [selfEmployment, setselfEmployment] = useState([])
   const [rentIncome, setRentIncome] = useState([])
-  const [additionalAsse, setAdditionalAssessment] = useState([])
+
 
 
   useEffect(() => {
@@ -39,8 +39,8 @@ const ViewSingleCompleted = () => {
       let kgtin = routerData.split(',').pop()
       let assessmentId = routerData.split(',').shift()
       let sendData = {
-        KGTIN: `${kgtin}`,
-        assessment_id: `${assessmentId}`
+        KGTIN: kgtin,
+        assessment_id: assessmentId
       }
       setGlobalAssId(assessmentId)
       setAuthToken()
@@ -49,7 +49,7 @@ const ViewSingleCompleted = () => {
           let res = await axios.post(`${url.BASE_URL}forma/view-assessment`, sendData);
           let IndData = res.data.body
           let arrda = IndData.taxpayerAll
-          let makeObjdata = IndData.assessment[0]
+          let makeObjdata = IndData?.assessment[0]
           let taxCalDa = IndData.taxCal
           let chidDa = IndData.children
           let resAdd = IndData.residentialAddr
@@ -64,8 +64,6 @@ const ViewSingleCompleted = () => {
           let pendeddat = IndData.pensionDed
           let selfempdat = IndData.selfEmployed
           let rentIncdat = IndData.rentIncome
-          let additionalAssess = IndData.addAssessment
-          setAdditionalAssessment(additionalAssess)
           setRentIncome(rentIncdat)
           console.log(IndData);
           setselfEmployment(selfempdat)
@@ -117,7 +115,7 @@ const ViewSingleCompleted = () => {
           </div>
         ) : <ViewSingleCompletedTable rentIncome={rentIncome} payerprop={payerprop} assId={globalAssId}
           payerArr={makeArray} selfEmployment={selfEmployment} assobj={makeObj} taxcal={taxcalDa} childObj={childObj}
-          resAddObj={resAddObj} additionalAsse={additionalAsse} pensionDed={pensionDed} expenses={expenses} nhis={nhis} spouseObj={spouseObj} employed = {employed} domesticStaff = {domesticStaff} vehicles = {vehicles} land = {land} lap={lap}/>}
+          resAddObj={resAddObj}  pensionDed={pensionDed} expenses={expenses} nhis={nhis} spouseObj={spouseObj} employed = {employed} domesticStaff = {domesticStaff} vehicles = {vehicles} land = {land} lap={lap}/>}
       </Widget>
     </>
   );
