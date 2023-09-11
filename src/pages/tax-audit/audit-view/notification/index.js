@@ -16,6 +16,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from '@material-table/core';
 import Modal from '@material-ui/core/Modal';
+import { Edit } from '@material-ui/icons';
 
 const Notification = () => {
 
@@ -128,6 +129,19 @@ const Notification = () => {
             <MaterialTable title="Visit Log"
                 data={logData}
                 columns={fields}
+
+                actions={
+                    [
+
+                        {
+                            icon: Edit,
+                            tooltip: 'Details',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/visit`),
+                        },
+                 
+              
+                    ]
+                }
 
                 options={{
                     search: true,
