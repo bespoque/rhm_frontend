@@ -226,14 +226,14 @@ export default function Index() {
 
                             <div className="form-group">
                                 <p>Surname <span className="text-red-400">*</span></p>
-                                <input name="surname" onChange={handleIdData} value={idData?.surname} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="surname" ref={register({ required: "Surname is required" })} onChange={handleIdData} value={idData?.surname} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.surname && <small className="text-red-600">{errors.surname.message}</small>}
                             </div>
 
                             <div className="form-group ">
                                 <p>First Name <span className="text-red-400">*</span></p>
-                                <input name="first_name" value={idData?.first_name} onChange={handleIdData} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="first_name" ref={register({ required: "First Name is required" })} value={idData?.first_name} onChange={handleIdData} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.first_name && <small className="text-red-600">{errors.first_name.message}</small>}
                             </div>
