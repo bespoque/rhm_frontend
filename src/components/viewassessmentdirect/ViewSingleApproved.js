@@ -1,16 +1,12 @@
 import Widget from '../widget'
-import SectionTitle from '../section-title';
-import { StartSingleIndividualAssessment } from '../assessment/viewAssessment';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import axios from "axios";
 import Loader from 'react-loader-spinner';
-import { ViewSingleCompletedTable } from '../tables/viewCompletedDirect';
 import setAuthToken from '../../functions/setAuthToken';
 import url from '../../config/url';
-import { afterComma, repVa } from '../../functions/numbers';
-import { ComponentToPrint, ViewSingleApprovedTable } from '../tables/viewApprovedAss';
-import ReactToPrint, { useReactToPrint } from 'react-to-print';
+import { ViewSingleApprovedTable } from '../tables/viewApprovedAss';
+import ReactToPrint from 'react-to-print';
 import Link from 'next/dist/client/link';
 
 const ViewSingleApproved = () => {
@@ -29,7 +25,6 @@ const ViewSingleApproved = () => {
   const [land, setLand] = useState({})
   const [employed, setEmployed] = useState({})
   const [additionalAsse, setAdditionalAssessment] = useState([])
-  const [taxPayerDet, setTaxPayerDet] = useState({})
 
   const componentRef = useRef();
 
@@ -39,8 +34,8 @@ const ViewSingleApproved = () => {
       let kgtin = routerData.split(',').pop()
       let assessmentId = routerData.split(',').shift()
       let sendData = {
-        KGTIN: `${kgtin}`,
-        assessment_id: `${assessmentId}`
+        KGTIN: kgtin,
+        assessment_id: assessmentId
       }
       setGlobalAssId(assessmentId)
       setAuthToken()
@@ -60,8 +55,6 @@ const ViewSingleApproved = () => {
           let landObj = IndData.land
           let employed = IndData.employed
           let additionalAssess = IndData.addAssessment
-          let taxPayer = IndData.taxpayer[0]
-          setTaxPayerDet(taxPayer)
           setEmployed(employed)
           setLand(landObj)
           setVehicles(vechicles)
@@ -88,26 +81,19 @@ const ViewSingleApproved = () => {
 
   let ChangePrint = async (e) => {
     e.preventDefault()
-    // setIsFetching3(true)
     let statusObj = {
       assessment_id: globalAssId,
       status: "Printed",
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}forma/set-status`, statusObj);
-      // setIsFetching3(false)
-      console.log("successful!");
-      // router.push('/view/listverifiedboj')
+       await axios.put(`${url.BASE_URL}forma/set-status`, statusObj);
     } catch (error) {
-      // toast.error("Failed!");
       console.log(error);
-      // setIsFetching3(false)
     }
   }
   return (
     <>
       <div className="flex justify-end my-2">
-        {/* <SectionTitle title="Print Approved Assessment" /> */}
         {taxcalDa?.paymentStatus === "Paid" ?
           <button className="btn w-32 mr-10 bg-white-600 btn-default text-dark
                 btn-outlined border-blue-500 rounded-md"
@@ -120,7 +106,6 @@ const ViewSingleApproved = () => {
         }
         <div onClick={ChangePrint}>
           <ReactToPrint
-            // pageStyle='@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
             pageStyle="@page { size: 7.5in 13in  }"
             trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
                 btn-outlined bg-transparent rounded-md"
