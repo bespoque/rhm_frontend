@@ -94,7 +94,7 @@ export const StartTcc = () => {
   setAuthToken();
   useEffect(() => {
     const kgtinYear = {
-      year: (watchYear1).getFullYear(),
+      year: String((watchYear1).getFullYear()),
       kgtin: KGTIN
     }
     console.log(kgtinYear);
@@ -104,7 +104,6 @@ export const StartTcc = () => {
         let res = await axios.post(`${url.BASE_URL}forma/view-tax-income`, kgtinYear);
         res = res.data.body
         let assessment = res.assessment
-        console.log(assessment);
         setAssessmentData(assessment)
         setIsFetching2(false)
 
@@ -128,7 +127,7 @@ export const StartTcc = () => {
 
   useEffect(() => {
     const kgtinYear = {
-      year: (watchYear2).getFullYear(),
+      year: String((watchYear2).getFullYear()),
       kgtin: KGTIN
     }
     console.log(kgtinYear);
@@ -161,7 +160,7 @@ export const StartTcc = () => {
 
   useEffect(() => {
     const kgtinYear = {
-      year: (watchYear3).getFullYear(),
+      year: String((watchYear3).getFullYear()),
       kgtin: KGTIN
     }
 
@@ -258,7 +257,7 @@ export const StartTcc = () => {
           <label className="self-center">Enter Taxpayer KGTIN</label>
 
           <div className="place-self-start">
-            <input onChange={event => setKgtEentered(event.target.value)} type="text" placeholder="Enter KGTIN" />
+            <input className="form-control w-full rounded-md" onChange={event => setKgtEentered(event.target.value)} type="text" placeholder="Enter KGTIN" />
           </div>
 
           <div className="self-center">
