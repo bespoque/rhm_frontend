@@ -79,14 +79,14 @@ export default function Index() {
             setIsFetching(false)
 
             if (responseData.status.status === "verified") {
-                
+
                 setIdData(
                     {
-                        "surname": responseData?.nin?.lastname,
-                        "first_name": responseData?.nin?.firstname,
-                        "middle_name": responseData?.nin?.middlename,
-                        "birth_date":  responseData?.nin?.birthdate,
-                        "phone_number":  responseData?.nin?.phone,
+                        "surname": responseData?.nin?.lastname || responseData?.bvn?.lastname,
+                        "first_name": responseData?.nin?.firstname || responseData?.bvn?.firstname,
+                        "middle_name": responseData?.nin?.middlename || responseData?.bvn?.middlename,
+                        "birth_date": responseData?.nin?.birthdate || responseData?.bvn?.birthdate,
+                        "phone_number": responseData?.nin?.phone || responseData?.bvn?.phone,
                     }
                 );
                 setDisplayRegForm(true)
@@ -126,6 +126,7 @@ export default function Index() {
     }, []);
 
     const onSubmit = (data) => {
+        console.log("data", data);
         setIsFetching(true)
         axios.post(`${url.BASE_URL}taxpayer/new-individual`, data)
             .then(function (response) {
@@ -145,13 +146,13 @@ export default function Index() {
             })
     };
 
-    function formatDateToMMDDYYYY(inputDate) {
-        var components = inputDate?.split("-");
+    // function formatDateToMMDDYYYY(inputDate) {
+    //     var components = inputDate?.split("-");
 
-        var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
+    //     var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
 
-        return formattedDate;
-    }
+    //     return formattedDate;
+    // }
 
     return (
         <div>
@@ -244,9 +245,9 @@ export default function Index() {
                                 />
                             </div>
 
-                            <div className="form-group ">
+                            <div className="form-group hidden">
                                 <p>Date of Birth <span className="text-red-400">*</span></p>
-                                <input name="birth_date" readOnly value={formatDateToMMDDYYYY(idData?.birth_date)} required ref={register({ required: "Birthdate is required" })} type="date" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="birth_date" readOnly value={idData?.birth_date} required ref={register({ required: "Birthdate is required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.birth_date && <small className="text-red-600">{errors.birth_date.message}</small>}
                             </div>
