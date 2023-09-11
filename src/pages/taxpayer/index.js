@@ -19,8 +19,14 @@ export default function Index() {
     const [createError, setCreateError] = useState("")
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [idData, setIdData] = useState('');
     const [displayRegForm, setDisplayRegForm] = useState(false);
+    const [idData, setIdData] = useState({
+        surname: '',
+        first_name: '',
+        middle_name: '',
+        birth_date: '',
+        phone_number: '',
+    });
 
     const router = useRouter();
     const {
@@ -33,13 +39,22 @@ export default function Index() {
 
     console.log("idData", idData);
 
+
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
         setInputValue('');
     };
 
+
+
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
+    };
+
+
+    const handleIdData = (event) => {
+        const { name, value } = event.target;
+        setIdData({ ...idData, [name]: value });
     };
 
     const handleIdVal = async (e) => {
@@ -62,10 +77,18 @@ export default function Index() {
 
             const responseData = await response.json();
             setIsFetching(false)
-            
-            if (responseData.status.status === "verified") {
-                setIdData(responseData?.nin);
 
+            if (responseData.status.status === "verified") {
+                
+                setIdData(
+                    {
+                        "surname": responseData?.nin?.lastname,
+                        "first_name": responseData?.nin?.firstname,
+                        "middle_name": responseData?.nin?.middlename,
+                        "birth_date":  responseData?.nin?.birthdate,
+                        "phone_number":  responseData?.nin?.phone,
+                    }
+                );
                 setDisplayRegForm(true)
             } else {
                 setDisplayRegForm(false)
@@ -78,26 +101,6 @@ export default function Index() {
 
         }
     };
-
-    // const handleInputChange = (e) => {
-    //     const { value } = e.target;
-
-    //     // Validate BVN and NIN as numbers
-    //     if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(value)) {
-    //         // If it's not a number, don't update inputValue
-    //         return;
-    //     }
-
-    //     setInputValue(value);
-    // };
-
-
-    // const handleInputBlur = () => {
-    //     // Validate BVN and NIN as numbers
-    //     if ((selectedOption === 'BVN' || selectedOption === 'NIN') && !/^\d+$/.test(inputValue)) {
-    //         setInputValue(''); // Clear the input
-    //     }
-    // };
 
     useEffect(() => {
 
@@ -143,16 +146,12 @@ export default function Index() {
     };
 
     function formatDateToMMDDYYYY(inputDate) {
-        // Split the date string into components
         var components = inputDate?.split("-");
-      
-        // Rearrange the components to "mm-dd-yyyy" format
-        var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
-      
-        return formattedDate;
-      }
 
-console.log("formatDateToMMDDYYYY(idData?.birthdate)", formatDateToMMDDYYYY(idData?.birthdate || ""));
+        var formattedDate = components[2] + "-" + components[1] + "-" + components[0];
+
+        return formattedDate;
+    }
 
     return (
         <div>
@@ -185,8 +184,8 @@ console.log("formatDateToMMDDYYYY(idData?.birthdate)", formatDateToMMDDYYYY(idDa
                         <div>
                             {/* <label className="block text-sm font-semibold">Enter {selectedOption}:</label> */}
                             <input
-                                type={selectedOption === 'BVN' || selectedOption === 'NIN' || selectedOption === 'NIN-PHONE' ? 'number' : 'text'}
-                                // type="text"
+                                // type={selectedOption === 'BVN' || selectedOption === 'NIN' || selectedOption === 'NIN-PHONE' ? 'number' : 'text'}
+                                type="text"
                                 className={`w-full p-2 border border-gray-300 rounded-md ${(selectedOption === 'BVN' || selectedOption === 'NIN') &&
                                     'appearance-none w-px' /* Add classes to remove arrows on number input fields */
                                     }`}
@@ -227,27 +226,27 @@ console.log("formatDateToMMDDYYYY(idData?.birthdate)", formatDateToMMDDYYYY(idDa
 
                             <div className="form-group">
                                 <p>Surname <span className="text-red-400">*</span></p>
-                                <input name="surname" defaultValue={idData?.lastname} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500" ref={register({ required: "Surname is required" })}
+                                <input name="surname" onChange={handleIdData} value={idData?.surname} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.surname && <small className="text-red-600">{errors.surname.message}</small>}
                             </div>
 
                             <div className="form-group ">
                                 <p>First Name <span className="text-red-400">*</span></p>
-                                <input name="first_name" defaultValue={idData?.firstname} required ref={register({ required: "First name is required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="first_name" value={idData?.first_name} onChange={handleIdData} required type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.first_name && <small className="text-red-600">{errors.first_name.message}</small>}
                             </div>
 
                             <div className="form-group ">
                                 <p>Middle name</p>
-                                <input name="middle_name" defaultValue={idData?.middlename} ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="middle_name" onChange={handleIdData} value={idData?.middle_name} ref={register()} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                             </div>
 
                             <div className="form-group ">
                                 <p>Date of Birth <span className="text-red-400">*</span></p>
-                                <input name="birth_date" defaultValue={formatDateToMMDDYYYY(idData?.birthdate)} required ref={register({ required: "Birthdate is required" })} type="date" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="birth_date" readOnly value={formatDateToMMDDYYYY(idData?.birth_date)} required ref={register({ required: "Birthdate is required" })} type="date" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.birth_date && <small className="text-red-600">{errors.birth_date.message}</small>}
                             </div>
@@ -255,7 +254,7 @@ console.log("formatDateToMMDDYYYY(idData?.birthdate)", formatDateToMMDDYYYY(idDa
 
                             <div className="form-group ">
                                 <p>Phone Number <span className="text-red-400">*</span></p>
-                                <input name="phone_number" defaultValue={idData?.phone} required ref={register({ required: "Phone number is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                <input name="phone_number" onChange={handleIdData} value={idData?.phone_number} required ref={register({ required: "Phone number is Required" })} type="text" className="form-control mb-4 w-full rounded font-light text-gray-500"
                                 />
                                 {errors.phone_number && <small className="text-red-600">{errors.phone_number.message}</small>}
                             </div>
