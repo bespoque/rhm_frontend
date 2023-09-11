@@ -1,6 +1,5 @@
 import Widget from "../widget";
 import { formatNumber } from "../../functions/numbers";
-import * as Icons from '../Icons/index';
 import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -11,17 +10,13 @@ import { useRouter } from "next/router";
 import Loader from "react-loader-spinner";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FormatMoneyComponent } from "../FormInput/formInputs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { SubmitButton } from "../CustomButton/CustomButton";
 import { FiCheck } from 'react-icons/fi';
 
 export const StartTcc = () => {
   const [kgtEnentered, setKgtEentered] = useState('')
-  const [validkgtinmessage, Setvalidkgtinmessage] = useState('')
   const [invalidkgtinmessage, Setinvalidkgtinmessage] = useState('')
-  const [disabled, setDisabled] = useState(true);
   const [validmsg, setvalidmsg] = useState("hidden");
   const [invalidmsg, setinvalidmsg] = useState("hidden");
   const [payerDetails, setpayerDetails] = useState([]);
@@ -76,23 +71,20 @@ export const StartTcc = () => {
   setAuthToken();
   const verifiyKGTIN = async () => {
     setIsFetching(true)
-    let testkgtin = kgtEnentered
     let kgtin = {
-      "KGTIN": `${testkgtin}`
+      KGTIN: kgtEnentered
     }
     try {
       let res = await axios.post(`${url.BASE_URL}taxpayer/view-taxpayers`, kgtin);
       setIsFetching(false)
       let userpayer = res.data.body
       setpayerDetails(userpayer)
-      Setvalidkgtinmessage("KGTIN is Valid");
-      setDisabled(false)
       setvalidmsg('')
       setinvalidmsg('hidden')
     } catch (err) {
       setpayerDetails([])
       setIsFetching(false)
-      setDisabled(true)
+
       setinvalidmsg('')
       setvalidmsg('hidden')
       Setinvalidkgtinmessage("Invalid KGTIN");
@@ -102,8 +94,8 @@ export const StartTcc = () => {
   setAuthToken();
   useEffect(() => {
     const kgtinYear = {
-      year: `${(watchYear1).getFullYear()}`,
-      kgtin: `${KGTIN}`
+      year: (watchYear1).getFullYear(),
+      kgtin: KGTIN
     }
     console.log(kgtinYear);
     const fetchPostYear1 = async () => {
@@ -136,8 +128,8 @@ export const StartTcc = () => {
 
   useEffect(() => {
     const kgtinYear = {
-      year: `${(watchYear2).getFullYear()}`,
-      kgtin: `${KGTIN}`
+      year: (watchYear2).getFullYear(),
+      kgtin: KGTIN
     }
     console.log(kgtinYear);
     const fetchPostYear2 = async () => {
@@ -169,8 +161,8 @@ export const StartTcc = () => {
 
   useEffect(() => {
     const kgtinYear = {
-      year: `${(watchYear3).getFullYear()}`,
-      kgtin: `${KGTIN}`
+      year: (watchYear3).getFullYear(),
+      kgtin: KGTIN
     }
 
     const fetchPostYear3 = async () => {
@@ -208,7 +200,6 @@ export const StartTcc = () => {
     if (data.assmt_3 === '') {
       data.assmt_3 = null
     }
-    console.log(data);
 
     let createTCC = {
       file_ref: data.file_ref,
@@ -225,14 +216,12 @@ export const StartTcc = () => {
       setIsFetching2(false)
       axios.post(`${url.BASE_URL}forma/tcc`, createTCC)
         .then(function (response) {
-          // handle success
           toast.success("Created Successfully!");
           console.log(response.data.body[0].id);
           router.push(`tcc/${response.data.body[0].id}`)
           setIsFetching2(false)
         })
         .catch(function (error) {
-          // handle error
           setIsFetching2(false)
           if (error.response) {
             settccErrors(() => error.response.data.message);
@@ -242,7 +231,6 @@ export const StartTcc = () => {
           }
         })
     }
-
 
   };
 
@@ -299,7 +287,7 @@ export const StartTcc = () => {
 
             <div className="mb-6 grid grid-cols-3 gap-2">
               <label>Taxpayer:</label>
-              {payerDetails === [] || payerDetails === "" || payerDetails === undefined ? <input ref={register()} readOnly name="taxpayername" className="form-control w-full rounded" type="text" placeholder="Taxpayer name" />
+              {payerDetails === null || payerDetails === "" || payerDetails === undefined ? <input ref={register()} readOnly name="taxpayername" className="form-control w-full rounded" type="text" placeholder="Taxpayer name" />
                 :
                 <div>
 
@@ -311,7 +299,7 @@ export const StartTcc = () => {
 
             <div className="mb-6 grid grid-cols-3 gap-2">
               <label>KGTIN:</label>
-              {payerDetails === [] || payerDetails === "" || payerDetails === undefined ?
+              {payerDetails === null || payerDetails === "" || payerDetails === undefined ?
                 <div>
                   <input ref={register({ required: "KGTIN is required" })} readOnly name="tp_id" type="text" className="form-control w-full rounded" placeholder="KGTIN" />
                   {errors.tp_id && <p className="text-red-600">{errors.tp_id.message}</p>}
