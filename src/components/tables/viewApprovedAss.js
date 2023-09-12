@@ -405,7 +405,6 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
   })
   const kgtinString = String(kgtinVal)
 
-  console.log("taxcal", taxcal);
   let date = new Date()
   let due_date = new Date(date)
   due_date.setDate(due_date.getDate() + 60);
@@ -687,7 +686,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style16 font-bold'>Additional Assessment </div></td>
-                      <td className='tb'><div align='right' className='style16 font-bold'>{formatNumber(Number(assobj.tax) - Number(taxcal.tax))}</div></td>
+                      <td className='tb'><div align='right' className='font-bold'>{formatNumber(Number(assobj.tax) -( Number(taxcal.tax) + Number(taxcal.devy_levy)))}</div></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style16 font-bold'>Set off WHT </div></td>
@@ -703,7 +702,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td height='30' className='tb'><div align='right' className='style16 font-bold'>Total Tax Due for Payment </div></td>
-                      <td className='tb'><p className="font-bold text-right">{formatNumber((Number(assobj.tax)  + Number(assobj.dev_levy)))}</p></td>
+                      <td className='tb'><p className="font-bold text-right">{formatNumber(assobj.tax)}</p></td>
                     </tr>
                   </table>
                     <br />
@@ -797,7 +796,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                         </tr>
                         <tr width="300">
                           <td width="300" className="font-bold tb">Net Tax Payable</td>
-                          <td width="300" className="font-bold tb">{formatNumber((Number(assobj.tax)  + Number(assobj.dev_levy)))}</td>
+                          <td width="300" className="font-bold tb">{formatNumber(assobj.tax)}</td>
                         </tr>
                         <tr width="300">
                           <td width="300" className="font-bold tb">Payment due date</td>
