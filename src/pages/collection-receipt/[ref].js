@@ -59,22 +59,10 @@ export default function Index() {
                         setIsFetching(false)
                         let res = [data.body];
                         setColData(res)
-                        console.log("res", res);
                     } catch (e) {
                         console.log(e);
                         setIsFetching(false)
                     }
-                    // axios.get(`${urlNew}getpayment.php?paymentref=${paymentID}&by=assessment`)
-                    //     .then(function (response) {
-                    //         let res = response.data.body;
-                    //         setColData(() => [response.data.body])
-                    //         console.log("res", res);
-                    //         setIsFetching(false)
-                    //     })
-                    //     .catch(function (error) {
-                    //         setIsFetching(false)
-                    //         console.log(error);
-                    //     })
                 }
                 else {
                     try {
@@ -88,15 +76,7 @@ export default function Index() {
                     }
                 }
             };
-            // const fetchPost = async () => {
-            //     try {
-            //         let res = await axios.post(`${url.BASE_URL}collection/view-collections`, paymentPayload);
-            //         res = res.data.body;
-            //         setColData(res)
-            //     } catch (e) {
-            //         console.log(e);
-            //     }
-            // };
+      
             fetchPost();
         }
     }, [router]);
