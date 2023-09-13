@@ -15,22 +15,31 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from '@material-table/core';
-import Modal from '@material-ui/core/Modal';
 import { Edit } from '@material-ui/icons';
+import VisitModal from '../visit/visitmodal';
 
 const Notification = () => {
 
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
     const [logData, setLogData] = useState([])
+    const [visitModal, setVisistModal] = useState(false);
     const router = useRouter()
     const { Notifid, JobID } = router?.query
 
+    const openModal = () => {
+        setVisistModal(true);
+    };
+
+    const closeModal = () => {
+        setVisistModal(false);
+    }
+
     const fields = [
-        // {
-        //     title: "Visit date",
-        //     field: "visit_date",
-        // },
+        {
+            title: "Visit date",
+            field: "visit_date",
+        },
         {
             title: "Status",
             field: "visit_status",
@@ -44,10 +53,14 @@ const Notification = () => {
             title: "Compliance",
             field: "visit_compliance"
         },
-        // {
-        //     title: "Created by",
-        //     field: "doneby",
-        // },
+        {
+            title: "Created by",
+            field: "doneby",
+        },
+        {
+            title: "Reviewed by",
+            field: "reviewby",
+        },
         {
             title: "Created time",
             field: "createtime",
@@ -88,6 +101,8 @@ const Notification = () => {
 
     return (
         <>
+            <VisitModal isOpen={visitModal} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>
+
             {isFetching && <ProcessorSpinner />}
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <h2 className="text-xl font-semibold">Notification Details</h2>
@@ -109,15 +124,6 @@ const Notification = () => {
                     {notice?.notification_delivery}
                 </p>
                 <p className="">
-                    <span className="font-semibold">Notification Body:</span>{' '}
-                    {notice?.notification_body}
-                </p>
-
-                <p className="">
-                    <span className="font-semibold">Notification Note:</span>{' '}
-                    {notice?.notification_note}
-                </p>
-                <p className="">
                     <span className="font-semibold">Done By:</span> {notice?.doneby}
                 </p>
                 <p className="">
@@ -136,7 +142,8 @@ const Notification = () => {
                         {
                             icon: Edit,
                             tooltip: 'Details',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/visit`),
+                            onClick: (event, rowData) => openModal() ,
+                            // onClick: (event, rowData) =>  <AcknModal isOpen={openModal} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>,
                         },
                  
               
