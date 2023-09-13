@@ -1,6 +1,5 @@
 // import MaterialTable from "material-table";
 import MaterialTable from '@material-table/core';
-import ExportCsv from '@material-table/exporters/csv'
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -14,12 +13,9 @@ import Clear from "@material-ui/icons/Clear";
 import * as Icons from '../../components/Icons/index';
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import { formatNumber } from "accounting";
-import Add from '@material-ui/icons/Add'
-import ViewColumn from '@material-ui/icons/ViewColumn'
-import FilterList from '@material-ui/icons/FilterList'
+import { ExportCsv } from '@material-table/exporters';
+
 
 
 const fields = [
@@ -77,20 +73,6 @@ export default function ReportstableManifest({ FilteredData }) {
 
     let items = FilteredData
 
-    console.log("items", items);
-
-    const { config, palettes, auth } = useSelector(
-        (state) => ({
-            config: state.config,
-            palettes: state.palettes,
-            auth: state.authentication.auth,
-        }),
-        shallowEqual
-    );
-
-    const reportRange = [39]
-    const decoded = jwt.decode(auth);
-    const userGroup = decoded.groups
 
     useEffect(() => {
 
@@ -123,11 +105,11 @@ export default function ReportstableManifest({ FilteredData }) {
                     exportMenu: [
                         {
                             label: "Export CSV",
-                           
+
                             exportFunc: (cols, datas) =>
                                 ExportCsv(fields, items, "myCsvFileName"),
-                              
-                        },
+
+                        }
                     ],
                 }}
 
@@ -146,12 +128,6 @@ export default function ReportstableManifest({ FilteredData }) {
                     SortArrow: ArrowDownward
                 }}
 
-                onRowClick={(event, rowData) => {
-
-                    window.open(`collection-receipt/${rowData.idpymt}`, "_self")
-                    event.stopPropagation();
-
-                }}
             />
 
         </>
