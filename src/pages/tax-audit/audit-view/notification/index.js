@@ -23,16 +23,17 @@ const Notification = () => {
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
     const [logData, setLogData] = useState([])
-    const [visitModal, setVisistModal] = useState(false);
+    const [visitModal, setVisitModal] = useState(false);
+    const [visitId, setVisitId] = useState(false);
     const router = useRouter()
     const { Notifid, JobID } = router?.query
 
     const openModal = () => {
-        setVisistModal(true);
+        setVisitModal(true);
     };
 
     const closeModal = () => {
-        setVisistModal(false);
+        setVisitModal(false);
     }
 
     const fields = [
@@ -101,7 +102,7 @@ const Notification = () => {
 
     return (
         <>
-            <VisitModal isOpen={visitModal} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>
+            <VisitModal isOpen={visitModal} visitId={visitId} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>
 
             {isFetching && <ProcessorSpinner />}
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
@@ -142,7 +143,7 @@ const Notification = () => {
                         {
                             icon: Edit,
                             tooltip: 'Details',
-                            onClick: (event, rowData) => openModal() ,
+                            onClick: (event, rowData) => {setVisitId(rowData.id); openModal() }
                             // onClick: (event, rowData) =>  <AcknModal isOpen={openModal} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>,
                         },
                  
