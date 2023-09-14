@@ -77,6 +77,9 @@ const Notification = () => {
         },
     ];
 
+    const FormAct = (e) => {
+        e.preventDefault()
+    }
 
 
     useEffect(() => {
@@ -117,14 +120,35 @@ const Notification = () => {
             {reviewModal && (
                 <div className="modal">
                     <div className="modal-content" width="300">
-                        <form>
-                            {/* <div className="flex justify-center">
-                <WarningRounded
-                  size={15}
-                  className="text-yellow-400"
-                />
-              </div> */}
-                            <p>Are you sure you want to Review?</p>
+                        <form onSubmit={FormAct}>
+                            <p>Are you sure you want to Review this visit Log?</p>
+                            {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
+                            <div className="mt-2 flex justify-between">
+                                <button onClick={toggleReviewModal}
+                                    className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <div>
+
+                                </div>
+                                <button
+                                    className="btn w-32 bg-purple-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                    type="submit"
+                                >
+                                    Continue
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {approveModal && (
+                <div className="modal">
+                    <div className="modal-content" width="300">
+                        <form onSubmit={FormAct}>
+                            <p>Are you sure you want to Approve this visit Log?</p>
                             {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
                             <div className="mt-2 flex justify-between">
                                 <button onClick={toggleApproveModal}
@@ -207,7 +231,7 @@ const Notification = () => {
                         rowData => ({
                             icon: CheckBox,
                             tooltip: 'Approve',
-                            onClick: (event, rowData) => { },
+                            onClick: (event, rowData) => { setApproveModal(true)},
                             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
                         })
 
