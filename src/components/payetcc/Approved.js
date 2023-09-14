@@ -16,7 +16,7 @@ const ApprovedPayeTccList = () => {
     let num = 1
     const fetchPost = async () => {
       let records = [];
-      let res = await axios.get(`${url.BASE_URL}paye/list-tcc?status=Approved`)
+       await axios.get(`${url.BASE_URL}paye/list-tcc?status=Approved`)
         .then(function (response) {
           let fetchedData = response.data.body;
           for (let i = 0; i < fetchedData.length; i++) {
@@ -46,7 +46,6 @@ const ApprovedPayeTccList = () => {
   }, []);
 
 
-  console.log(tccdata);
 
 
 
