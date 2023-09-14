@@ -2,7 +2,7 @@ import { formatNumber } from "../../functions/numbers";
 import * as Icons from '../Icons/index';
 import dateformat from "dateformat";
 import { KgirsLogo, KogiGov, Signature } from "../Images/Images";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -15,7 +15,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 // import MaterialTable from "material-table";
 import MaterialTable from '@material-table/core';
-import { Delete, WarningRounded, Refresh, Redo } from "@material-ui/icons";
+import { Delete, WarningRounded } from "@material-ui/icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from "react-loader-spinner";
@@ -151,6 +151,8 @@ export const ViewApprovedTable = ({ ApprovedData }) => {
       })
 
   };
+
+  
 
 
   return (

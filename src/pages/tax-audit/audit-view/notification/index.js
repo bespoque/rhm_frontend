@@ -15,8 +15,11 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from '@material-table/core';
-import { Edit } from '@material-ui/icons';
+import { CheckBox, Edit, EditAttributes, RateReview } from '@material-ui/icons';
 import VisitModal from '../visit/visitmodal';
+import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 const Notification = () => {
 
@@ -47,7 +50,7 @@ const Notification = () => {
         },
 
         {
-            title: "Action type",
+            title: "Type",
             field: "actionType"
         },
         {
@@ -67,6 +70,24 @@ const Notification = () => {
             field: "createtime",
         },
     ];
+
+    const renderActionIcon = (rowData) => {
+        if (rowData.status === 'approved') {
+          return (
+            <IconButton color="primary">
+              <CheckIcon />
+            </IconButton>
+          );
+        } else if (rowData.status === 'rejected') {
+          return (
+            <IconButton color="secondary">
+              <CloseIcon />
+            </IconButton>
+          );
+        }
+        // Return null or another component if needed for other cases.
+        return null;
+      };
 
     useEffect(() => {
         async function fetchPost() {
@@ -140,13 +161,31 @@ const Notification = () => {
                 actions={
                     [
 
-                        {
-                            icon: Edit,
-                            tooltip: 'Details',
-                            onClick: (event, rowData) => {setVisitId(rowData.id); openModal() }
-                            // onClick: (event, rowData) =>  <AcknModal isOpen={openModal} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>,
-                        },
+                        // {
+                        //     icon: Edit,
+                        //     tooltip: 'Details',
+                        //     onClick: (event, rowData) => {setVisitId(rowData.id); openModal() }
+                        // },
                  
+                        rowData => ({
+                            icon: Edit,
+                            tooltip: 'Update',
+                            onClick: (event, rowData) => {setVisitId(rowData.id); openModal() },
+                            hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance" 
+                          }),
+
+                        rowData => ({
+                            icon: RateReview,
+                            tooltip: 'Review',
+                            onClick: (event, rowData) => {},
+                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
+                          }),
+                        rowData => ({
+                            icon: CheckBox,
+                            tooltip: 'Approve',
+                            onClick: (event, rowData) => {},
+                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance" 
+                          })
               
                     ]
                 }
