@@ -15,11 +15,8 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import MaterialTable from '@material-table/core';
-import { CheckBox, Edit, EditAttributes, RateReview } from '@material-ui/icons';
+import { CheckBox, Edit, RateReview } from '@material-ui/icons';
 import VisitModal from '../visit/visitmodal';
-import IconButton from '@material-ui/core/IconButton';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 
 const Notification = () => {
 
@@ -29,6 +26,8 @@ const Notification = () => {
     const [visitModal, setVisitModal] = useState(false);
     const [visitId, setVisitId] = useState(false);
     const router = useRouter()
+    const [reviewModal, setReviewModal] = useState(false);
+    const [approveModal, setApproveModal] = useState(false);
     const { Notifid, JobID } = router?.query
 
     const openModal = () => {
@@ -38,6 +37,13 @@ const Notification = () => {
     const closeModal = () => {
         setVisitModal(false);
     }
+
+    const toggleReviewModal = () => {
+        setReviewModal(!reviewModal);
+    };
+    const toggleApproveModal = () => {
+        setApproveModal(!approveModal);
+    };
 
     const fields = [
         {
@@ -71,23 +77,7 @@ const Notification = () => {
         },
     ];
 
-    const renderActionIcon = (rowData) => {
-        if (rowData.status === 'approved') {
-          return (
-            <IconButton color="primary">
-              <CheckIcon />
-            </IconButton>
-          );
-        } else if (rowData.status === 'rejected') {
-          return (
-            <IconButton color="secondary">
-              <CloseIcon />
-            </IconButton>
-          );
-        }
-        // Return null or another component if needed for other cases.
-        return null;
-      };
+
 
     useEffect(() => {
         async function fetchPost() {
@@ -123,7 +113,41 @@ const Notification = () => {
 
     return (
         <>
-            <VisitModal isOpen={visitModal} visitId={visitId} closeModal={closeModal} Notifid={Notifid} JobID={JobID}/>
+
+            {reviewModal && (
+                <div className="modal">
+                    <div className="modal-content" width="300">
+                        <form>
+                            {/* <div className="flex justify-center">
+                <WarningRounded
+                  size={15}
+                  className="text-yellow-400"
+                />
+              </div> */}
+                            <p>Are you sure you want to Review?</p>
+                            {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
+                            <div className="mt-2 flex justify-between">
+                                <button onClick={toggleApproveModal}
+                                    className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <div>
+
+                                </div>
+                                <button
+                                    className="btn w-32 bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                                    type="submit"
+                                >
+                                    Continue
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            <VisitModal isOpen={visitModal} visitId={visitId} closeModal={closeModal} Notifid={Notifid} JobID={JobID} />
 
             {isFetching && <ProcessorSpinner />}
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
@@ -166,27 +190,27 @@ const Notification = () => {
                         //     tooltip: 'Details',
                         //     onClick: (event, rowData) => {setVisitId(rowData.id); openModal() }
                         // },
-                 
+
                         rowData => ({
                             icon: Edit,
                             tooltip: 'Update',
-                            onClick: (event, rowData) => {setVisitId(rowData.id); openModal() },
-                            hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance" 
-                          }),
+                            onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
+                            hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
+                        }),
 
                         rowData => ({
                             icon: RateReview,
                             tooltip: 'Review',
-                            onClick: (event, rowData) => {},
+                            onClick: (event, rowData) => { setReviewModal(true) },
                             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
-                          }),
+                        }),
                         rowData => ({
                             icon: CheckBox,
                             tooltip: 'Approve',
-                            onClick: (event, rowData) => {},
-                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance" 
-                          })
-              
+                            onClick: (event, rowData) => { },
+                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
+                        })
+
                     ]
                 }
 
@@ -212,6 +236,55 @@ const Notification = () => {
                 }}
 
             />
+            <style
+                jsx>{
+                    `
+        body.active-modal {
+          overflow-y: hidden;
+      }
+      
+      // .btn-modal {
+      //     padding: 10px 20px;
+      //     display: block;
+      //     margin: 100px auto 0;
+      //     font-size: 18px;
+      // }
+      
+      .modal, .overlay {
+          width: 100vw;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          position: fixed;
+      }
+      
+      .overlay {
+          background: rgba(49,49,49,0.8);
+      }
+      .modal-content {
+          position: absolute;
+          top: 20%;
+          left: 60%;
+          transform: translate(-50%, -50%);
+          line-height: 1.4;
+          background: #f1f1f1;
+          padding: 14px 28px;
+          border-radius: 3px;
+          max-width: 400px;
+          min-width: 300px;
+      }
+      
+      .close-modal {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          padding: 5px 7px;
+      }
+        `
+                }
+            </style>
         </>
     );
 };
