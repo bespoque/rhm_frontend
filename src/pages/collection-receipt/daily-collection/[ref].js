@@ -21,6 +21,8 @@ export default function MultipleCollection() {
             record.pmt_meth !== 'Remita' || record.channel_id !== 'Remita'
     );
 
+   
+
     const recordsPerPage = 100;
     const totalRecords = filteredRecords.length;
     const recordsStart = (currentPage - 1) * recordsPerPage + 1;

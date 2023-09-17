@@ -69,10 +69,8 @@ const fields = [
 export const ViewTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -134,10 +132,8 @@ export const ViewTccTable = ({ tccdata }) => {
 export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentData, assessmentData2, assessmentData3 }) => {
   const [isFetching, setIsFetching] = useState(false)
   const [declineModal, setDeclineModal] = useState(false);
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -145,13 +141,10 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
   let yroneAdd = (addAsess?.addAssyr1?.amount || 0 )
   let yrtwoAdd = (addAsess?.addAssyr2?.amount || 0 )
   let yrthreeAdd = (addAsess?.addAssyr3?.amount || 0 )
-  console.log("yroneAdd", yroneAdd);
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
-    formState: { errors },
   } = useForm()
 
   const TCCStatus = payerDetails.map((data, i) => {
@@ -185,7 +178,7 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
       status: "Verified"
     }
     try {
-      let res = await axios.post(`${url.BASE_URL}forma/tcc-status`, approveTcc);
+      await axios.post(`${url.BASE_URL}forma/tcc-status`, approveTcc);
       setIsFetching(false)
       router.push('/view/listtcc')
       toast.success("Success!");
@@ -205,7 +198,7 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
       status: "Audit Checked"
     }
     try {
-      let res = await axios.post(`${url.BASE_URL}forma/tcc-status`, auditTcc);
+      await axios.post(`${url.BASE_URL}forma/tcc-status`, auditTcc);
       setIsFetching(false)
       router.push('/view/listtcc')
       toast.success("Success!");
@@ -225,9 +218,9 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
       status: "Print Authorized"
     }
     try {
-      let res = await axios.post(`${url.BASE_URL}forma/tcc-status`, printTcc);
+       await axios.post(`${url.BASE_URL}forma/tcc-status`, printTcc);
       setIsFetching(false)
-      router.push('/view/listtcc')
+      router.push('/view/listapprovedtcc')
       toast.success("Success!");
     } catch (error) {
       toast.error("Failed!");
@@ -245,7 +238,7 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
       status: "Approved"
     }
     try {
-      let res = await axios.post(`${url.BASE_URL}forma/tcc-status`, approveTcc);
+       await axios.post(`${url.BASE_URL}forma/tcc-status`, approveTcc);
       setIsFetching(false)
       router.push('/view/listtcc')
       toast.success("Success!");
@@ -268,7 +261,6 @@ export const ViewSingleTccTable = ({ tccID, addAsess, payerDetails, assessmentDa
         setIsFetching(false)
         toast.success("Success!");
         router.push('/view/listtcc')
-        console.log(response);
       })
       .catch(function (error) {
         toast.error("Failed!");

@@ -15,7 +15,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 // import MaterialTable from "material-table";
 import MaterialTable from '@material-table/core';
-import { Delete, WarningRounded} from "@material-ui/icons";
+import { Delete, WarningRounded } from "@material-ui/icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from "react-loader-spinner";
@@ -405,7 +405,6 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
   })
   const kgtinString = String(kgtinVal)
 
-  console.log("taxcal", taxcal);
   let date = new Date()
   let due_date = new Date(date)
   due_date.setDate(due_date.getDate() + 60);
@@ -474,14 +473,12 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
 
                       <tr>
                         <td><strong>TAX STATION </strong></td>
-                        {payerAyy.map((data, idx) => (
-                          <div key={idx}>
-                            {data.tax_office === "Okehi/Adavi" ?
-                              <p>Adavi/Okehi</p> :
-                              <p>{data.tax_office}</p>
-                            }
-                          </div>
-                        ))}
+
+                        {assobj.tax_office === "Okehi/Adavi" ?
+                          <p>Adavi/Okehi</p> :
+                          <p>{assobj.tax_office}</p>
+                        }
+
                       </tr>
                       <tr>
                         <td><strong>KGTIN</strong></td>
@@ -515,10 +512,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'> Trade, Professional e.t.c </td>
-                      {assobj == null || assobj == ""
-                        ? <td></td> :
-                        <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj.self_employed)}</p> </td>
-                      }
+                      <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj?.self_employed)}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'>Share of Partnership </td>
@@ -526,14 +520,11 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'>Employment</td>
-                      {assobj == null || assobj == ""
-                        ? <td><p className="font-bold text-right">0</p></td> :
-                        <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj.employed)}</p> </td>
-                      }
+                      <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj?.employed)}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'>Other Income </td>
-                      <td className='tb'> <p className="font-bold text-right">{formatNumber(assobj.other_income)}</p> </td>
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(assobj?.other_income)}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style27 font-bold'>Gross Income </div></td>
@@ -541,18 +532,11 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'>PFC</td>
-                      {assobj == null || assobj == ""
-                        ? <td className="tb"><p className="font-bold text-right">0</p></td> :
-                        <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj.pension)}</p></td>
-                      }
-
+                      <td className='tb'><p className="font-bold" align="right">{formatNumber(assobj?.pension)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'>NHIS</td>
-                      {assobj == null || assobj == ""
-                        ? <td className="tb"><p className="font-bold text-right">0</p></td> :
-                        <td className='tb'> <p className="font-bold" align="right">{formatNumber(assobj.nhis)}</p></td>
-                      }
+                      <td className='tb'> <p className="font-bold" align="right">{formatNumber(assobj?.nhis)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'>NHF</td>
@@ -560,11 +544,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'>Life Assurance Premium</td>
-                      {assobj == null || assobj == ""
-                        ? <td className="tb"><p className="font-bold text-right">0</p></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(assobj.lap)}</p></td>
-                      }
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(assobj?.lap)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb font-bold'><p align="right">Total</p></td>
@@ -604,90 +584,58 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td className='tb'>Consolidated Relief Allowance</td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.consolidatedRelief)}</p></td>
-                      }
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.consolidatedRelief)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb font-bold'><div align='right'>Chargeable Income </div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.chargeableIncome)}</p></td>
-                      }
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.chargeableIncome)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='left' className='style16 font-bold'>Tax Due for Payment </div></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>First 300,000.00 at 7%</div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.tax7)}</p> </td>
-                      }
-
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.tax7)}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Next 300,000.00 at 11%</div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.tax11)}</p> </td>
-                      }
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.tax11)}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Next 500,000.00 at 15% </div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.tax15)}</p></td>
-                      }
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.tax15)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Next 500,000.00 at 19%</div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'><p className="font-bold text-right">{formatNumber(taxcal.tax19)}</p></td>
-                      }
-
+                      <td className='tb'><p className="font-bold text-right">{formatNumber(taxcal?.tax19)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Next 1,600,000.00 at 21%</div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.tax21)}</p></td>
-                      }
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.tax21)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center'>Above 3,200,000.00 at 24%</div></td>
-                      {taxcal == null || taxcal == ""
-                        ? <td className="tb"></td> :
-                        <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal.tax24)}</p></td>
-                      }
-
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(taxcal?.tax24)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>1%(Minimun Tax)</div></td>
-                      <td className='tb'><p className="font-bold text-right">{formatNumber(taxcal.tax1)}</p></td>
+                      <td className='tb'><p className="font-bold text-right">{formatNumber(taxcal?.tax1)}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Total </div></td>
-                      <td className='tb'><p className="font-bold text-right"> {formatNumber(Number(taxcal.tax))}</p> </td>
+                      <td className='tb'><p className="font-bold text-right"> {formatNumber(Number(taxcal?.tax))}</p> </td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='center' className='style16'>Dev. Levy </div></td>
-                      <td className='tb'> <p className="font-bold text-right">{formatNumber(Number(assobj.dev_levy))}</p></td>
-                      {/* <td className='tb'> <p className="font-bold text-right">{formatNumber(Number(taxcal.devy_levy))}</p> </td> */}
+                      <td className='tb'> <p className="font-bold text-right">{formatNumber(Number(assobj?.dev_levy))}</p></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style16 font-bold'>Total Tax Due </div></td>
-                      <td className='tb'><div align='right' className=' font-bold'>{formatNumber(assobj.tax)}</div></td>
+                      <td className='tb'><div align='right' className=' font-bold'>{formatNumber(assobj?.tax)}</div></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style16 font-bold'>Additional Assessment </div></td>
-                      <td className='tb'><div align='right' className='style16 font-bold'>{formatNumber(Number(assobj.tax) - Number(taxcal.tax))}</div></td>
+                      <td className='tb'><div align='right' className='font-bold'>{formatNumber(Number(assobj?.tax) - (Number(taxcal.tax) + Number(taxcal.devy_levy)))}</div></td>
                     </tr>
                     <tr>
                       <td className='tb'><div align='right' className='style16 font-bold'>Set off WHT </div></td>
@@ -703,7 +651,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                       <td height='30' className='tb'><div align='right' className='style16 font-bold'>Total Tax Due for Payment </div></td>
-                      <td className='tb'><p className="font-bold text-right">{formatNumber((Number(assobj.tax)  + Number(assobj.dev_levy)))}</p></td>
+                      <td className='tb'><p className="font-bold text-right">{formatNumber(assobj?.tax)}</p></td>
                     </tr>
                   </table>
                     <br />
@@ -797,7 +745,7 @@ export const ViewSingleApprovedTable = React.forwardRef((props, ref) => {
                         </tr>
                         <tr width="300">
                           <td width="300" className="font-bold tb">Net Tax Payable</td>
-                          <td width="300" className="font-bold tb">{formatNumber((Number(assobj.tax)  + Number(assobj.dev_levy)))}</td>
+                          <td width="300" className="font-bold tb">{formatNumber(assobj.tax)}</td>
                         </tr>
                         <tr width="300">
                           <td width="300" className="font-bold tb">Payment due date</td>

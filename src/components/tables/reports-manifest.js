@@ -1,44 +1,15 @@
-import Widget from "../widget";
-import { formatNumber } from "../../functions/numbers";
-import * as Icons from '../Icons/index';
-import Widget1 from "../dashboard/widget-1";
+
 import dateformat from "dateformat";
-import Link from 'next/link';
-import CustomButton from "../CustomButton/CustomButton";
-import MaterialTable, { MTableToolbar } from "material-table";
-import Search from '@material-ui/icons/Search'
-import ViewColumn from '@material-ui/icons/ViewColumn'
-import SaveAlt from '@material-ui/icons/SaveAlt'
-import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import ChevronRight from '@material-ui/icons/ChevronRight'
-import FirstPage from '@material-ui/icons/FirstPage'
-import LastPage from '@material-ui/icons/LastPage'
-import Add from '@material-ui/icons/Add'
-import Check from '@material-ui/icons/Check'
-import FilterList from '@material-ui/icons/FilterList'
-import Remove from '@material-ui/icons/Remove'
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Clear from "@material-ui/icons/Clear";
-import { shallowEqual, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import setAuthToken from "../../functions/setAuthToken";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
-import ReactToPrint from "react-to-print";
-import { CoatOfArms, KgirsLogo, KogiGov, TccbgImage } from "../Images/Images";
-import QRCode from "react-qr-code";
-import { addDays, subDays } from 'date-fns';
-import { Calendar } from 'react-date-range';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { Controller, useForm } from "react-hook-form";
-import { FormatMoneyComponentBOJ, FormatMoneyComponentReport } from "../FormInput/formInputs";
-import { useRouter } from "next/router";
-import Reportstable from "../../pages/reports/reportstable";
-import MultipleCollection from "../../pages/collection-receipt/daily-collection/[ref]";
+import { useForm } from "react-hook-form";
+import { FormatMoneyComponentReport } from "../FormInput/formInputs";
 import ReportstableManifest from "../../pages/reports-manifest/reportstablemanifest";
 
 
@@ -51,10 +22,9 @@ export const StartReportManifest = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
   const [multipleSearchErr, setmultipleSearchErr] = useState([])
-  // const [multipleSearchData, setmultipleSearchData] = useState([])
 
 
-  const router = useRouter();
+
 
   const [state, setState] = useState([
     {
@@ -65,18 +35,15 @@ export const StartReportManifest = () => {
     }
   ]);
 
-  const { config, palettes, auth } = useSelector(
-    (state) => ({
-      config: state.config,
-      palettes: state.palettes,
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
+  const filteredRecords = FilteredData.filter(
+    (record) =>
+      record.channel_id !== 'Remita'
   );
 
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
+
+
+
+
 
   let startDate
   let endDate
@@ -103,13 +70,9 @@ export const StartReportManifest = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors },
   } = useForm()
 
-  const {
-    register: registerCollSearch,
-    handleSubmit: handleColSubmit,
-  } = useForm()
+
 
 
   let startFigure = watch("amountStart", "0").replace(/,/g, '')
@@ -129,7 +92,6 @@ export const StartReportManifest = () => {
         setRevenueItem(revItems)
 
       } catch (e) {
-        // setIsFetching(false);
         console.log(e);
       }
     };
@@ -140,17 +102,16 @@ export const StartReportManifest = () => {
 
   const AdvancedSearch = (data) => {
     setIsFetching(true)
-    data.trandateStart = startDate
-    data.trandateEnd = endDate
-    data.amountStart = startFigure
-    data.amountEnd = endFigure
+    // data.trandateStart = startDate
+    // data.trandateEnd = endDate
+    // data.amountStart = startFigure
+    // data.amountEnd = endFigure
 
-    axios.post(`${url.BASE_URL}collection/collection-receipt`, data)
+    // axios.post(`${url.BASE_URL}collection/collection-receipt`, data)
+    axios.post(`${url.BASE_URL}collection/view-collections`, data)
       .then(function (response) {
         let search = response.data.body;
-        console.log("search", search);
         setFilteredData(search)
-        console.log("FilteredData", FilteredData);
         setIsFetching(false)
         setTableState('')
       })
@@ -161,31 +122,24 @@ export const StartReportManifest = () => {
       })
   }
 
-  const ColSearch = (data) => {
-    console.log("data", data);
-    router.push(`/collection-receipt/daily-collection/${data.tranDate}`)
-    setIsFetching(true)
-    // axios.post(`${url.BASE_URL}collection/view-collections`, data)
-    //   .then(function (response) {
-    //     let search = response.data.body;
-    //     setIsFetching(false)
-    //     setmultipleSearchData(search)
-    //     console.log("search", search);
-    //   })
-    //   .catch(function (error) {
-    //     setIsFetching(false)
-    //     if (error.response) {
-    //       setmultipleSearchErr(error.response.data.message)
-    //     }
 
-    //   })
-  }
-
-  // console.log("main component data", multipleSearchData);
   return (
     <>
-      <div className="">
-        <form onSubmit={handleSubmit(AdvancedSearch)} className="mb-3">
+      <div className="flex justify-center">
+        <div className="overflow-x-auto mb-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
+          <form onSubmit={handleSubmit(AdvancedSearch)}>
+            <label>Date</label> <br />
+            <div className="flex gap-2">
+              <input ref={register()} required type="date" name="tranDate" className="form-control rounded font-light text-gray-500" />
+              <button className="btn w-32 bg-blue-600 btn-default text-white btn-outlined bg-transparent rounded-md"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+        {/* <form onSubmit={handleSubmit(AdvancedSearch)} className="mb-3">
 
           <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
             <div className="w-full lg:w-1/3 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
@@ -267,10 +221,7 @@ export const StartReportManifest = () => {
                   <option value="Remita">Remita</option>
                   <option value="WebPay">WebPay</option>
                   <option value="Paytax">Paytax</option>
-
                 </select>
-                {/* <input type="text" ref={register()} name="channel_id" className="form-control w-full rounded font-light text-gray-500"
-                  /> */}
               </div>
             </div>
 
@@ -297,45 +248,26 @@ export const StartReportManifest = () => {
             </div>
           </div>
 
-        </form>
-
-        {/* <div className="overflow-x-auto mb-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
-          <p className="font-bold mb-3">Search by Collection date</p>
-          <form onSubmit={handleColSubmit(ColSearch)}>
-            <label>Date</label> <br />
-            <div className="flex gap-2">
-              <input ref={registerCollSearch()} required type="date" name="tranDate" className="form-control rounded font-light text-gray-500" />
-              <button className="btn w-32 bg-blue-600 btn-default text-white btn-outlined bg-transparent rounded-md"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </div> */}
-
-    
-
-
-        {isFetching ? (
-          <div className="flex justify-center item mb-2">
-            <Loader
-              visible={isFetching}
-              type="BallTriangle"
-              color="#00FA9A"
-              height={19}
-              width={19}
-              timeout={0}
-              className="ml-2"
-            />
-            <p className="font-bold">Processing...</p>
-          </div>
-        ) :
-          <div className={`${tableState}`}>
-            <ReportstableManifest FilteredData={FilteredData} />
-          </div>
-        }
+        </form> */}
       </div>
+      {isFetching ? (
+        <div className="flex justify-center item mb-2">
+          <Loader
+            visible={isFetching}
+            type="BallTriangle"
+            color="#00FA9A"
+            height={19}
+            width={19}
+            timeout={0}
+            className="ml-2"
+          />
+          <p className="font-bold">Processing...</p>
+        </div>
+      ) :
+        <div className={`${tableState}`}>
+          <ReportstableManifest FilteredData={filteredRecords} />
+        </div>
+      }
     </>
   );
 };

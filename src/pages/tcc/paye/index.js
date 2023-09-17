@@ -14,6 +14,7 @@ import { formatNumber } from 'accounting';
 import { useRouter } from 'next/router';
 
 
+
 function Index() {
     const [kgtinErr, setKgtinErr] = useState("")
     const [isFetching, setIsFetching] = useState(() => false);
@@ -21,6 +22,9 @@ function Index() {
     const [payslipYear1, setPayslipYear1] = useState([]);
     const [payslipYear2, setPayslipYear2] = useState([]);
     const [payslipYear3, setPayslipYear3] = useState([]);
+    const [form1Value, setForm1Value] = useState(null);
+    const [form2Value, setForm2Value] = useState(null);
+    const [form3Value, setForm3Value] = useState(null);
     const router = useRouter();
     const {
         register,
@@ -36,6 +40,15 @@ function Index() {
     let yr2Gross = (Number(payslipYear2.basic) + Number(payslipYear2.housing) + Number(payslipYear2.trans_allw) + Number(payslipYear2.leave_allw) + Number(payslipYear2.other_allw) + Number(payslipYear2.benefits) + Number(payslipYear2.utilities))
     let yr3Gross = (Number(payslipYear3.basic) + Number(payslipYear3.housing) + Number(payslipYear3.trans_allw) + Number(payslipYear3.leave_allw) + Number(payslipYear3.other_allw) + Number(payslipYear3.benefits) + Number(payslipYear3.utilities))
 
+    console.log("form1Value", form1Value)
+    // Year 1 DA
+    // const kgtinYear = {
+    //     year: String((watchYear2).getFullYear()),
+    //     kgtin: KGTIN
+    //   }
+    // url.BASE_URL}forma/view-tax-income
+
+    console.log("payslipYear1", payslipYear1);
 
     const {
         register: registerkgtin,
@@ -71,7 +84,7 @@ function Index() {
 
             if (data.assmtYr_2 === undefined) {
                 delete data.assmtYr_2
-               
+
             } else {
                 data.assmtYr_2 = (data.assmtYr_2).getFullYear()
             }
@@ -132,9 +145,38 @@ function Index() {
     };
 
     useEffect(() => {
+        let kgtinYear
 
-        const fetchPostYear1 = () => {
-            if (dirtyFields.assmtYr_1) {
+        if (dirtyFields.assmtYr_1) {
+            kgtinYear = {
+                year: String(watchYear1.getFullYear()),
+                kgtin: taxpayerInfo.KGTIN
+            }
+        }
+
+
+        const fetchPostYear1 = async () => {
+            if (form1Value === "") {
+                alert("Please select the type of assessment")
+            }
+            else if (form1Value === "DA") {
+                try {
+                    let res = await axios.post(`${url.BASE_URL}forma/view-tax-income`, kgtinYear);
+                    res = res.data.body
+                    let assessment = res.assessment
+                    setPayslipYear1(assessment)
+
+                } catch (e) {
+                    if (e.response) {
+                        toast.error(e.response.data.message)
+                    } else {
+                        toast.error("Failed!");
+                    }
+                }
+
+            }
+            // else if (dirtyFields.assmtYr_1) {
+            else if (form1Value === "PAYE") {
                 let year1 = watchYear1.getFullYear()
                 let kgtin = taxpayerInfo.KGTIN
                 setIsFetching(true)
@@ -201,7 +243,6 @@ function Index() {
                 axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year3}`)
                     .then(function (response) {
                         setIsFetching(false)
-                        console.log("response", response);
                         setPayslipYear3(response.data.body.payroll[0]);
                         // setTaxpayerinfo(response.data.body)
                         // console.log("response", response);
@@ -312,6 +353,15 @@ function Index() {
                 <div className={`flex justify-between border mb-3 rounded-lg bg-white w-full`}>
 
                     <div className="p-3">
+                        <div className="flex justify-end mb-2">
+                            <select className="form-control rounded"
+                                value={form1Value}
+                                onChange={(e) => setForm1Value(e.target.value)}
+                            >
+                                <option value="DA">Direct Assessment</option>
+                                <option value="PAYE">PAYE</option>
+                            </select>
+                        </div>
                         <h6 className="text-right mb-6">Year 1</h6>
                         <div className="mb-6 grid grid-cols-2 ">
                             <label>Assessment year </label>
@@ -369,6 +419,16 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
+                        <div className="flex justify-end mb-2">
+                            <select className="form-control rounded"
+                                value={form2Value}
+                                onChange={(e) => setForm2Value(e.target.value)}
+
+                            >
+                                <option value="DA">Direct Assessment</option>
+                                <option value="PAYE">PAYE</option>
+                            </select>
+                        </div>
                         <h6 className="text-center mb-6">Year 2</h6>
                         <div className="mb-6 justify-self-center">
 
@@ -425,6 +485,15 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
+                        <div className="flex justify-end mb-2">
+                            <select className="form-control rounded"
+                                value={form3Value}
+                                onChange={(e) => setForm3Value(e.target.value)}
+                            >
+                                <option value="DA">Direct Assessment</option>
+                                <option value="PAYE">PAYE</option>
+                            </select>
+                        </div>
                         <h6 className="text-center mb-6">Year 3</h6>
                         <div className="mb-6 justify-self-center">
 

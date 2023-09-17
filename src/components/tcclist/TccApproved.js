@@ -1,19 +1,11 @@
 import SectionTitle from "../section-title";
-import Widget from "../widget";
-import { SubmitButton } from "../CustomButton/CustomButton";
-import { NewFormInput } from "../FormInput/formInputs";
-import { ViewIndividualTable } from "../tables/viewIndividual"
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CustomPagination } from "../pagination/customPagination";
 import { formatNumber } from "../../functions/numbers";
 import dateformat from "dateformat";
 import Loader from "react-loader-spinner";
-import Widget1 from "../dashboard/widget-1";
-import * as Icons from '../Icons/index';
-import { ViewTccTable } from "../tables/viewTccTable";
 import { ViewApprovedTccTable } from "../tables/viewApprovedTccTable";
 
 const ApprovedTCCList = () => {
@@ -36,7 +28,6 @@ const ApprovedTCCList = () => {
       try {
         let res = await axios.post(`${url.BASE_URL}forma/tcc-report`, tccStatus);
         res = res.data.body.tccReport;
-        console.log("res", res);
         let records = [];
         for (let i = 0; i < res.length; i++) {
           let rec = res[i];

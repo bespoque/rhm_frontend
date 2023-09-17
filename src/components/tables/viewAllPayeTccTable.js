@@ -197,10 +197,8 @@ export const ViewDraftPayeTccTable = ({ tccdata }) => {
 export const ViewApprovedTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -262,10 +260,8 @@ export const ViewApprovedTccTable = ({ tccdata }) => {
 export const ViewAuditTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -327,10 +323,8 @@ export const ViewAuditTccTable = ({ tccdata }) => {
 export const ViewVerifiedTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const { config, palettes, auth } = useSelector(
+  const {  auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -393,10 +387,8 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
   const [isFetching, setIsFetching] = useState(false)
   const [declineModal, setDeclineModal] = useState(false);
   
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -432,7 +424,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Verified"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, verifyTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, verifyTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc')
       toast.success("Success!");
@@ -451,7 +443,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Audit Checked"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, auditTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, auditTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/verified')
       toast.success("Success!");
@@ -470,7 +462,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Authorized for print"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, printAuth);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, printAuth);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/approved')
       toast.success("Success!");
@@ -492,7 +484,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Approved"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, approveTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, approveTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/audit')
       toast.success("Success!");
@@ -515,7 +507,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
         setIsFetching(false)
         toast.success("Success!");
         router.push('/view/listtcc')
-        console.log(response);
       })
       .catch(function (error) {
         toast.error("Failed!");
@@ -532,7 +523,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
       {declineModal && (
         <div className="modal">
-          {/* <div onClick={toggleModal} className="overlay"></div> */}
           <div className="modal-content" width="300">
             <div className="text-center">
               <p>Are you sure you want to Decline ?</p>
@@ -767,7 +757,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               {uploads.map((data) => (
                 <div className="flex justify-between my-3">
-                  <p className="font-bold"><a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/tcc/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500">{data.doc_title}</a></p>
+                  <p className="font-bold"><a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/tcc/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500" rel="noreferrer">{data.doc_title}</a></p>
                   <span className="h-5 w-5 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
                     <FiCheck
                       size={15}
@@ -782,7 +772,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               {slipYear1.map((data) => (
                 <div className="flex justify-between my-3">
 
-                  <p className="font-bold"> Year 1 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500">{data.doc_title}</a></p>
+                  <p className="font-bold"> Year 1 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500" rel="noreferrer">{data.doc_title}</a></p>
                   <span className="h-5 w-5 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
                     <FiCheck
                       size={15}
@@ -795,7 +785,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               {slipYear2.map((data) => (
                 <div className="flex justify-between my-3">
 
-                  <p className="font-bold"> Year 2 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500">{data.doc_title}</a></p>
+                  <p className="font-bold"> Year 2 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500" rel="noreferrer">{data.doc_title}</a></p>
                   <span className="h-5 w-5 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
                     <FiCheck
                       size={15}
@@ -808,7 +798,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               {slipYear3.map((data) => (
                 <div className="flex justify-between my-3">
 
-                  <p className="font-bold"> Year 3 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500">{data.doc_title}</a></p>
+                  <p className="font-bold"> Year 3 <a href={`https://annualuploads.bespoque.dev/rhm-live/uploads/paye/payslip/${data.doc_name}`} target="_blank" className="no-underline hover:underline text-blue-500" rel="noreferrer">{data.doc_title}</a></p>
                   <span className="h-5 w-5 bg-green-100 text-white flex items-center justify-center rounded-full text-lg font-display font-bold">
                     <FiCheck
                       size={15}
@@ -911,7 +901,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={yrTwoPaySl === undefined || yrTwoPaySl === [] ? null : formatNumber(yrTwoPaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
+                <input readOnly value={yrTwoPaySl === undefined || yrTwoPaySl === "" ? null : formatNumber(yrTwoPaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
@@ -919,7 +909,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={formatNumber(yrTwoPaySl === undefined || yrTwoPaySl === [] ? null : formatNumber(Number(payerDetails.incYr_2) - (Number(yrTwoPaySl.consolidated_relief) + Number(yrTwoPaySl.other_relief))))} className="form-control w-full rounded" type="text"
+                <input readOnly value={formatNumber(yrTwoPaySl === undefined || yrTwoPaySl === "" ? null : formatNumber(Number(payerDetails.incYr_2) - (Number(yrTwoPaySl.consolidated_relief) + Number(yrTwoPaySl.other_relief))))} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
@@ -973,13 +963,13 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={yrThreePaySl === undefined || yrThreePaySl === [] ? null : formatNumber(yrThreePaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
+                <input readOnly value={yrThreePaySl === undefined || yrThreePaySl === "" ? null : formatNumber(yrThreePaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={(yrThreePaySl === undefined || yrThreePaySl === [] ? null : formatNumber(Number(payerDetails.incYr_3) - (Number(yrThreePaySl.consolidated_relief) + Number(yrThreePaySl.other_relief))))} className="form-control w-full rounded" type="text"
+                <input readOnly value={(yrThreePaySl === undefined || yrThreePaySl === "" ? null : formatNumber(Number(payerDetails.incYr_3) - (Number(yrThreePaySl.consolidated_relief) + Number(yrThreePaySl.other_relief))))} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>

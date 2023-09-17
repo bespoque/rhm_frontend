@@ -37,15 +37,9 @@ export const StartReportView = () => {
     }
   ]);
 
-  const { auth } = useSelector(
-    (state) => ({
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
 
  
-  const decoded = jwt.decode(auth);
+
   
 
   let startDate
