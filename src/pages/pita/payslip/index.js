@@ -190,7 +190,7 @@ export default function Payslip() {
             .then(function (response) {
                 setIsFetching(false)
                 let organization = response.data.body.taxpayer
-                if (organization === [] || organization === "" || organization === null) {
+                if (organization === "" || organization === "" || organization === null) {
                     toast.error("Organization does not exist");
                 } else {
                     let organizName = organization[0].tp_name
