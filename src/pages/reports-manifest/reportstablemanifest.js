@@ -1,5 +1,4 @@
-// import MaterialTable from "material-table";
-import MaterialTable from '@material-table/core';
+import MaterialTable from "material-table";
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -14,7 +13,7 @@ import * as Icons from '../../components/Icons/index';
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { formatNumber } from "accounting";
-import { ExportCsv } from '@material-table/exporters';
+
 
 
 
@@ -96,21 +95,10 @@ export default function ReportstableManifest({ FilteredData }) {
                     search: false,
                     paging: true,
                     filtering: true,
-                    // Using the regular material-table
-                    // exportButton: {
-                    //     csv: true,
-                    //     pdf: false
-                    // },
-                    // Using material table core
-                    exportMenu: [
-                        {
-                            label: "Export CSV",
-
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(fields, items, "myCsvFileName"),
-
-                        }
-                    ],
+                    exportButton: {
+                        csv: true,
+                        pdf: false
+                    },
                 }}
 
                 icons={{
