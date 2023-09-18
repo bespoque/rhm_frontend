@@ -460,7 +460,7 @@ function Index() {
                         <div className="mb-6 grid grid-cols-2 gap-3">
                             <label>Taxable Income </label>
                             <div>
-                                <input readOnly name="" value={formatNumber(Number(payslipYear1?.self_employed) + Number(payslipYear1?.employed) + Number(payslipYear1?.other_income)) || formatNumber(yr1Gross - (Number(payslipYear1.consolidated_relief) + Number(payslipYear1.other_relief)))} className="form-control w-full rounded" type="text"
+                                <input readOnly value={formatNumber(Number(payslipYear1?.self_employed) + Number(payslipYear1?.employed) + Number(payslipYear1?.other_income)) || formatNumber(yr1Gross - (Number(payslipYear1.consolidated_relief) + Number(payslipYear1.other_relief)))} className="form-control w-full rounded" type="text"
                                 />
                             </div>
                         </div>

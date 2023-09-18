@@ -369,9 +369,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <th>
                           Gross Emoluments
                         </th>
-                        {/* <th className="">
+                        <th className="">
                           Taxable Income
-                        </th> */}
+                        </th>
                         <th className="">
                           Tax Paid
                         </th>
@@ -391,6 +391,9 @@ export const ViewSinglePayeTccPrintTable = ({
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_1)}</p>
                         </td>
 
+                        <td className="">
+                          <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_1))} </p>
+                        </td>
                         {/* <td className="">
                           <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_1) - ((Number(year1ConRel) + Number(year1OtherRelief))))} </p>
                         </td> */}
@@ -410,6 +413,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_2)}</p>
                         </td>
+                        <td className="">
+                          <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2) )}</p>
+                        </td>
                         {/* <td className="">
                           <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2) - ((Number(year2ConRel) + Number(year2OtherRelief))))}</p>
                         </td> */}
@@ -428,6 +434,10 @@ export const ViewSinglePayeTccPrintTable = ({
                         </td>
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_3)}</p>
+                        </td>
+
+                        <td className="">
+                          <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_3))} </p>
                         </td>
 {/* 
                         <td className="">
