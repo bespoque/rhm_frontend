@@ -97,8 +97,9 @@ export default function ReportstableManifest({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: false
+                        pdf: true
                     },
+                    exportAllData: true
                 }}
 
                 icons={{
