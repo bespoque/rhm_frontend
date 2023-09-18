@@ -64,9 +64,11 @@ function Index() {
         if (data.taxYr_1 == 0 && data.incYr_1 == 0) {
             alert("Please provide Tax and Income figures for Year one")
         }
+        else if (watchYear1.getFullYear() === watchYear2.getFullYear() || watchYear1.getFullYear() === watchYear3.getFullYear() || watchYear2.getFullYear() === watchYear3.getFullYear()) {
+            alert("Cannot have the same year twice")
+        }
         else {
-            console.log("TCC DATA", data);
-            setIsFetching(true)
+            // setIsFetching(true)
             data.assmtYr_1 = (data.assmtYr_1).getFullYear()
 
             if (data.assmtYr_2 === undefined) {
@@ -90,7 +92,9 @@ function Index() {
             data.taxYr_2 = (data.taxYr_2).replace(/,/g, '')
             data.taxYr_3 = (data.taxYr_3).replace(/,/g, '')
             data.tp_id = taxpayerInfo.KGTIN
-            data.employer = payslipYear1.org_id
+            data.employer = payslipYear1.org_id || ""
+
+            console.log("Data", data);
 
             await axios.post(`${url.BASE_URL}paye/tcc`, data)
                 .then(function (response) {

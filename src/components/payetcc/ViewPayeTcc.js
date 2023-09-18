@@ -1,5 +1,4 @@
 import SectionTitle from "../section-title";
-import Widget from "../widget";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -67,7 +66,7 @@ const SinglePayeTcc = () => {
     <>
       <SectionTitle subtitle="View Tcc" />
 
-      {/* <Widget> */}
+
 
         <>
           {isFetching ? (
@@ -98,7 +97,7 @@ const SinglePayeTcc = () => {
             />
           }
         </>
-      {/* </Widget> */}
+  
     </>
   );
 };

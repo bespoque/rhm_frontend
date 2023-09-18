@@ -154,6 +154,8 @@ export const ViewSinglePayeTccPrintTable = ({
   oldSign
 }) => {
 
+
+  console.log("PayeTccData", PayeTccData);
   let basdocurl = 'https://annualuploads.bespoque.dev/rhm-live/uploads/paye/tcc/'
 
   let date = PayeTccData.aprvPrint_time
@@ -362,20 +364,20 @@ export const ViewSinglePayeTccPrintTable = ({
                     <thead >
                       <tr style={{ backgroundColor: "#d3fbc6" }}>
                         <th>
-                          Year
+                          Tax Year
                         </th>
                         <th>
                           Gross Emoluments
                         </th>
-                        <th className="">
+                        {/* <th className="">
                           Taxable Income
-                        </th>
+                        </th> */}
                         <th className="">
                           Tax Paid
                         </th>
-                        <th className="">
+                        {/* <th className="">
                           Assessment Type
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
 
@@ -389,15 +391,15 @@ export const ViewSinglePayeTccPrintTable = ({
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_1)}</p>
                         </td>
 
-                        <td className="">
+                        {/* <td className="">
                           <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_1) - ((Number(year1ConRel) + Number(year1OtherRelief))))} </p>
-                        </td>
+                        </td> */}
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_1)}</p>
                         </td>
-                        <td className="">
+                        {/* <td className="">
                           <p>PAYE</p>
-                        </td>
+                        </td> */}
                       </tr>
 
 
@@ -408,15 +410,15 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_2)}</p>
                         </td>
-                        <td className="">
+                        {/* <td className="">
                           <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2) - ((Number(year2ConRel) + Number(year2OtherRelief))))}</p>
-                        </td>
+                        </td> */}
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_2)}</p>
                         </td>
-                        <td className="">
+                        {/* <td className="">
                           <p>PAYE</p>
-                        </td>
+                        </td> */}
 
                       </tr>
 
@@ -427,17 +429,17 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_3)}</p>
                         </td>
-
+{/* 
                         <td className="">
                           <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_3) - (Number(year3ConRel) + Number(year3OtherRelief)))} </p>
-                        </td>
+                        </td> */}
 
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_3)}</p>
                         </td>
-                        <td className="">
+                        {/* <td className="">
                           <p>PAYE</p>
-                        </td>
+                        </td> */}
 
                       </tr>
                     </tbody>

@@ -869,18 +869,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 grid grid-cols-2 gap-3">
-                <label></label>
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-
-              : ""}
+ 
           </div>
 
           <div className="p-3">
@@ -932,17 +921,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 justify-self-center">
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined w-full bg-transparent rounded-md"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-
-              : ""}
+ 
           </div>
 
           <div className="p-3">
@@ -992,18 +971,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 ">
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent w-full rounded"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-              : ""
-            }
-
           </div>
         </div>
       </div>
