@@ -97,7 +97,6 @@ export const StartTcc = () => {
       year: String((watchYear1).getFullYear()),
       kgtin: KGTIN
     }
-    console.log(kgtinYear);
     const fetchPostYear1 = async () => {
       setIsFetching2(true)
       try {
@@ -130,7 +129,7 @@ export const StartTcc = () => {
       year: String((watchYear2).getFullYear()),
       kgtin: KGTIN
     }
-    console.log(kgtinYear);
+
     const fetchPostYear2 = async () => {
       setIsFetching2(true)
       try {
