@@ -101,9 +101,10 @@ export default function IndividualReportstable({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: false
+                        pdf: true
                     },
-                    actionsColumnIndex: -1
+                    actionsColumnIndex: -1,
+                    exportAllData: true
                 }}
                 icons={{
                     Check: Check,
