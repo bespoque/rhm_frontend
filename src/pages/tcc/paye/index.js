@@ -12,6 +12,8 @@ import url from '../../../config/url';
 import { formatNumber } from 'accounting';
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../components/spiner';
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 
 
@@ -26,6 +28,7 @@ function Index() {
     const [form2Value, setForm2Value] = useState(null);
     const [form3Value, setForm3Value] = useState(null);
     const router = useRouter();
+
     const {
         register,
         handleSubmit,
@@ -41,7 +44,17 @@ function Index() {
     let yr3Gross = (Number(payslipYear3.basic) + Number(payslipYear3.housing) + Number(payslipYear3.trans_allw) + Number(payslipYear3.leave_allw) + Number(payslipYear3.other_allw) + Number(payslipYear3.benefits) + Number(payslipYear3.utilities))
 
 
-    console.log("payslipYear1", payslipYear1);
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
+
+    const decoded = jwt.decode(auth);
+    const Email = decoded.user
+
+    console.log("decoded", decoded);
 
     const {
         register: registerkgtin,
@@ -93,25 +106,45 @@ function Index() {
             data.taxYr_3 = (data.taxYr_3).replace(/,/g, '')
             data.tp_id = taxpayerInfo.KGTIN
             data.employer = payslipYear1.org_id || ""
+            data.crt_by = Email
+            data.tax_station = decoded.station
 
             console.log("Data", data);
 
-            await axios.post(`${url.BASE_URL}paye/tcc`, data)
-                .then(function (response) {
-                    setIsFetching(false)
-                    console.log("response", response);
-                    router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
-                    toast.success("Created Successfully!")
-                })
-                .catch(function (error) {
-                    setTaxpayerinfo("")
-                    setIsFetching(false)
-                    if (error.response) {
-                        toast.error(error.response.data.message)
-                    } else {
+            let response = await fetch("https://bespoque.dev/rhm-live/fix/fix-tcc-newRecord.php", {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            
+            let result = await response.json()
+            console.log("result.message", result);
+            if (result.status === "400" || result.status === "500") {
+                toast.error(result.message)
+            } else {
+                router.push(`view/listpayetcc/alltcc`)
+                // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
+                toast.success(result.message)
+            }
 
-                    }
-                })
+            // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
+            // toast.success("Created Successfully!")
+            // await axios.post(`${url.BASE_URL}paye/tcc`, data)
+            // await axios.post("https://bespoque.dev/rhm-live/fix/fix-get-TCCrecTypes.php")
+            //     .then(function (response) {
+            //         setIsFetching(false)
+            //         console.log("response", response);
+            //         router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
+            //         toast.success("Created Successfully!")
+            //     })
+            //     .catch(function (error) {
+            //         setTaxpayerinfo("")
+            //         setIsFetching(false)
+            //         if (error.response) {
+            //             toast.error(error.response.data.message)
+            //         } else {
+
+            //         }
+            //     })
         }
 
     };
@@ -195,8 +228,6 @@ function Index() {
             };
             fetchPostYear1();
         }
-
-
 
 
     }, [watchYear1]);
@@ -339,7 +370,7 @@ function Index() {
             {isFetching && (
                 <ProcessorSpinner />
             )}
-            <SectionTitle subtitle="Paye Tcc" />
+            <SectionTitle subtitle="Tcc" />
             <div className="border mb-3 p-6 rounded-lg bg-white w-full">
                 <p className="text-red-600">{kgtinErr}</p>
                 <form onSubmit={handleSubmitkgtin(verifiyKGTIN)} className="mb-2 grid grid-cols-4 gap-2">
@@ -414,7 +445,7 @@ function Index() {
                                 value={form1Value}
                                 onChange={(e) => setForm1Value(e.target.value)}
                             >
-                                <option value="">Please Select</option>
+                                <option value="">Assessment Type</option>
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
@@ -476,7 +507,7 @@ function Index() {
                             <label>Assessment Type </label>
 
                             <div>
-                                <input readOnly value={payslipYear1?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
+                                <input readOnly name="taxYr_1_type" ref={register()} value={payslipYear1?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
                                 />
                             </div>
                         </div>
@@ -490,7 +521,7 @@ function Index() {
                                 onChange={(e) => setForm2Value(e.target.value)}
 
                             >
-                                <option value="">Please Select</option>
+                                <option value="">Assessment Type</option>
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
@@ -550,7 +581,7 @@ function Index() {
                         <div className="mb-6 justify-self-center">
 
                             <div>
-                                <input readOnly value={payslipYear2?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
+                                <input readOnly name="taxYr_2_type" ref={register()} value={payslipYear2?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
                                 />
                             </div>
                         </div>
@@ -563,7 +594,7 @@ function Index() {
                                 value={form3Value}
                                 onChange={(e) => setForm3Value(e.target.value)}
                             >
-                                <option value="">Please Select</option>
+                                <option value="">Assessment Type</option>
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
@@ -623,7 +654,7 @@ function Index() {
                         <div className="mb-6 grid justify-self-center">
 
                             <div>
-                                <input readOnly value={payslipYear3?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
+                                <input readOnly name="taxYr_3_type" ref={register()} value={payslipYear3?.assessment_type === "Assessment" ? "Direct Assessment" : "PAYE"} className="form-control w-full rounded" type="text"
                                 />
                             </div>
                         </div>

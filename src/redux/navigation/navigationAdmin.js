@@ -77,32 +77,32 @@ const initialState = [
             url: '/view/approvedasses',
             items: [],
           },
-          {
-            url: '/',
-            title: 'Tax Clearance (TCC)',
-            items: [
-              {
-                url: '/tcc',
-                title: 'Create',
-                items: [],
-              },
-              {
-                url: '/view/listapprovedtcc',
-                title: 'Pending E C. Sign',
-                items: [],
-              },
-              {
-                url: '/view/listtcc',
-                title: 'View All',
-                items: [],
-              },
-              {
-                url: '/view/listprinttcc',
-                title: 'View Print',
-                items: [],
-              },
-            ],
-          },
+          // {
+          //   url: '/',
+          //   title: 'Tax Clearance (TCC)',
+          //   items: [
+          //     {
+          //       url: '/tcc',
+          //       title: 'Create',
+          //       items: [],
+          //     },
+          //     {
+          //       url: '/view/listapprovedtcc',
+          //       title: 'Pending E C. Sign',
+          //       items: [],
+          //     },
+          //     {
+          //       url: '/view/listtcc',
+          //       title: 'View All',
+          //       items: [],
+          //     },
+          //     {
+          //       url: '/view/listprinttcc',
+          //       title: 'View Print',
+          //       items: [],
+          //     },
+          //   ],
+          // },
           {
             url: '/',
             title: 'Report',
@@ -160,42 +160,6 @@ const initialState = [
         items: [
           {
             url: '/',
-            title: 'TCC',
-            items: [
-              {
-                title: 'Create',
-                url: '/tcc/paye',
-                items: [],
-              },
-              {
-                title: 'Draft',
-                url: '/view/listpayetcc/alltcc',
-                items: [],
-              },
-              {
-                title: 'Verified',
-                url: '/view/listpayetcc/alltcc/verified',
-                items: [],
-              },
-              {
-                title: 'Audit Checked',
-                url: '/view/listpayetcc/alltcc/audit',
-                items: [],
-              },
-              {
-                title: 'Pending E.C Sign',
-                url: '/view/listpayetcc/alltcc/approved',
-                items: [],
-              },
-              {
-                title: 'Print',
-                url: '/view/listpayetcc',
-                items: [],
-              },
-            ],
-          },
-          {
-            url: '/',
             title: 'Income Details',
             items: [
               {
@@ -208,7 +172,6 @@ const initialState = [
                 url: '/view/payslip',
                 items: [],
               },
-
             ],
           },
 
@@ -223,26 +186,6 @@ const initialState = [
               },
             ],
           },
-          // {
-          //   url: '/',
-          //   title: 'Dashboard',
-          //   items: [],
-          // },
-          // {
-          //   url: '/',
-          //   title: 'Annual Returns',
-          //   items: [],
-          // },
-          // {
-          //   url: '/',
-          //   title: 'Remittance Schedules',
-          //   items: [],
-          // },
-          // {
-          //   url: '/reports',
-          //   title: 'Reports',
-          //   items: [],
-          // },
         ],
       },
 
@@ -270,6 +213,47 @@ const initialState = [
 
       //   ],
       // },
+
+
+      {
+        icon: <Paye />,
+        url: '/',
+        title: 'TCC',
+        items: [
+          {
+            title: 'Create',
+            url: '/tcc/paye',
+            items: [],
+          },
+          {
+            title: 'Draft',
+            url: '/view/listpayetcc/alltcc',
+            items: [],
+          },
+          {
+            title: 'Verified',
+            url: '/view/listpayetcc/alltcc/verified',
+            items: [],
+          },
+          {
+            title: 'Audit Checked',
+            url: '/view/listpayetcc/alltcc/audit',
+            items: [],
+          },
+          {
+            title: 'Pending E.C Sign',
+            url: '/view/listpayetcc/alltcc/approved',
+            items: [],
+          },
+          {
+            title: 'Print',
+            url: '/view/listpayetcc',
+            items: [],
+          },
+        ],
+      },
+
+
 
       {
         url: '/',
