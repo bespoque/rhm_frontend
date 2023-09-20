@@ -121,7 +121,7 @@ function Index() {
             if (result.status === "400" || result.status === "500") {
                 toast.error(result.message)
             } else {
-                router.push(`view/listpayetcc/alltcc`)
+                router.push(`/view/listpayetcc/alltcc`)
                 // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
                 toast.success(result.message)
             }
