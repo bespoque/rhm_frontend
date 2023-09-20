@@ -69,7 +69,6 @@ function Index() {
     const watchYear2 = watch("assmtYr_2", "");
     const watchYear3 = watch("assmtYr_3", "");
 
-    console.log("watchYear1", watchYear1);
 
     setAuthToken();
     const CreateTcc = async (data) => {
@@ -81,7 +80,7 @@ function Index() {
             alert("Cannot have the same year twice")
         }
         else {
-            // setIsFetching(true)
+            setIsFetching(true)
             data.assmtYr_1 = (data.assmtYr_1).getFullYear()
 
             if (data.assmtYr_2 === undefined) {
@@ -109,7 +108,6 @@ function Index() {
             data.crt_by = Email
             data.tax_station = decoded.station
 
-            console.log("Data", data);
 
             let response = await fetch("https://bespoque.dev/rhm-live/fix/fix-tcc-newRecord.php", {
                 method: "POST",
@@ -118,12 +116,12 @@ function Index() {
 
             let result = await response.json()
             console.log("result.message", result);
+            setIsFetching(false)
             if (result.status === "400" || result.status === "500") {
                 toast.error(result.message)
             } else {
                 toast.success(result.message)
-                router.push(`/view/listpayetcc/alltcc`)
-                // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
+                router.push(`/tcc/paye/${result.TCC_ID}_${result.KGTIN}`)
             }
 
             // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
