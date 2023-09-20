@@ -155,7 +155,6 @@ export const ViewSinglePayeTccPrintTable = ({
 }) => {
 
 
-  console.log("PayeTccData", PayeTccData);
   let basdocurl = 'https://annualuploads.bespoque.dev/rhm-live/uploads/paye/tcc/'
 
   let date = PayeTccData.aprvPrint_time
@@ -184,7 +183,7 @@ export const ViewSinglePayeTccPrintTable = ({
       status: "Printed"
     }
     try {
-      let res = axios.put(`${url.BASE_URL}paye/tcc-status`, statusObj);
+      axios.put(`${url.BASE_URL}paye/tcc-status`, statusObj);
     } catch (error) {
       console.log(error);
     }
@@ -375,9 +374,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <th className="">
                           Tax Paid
                         </th>
-                        {/* <th className="">
+                        <th className="">
                           Assessment Type
-                        </th> */}
+                        </th>
                       </tr>
                     </thead>
 
@@ -400,9 +399,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_1)}</p>
                         </td>
-                        {/* <td className="">
-                          <p>PAYE</p>
-                        </td> */}
+                        <td className="">
+                          <p>{PayeTccData?.taxYr_1_type}</p>
+                        </td>
                       </tr>
 
 
@@ -414,7 +413,7 @@ export const ViewSinglePayeTccPrintTable = ({
                           <p className="font-bold">{formatNumber(PayeTccData.incYr_2)}</p>
                         </td>
                         <td className="">
-                          <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2) )}</p>
+                          <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2))}</p>
                         </td>
                         {/* <td className="">
                           <p className="font-bold">{formatNumber(Number(PayeTccData.incYr_2) - ((Number(year2ConRel) + Number(year2OtherRelief))))}</p>
@@ -422,9 +421,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_2)}</p>
                         </td>
-                        {/* <td className="">
-                          <p>PAYE</p>
-                        </td> */}
+                        <td className="">
+                          <p>{PayeTccData?.taxYr_2_type}</p>
+                        </td>
 
                       </tr>
 
@@ -439,7 +438,7 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_3))} </p>
                         </td>
-{/* 
+                        {/* 
                         <td className="">
                           <p className="font-bold"> {formatNumber(Number(PayeTccData.incYr_3) - (Number(year3ConRel) + Number(year3OtherRelief)))} </p>
                         </td> */}
@@ -447,10 +446,9 @@ export const ViewSinglePayeTccPrintTable = ({
                         <td className="">
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_3)}</p>
                         </td>
-                        {/* <td className="">
-                          <p>PAYE</p>
-                        </td> */}
-
+                        <td className="">
+                          <p>{PayeTccData?.taxYr_3_type}</p>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -462,7 +460,7 @@ export const ViewSinglePayeTccPrintTable = ({
               </div>
               <p className="text-red-600 flex justify-center text-3xl">INCOME TAX CLEARANCE CERTIFICATE</p>
               <div className="flex justify-end mt-16">
-              
+
                 <div className="mr-20">
                   <QRCode
                     value={`https://irs.kg.gov.ng/verify/fetch_tcc.php?ref=${PayeTccData.ref}`}

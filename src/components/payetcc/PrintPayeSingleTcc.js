@@ -31,7 +31,6 @@ const PrintSingleTccPaye = () => {
 
         axios.post(`${url.BASE_URL}paye/view-tcc`, id)
           .then(function (response) {
-            console.log("response", response);
             setOldPass(response.data.body.tcc[0].passport)
             setOldSig(response.data.body.tcc[0].signature)
             let payslipY2 = response.data.body?.payslipY2 ?? [];
