@@ -115,15 +115,15 @@ function Index() {
                 method: "POST",
                 body: JSON.stringify(data)
             })
-            
+
             let result = await response.json()
             console.log("result.message", result);
             if (result.status === "400" || result.status === "500") {
                 toast.error(result.message)
             } else {
+                toast.success(result.message)
                 router.push(`/view/listpayetcc/alltcc`)
                 // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
-                toast.success(result.message)
             }
 
             // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
