@@ -1,6 +1,4 @@
-// import MaterialTable from "material-table";
-import MaterialTable from '@material-table/core';
-import ExportCsv from '@material-table/exporters/csv'
+import MaterialTable from "material-table";
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -108,21 +106,10 @@ export default function Reportstable({ FilteredData }) {
                     search: false,
                     paging: true,
                     filtering: true,
-                    // Using the regular material-table
-                    // exportButton: {
-                    //     csv: true,
-                    //     pdf: false
-                    // },
-                    // Using material table core
-                    exportMenu: [
-                        {
-                            label: "Export CSV",
-                           
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(fields, items, "myCsvFileName"),
-                              
-                        },
-                    ],
+                    exportButton: {
+                        csv: true,
+                        pdf: true
+                    },
                 }}
 
                 icons={{
