@@ -36,26 +36,42 @@ const Index = () => {
 
     const fields = [
         {
-            title: "Notice Date",
-            field: "notification_date",
-        },
-        {
-            title: "Status",
-            field: "notification_status",
+            title: "Activity",
+            field: "actionType",
         },
         {
             title: "Created by",
             field: "doneby",
         },
+
         {
             title: "Created time",
             field: "createtime",
         },
-        {
-            title: "Action type",
-            field: "actionType"
-        }
+
     ];
+    // const fields = [
+    //     {
+    //         title: "Notice Date",
+    //         field: "notification_date",
+    //     },
+    //     {
+    //         title: "Status",
+    //         field: "notification_status",
+    //     },
+    //     {
+    //         title: "Created by",
+    //         field: "doneby",
+    //     },
+    //     {
+    //         title: "Created time",
+    //         field: "createtime",
+    //     },
+    //     {
+    //         title: "Action type",
+    //         field: "actionType"
+    //     }
+    // ];
 
     function getIndividualYears(startDate, endDate) {
         const startComponents = startDate?.split("-");
@@ -227,10 +243,19 @@ const Index = () => {
                             )}
                         </button> */}
                         <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Notifications</button>
-                        <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
+                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
-                            Acknowledgements
+                            Job Acknowledgements
                         </button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Correspondence</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Visit log</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Audit Report</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Tarc</button>
+
                         {/* <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Visit Log
@@ -253,7 +278,7 @@ const Index = () => {
             <div className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
             </div>
-            <MaterialTable title="Job notifications"
+            <MaterialTable title="Job History"
                 data={notificationData}
                 columns={fields}
 
@@ -265,21 +290,21 @@ const Index = () => {
                             tooltip: 'Details',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
                         },
-                        {
-                            icon: NextWeekRounded,
-                            tooltip: 'Acknowledgement',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                        // {
+                        //     icon: NextWeekRounded,
+                        //     tooltip: 'Acknowledgement',
+                        //     onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
-                        },
-                        {
-                            icon: Email,
-                            tooltip: 'Letter',
-                            onClick: (event, rowData) => {
-                                setSelectedPdfUrl(rowData.notification_file);
-                                setIsModalOpenPDF(true);
-                            }
+                        // },
+                        // {
+                        //     icon: Email,
+                        //     tooltip: 'Letter',
+                        //     onClick: (event, rowData) => {
+                        //         setSelectedPdfUrl(rowData.notification_file);
+                        //         setIsModalOpenPDF(true);
+                        //     }
 
-                        },
+                        // },
                     ]
                 }
 

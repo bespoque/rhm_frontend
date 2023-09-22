@@ -54,6 +54,8 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         }
     }
 
+    const checkboxes = new Array(10).fill(false);
+
     return (
         <>
             <ToastContainer />
@@ -66,7 +68,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
             >
                 <div className="">
-                    <h6 className="text-dark">New Notification</h6>
+                    <h6 className="text-dark text-center">Notice of Audit</h6>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="mb-2">
                             <label htmlFor="notification_date" className="block mb-1  text-dark">
@@ -107,8 +109,22 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
                         </div>
                         <div className="mb-1">
+                            <label htmlFor="notification_status" className="text-dark  block mb-1">
+                                Addresse:
+                            </label>
+                            <input type="text"
+                                id="notification_fileno"
+                                name='notification_fileno'
+                                placeholder="Eg. Managing director"
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            />
+
+                        </div>
+                        <div className="mb-1">
                             <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Type
+                                Notice Type
                             </label>
                             <select
                                 id="notification_delivery"
@@ -134,7 +150,25 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                             ></textarea>
                         </div> */}
 
-                        <div className="mb-2">
+                        <div className="my-4">
+                            <hr />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            {checkboxes.map((isChecked, index) => (
+                                <div key={index} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id={`checkbox-${index}`}
+                                        className="form-checkbox h-5 w-5 text-indigo-600"
+                                    />
+                                    <label htmlFor={`checkbox-${index}`} className="ml-2">
+                                        Checkbox {index + 1}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                        {/* <div className="mb-2">
                             <label htmlFor="notification_body" className="text-dark  block mb-1">
                                 Notification Body:
                             </label>
@@ -146,7 +180,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 ref={register()}
                                 name='notification_body'
                             ></textarea>
-                        </div>
+                        </div> */}
                         <button
                             className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
                             type="submit"

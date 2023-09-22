@@ -79,10 +79,8 @@ export default function Reportstable({ FilteredData }) {
 
     console.log("items", items);
 
-    const { config, palettes, auth } = useSelector(
+    const { auth } = useSelector(
         (state) => ({
-            config: state.config,
-            palettes: state.palettes,
             auth: state.authentication.auth,
         }),
         shallowEqual
