@@ -10,10 +10,6 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import * as Icons from '../../components/Icons/index';
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import { formatNumber } from "accounting";
 
 
@@ -68,30 +64,11 @@ const fields = [
 
 
 export default function Reportstable({ FilteredData }) {
-    const router = useRouter();
-    let items = FilteredData
-
-    const { auth } = useSelector(
-        (state) => ({
-      
-            auth: state.authentication.auth,
-        }),
-        shallowEqual
-    );
-
-    const reportRange = [39]
-    const decoded = jwt.decode(auth);
-    const userGroup = decoded.groups
-
-    useEffect(() => {
-
-    }, [router.query]);
-
 
     return (
         <>
             <MaterialTable title="Report Data"
-                data={items}
+                data={FilteredData}
                 columns={fields}
                 renderSummaryRow={({ column, data }) =>
                     column.field === "amount"
@@ -107,8 +84,9 @@ export default function Reportstable({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: false
+                        pdf: true
                     },
+                    exportAllData: true
                 }}
 
                 icons={{
