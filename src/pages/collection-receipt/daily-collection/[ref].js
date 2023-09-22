@@ -18,10 +18,13 @@ export default function MultipleCollection() {
 
     const filteredRecords = multipleSearchData.filter(
         (record) =>
-            record.pmt_meth !== 'Remita' || record.channel_id !== 'Remita'
+            record.pmt_meth !== 'Remita' &&
+            record.channel_id !== 'Remita' &&
+            record.channel_id !== 'PAYTAX'
     );
 
-   
+    console.log("filteredRecords", filteredRecords);
+
 
     const recordsPerPage = 100;
     const totalRecords = filteredRecords.length;

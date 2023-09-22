@@ -171,7 +171,6 @@ export default function Index() {
                                 <p>Details:</p>
                                 <div className="col-span-3">
                                     <p> {el.revenueItem || el.details } </p>
-                                    {/* <small>{el.revenueItem}</small> */}
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
