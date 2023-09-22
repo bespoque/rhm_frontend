@@ -93,7 +93,7 @@ export default function ReportstableManifest({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: true
+                        pdf: false
                     },
                     exportAllData: true
                 }}

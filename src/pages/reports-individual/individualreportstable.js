@@ -101,7 +101,7 @@ export default function IndividualReportstable({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: true
+                        pdf: false
                     },
                     actionsColumnIndex: -1,
                     exportAllData: true
