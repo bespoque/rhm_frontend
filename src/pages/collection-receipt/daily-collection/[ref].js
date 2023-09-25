@@ -178,7 +178,7 @@ export default function MultipleCollection() {
                 .map(
                     (record, index) =>
                         `
-     <div class="border p-4 mb-2" style="page-break-after: always;" key=${record.idpymt}>
+     <div class=" p-4 mb-2" style="page-break-after: always;" key=${record.idpymt}>
          <p>KOGI STATE GOVERNMENT</p>
          <section class="flex justify-between">
              <p class="font-bold">REVENUE RECEIPT</p>

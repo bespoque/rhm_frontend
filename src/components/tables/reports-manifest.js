@@ -1,6 +1,6 @@
 
 import setAuthToken from "../../functions/setAuthToken";
-import {useState } from "react";
+import { useState } from "react";
 import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
@@ -18,7 +18,9 @@ export const StartReportManifest = () => {
 
   const filteredRecords = FilteredData.filter(
     (record) =>
-      record.channel_id !== 'Remita'
+      record.pmt_meth !== 'Remita' &&
+      record.channel_id !== 'Remita' &&
+      record.channel_id !== 'PAYTAX'
   );
 
 
