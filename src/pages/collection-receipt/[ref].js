@@ -114,7 +114,7 @@ export default function Index() {
 
                 </div>
                 {colData.map((el, i) => (
-                    <div className="border p-6" ref={componentRef}>
+                    <div className=" p-6" ref={componentRef}>
                         <p>KOGI STATE GOVERNMENT</p>
                         <section className="flex justify-between">
                             <p className="font-bold">REVENUE RECEIPT</p>
