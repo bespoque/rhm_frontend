@@ -244,7 +244,7 @@ export default function MultipleCollection() {
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
                  <div class="col-span-3">
-                     <p class="">${record?.mda || record?.revenueItem || "KOGI STATE INTERNAL REVENUE SERVICE (KGIRS)"} </p>
+                     <p class="">${record?.mda || record?.revenueItem || "-"} </p>
                  </div>
              </div>
              <div class="grid grid-cols-6 gap-2">
