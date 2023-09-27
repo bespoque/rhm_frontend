@@ -182,7 +182,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
-        // setIsLoading(true)
+        setIsLoading(true)
 
         data.doneby = emailAdd
         data.job_id = id
@@ -191,30 +191,28 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         data.notification_note = "Audit Visit"
         data.checklists = String(checkValues)
         console.log("data", data);
-        // try {
-        //     const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
-        //         method: 'POST',
-        //         body: JSON.stringify(data)
-        //     })
-        //     const dataFetch = await res.json()
-        //     setIsLoading(false)
-        //     if (dataFetch.status === "400") {
-        //         toast.error(dataFetch.message);
-        //     } else {
-        //         toast.success(dataFetch.message);
-        //         closeModal()
-        //         router.reload()
+        try {
+            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            const dataFetch = await res.json()
+            setIsLoading(false)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+            } else {
+                toast.success(dataFetch.message);
+                closeModal()
+                router.reload()
 
-        //     }
-        // } catch (error) {
-        //     setIsLoading(false)
-        //     console.error('Server Error:', error)
-        // } 
+            }
+        } catch (error) {
+            setIsLoading(false)
+            console.error('Server Error:', error)
+        } 
     }
 
 
-
-    // const checkboxes = new Array(32).fill(false);
 
     return (
         <>
