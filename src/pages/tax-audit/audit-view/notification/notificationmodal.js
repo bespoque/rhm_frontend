@@ -154,6 +154,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm();
     const [checkboxes, setCheckboxes] = useState(new Array(checks.checklists.length).fill(false));
+    const router = useRouter()
 
     const handleCheckboxChange = (index) => {
         const updatedCheckboxes = [...checkboxes];
@@ -166,9 +167,10 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     };
 
-    console.log("getCheckboxValues", getCheckboxValues());
+    let checkValues = getCheckboxValues()
+    console.log("getCheckboxValues", String(checkValues));
 
-    const router = useRouter()
+  
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -180,34 +182,34 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
     const emailAdd = decoded.user
 
     const onSubmit = async (data) => {
-        setIsLoading(true)
+        // setIsLoading(true)
 
         data.doneby = emailAdd
         data.job_id = id
-        data.notification_status = "Pending"
+        data.notification_status = "Delivered"
         data.notification_delivery = "Email"
         data.notification_note = "Audit Visit"
-        try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-            const dataFetch = await res.json()
-            setIsLoading(false)
-            if (dataFetch.status === "400") {
-                toast.error(dataFetch.message);
-            } else {
-                toast.success(dataFetch.message);
-                closeModal()
-                router.reload()
+        data.checklists = String(checkValues)
+        console.log("data", data);
+        // try {
+        //     const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
+        //         method: 'POST',
+        //         body: JSON.stringify(data)
+        //     })
+        //     const dataFetch = await res.json()
+        //     setIsLoading(false)
+        //     if (dataFetch.status === "400") {
+        //         toast.error(dataFetch.message);
+        //     } else {
+        //         toast.success(dataFetch.message);
+        //         closeModal()
+        //         router.reload()
 
-            }
-        } catch (error) {
-            setIsLoading(false)
-            console.error('Server Error:', error)
-        } finally {
-            setIsLoading(false)
-        }
+        //     }
+        // } catch (error) {
+        //     setIsLoading(false)
+        //     console.error('Server Error:', error)
+        // } 
     }
 
 
@@ -267,11 +269,11 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
 
                         </div>
                         <div className="mb-1">
-                            <label htmlFor="notification_status" className="text-dark  block mb-1">
+                            <label className="text-dark  block mb-1">
                                 Addresse:
                             </label>
                             <input type="text"
-                                name='addresse'
+                                name='notification_addressee'
                                 placeholder="Eg. Managing director"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
