@@ -8,9 +8,166 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 
+
+const checks = {
+    "checklists": [
+        {
+            "checklist_id": "1",
+            "checklist_item": "Payment Voucher / Cheque / Cash Book"
+        },
+        {
+            "checklist_id": "2",
+            "checklist_item": "Petty Cash Voucher"
+        },
+        {
+            "checklist_id": "3",
+            "checklist_item": "Bank Statement"
+        },
+        {
+            "checklist_id": "4",
+            "checklist_item": "Audited Financial Statement / Management Account"
+        },
+        {
+            "checklist_id": "5",
+            "checklist_item": "Schedule of Tax Remittance / Receipts"
+        },
+        {
+            "checklist_id": "6",
+            "checklist_item": "Schedule of Interest Payment on Fixed Deposit and Savings Account"
+        },
+        {
+            "checklist_id": "7",
+            "checklist_item": "Trial balance of the company (for the relevant years under consideration)"
+        },
+        {
+            "checklist_id": "8",
+            "checklist_item": "List of Suppliers/Contractors (Hard & Soft copy)"
+        },
+        {
+            "checklist_id": "9",
+            "checklist_item": "Rent Schedule"
+        },
+        {
+            "checklist_id": "10",
+            "checklist_item": "Names/Address of Directors with copies of their Tax Clearance Certificate"
+        },
+        {
+            "checklist_id": "11",
+            "checklist_item": "Copy of Certificate of Incorporation"
+        },
+        {
+            "checklist_id": "12",
+            "checklist_item": "Last Clearance Letter of Tax Audit from KGIRS"
+        },
+        {
+            "checklist_id": "13",
+            "checklist_item": "Letter of Expatriate Quota / monthly immigration returns (if any)"
+        },
+        {
+            "checklist_id": "14",
+            "checklist_item": "Staff list with designation"
+        },
+        {
+            "checklist_id": "15",
+            "checklist_item": "Debtors and Creditors Ledger"
+        },
+        {
+            "checklist_id": "16",
+            "checklist_item": "Staff salary structure - Annual (Soft & Hard copies)"
+        },
+        {
+            "checklist_id": "17",
+            "checklist_item": "Evidence of Payment in respect of Business Premises\nRegistration/Renewal"
+        },
+        {
+            "checklist_id": "18",
+            "checklist_item": "Copy of certificate of Approved Pension Fund"
+        },
+        {
+            "checklist_id": "19",
+            "checklist_item": "Evidence of registration with NHF"
+        },
+        {
+            "checklist_id": "20",
+            "checklist_item": "Evidence of NHIS and LAP remittances"
+        },
+        {
+            "checklist_id": "21",
+            "checklist_item": "Fixed Asset Register"
+        },
+        {
+            "checklist_id": "22",
+            "checklist_item": "Schedule of asset Disposal"
+        },
+        {
+            "checklist_id": "23",
+            "checklist_item": "Schedule of Commission paid"
+        },
+        {
+            "checklist_id": "24",
+            "checklist_item": "Schedule of WHT paid"
+        },
+        {
+            "checklist_id": "25",
+            "checklist_item": "General Ledger"
+        },
+        {
+            "checklist_id": "26",
+            "checklist_item": "Analysis of Staff Cost"
+        },
+        {
+            "checklist_id": "27",
+            "checklist_item": "All receipts booklet issued Stub or duplicates"
+        },
+        {
+            "checklist_id": "28",
+            "checklist_item": "All business agreement enter with a third party"
+        },
+        {
+            "checklist_id": "29",
+            "checklist_item": "Certificate of Occupancy and other relevant documents to the Land"
+        },
+        {
+            "checklist_id": "30",
+            "checklist_item": "Evidence of remittance of Ground Rent for the year under review"
+        },
+        {
+            "checklist_id": "31",
+            "checklist_item": "Deed of Assignment relating to the Land"
+        },
+        {
+            "checklist_id": "32",
+            "checklist_item": "Documents relating to Leasehold properties"
+        },
+        {
+            "checklist_id": "33",
+            "checklist_item": "Evidence of remittance of Stamp duty"
+        },
+        {
+            "checklist_id": "34",
+            "checklist_item": "Delivery Note/ Register/Waybills"
+        },
+    ],
+}
+
 const NotificationModal = ({ isOpen, closeModal, id }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm();
+    const [checkboxes, setCheckboxes] = useState(new Array(checks.checklists.length).fill(false));
+
+    const handleCheckboxChange = (index) => {
+        const updatedCheckboxes = [...checkboxes];
+        updatedCheckboxes[index] = !updatedCheckboxes[index];
+        setCheckboxes(updatedCheckboxes);
+    };
+
+    // Function to get the values of all checkboxes
+    const getCheckboxValues = () => {
+        return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
+    };
+
+    console.log("getCheckboxValues", getCheckboxValues());
+
     const router = useRouter()
     const { auth } = useSelector(
         (state) => ({
@@ -30,7 +187,6 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         data.notification_status = "Pending"
         data.notification_delivery = "Email"
         data.notification_note = "Audit Visit"
-        // data.notification_file = "filepath"
         try {
             const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newnotification.php', {
                 method: 'POST',
@@ -54,7 +210,9 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
         }
     }
 
-    const checkboxes = new Array(10).fill(false);
+
+
+    // const checkboxes = new Array(32).fill(false);
 
     return (
         <>
@@ -113,8 +271,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 Addresse:
                             </label>
                             <input type="text"
-                                id="notification_fileno"
-                                name='notification_fileno'
+                                name='addresse'
                                 placeholder="Eg. Managing director"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
@@ -134,27 +291,32 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                 ref={register()}
                             >
                                 <option value="Audit Visit">Audit Visit</option>
-                                <option value="Demand Notice">Demand Notice</option>
-                                <option value="Assessment">Assessment</option>
+                                {/* <option value="Demand Notice">Demand Notice</option>
+                                <option value="Assessment">Assessment</option> */}
                             </select>
                         </div>
-                        {/* <div className="mb-2">
-                            <label className="text-dark  block mb-1">
-                                Notification Note:
-                            </label>
-                            <textarea
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                                name='notification_note'
-                            ></textarea>
-                        </div> */}
-
                         <div className="my-4">
                             <hr />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
+                            {checks.checklists.map((checklist, index) => (
+                                <div key={checklist.checklist_id} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id={`checkbox-${checklist.checklist_id}`}
+                                        className="form-checkbox h-5 w-5 text-indigo-600"
+                                        checked={checkboxes[index]}
+                                        onChange={() => handleCheckboxChange(index)}
+                                    />
+                                    <label htmlFor={`checkbox-${checklist.checklist_id}`} className="ml-2">
+                                        {checklist.checklist_item}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* <div className="grid grid-cols-2 gap-4">
                             {checkboxes.map((isChecked, index) => (
                                 <div key={index} className="flex items-center">
                                     <input
@@ -167,7 +329,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                                     </label>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                         {/* <div className="mb-2">
                             <label htmlFor="notification_body" className="text-dark  block mb-1">
                                 Notification Body:
