@@ -298,7 +298,7 @@ const NotificationModal = ({ isOpen, closeModal, id }) => {
                         <div className="my-4">
                             <hr />
                         </div>
-
+                                <p className="font-bold my-4 text-center">Audit Checklist</p>
                         <div className="grid grid-cols-2 gap-4">
                             {checks.checklists.map((checklist, index) => (
                                 <div key={checklist.checklist_id} className="flex items-center">

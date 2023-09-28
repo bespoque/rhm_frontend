@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import { ProcessorSpinner } from '../../../components/spiner';
-import SectionTitle from '../../../components/section-title';
+import { ProcessorSpinner } from '../../../../components/spiner';
+import SectionTitle from '../../../../components/section-title';
 import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../components/Icons/index'
+import * as Icons from '../../../../components/Icons/index'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -15,17 +15,17 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
-import NewNotificationButton from './notification/button';
+import NewNotificationButton from './../notification/button';
 import Modal from '@material-ui/core/Modal';
 
 
 
 
 
-const Index = () => {
+const AuditNotice = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
-    const [historyData, setHistoryData] = useState(() => []);
+    const [notificationData, setNotificationData] = useState(() => []);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedPdfUrl, setSelectedPdfUrl] = useState('');
     const [isModalOpenPDF, setIsModalOpenPDF] = useState(false);
@@ -34,44 +34,44 @@ const Index = () => {
     const router = useRouter()
     const { id } = router?.query
 
-    const fields = [
-        {
-            title: "Activity",
-            field: "activity",
-        },
-        {
-            title: "Created by",
-            field: "createby",
-        },
-
-        {
-            title: "Created time",
-            field: "createtime",
-        },
-
-    ];
     // const fields = [
     //     {
-    //         title: "Notice Date",
-    //         field: "notification_date",
-    //     },
-    //     {
-    //         title: "Status",
-    //         field: "notification_status",
+    //         title: "Activity",
+    //         field: "actionType",
     //     },
     //     {
     //         title: "Created by",
     //         field: "doneby",
     //     },
+
     //     {
     //         title: "Created time",
     //         field: "createtime",
     //     },
-    //     {
-    //         title: "Action type",
-    //         field: "actionType"
-    //     }
+
     // ];
+    const fields = [
+        {
+            title: "Notice Date",
+            field: "notification_date",
+        },
+        {
+            title: "Status",
+            field: "notification_status",
+        },
+        {
+            title: "Created by",
+            field: "doneby",
+        },
+        {
+            title: "Created time",
+            field: "createtime",
+        },
+        {
+            title: "Type",
+            field: "actionType"
+        }
+    ];
 
     function getIndividualYears(startDate, endDate) {
         const startComponents = startDate?.split("-");
@@ -138,14 +138,14 @@ const Index = () => {
                 const dataFetchJobDet = await response.json()
                 setJob(dataFetchJobDet.body[0])
 
-                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-activities.php', {
+                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notifications-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": id,
                     })
                 })
                 const dataFetch = await res.json()
-                setHistoryData(dataFetch.body)
+                setNotificationData(dataFetch.body)
 
 
                 setIsFetching(false)
@@ -242,10 +242,10 @@ const Index = () => {
                                 </div>
                             )}
                         </button> */}
-                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Home</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                        onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${id}`)}
-                        >Notifications</button>
+                            onClick={() => router.push(`/tax-audit/audit-view?id=${id}`)}
+                        >Home</button>
+                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Notifications</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Job Acknowledgements
@@ -277,38 +277,38 @@ const Index = () => {
                 </div>
             </div>
 
-            {/* <div className="flex justify-end m-2">
+            <div className="flex justify-end m-2">
                 <NewNotificationButton id={id} />
-            </div> */}
-            <MaterialTable title="Job History"
-                data={historyData}
+            </div>
+            <MaterialTable title="Notifications"
+                data={notificationData}
                 columns={fields}
 
-                // actions={
-                //     [
+                actions={
+                    [
 
-                //         {
-                //             icon: MoreHoriz,
-                //             tooltip: 'Details',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-                //         },
-                //         {
-                //             icon: NextWeekRounded,
-                //             tooltip: 'Acknowledgement',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'Details',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                        },
+                        {
+                            icon: NextWeekRounded,
+                            tooltip: 'Acknowledgement',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
-                //         },
-                //         {
-                //             icon: Email,
-                //             tooltip: 'Letter',
-                //             onClick: (event, rowData) => {
-                //                 setSelectedPdfUrl(rowData.notification_file);
-                //                 setIsModalOpenPDF(true);
-                //             }
+                        },
+                        {
+                            icon: Email,
+                            tooltip: 'Letter',
+                            onClick: (event, rowData) => {
+                                setSelectedPdfUrl(rowData.notification_file);
+                                setIsModalOpenPDF(true);
+                            }
 
-                //         },
-                //     ]
-                // }
+                        },
+                    ]
+                }
 
                 options={{
                     search: true,
@@ -352,4 +352,4 @@ const Index = () => {
         </>
     )
 }
-export default Index
+export default AuditNotice

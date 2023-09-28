@@ -46,35 +46,56 @@ const Notification = () => {
     };
 
     const fields = [
-        {
-            title: "Visit date",
-            field: "visit_date",
-        },
-        {
-            title: "Status",
-            field: "visit_status",
-        },
 
+        {
+            title: "Relationship",
+            field: "ack_relationship",
+        },
+        {
+            title: "Acknowledged by",
+            field: "ack_by",
+        },
+        {
+            title: "Channel",
+            field: "ack_channel",
+        },
         {
             title: "Type",
             field: "actionType"
         },
         {
-            title: "Compliance",
-            field: "visit_compliance"
-        },
-        {
-            title: "Created by",
-            field: "doneby",
-        },
-        {
-            title: "Reviewed by",
-            field: "reviewby",
-        },
-        {
             title: "Created time",
             field: "createtime",
         },
+        // {
+        //     title: "Visit date",
+        //     field: "visit_date",
+        // },
+        // {
+        //     title: "Status",
+        //     field: "visit_status",
+        // },
+
+        // {
+        //     title: "Type",
+        //     field: "actionType"
+        // },
+        // {
+        //     title: "Compliance",
+        //     field: "visit_compliance"
+        // },
+        // {
+        //     title: "Created by",
+        //     field: "doneby",
+        // },
+        // {
+        //     title: "Reviewed by",
+        //     field: "reviewby",
+        // },
+        // {
+        //     title: "Created time",
+        //     field: "createtime",
+        // },
     ];
 
     const FormAct = (e) => {
@@ -95,11 +116,12 @@ const Notification = () => {
                 const dataFetch = await res.json()
                 setNotDet(dataFetch.body[0])
                 setIsFetching(false)
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notification-visits-batch.php', {
+                // const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notification-visits-batch.php', {
+                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-ack-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
-                        "notification_id": Notifid,
+                        // "notification_id": Notifid,
                     })
                 })
                 const logData = await response.json()
@@ -177,8 +199,9 @@ const Notification = () => {
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <h2 className="text-xl font-semibold">Notification Details</h2>
                 <div className="flex justify-end gap-2 items-center mb-4">
+                    <button onClick={() => router.back()} className="p-2 bg-gray-400 text-white rounded">Back</button>
                     <p><a href={notice?.notification_file} rel="noreferrer" target="_blank" className="p-2 bg-green-400 text-white rounded">View letter</a></p>
-                    <NewNotificationButton id={JobID} />
+                    {/* <NewNotificationButton id={JobID} /> */}
                     <NewAckButton Notifid={Notifid} JobID={JobID} />
                 </div>
                 <p className="">
@@ -202,41 +225,35 @@ const Notification = () => {
                 </p>
             </div>
 
-            <MaterialTable title="Visit Log"
+            <MaterialTable title="Acknowledgements"
                 data={logData}
                 columns={fields}
 
-                actions={
-                    [
+                // actions={
+                //     [
 
-                        // {
-                        //     icon: Edit,
-                        //     tooltip: 'Details',
-                        //     onClick: (event, rowData) => {setVisitId(rowData.id); openModal() }
-                        // },
+                //         rowData => ({
+                //             icon: Edit,
+                //             tooltip: 'Update',
+                //             onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
+                //             hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
+                //         }),
 
-                        rowData => ({
-                            icon: Edit,
-                            tooltip: 'Update',
-                            onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
-                            hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
-                        }),
+                //         rowData => ({
+                //             icon: RateReview,
+                //             tooltip: 'Review',
+                //             onClick: (event, rowData) => { setReviewModal(true) },
+                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
+                //         }),
+                //         rowData => ({
+                //             icon: CheckBox,
+                //             tooltip: 'Approve',
+                //             onClick: (event, rowData) => { setApproveModal(true) },
+                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
+                //         })
 
-                        rowData => ({
-                            icon: RateReview,
-                            tooltip: 'Review',
-                            onClick: (event, rowData) => { setReviewModal(true) },
-                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
-                        }),
-                        rowData => ({
-                            icon: CheckBox,
-                            tooltip: 'Approve',
-                            onClick: (event, rowData) => { setApproveModal(true)},
-                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
-                        })
-
-                    ]
-                }
+                //     ]
+                // }
 
                 options={{
                     search: true,

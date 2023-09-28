@@ -106,7 +106,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
-                                Relationship:
+                                Designation:
                             </label>
                             <select
                                 id="ack_relationship"
@@ -136,8 +136,8 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                 ref={register()}
                             >
                                 <option value="Audit Visit">Audit Visit</option>
-                                <option value="Demand Notice">Demand Notice</option>
-                                <option value="Assessment">Assessment</option>
+                                {/* <option value="Demand Notice">Demand Notice</option>
+                                <option value="Assessment">Assessment</option> */}
                             </select>
                         </div>
 
