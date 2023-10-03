@@ -13,11 +13,9 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
+import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
-import NewNotificationButton from './../notification/button';
-import Modal from '@material-ui/core/Modal';
-
+import NewNotificationButton from '../notification/button';
 
 
 
@@ -25,11 +23,7 @@ import Modal from '@material-ui/core/Modal';
 const AuditNotice = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
-    const [notificationData, setNotificationData] = useState(() => []);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedPdfUrl, setSelectedPdfUrl] = useState('');
-    const [isModalOpenPDF, setIsModalOpenPDF] = useState(false);
-
+    const [corresp, setCorData] = useState(() => []);
 
     const router = useRouter()
     const { id } = router?.query
@@ -37,11 +31,19 @@ const AuditNotice = () => {
     const fields = [
         {
             title: "Notice Date",
-            field: "notification_date",
+            field: "letterdate",
         },
         {
-            title: "Status",
-            field: "notification_status",
+            title: "File ref",
+            field: "lettersource",
+        },
+        {
+            title: "Signee",
+            field: "signee",
+        },
+        {
+            title: "Subject",
+            field: "subject",
         },
         {
             title: "Created by",
@@ -51,59 +53,17 @@ const AuditNotice = () => {
             title: "Created time",
             field: "createtime",
         },
-        {
-            title: "Type",
-            field: "actionType"
-        }
     ];
-
-    function getIndividualYears(startDate, endDate) {
-        const startComponents = startDate?.split("-");
-        const startYear = startComponents.reduce((longest, current) => {
-            return current.length > longest.length ? current : longest;
-        }, '');
-
-        const endComponents = endDate?.split("-");
-        const endYear = endComponents.reduce((longest, current) => {
-            return current.length > longest.length ? current : longest;
-        }, '');
-
-        const years = [];
-
-        for (let year = startYear; year <= endYear; year++) {
-            years.push(year);
-        }
-
-        return years;
-    }
 
 
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
-    const individualYears = getIndividualYears(startDate, endDate);
 
     const dateStart = new Date(startDate);
     const dateEnd = new Date(endDate);
 
     const auditStartYr = dateStart.getFullYear()
     const auditEndYr = dateEnd.getFullYear()
-
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
-
-    const handleCloseModal = (event) => {
-        event.stopPropagation(); // Prevent event bubbling
-        closeModal();
-    };
-
-    const handleButtonClick = (year) => {
-        window.open(`/tax-audit/audit-view/assessment?year=${year}&kgtin=${job?.job_kgtin}`, "_blank")
-    };
 
     const usersArr = String(job.job_user).split(',')
 
@@ -122,14 +82,14 @@ const AuditNotice = () => {
                 const dataFetchJobDet = await response.json()
                 setJob(dataFetchJobDet.body[0])
 
-                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-notifications-batch.php', {
+                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-correspondence-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": id,
                     })
                 })
                 const dataFetch = await res.json()
-                setNotificationData(dataFetch.body)
+                setCorData(dataFetch.body)
 
 
                 setIsFetching(false)
@@ -149,7 +109,7 @@ const AuditNotice = () => {
         <>
             {isFetching && <ProcessorSpinner />}
 
-            <SectionTitle title="Notifications" />
+            <SectionTitle title="Correspondence" />
 
 
             <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
@@ -194,51 +154,18 @@ const AuditNotice = () => {
                         <hr />
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={openModal}
-                        > Assessment
-
-                            {modalIsOpen && (
-                                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50">
-                                    <div className="bg-white p-4 rounded-lg border">
-                                        <p className="font-bold">Assessment Years</p>
-                                        <div className="grid grid-cols-4 gap-4">
-                                            {individualYears.map((year) => (
-                                                <button
-                                                    key={year}
-                                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-                                                    onClick={() => handleButtonClick(year)}
-
-                                                >
-                                                    {year}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <div className="mt-4 flex justify-end">
-                                            <button
-                                                className="px-4 py-2 bg-red-500 text-white rounded"
-                                                onClick={handleCloseModal}
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </button> */}
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view?id=${id}`)}
                         >Home</button>
-                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Notifications</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${id}`)}
+                        >Notifications
+                        </button>
                         <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Job Acknowledgements
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/correspondence/correspondence?id=${id}`)}
-                        >
-                            Correspondence
-                        </button>
+                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Correspondence</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Visit log</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Audit Report</button>
@@ -246,21 +173,6 @@ const AuditNotice = () => {
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Tarc</button>
-
-                        {/* <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
-                            Visit Log
-                        </button> */}
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
-                        >
-                            Audit Report
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
-                        >Notes</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button> */}
                     </div>
 
                 </div>
@@ -269,8 +181,8 @@ const AuditNotice = () => {
             <div className="flex justify-end m-2">
                 <NewNotificationButton id={id} auditStartYr={auditStartYr} auditEndYr={auditEndYr} />
             </div>
-            <MaterialTable title="Notifications"
-                data={notificationData}
+            <MaterialTable title="Correspondence Log"
+                data={corresp}
                 columns={fields}
 
                 actions={
@@ -280,21 +192,6 @@ const AuditNotice = () => {
                             icon: MoreHoriz,
                             tooltip: 'Details',
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-                        },
-                        {
-                            icon: NextWeekRounded,
-                            tooltip: 'Acknowledgement',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-
-                        },
-                        {
-                            icon: Email,
-                            tooltip: 'Letter',
-                            onClick: (event, rowData) => {
-                                setSelectedPdfUrl(`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${rowData.notification_fileno}`);
-                                setIsModalOpenPDF(true);
-                            }
-
                         },
                     ]
                 }
@@ -321,22 +218,6 @@ const AuditNotice = () => {
                 }}
 
             />
-            <Modal
-                open={isModalOpenPDF}
-                onClose={() => setIsModalOpenPDF(false)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <iframe
-                    title="PDF Viewer"
-                    src={selectedPdfUrl}
-                    width="50%"
-                    height="600"
-                />
-            </Modal>
 
         </>
     )

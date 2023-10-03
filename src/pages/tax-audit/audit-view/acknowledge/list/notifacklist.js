@@ -116,7 +116,7 @@ export default function Notifiacklist() {
         async function fetchPost() {
 
             try {
-                const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notification-ack-batch.php', {
+                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-notification-ack-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
@@ -136,7 +136,7 @@ export default function Notifiacklist() {
     }, [JobID, Notifid]);
 
     const filteredData = notifAck?.filter(item => {
-        const ack_reschedule = item.ack_reschedule;
+        const ack_reschedule = String(item.ack_reschedule);
         return ack_reschedule.toLowerCase() !== "yes";
     });
 console.log("filteredData", filteredData);

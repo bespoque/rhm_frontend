@@ -13,10 +13,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
-import NewNotificationButton from './notification/button';
-import Modal from '@material-ui/core/Modal';
 
 
 
@@ -27,9 +24,7 @@ const Index = () => {
     const [job, setJob] = useState(() => []);
     const [historyData, setHistoryData] = useState(() => []);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedPdfUrl, setSelectedPdfUrl] = useState('');
-    const [isModalOpenPDF, setIsModalOpenPDF] = useState(false);
-
+   
 
     const router = useRouter()
     const { id } = router?.query
@@ -50,29 +45,7 @@ const Index = () => {
         },
 
     ];
-    // const fields = [
-    //     {
-    //         title: "Notice Date",
-    //         field: "notification_date",
-    //     },
-    //     {
-    //         title: "Status",
-    //         field: "notification_status",
-    //     },
-    //     {
-    //         title: "Created by",
-    //         field: "doneby",
-    //     },
-    //     {
-    //         title: "Created time",
-    //         field: "createtime",
-    //     },
-    //     {
-    //         title: "Action type",
-    //         field: "actionType"
-    //     }
-    // ];
-
+  
     function getIndividualYears(startDate, endDate) {
         const startComponents = startDate?.split("-");
         const startYear = startComponents.reduce((longest, current) => {
@@ -244,11 +217,16 @@ const Index = () => {
                         </button> */}
                         <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2">Home</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                        onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${id}`)}
+                            onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${id}`)}
                         >Notifications</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
                             Job Acknowledgements
+                        </button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                         onClick={() => router.push(`/tax-audit/audit-view/correspondence/correspondence?id=${id}`)}
+                        >
+                            Correspondence
                         </button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Visit log</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
@@ -276,40 +254,9 @@ const Index = () => {
 
                 </div>
             </div>
-
-            {/* <div className="flex justify-end m-2">
-                <NewNotificationButton id={id} />
-            </div> */}
             <MaterialTable title="Job History"
                 data={historyData}
                 columns={fields}
-
-                // actions={
-                //     [
-
-                //         {
-                //             icon: MoreHoriz,
-                //             tooltip: 'Details',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-                //         },
-                //         {
-                //             icon: NextWeekRounded,
-                //             tooltip: 'Acknowledgement',
-                //             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
-
-                //         },
-                //         {
-                //             icon: Email,
-                //             tooltip: 'Letter',
-                //             onClick: (event, rowData) => {
-                //                 setSelectedPdfUrl(rowData.notification_file);
-                //                 setIsModalOpenPDF(true);
-                //             }
-
-                //         },
-                //     ]
-                // }
-
                 options={{
                     search: true,
                     paging: true,
@@ -332,22 +279,7 @@ const Index = () => {
                 }}
 
             />
-            <Modal
-                open={isModalOpenPDF}
-                onClose={() => setIsModalOpenPDF(false)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <iframe
-                    title="PDF Viewer"
-                    src={selectedPdfUrl}
-                    width="50%"
-                    height="600"
-                />
-            </Modal>
+     
 
         </>
     )

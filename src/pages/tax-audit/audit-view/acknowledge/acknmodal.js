@@ -12,7 +12,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
     const [isFetching, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm();
     const router = useRouter()
-    
+
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -28,11 +28,13 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
         data.doneby = emailAdd
         data.job_id = JobID
         data.notification_id = Notifid
-        
+        data.actionType = "AUDIT VISIT"
+        data.ack_channel = "courier"
+
         setIsLoading(true)
 
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
+            const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newacknowledment.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
@@ -45,7 +47,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                 router.reload()
                 // router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)
             }
-           
+
         } catch (error) {
             setIsLoading(false)
             console.error('Server Error:', error)
@@ -82,20 +84,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
-                                Delivery Method:
-                            </label>
-                            <select
-                                id="ack_channel"
-                                name='ack_channel'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="courier">Courier</option>
-                            </select>
-                        </div>
-                        <div className="mb-2">
-                            <label className="block  mb-1 ">
                                 Acknowledged by:
                             </label>
                             <input type="text" name="ack_by"
@@ -121,23 +109,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                 <option value="colleague">Colleague</option>
                                 <option value="neighbour">Neighbour</option>
                                 <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div className="mb-2">
-                            <label htmlFor="notification_delivery" className="block  mb-1 text-dark">
-                                Type
-                            </label>
-                            <select
-                                id="notification_delivery"
-                                name='actionType'
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
-                                ref={register()}
-                            >
-                                <option value="Audit Visit">Audit Visit</option>
-                                {/* <option value="Demand Notice">Demand Notice</option>
-                                <option value="Assessment">Assessment</option> */}
                             </select>
                         </div>
 
