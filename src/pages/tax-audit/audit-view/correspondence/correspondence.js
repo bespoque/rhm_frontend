@@ -15,7 +15,7 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
-import NewNotificationButton from '../notification/button';
+import NewCorresButton from './button';
 
 
 
@@ -179,7 +179,7 @@ const AuditNotice = () => {
             </div>
 
             <div className="flex justify-end m-2">
-                <NewNotificationButton id={id} auditStartYr={auditStartYr} auditEndYr={auditEndYr} />
+                <NewCorresButton id={id} />
             </div>
             <MaterialTable title="Correspondence Log"
                 data={corresp}
@@ -191,7 +191,7 @@ const AuditNotice = () => {
                         {
                             icon: MoreHoriz,
                             tooltip: 'Details',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/notification?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: (event, rowData) => router.push(``),
                         },
                     ]
                 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import NotificationModal from './notificationmodal';
+import CorresModal from './corresmodal';
 
 
-const NewNotificationButton = ({id, auditStartYr, auditEndYr}) => {
+const NewCorresButton = ({id, auditStartYr, auditEndYr}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {
@@ -16,11 +16,11 @@ const NewNotificationButton = ({id, auditStartYr, auditEndYr}) => {
     return (
         <>
             <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" onClick={openModal}>
-                New Notification
+                New Correspondence
             </button>
-            <NotificationModal isOpen={isModalOpen} closeModal={closeModal} id={id} auditStartYr={auditStartYr} auditEndYr={auditEndYr} />
+            <CorresModal isOpen={isModalOpen} closeModal={closeModal} id={id} />
         </>
     );
 };
 
-export default NewNotificationButton;
+export default NewCorresButton;
