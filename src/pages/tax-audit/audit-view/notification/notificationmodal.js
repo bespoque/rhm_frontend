@@ -202,6 +202,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const [selectedItems, setSelectedItems] = useState([]);
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
+    const [selectedValues, setSelectedValues] = useState([]);
     const router = useRouter()
 
     const { auth } = useSelector(
@@ -232,7 +233,8 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         notification_status: 'Delivered',
         notification_delivery: 'Email',
         notification_note: 'Audit Visit',
-        checklists: String(checkValues)
+        auditscope: String(selectedItems)
+        // checklists: String(checkValues)
 
     });
 
