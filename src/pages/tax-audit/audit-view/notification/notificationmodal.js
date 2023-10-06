@@ -509,7 +509,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                                         id={`checkbox-${checklist.checklist_id}`}
                                         className="form-checkbox h-5 w-5 text-indigo-600"
                                         checked={docCheckboxes[index]}
-                                        onChange={() => handleCheckboxChange(index)}
+                                        onChange={() => handleDocCheckboxChange(index)}
                                     />
                                     <label htmlFor={`checkbox-${checklist.checklist_id}`} className="ml-2">
                                         {checklist.checklist_item}
