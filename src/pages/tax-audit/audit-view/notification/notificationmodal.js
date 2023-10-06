@@ -339,7 +339,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                         </p><br />
                         <div className="p-4">
                             <ol style={{ listStyle: "i" }} >
-                                {selectedItems.map((item) => (
+                                {selectedDocItems.map((item) => (
                                     <li>{item}</li>
 
                                 ))}
