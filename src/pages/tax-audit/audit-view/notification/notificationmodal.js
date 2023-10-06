@@ -219,6 +219,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     };
 
+    console.log("selectedItems", selectedItems);
     let checkValues = getCheckboxValues()
 
 
