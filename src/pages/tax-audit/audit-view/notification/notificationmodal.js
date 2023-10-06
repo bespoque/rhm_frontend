@@ -234,7 +234,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         notification_status: 'Delivered',
         notification_delivery: 'Email',
         notification_note: 'Audit Visit',
-        auditscope: String(selectedItems)
         // checklists: String(checkValues)
 
     });
@@ -346,6 +345,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
 
 
     const submitNotice = async () => {
+        formData.auditscope = String(selectedItems)
         setIsLoading(true)
 
         try {
