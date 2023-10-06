@@ -217,12 +217,15 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
 
-    const getCheckboxValues = () => {
-        return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
+    // const getCheckboxValues = () => {
+    //     return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
+    // };
+    // let checkValues = getCheckboxValues()
+    const getDocCheckboxValues = () => {
+        return docCheckboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     };
+    let DoccheckValues = getDocCheckboxValues()
 
-    console.log("selectedItems", selectedItems);
-    let checkValues = getCheckboxValues()
 
 
     const [formData, setFormData] = useState({
@@ -236,7 +239,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         notification_status: 'Delivered',
         notification_delivery: 'Email',
         notification_note: 'Audit Visit',
-        // checklists: String(checkValues)
+        checklists: String(DoccheckValues)
 
     });
 
