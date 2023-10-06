@@ -11,141 +11,141 @@ const initialState = [
         items: [],
       },
 
-      {
-        url: '/',
-        icon: <ManageTaxpayer />,
-        title: 'Manage Taxpayer',
-        items: [
-          {
-            title: 'Individual',
-            items: [
-              { title: 'Create', url: '/taxpayer', items: [] },
-              {
-                title: 'View',
-                url: '/reports-individual',
-                items: [],
-              },
-            ],
-          },
-          {
-            title: 'Non-Individual',
-            items: [
-              { title: 'Create', url: '/taxpayer/non-individual', items: [] },
-              {
-                title: 'View',
-                url: '/reports-non-individual',
-                items: [],
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   url: '/',
+      //   icon: <ManageTaxpayer />,
+      //   title: 'Manage Taxpayer',
+      //   items: [
+      //     {
+      //       title: 'Individual',
+      //       items: [
+      //         { title: 'Create', url: '/taxpayer', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/reports-individual',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Non-Individual',
+      //       items: [
+      //         { title: 'Create', url: '/taxpayer/non-individual', items: [] },
+      //         {
+      //           title: 'View',
+      //           url: '/reports-non-individual',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
-      {
-        url: '/',
-        icon: <DirectAssessment />,
-        title: 'Direct Assessment',
-        items: [
-          {
-            title: 'Create',
-            url: '/direct-asses',
-            items: [],
-          },
-          {
-            title: 'Draft Assessments',
-            url: '/view/pendingdirect',
-            items: [],
-          },
-          {
-            title: 'Submitted Assessments',
-            url: '/view/completeddirect',
-            items: [],
-          },
-          {
-            title: 'Verified BOJ',
-            url: '/view/listverifiedboj',
-            items: [],
-          },
-          // {
-          //   title: 'Approved Assessments',
-          //   url: '/approved-assement-report',
-          //   items: [],
-          // },
-          {
-            title: 'Approved Assessments',
-            url: '/view/approvedasses',
-            items: [],
-          },
-          {
-            url: '/',
-            title: 'Tax Clearance (TCC)',
-            items: [
-              {
-                url: '/tcc',
-                title: 'Create',
-                items: [],
-              },
-              {
-                url: '/view/listapprovedtcc',
-                title: 'Pending E C. Sign',
-                items: [],
-              },
-              {
-                url: '/view/listtcc',
-                title: 'View All',
-                items: [],
-              },
-              {
-                url: '/view/listprinttcc',
-                title: 'View Print',
-                items: [],
-              },
-            ],
-          },
-          {
-            url: '/',
-            title: 'Report',
-            items: [
-              {
-                title: 'Assessment',
-                url: '/assessment-report',
-                items: [],
-              },
-              {
-                title: 'Unassessed Collections',
-                url: '/unassessed-report',
-                items: [],
-              },
-            ],
-          },
-          {
-            url: '/',
-            title: 'Objection',
-            items: [
-              {
-                title: 'Submitted',
-                url: '/view/objection/submitted',
-                items: [],
-              },
-              {
-                title: 'Verified',
-                url: '/view/objection/verified',
-                items: [],
-              },
-              {
-                title: 'Pending EC sign',
-                url: '/view/objection/approved',
-                items: [],
-              },
-              {
-                title: 'Print',
-                url: '/view/objection/vetted',
-                items: [],
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   url: '/',
+      //   icon: <DirectAssessment />,
+      //   title: 'Direct Assessment',
+      //   items: [
+      //     {
+      //       title: 'Create',
+      //       url: '/direct-asses',
+      //       items: [],
+      //     },
+      //     {
+      //       title: 'Draft Assessments',
+      //       url: '/view/pendingdirect',
+      //       items: [],
+      //     },
+      //     {
+      //       title: 'Submitted Assessments',
+      //       url: '/view/completeddirect',
+      //       items: [],
+      //     },
+      //     {
+      //       title: 'Verified BOJ',
+      //       url: '/view/listverifiedboj',
+      //       items: [],
+      //     },
+      //     // {
+      //     //   title: 'Approved Assessments',
+      //     //   url: '/approved-assement-report',
+      //     //   items: [],
+      //     // },
+      //     {
+      //       title: 'Approved Assessments',
+      //       url: '/view/approvedasses',
+      //       items: [],
+      //     },
+      //     {
+      //       url: '/',
+      //       title: 'Tax Clearance (TCC)',
+      //       items: [
+      //         {
+      //           url: '/tcc',
+      //           title: 'Create',
+      //           items: [],
+      //         },
+      //         {
+      //           url: '/view/listapprovedtcc',
+      //           title: 'Pending E C. Sign',
+      //           items: [],
+      //         },
+      //         {
+      //           url: '/view/listtcc',
+      //           title: 'View All',
+      //           items: [],
+      //         },
+      //         {
+      //           url: '/view/listprinttcc',
+      //           title: 'View Print',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       url: '/',
+      //       title: 'Report',
+      //       items: [
+      //         {
+      //           title: 'Assessment',
+      //           url: '/assessment-report',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Unassessed Collections',
+      //           url: '/unassessed-report',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       url: '/',
+      //       title: 'Objection',
+      //       items: [
+      //         {
+      //           title: 'Submitted',
+      //           url: '/view/objection/submitted',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Verified',
+      //           url: '/view/objection/verified',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Pending EC sign',
+      //           url: '/view/objection/approved',
+      //           items: [],
+      //         },
+      //         {
+      //           title: 'Print',
+      //           url: '/view/objection/vetted',
+      //           items: [],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
       {
         url: '/',
@@ -285,11 +285,6 @@ const initialState = [
         icon: <Collections />,
         title: 'Collections',
         items: [
-          // {
-          //   url: '/',
-          //   title: 'Dashboard',
-          //   items: [],
-          // },
           {
             title: 'View',
             url: '/reports',
@@ -300,47 +295,7 @@ const initialState = [
             url: '/reports-manifest',
             items: [],
           },
-          // {
-          //   title: 'DA Receipt',
-          //   url: '/da-receipt',
-          //   items: [],
-          // },
-          // {
-          //   url: '/',
-          //   title: 'Reconcilliations',
-          //   items: [],
-          // },
-          // {
-          //   url: '/',
-          //   title: 'Generate Receipt',
-          //   items: [
-          //     {
-          //       url: '/',
-          //       title: 'Create',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'View',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Verify',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Approve',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Recon Report',
-          //       items: [],
-          //     },
-          //   ],
-          // },
+          
         ],
       },
 
