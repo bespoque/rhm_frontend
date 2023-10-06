@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
@@ -151,6 +150,47 @@ const checks = {
     ],
 }
 
+const scope = {
+    "checklists": [
+        {
+            "checklist_id": "1",
+            "checklist_item": "Pay as you Earn"
+        },
+        {
+            "checklist_id": "2",
+            "checklist_item": "Capital Gain Tax"
+        },
+        {
+            "checklist_id": "3",
+            "checklist_item": "Withholding Tax"
+        },
+        {
+            "checklist_id": "4",
+            "checklist_item": "Stamp Duty"
+        },
+        {
+            "checklist_id": "5",
+            "checklist_item": "Business Premises"
+        },
+        {
+            "checklist_id": "6",
+            "checklist_item": "Ground Rent"
+        },
+        {
+            "checklist_id": "7",
+            "checklist_item": "Development Levy"
+        },
+        {
+            "checklist_id": "8",
+            "checklist_item": "Haulage fee"
+        },
+        {
+            "checklist_id": "9",
+            "checklist_item": "Others"
+        },
+    ],
+}
+
 
 
 
@@ -158,7 +198,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
 
     let jodId = id
     const [isFetching, setIsLoading] = useState(false);
-    const [checkboxes, setCheckboxes] = useState(new Array(checks.checklists.length).fill(false));
+    const [checkboxes, setCheckboxes] = useState(new Array(scope.checklists.length).fill(false));
     const [selectedItems, setSelectedItems] = useState([]);
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
@@ -202,10 +242,10 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         setCheckboxes(updatedCheckboxes);
 
         if (updatedCheckboxes[index]) {
-            setSelectedItems((prevItems) => [...prevItems, checks.checklists[index].checklist_item]);
+            setSelectedItems((prevItems) => [...prevItems, scope.checklists[index].checklist_item]);
         } else {
             setSelectedItems((prevItems) =>
-                prevItems.filter((item) => item !== checks.checklists[index].checklist_item)
+                prevItems.filter((item) => item !== scope.checklists[index].checklist_item)
             );
         }
     };
@@ -409,9 +449,9 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                         <div className="my-4">
                             <hr />
                         </div>
-                        <p className="font-bold my-4 text-center">Audit Checklist</p>
+                        <p className="font-bold my-4 text-center">Audit Scope</p>
                         <div className="grid grid-cols-2 gap-4">
-                            {checks.checklists.map((checklist, index) => (
+                            {scope.checklists.map((checklist, index) => (
                                 <div key={checklist.checklist_id} className="flex items-center">
                                     <input
                                         type="checkbox"
@@ -426,6 +466,11 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                                 </div>
                             ))}
                         </div>
+
+                        <div className="my-4">
+                            <hr />
+                        </div>
+
                         <div className="flex justify-evenly">
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"

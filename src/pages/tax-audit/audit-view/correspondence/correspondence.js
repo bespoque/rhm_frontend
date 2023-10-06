@@ -16,6 +16,7 @@ import Clear from "@material-ui/icons/Clear";
 import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewCorresButton from './button';
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 
 
@@ -24,17 +25,18 @@ const AuditNotice = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
     const [corresp, setCorData] = useState(() => []);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     const router = useRouter()
     const { id } = router?.query
 
     const fields = [
         {
-            title: "Notice Date",
+            title: "Letter Date",
             field: "letterdate",
         },
         {
-            title: "File ref",
+            title: "Letter Ref",
             field: "lettersource",
         },
         {
@@ -66,6 +68,21 @@ const AuditNotice = () => {
     const auditEndYr = dateEnd.getFullYear()
 
     const usersArr = String(job.job_user).split(',')
+
+    const handleRowClick = (event, rowData) => {
+        setSelectedRow(rowData);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+    };
+
+    const formatDateToEnglishReadable = dateStr =>
+    new Date(dateStr).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
 
     useEffect(() => {
 
@@ -191,7 +208,7 @@ const AuditNotice = () => {
                         {
                             icon: MoreHoriz,
                             tooltip: 'Details',
-                            onClick: (event, rowData) => router.push(``),
+                            onClick: handleRowClick
                         },
                     ]
                 }
@@ -218,6 +235,17 @@ const AuditNotice = () => {
                 }}
 
             />
+
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
+                <DialogTitle>Correspondence Details</DialogTitle>
+                <DialogContent>
+                    <Typography> <p>Notice date: <span className="font-bold">{formatDateToEnglishReadable(selectedRow?.letterdate)}</span></p></Typography>
+                    <Typography> <p>Receipt date: <span className="font-bold">{selectedRow?.receipt_datetime}</span></p></Typography>
+                    <Typography> <p>Letter Ref: <span className="font-bold">{selectedRow?.lettersource}</span></p></Typography>
+                    <Typography> <p>Subject: <span className="font-bold">{selectedRow?.subject}</span></p></Typography>
+                    <Typography> <p>Signee: <span className="font-bold">{selectedRow?.signee}</span></p></Typography>
+                </DialogContent>
+            </Dialog>
 
         </>
     )

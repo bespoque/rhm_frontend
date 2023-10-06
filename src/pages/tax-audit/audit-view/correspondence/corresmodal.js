@@ -60,16 +60,18 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
         // }
     };
 
-    multFormData.append('job_id', jodId);
-    multFormData.append('subject', formData.subject);
-    multFormData.append('signee', formData.signee);
-    multFormData.append('lettersource', formData.lettersource);
-    multFormData.append('letterdate', formData.letterdate);
-    multFormData.append('letterdate', formData.doneby);
-    multFormData.append('receipt_datetime', formData.receipt_datetime);
-    multFormData.append('docfile', "test");
+    // multFormData.append('job_id', jodId);
+    // multFormData.append('subject', formData.subject);
+    // multFormData.append('signee', formData.signee);
+    // multFormData.append('lettersource', formData.lettersource);
+    // multFormData.append('letterdate', formData.letterdate);
+    // multFormData.append('letterdate', formData.doneby);
+    // multFormData.append('receipt_datetime', formData.receipt_datetime);
+    // multFormData.append('docfile', "test");
 
+    formData.docfile = selectedFile
 
+    console.log("formData", formData);
 
     const submitNotice = async (e) => {
         e.preventDefault()
@@ -78,7 +80,7 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newcorrespondence.php', {
                 method: 'POST',
-                body: multFormData
+                body: JSON.stringify(formData)
             })
             const dataFetch = await res.json()
             setIsLoading(false)
@@ -161,6 +163,16 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
                             <label className="text-dark  block mb-1">
                                 Letter Source:
                             </label>
+                            {/* <select name="lettersource"
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                onChange={handleInputChange}
+                                value={formData.lettersource}
+                                required
+                            >
+                                <option value="FILE/00394/9392939">FILE/00394/9392939</option>
+                                <option value="FILE/00494/2392935">FILE/00494/2392935</option>
+                                <option value="FILE/00593/4395637">FILE/00593/4395637</option>
+                            </select> */}
                             <input type="text"
                                 name='lettersource'
                                 value={formData.lettersource}

@@ -49,22 +49,6 @@ const Index = () => {
             title: "Progress status",
             field: "job_progress_status",
         },
-        // {
-        //     title: "Job start date",
-        //     field: "job_startdate",
-        // },
-        // {
-        //     title: "Audit start date",
-        //     field: "job_auditdate_start",
-        // },
-        // {
-        //     title: "Audit end date",
-        //     field: "job_auditdate_end",
-        // },
-        // {
-        //     title: "Created time",
-        //     field: "createtime",
-        // },
 
     ];
 
