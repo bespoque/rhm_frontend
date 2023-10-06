@@ -337,6 +337,14 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                             touch with Executive Chairman, Kogi State Internal Revenue Service immediately.
                             Attached is the list of documents required for the Audit Exercise.
                         </p><br />
+                        <div className="p-4">
+                            <ol style={{ listStyle: "i" }} >
+                                {selectedItems.map((item) => (
+                                    <li>{item}</li>
+
+                                ))}
+                            </ol>
+                        </div><br />
                         <p>Thank you for the anticipated cooperation.</p> <br />
                         <p>
                             Yours Faithfully..
