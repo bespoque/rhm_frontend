@@ -199,10 +199,12 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     let jodId = id
     const [isFetching, setIsLoading] = useState(false);
     const [checkboxes, setCheckboxes] = useState(new Array(scope.checklists.length).fill(false));
+    const [docCheckboxes, setDocCheckboxes] = useState(new Array(checks.checklists.length).fill(false));
     const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedDocItems, setSelectedDocItems] = useState([]);
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
-    const [selectedValues, setSelectedValues] = useState([]);
+
     const router = useRouter()
 
     const { auth } = useSelector(
@@ -248,6 +250,19 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         } else {
             setSelectedItems((prevItems) =>
                 prevItems.filter((item) => item !== scope.checklists[index].checklist_item)
+            );
+        }
+    };
+    const handleDocCheckboxChange = (index) => {
+        const updatedCheckboxes = [...docCheckboxes];
+        updatedCheckboxes[index] = !updatedCheckboxes[index];
+        setDocCheckboxes(updatedCheckboxes);
+
+        if (updatedCheckboxes[index]) {
+            setSelectedDocItems((prevItems) => [...prevItems, checks.checklists[index].checklist_item]);
+        } else {
+            setSelectedDocItems((prevItems) =>
+                prevItems.filter((item) => item !== checks.checklists[index].checklist_item)
             );
         }
     };
@@ -472,6 +487,24 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
 
                         <div className="my-4">
                             <hr />
+                        </div>
+
+                        <p className="font-bold my-4 text-center">Required Documents</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            {checks.checklists.map((checklist, index) => (
+                                <div key={checklist.checklist_id} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id={`checkbox-${checklist.checklist_id}`}
+                                        className="form-checkbox h-5 w-5 text-indigo-600"
+                                        checked={docCheckboxes[index]}
+                                        onChange={() => handleCheckboxChange(index)}
+                                    />
+                                    <label htmlFor={`checkbox-${checklist.checklist_id}`} className="ml-2">
+                                        {checklist.checklist_item}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
 
                         <div className="flex justify-evenly">
