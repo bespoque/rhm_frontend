@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
@@ -7,10 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 import { SignatureCol } from '../../../../components/Images/Images';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'; // Import icons from react-icons
 
 
-const checks = {
-    "checklists": [
+
+const checks =
+    [
         {
             "checklist_id": "1",
             "checklist_item": "Payment Voucher / Cheque / Cash Book"
@@ -147,8 +149,8 @@ const checks = {
             "checklist_id": "34",
             "checklist_item": "Delivery Note/ Register/Waybills"
         },
-    ],
-}
+    ]
+
 
 const scope = {
     "checklists": [
@@ -199,13 +201,36 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     let jodId = id
     const [isFetching, setIsLoading] = useState(false);
     const [checkboxes, setCheckboxes] = useState(new Array(scope.checklists.length).fill(false));
-    const [docCheckboxes, setDocCheckboxes] = useState(new Array(checks.checklists.length).fill(false));
     const [selectedItems, setSelectedItems] = useState([]);
-    const [selectedDocItems, setSelectedDocItems] = useState([]);
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
+    const [selectedValuesItems, setSelectedValuesItems] = useState(checks.map(() => 'NO'));
+    const [selectedChecklistItems, setSelectedChecklistItems] = useState([]); // Store selected checklist items
+    const dropdownRef = useRef(null);
 
     const router = useRouter()
+
+    const [isOpenCheckItems, setIsOpenCheckItems] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpenCheckItems(!isOpenCheckItems);
+    };
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpenCheckItems(false);
+            }
+        }
+
+        window.addEventListener('click', handleClickOutside);
+
+        return () => {
+            window.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
+    
 
     const { auth } = useSelector(
         (state) => ({
@@ -221,12 +246,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     //     return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     // };
     // let checkValues = getCheckboxValues()
-    const getDocCheckboxValues = () => {
-        return docCheckboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
-    };
-    let DoccheckValues = getDocCheckboxValues()
 
-console.log("docCheckboxes", docCheckboxes);
 
     const [formData, setFormData] = useState({
         notification_date: '',
@@ -239,7 +259,7 @@ console.log("docCheckboxes", docCheckboxes);
         notification_status: 'Delivered',
         notification_delivery: 'Email',
         notification_note: 'Audit Visit',
-        checklists: String(DoccheckValues)
+        checklists: String(selectedValuesItems)
 
     });
 
@@ -256,19 +276,6 @@ console.log("docCheckboxes", docCheckboxes);
             );
         }
     };
-    const handleDocCheckboxChange = (index) => {
-        const updatedCheckboxes = [...docCheckboxes];
-        updatedCheckboxes[index] = !updatedCheckboxes[index];
-        setDocCheckboxes(updatedCheckboxes);
-
-        if (updatedCheckboxes[index]) {
-            setSelectedDocItems((prevItems) => [...prevItems, checks.checklists[index].checklist_item]);
-        } else {
-            setSelectedDocItems((prevItems) =>
-                prevItems.filter((item) => item !== checks.checklists[index].checklist_item)
-            );
-        }
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -276,6 +283,17 @@ console.log("docCheckboxes", docCheckboxes);
     };
 
 
+  const handleOptionChange = (index) => { // Pass the index of the option
+    const newSelectedValues = [...selectedValuesItems]; // Create a copy of selectedValues
+    if (newSelectedValues[index] === 'NO') {
+      newSelectedValues[index] = 'YES'; // Update to "YES" when selected
+      setSelectedChecklistItems([...selectedChecklistItems, checks[index].checklist_item]); // Add the checklist_item
+    } else {
+      newSelectedValues[index] = 'NO'; // Update to "NO" when unselected
+      setSelectedChecklistItems(selectedChecklistItems.filter(item => item !== checks[index].checklist_item)); // Remove the checklist_item
+    }
+    setSelectedValuesItems(newSelectedValues); // Update the state
+  };
 
 
     function Letter() {
@@ -339,7 +357,7 @@ console.log("docCheckboxes", docCheckboxes);
                         </p><br />
                         <div className="p-4">
                             <ol style={{ listStyle: "i" }} >
-                                {selectedDocItems.map((item) => (
+                                {selectedChecklistItems.map((item) => (
                                     <li>{item}</li>
 
                                 ))}
@@ -394,8 +412,6 @@ console.log("docCheckboxes", docCheckboxes);
             console.error('Server Error:', error)
         }
     }
-console.log("checkboxes", (checkboxes));
-
 
 
 
@@ -502,24 +518,41 @@ console.log("checkboxes", (checkboxes));
                         </div>
 
                         <p className="font-bold my-4 text-center">Audit Documents</p>
-                        <div className="grid grid-cols-2 gap-4">
-                            {checks.checklists.map((checklist, index) => (
-                                <div key={checklist.checklist_id} className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id={`checkbox-${checklist.checklist_id}`}
-                                        className="form-checkbox h-5 w-5 text-indigo-600"
-                                        checked={docCheckboxes[index]}
-                                        onChange={() => handleDocCheckboxChange(index)}
-                                    />
-                                    <label htmlFor={`checkbox-${checklist.checklist_id}`} className="ml-2">
-                                        {checklist.checklist_item}
-                                    </label>
+
+                        <div className="flex justify-center">
+                            <div ref={dropdownRef}>
+                                <div>
+                                    <button
+                                        onClick={toggleDropdown}
+                                        type="button"
+                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center"
+                                    >
+                                        Select Options
+                                        {isOpenCheckItems ? <IoIosArrowUp className="ml-2" /> : <IoIosArrowDown className="ml-2" />}
+       
+                                    </button>
                                 </div>
-                            ))}
+                                {isOpenCheckItems && (
+                                    <div className="origin-top-right  right-0 mt-2 w-72 rounded-md shadow-lg bg-white ring-1">
+                                        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                            {checks.map((option, index) => (
+                                                <label key={option.checklist_id} className="block pl-4 pr-12 py-2 hover:bg-gray-100">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-checkbox h-5 w-5 text-blue-500 mr-2"
+                                                        onChange={() => handleOptionChange(index)}
+                                                        checked={selectedValuesItems[index] === 'YES'}
+                                                    />
+                                                    {option.checklist_item}
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
-                        <div className="flex justify-evenly">
+                        <div className="flex justify-between">
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
                                 type="submit"
