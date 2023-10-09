@@ -986,7 +986,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={yrTwoPaySl === undefined || yrTwoPaySl === [] ? null : formatNumber(yrTwoPaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
+                <input readOnly value={yrTwoPaySl === undefined || yrTwoPaySl === "" ? null : formatNumber(yrTwoPaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
@@ -994,7 +994,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={formatNumber(yrTwoPaySl === undefined || yrTwoPaySl === [] ? null : formatNumber(Number(payerDetails.incYr_2) - (Number(yrTwoPaySl.consolidated_relief) + Number(yrTwoPaySl.other_relief))))} className="form-control w-full rounded" type="text"
+                <input readOnly value={formatNumber(yrTwoPaySl === undefined || yrTwoPaySl === "" ? null : formatNumber(Number(payerDetails.incYr_2) - (Number(yrTwoPaySl.consolidated_relief) + Number(yrTwoPaySl.other_relief))))} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
@@ -1048,13 +1048,13 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
 
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={yrThreePaySl === undefined || yrThreePaySl === [] ? null : formatNumber(yrThreePaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
+                <input readOnly value={yrThreePaySl === undefined || yrThreePaySl === "" ? null : formatNumber(yrThreePaySl.consolidated_relief)} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>
             <div className="mb-6 justify-self-center">
               <div>
-                <input readOnly value={(yrThreePaySl === undefined || yrThreePaySl === [] ? null : formatNumber(Number(payerDetails.incYr_3) - (Number(yrThreePaySl.consolidated_relief) + Number(yrThreePaySl.other_relief))))} className="form-control w-full rounded" type="text"
+                <input readOnly value={(yrThreePaySl === undefined || yrThreePaySl === "" ? null : formatNumber(Number(payerDetails.incYr_3) - (Number(yrThreePaySl.consolidated_relief) + Number(yrThreePaySl.other_relief))))} className="form-control w-full rounded" type="text"
                 />
               </div>
             </div>

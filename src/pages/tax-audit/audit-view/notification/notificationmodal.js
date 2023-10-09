@@ -226,7 +226,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     };
     let DoccheckValues = getDocCheckboxValues()
 
-
+    console.log("docCheckboxes", docCheckboxes);
 
     const [formData, setFormData] = useState({
         notification_date: '',
@@ -339,7 +339,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                         </p><br />
                         <div className="p-4">
                             <ol style={{ listStyle: "i" }} >
-                                {selectedItems.map((item) => (
+                                {selectedDocItems.map((item) => (
                                     <li>{item}</li>
 
                                 ))}
@@ -394,7 +394,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
             console.error('Server Error:', error)
         }
     }
-
+    console.log("checkboxes", (checkboxes));
 
 
 
@@ -413,6 +413,26 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
             >
                 <div className={`${letterState}`}>
                     <Letter />
+                </div>
+
+                <div class="multiselect">
+                    <div class="dropdown" >
+                        Select Options
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" /> Option 1
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" /> Option 2
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" /> Option 3
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" /> Option 4
+                        </label>
+                    </div>
                 </div>
 
                 <div className={`${formState}`}>

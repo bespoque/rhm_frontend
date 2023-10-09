@@ -20,13 +20,10 @@ import Modal from '@material-ui/core/Modal';
 
 
 
-
-
 const AuditNotice = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
     const [notificationData, setNotificationData] = useState(() => []);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedPdfUrl, setSelectedPdfUrl] = useState('');
     const [isModalOpenPDF, setIsModalOpenPDF] = useState(false);
 
@@ -57,30 +54,9 @@ const AuditNotice = () => {
         }
     ];
 
-    function getIndividualYears(startDate, endDate) {
-        const startComponents = startDate?.split("-");
-        const startYear = startComponents.reduce((longest, current) => {
-            return current.length > longest.length ? current : longest;
-        }, '');
-
-        const endComponents = endDate?.split("-");
-        const endYear = endComponents.reduce((longest, current) => {
-            return current.length > longest.length ? current : longest;
-        }, '');
-
-        const years = [];
-
-        for (let year = startYear; year <= endYear; year++) {
-            years.push(year);
-        }
-
-        return years;
-    }
-
 
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
-    const individualYears = getIndividualYears(startDate, endDate);
 
     const dateStart = new Date(startDate);
     const dateEnd = new Date(endDate);
@@ -88,22 +64,7 @@ const AuditNotice = () => {
     const auditStartYr = dateStart.getFullYear()
     const auditEndYr = dateEnd.getFullYear()
 
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
 
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
-
-    const handleCloseModal = (event) => {
-        event.stopPropagation(); // Prevent event bubbling
-        closeModal();
-    };
-
-    const handleButtonClick = (year) => {
-        window.open(`/tax-audit/audit-view/assessment?year=${year}&kgtin=${job?.job_kgtin}`, "_blank")
-    };
 
     const usersArr = String(job.job_user).split(',')
 
@@ -194,38 +155,6 @@ const AuditNotice = () => {
                         <hr />
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={openModal}
-                        > Assessment
-
-                            {modalIsOpen && (
-                                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50">
-                                    <div className="bg-white p-4 rounded-lg border">
-                                        <p className="font-bold">Assessment Years</p>
-                                        <div className="grid grid-cols-4 gap-4">
-                                            {individualYears.map((year) => (
-                                                <button
-                                                    key={year}
-                                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-                                                    onClick={() => handleButtonClick(year)}
-
-                                                >
-                                                    {year}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <div className="mt-4 flex justify-end">
-                                            <button
-                                                className="px-4 py-2 bg-red-500 text-white rounded"
-                                                onClick={handleCloseModal}
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </button> */}
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
                             onClick={() => router.push(`/tax-audit/audit-view?id=${id}`)}
                         >Home</button>

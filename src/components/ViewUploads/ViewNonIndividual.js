@@ -1,26 +1,16 @@
 import SectionTitle from "../section-title";
 import Widget from "../widget";
-import { SubmitButton } from "../CustomButton/CustomButton";
-import { NewFormInput } from "../FormInput/formInputs";
-import { ViewAnnualTable } from "../tables/viewIndividual";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CustomPagination } from "../pagination/customPagination";
-import { formatNumber } from "../../functions/numbers";
 import dateformat from "dateformat";
 import Loader from "react-loader-spinner";
-import Widget1 from "../dashboard/widget-1";
-import * as Icons from '../Icons/index';
 import { ViewNonIndividualTable } from "../tables/viewNonIndividual";
 
 const ViewNonIndividual = () => {
   const [post, setPost] = useState(() => []);
   const [isFetching, setIsFetching] = useState(() => true);
-  const [currentPage, setCurrentPage] = useState(() => 1);
-  const [postPerPage, setPostPerPage] = useState(() => 10);
-  const [query, setQuery] = useState(() => "");
   useEffect(() => {
     setAuthToken();
     let num = 1
