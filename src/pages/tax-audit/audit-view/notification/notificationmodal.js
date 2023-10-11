@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 import { SignatureCol } from '../../../../components/Images/Images';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'; // Import icons from react-icons
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'; 
 
 
 
@@ -205,7 +205,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
     const [selectedValuesItems, setSelectedValuesItems] = useState(checks.map(() => 'NO'));
-    const [selectedChecklistItems, setSelectedChecklistItems] = useState([]); // Store selected checklist items
+    const [selectedChecklistItems, setSelectedChecklistItems] = useState([]); 
     const dropdownRef = useRef(null);
 
     const router = useRouter()
@@ -230,7 +230,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         };
     }, []);
 
-    
 
     const { auth } = useSelector(
         (state) => ({
@@ -246,7 +245,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     //     return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     // };
     // let checkValues = getCheckboxValues()
-
+  
 
     const [formData, setFormData] = useState({
         notification_date: '',
@@ -254,12 +253,13 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         notification_fileno: '',
         notification_addressee: '',
         actionType: 'Audit Visit',
+        reviewstatus: 'Draft',
+        approvestatus: 'Draft',
         doneby: emailAdd,
         job_id: jodId,
-        notification_status: 'Delivered',
+        notification_status: 'Created',
         notification_delivery: 'Email',
         notification_note: 'Audit Visit',
-        checklists: String(selectedValuesItems)
 
     });
 
@@ -283,17 +283,17 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     };
 
 
-  const handleOptionChange = (index) => { // Pass the index of the option
-    const newSelectedValues = [...selectedValuesItems]; // Create a copy of selectedValues
-    if (newSelectedValues[index] === 'NO') {
-      newSelectedValues[index] = 'YES'; // Update to "YES" when selected
-      setSelectedChecklistItems([...selectedChecklistItems, checks[index].checklist_item]); // Add the checklist_item
-    } else {
-      newSelectedValues[index] = 'NO'; // Update to "NO" when unselected
-      setSelectedChecklistItems(selectedChecklistItems.filter(item => item !== checks[index].checklist_item)); // Remove the checklist_item
-    }
-    setSelectedValuesItems(newSelectedValues); // Update the state
-  };
+    const handleOptionChange = (index) => { 
+        const newSelectedValues = [...selectedValuesItems]; 
+        if (newSelectedValues[index] === 'NO') {
+            newSelectedValues[index] = 'YES'; 
+            setSelectedChecklistItems([...selectedChecklistItems, checks[index].checklist_item]); // Add the checklist_item
+        } else {
+            newSelectedValues[index] = 'NO'; 
+            setSelectedChecklistItems(selectedChecklistItems.filter(item => item !== checks[index].checklist_item)); // Remove the checklist_item
+        }
+        setSelectedValuesItems(newSelectedValues); 
+    };
 
 
     function Letter() {
@@ -390,6 +390,8 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
 
     const submitNotice = async () => {
         formData.auditscope = String(selectedItems)
+        formData.checklists = String(selectedValuesItems)
+        console.log("formData", formData);
         setIsLoading(true)
 
         try {
@@ -529,7 +531,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                                     >
                                         Select Options
                                         {isOpenCheckItems ? <IoIosArrowUp className="ml-2" /> : <IoIosArrowDown className="ml-2" />}
-       
+
                                     </button>
                                 </div>
                                 {isOpenCheckItems && (

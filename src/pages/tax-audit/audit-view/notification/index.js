@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
-import NewNotificationButton from './button';
 import NewAckButton from '../acknowledge/button';
 import Search from '@material-ui/icons/Search'
 import * as Icons from '../../../../components/Icons/index'
@@ -17,6 +16,10 @@ import Clear from "@material-ui/icons/Clear";
 import MaterialTable from '@material-table/core';
 import { CheckBox, Edit, RateReview } from '@material-ui/icons';
 import VisitModal from '../visit/visitmodal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { shallowEqual, useSelector } from 'react-redux';
+import jwt from "jsonwebtoken";
 
 const Notification = () => {
 
@@ -28,7 +31,22 @@ const Notification = () => {
     const router = useRouter()
     const [reviewModal, setReviewModal] = useState(false);
     const [approveModal, setApproveModal] = useState(false);
+    const [reviewDecline, setReviewDecline] = useState('');
+    const [approveDecline, setApproveDecline] = useState('');
+    const [verifyComment, setComment] = useState('');
+    const [approveComment, setApprovedComment] = useState('');
+
     const { Notifid, JobID } = router?.query
+
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
+
+    const decoded = jwt.decode(auth);
+    const emailAdd = decoded.user
 
     const openModal = () => {
         setVisitModal(true);
@@ -39,11 +57,14 @@ const Notification = () => {
     }
 
     const toggleReviewModal = () => {
+        setReviewDecline("")
         setReviewModal(!reviewModal);
     };
     const toggleApproveModal = () => {
+        setApproveDecline("")
         setApproveModal(!approveModal);
     };
+
 
     const fields = [
 
@@ -67,39 +88,100 @@ const Notification = () => {
             title: "Created time",
             field: "createtime",
         },
-        // {
-        //     title: "Visit date",
-        //     field: "visit_date",
-        // },
-        // {
-        //     title: "Status",
-        //     field: "visit_status",
-        // },
-
-        // {
-        //     title: "Type",
-        //     field: "actionType"
-        // },
-        // {
-        //     title: "Compliance",
-        //     field: "visit_compliance"
-        // },
-        // {
-        //     title: "Created by",
-        //     field: "doneby",
-        // },
-        // {
-        //     title: "Reviewed by",
-        //     field: "reviewby",
-        // },
-        // {
-        //     title: "Created time",
-        //     field: "createtime",
-        // },
     ];
+    console.log("reviewDecline", reviewDecline);
+    console.log("verifyComment", verifyComment);
 
-    const FormAct = (e) => {
+    const VerifyAction = async (e) => {
+        setIsFetching(true)
         e.preventDefault()
+        toggleReviewModal()
+        let formData
+        if (reviewDecline === "Decline") {
+            formData = {
+                job_id: JobID,
+                notification_id: Notifid,
+                action: "review",
+                status: "rejected",
+                note: verifyComment || "Declined",
+                doneby: emailAdd
+            }
+
+        } else {
+            formData = {
+                job_id: JobID,
+                notification_id: Notifid,
+                action: "review",
+                status: "accepted",
+                note: "Verified",
+                doneby: emailAdd
+            }
+        }
+        try {
+            const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newnotification-approval.php', {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            const dataFetch = await res.json()
+            setIsFetching(false)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+            } else {
+                toast.success(dataFetch.message);
+                closeModal()
+                router.reload()
+
+            }
+        } catch (error) {
+            setIsFetching(false)
+            console.error('Server Error:', error)
+        }
+    }
+    const ApproveAction = async (e) => {
+        setIsFetching(true)
+        e.preventDefault()
+        toggleApproveModal()
+        let formData
+        if (approveDecline === "Decline") {
+            formData = {
+                job_id: JobID,
+                notification_id: Notifid,
+                action: "approve",
+                status: "rejected",
+                note: approveComment || "Declined",
+                doneby: emailAdd
+            }
+
+        } else {
+            formData = {
+                job_id: JobID,
+                notification_id: Notifid,
+                action: "approve",
+                status: "accepted",
+                note: "Approved",
+                doneby: emailAdd
+            }
+        }
+
+        try {
+            const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newnotification-approval.php', {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            const dataFetch = await res.json()
+            setIsFetching(false)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+            } else {
+                toast.success(dataFetch.message);
+                closeModal()
+                router.reload()
+
+            }
+        } catch (error) {
+            setIsFetching(false)
+            console.error('Server Error:', error)
+        }
     }
 
 
@@ -116,12 +198,10 @@ const Notification = () => {
                 const dataFetch = await res.json()
                 setNotDet(dataFetch.body[0])
                 setIsFetching(false)
-                // const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notification-visits-batch.php', {
                 const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-ack-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
-                        // "notification_id": Notifid,
                     })
                 })
                 const logData = await response.json()
@@ -138,13 +218,17 @@ const Notification = () => {
 
     return (
         <>
+            <ToastContainer />
 
             {reviewModal && (
                 <div className="modal">
                     <div className="modal-content" width="300">
-                        <form onSubmit={FormAct}>
-                            <p>Are you sure you want to Review this visit Log?</p>
-                            {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
+                        <form onSubmit={VerifyAction}>
+                            <p>Are you sure you want to {reviewDecline || "Verify"}?</p>
+                            {reviewDecline === "Decline" && (
+
+                                <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea>
+                            )}
                             <div className="mt-2 flex justify-between">
                                 <button onClick={toggleReviewModal}
                                     className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
@@ -169,9 +253,13 @@ const Notification = () => {
             {approveModal && (
                 <div className="modal">
                     <div className="modal-content" width="300">
-                        <form onSubmit={FormAct}>
-                            <p>Are you sure you want to Approve this visit Log?</p>
-                            {/* <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea> */}
+                        <form onSubmit={ApproveAction}>
+                            <p>Are you sure you want to {approveDecline || "Approve"}?</p>
+                            {approveDecline === "Decline" && (
+
+                                <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setApprovedComment(e.target.value)}></textarea>
+                            )}
+
                             <div className="mt-2 flex justify-between">
                                 <button onClick={toggleApproveModal}
                                     className="btn w-32 bg-red-600 btn-default text-white btn-outlined bg-transparent rounded-md"
@@ -197,12 +285,65 @@ const Notification = () => {
 
             {isFetching && <ProcessorSpinner />}
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
-                <h2 className="text-xl font-semibold">Notification Details</h2>
-                <div className="flex justify-end gap-2 items-center mb-4">
-                    <button onClick={() => router.back()} className="p-2 bg-gray-400 text-white w-20 rounded">Back</button>
-                    <p><a href={`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${notice?.notification_fileno}`} rel="noreferrer" target="_blank" className="p-2 bg-green-400 text-white rounded">View letter</a></p>
-                    <NewAckButton Notifid={Notifid} JobID={JobID} />
+                <div className="flex justify-between mb-4">
+                    <h2 className="text-xl font-semibold">Notification Details</h2>
+                    {/* <div className="flex">
+                        <button onClick={() => router.back()} className="p-2 bg-gray-400 text-white w-20 rounded mr-3">Back</button>
+                        <button><a href={`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${notice?.notification_fileno}`} rel="noreferrer" target="_blank" className="p-2 bg-pink-400 text-white rounded">View letter</a></button>
+                    </div> */}
+
                 </div>
+                <div className="flex justify-end gap-2 items-center mb-4">
+                    {
+                        <>
+                            {notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" :
+                                <>
+                                    {notice?.reviewstatus === null ?
+                                        <>
+                                            <button onClick={() => setReviewModal(true)} className="p-2 bg-purple-400 text-white w-20 rounded">Verify</button>
+                                            <button onClick={(e) => {
+                                                setReviewModal(true)
+                                                setReviewDecline(e.target.value)
+                                            }
+                                            } className="p-2 bg-red-400 text-white w-20 rounded" value="Decline">Decline</button>
+                                        </>
+                                        : <>
+                                            <>
+                                                {
+                                                    notice?.approvestatus === "accepted" ?
+                                                        "" : <>
+                                                            {
+                                                                notice?.reviewstatus === "accepted" ? <div>
+                                                                    <button onClick={() => setApproveModal(true)} className="p-2 bg-green-400 text-white w-20 rounded">Approve</button>
+                                                                    <button onClick={(e) => {
+                                                                        setApproveModal(true)
+                                                                        setApproveDecline(e.target.value)
+                                                                    }
+
+                                                                    } className="p-2 bg-red-400 text-white w-20 rounded ml-2" value="Decline">Decline</button>
+                                                                </div> : <> </>
+                                                            }
+                                                        </>
+                                                }
+                                            </>
+                                        </>
+
+
+                                    }
+                                </>
+                            }
+                        </>
+                    }
+
+                    <div>
+                        {
+                            notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" : <NewAckButton Notifid={Notifid} JobID={JobID} />
+
+                        }
+                    </div>
+
+                </div>
+
                 <p className="">
                     <span className="font-semibold">Notification Date:</span>{' '}
                     {notice?.notification_date}
@@ -228,31 +369,31 @@ const Notification = () => {
                 data={logData}
                 columns={fields}
 
-                // actions={
-                //     [
+                actions={
+                    [
 
-                //         rowData => ({
-                //             icon: Edit,
-                //             tooltip: 'Update',
-                //             onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
-                //             hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
-                //         }),
+                        rowData => ({
+                            icon: Edit,
+                            tooltip: 'Update',
+                            onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
+                            hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
+                        }),
 
-                //         rowData => ({
-                //             icon: RateReview,
-                //             tooltip: 'Review',
-                //             onClick: (event, rowData) => { setReviewModal(true) },
-                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
-                //         }),
-                //         rowData => ({
-                //             icon: CheckBox,
-                //             tooltip: 'Approve',
-                //             onClick: (event, rowData) => { setApproveModal(true) },
-                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
-                //         })
+                        rowData => ({
+                            icon: RateReview,
+                            tooltip: 'Review',
+                            onClick: (event, rowData) => { setReviewModal(true) },
+                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
+                        }),
+                        rowData => ({
+                            icon: CheckBox,
+                            tooltip: 'Approve',
+                            onClick: (event, rowData) => { setApproveModal(true) },
+                            hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
+                        })
 
-                //     ]
-                // }
+                    ]
+                }
 
                 options={{
                     search: true,

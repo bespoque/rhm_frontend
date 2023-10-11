@@ -37,8 +37,12 @@ const AuditNotice = () => {
             field: "notification_date",
         },
         {
-            title: "Status",
-            field: "notification_status",
+            title: "Verify status",
+            field: "reviewstatus",
+        },
+        {
+            title: "Approve status",
+            field: "approvestatus",
         },
         {
             title: "Created by",
