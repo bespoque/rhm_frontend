@@ -2,26 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 import NewAckButton from '../acknowledge/button';
-import Search from '@material-ui/icons/Search'
-import * as Icons from '../../../../components/Icons/index'
-import SaveAlt from '@material-ui/icons/SaveAlt'
-import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import ChevronRight from '@material-ui/icons/ChevronRight'
-import FirstPage from '@material-ui/icons/FirstPage'
-import LastPage from '@material-ui/icons/LastPage'
-import Check from '@material-ui/icons/Check'
-import Remove from '@material-ui/icons/Remove'
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Clear from "@material-ui/icons/Clear";
-import MaterialTable from '@material-table/core';
-import { CheckBox, Edit, RateReview } from '@material-ui/icons';
 import VisitModal from '../visit/visitmodal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 
-const Notification = () => {
+const SingleVisit = () => {
 
     const [isFetching, setIsFetching] = useState(true);
     const [notice, setNotDet] = useState({});
@@ -36,7 +23,7 @@ const Notification = () => {
     const [verifyComment, setComment] = useState('');
     const [approveComment, setApprovedComment] = useState('');
 
-    const { Notifid, JobID } = router?.query
+    const { VisitId, JobID } = router?.query
 
     const { auth } = useSelector(
         (state) => ({
@@ -66,32 +53,6 @@ const Notification = () => {
     };
 
 
-    const fields = [
-
-        {
-            title: "Acknowledged by",
-            field: "ack_by",
-        },
-        {
-            title: "Relationship",
-            field: "ack_relationship",
-        },
-        {
-            title: "Channel",
-            field: "ack_channel",
-        },
-        {
-            title: "Type",
-            field: "actionType"
-        },
-        {
-            title: "Created time",
-            field: "createtime",
-        },
-    ];
-    console.log("reviewDecline", reviewDecline);
-    console.log("verifyComment", verifyComment);
-
     const VerifyAction = async (e) => {
         setIsFetching(true)
         e.preventDefault()
@@ -100,7 +61,7 @@ const Notification = () => {
         if (reviewDecline === "Decline") {
             formData = {
                 job_id: JobID,
-                notification_id: Notifid,
+                notification_id: VisitId,
                 action: "review",
                 status: "rejected",
                 note: verifyComment || "Declined",
@@ -110,7 +71,7 @@ const Notification = () => {
         } else {
             formData = {
                 job_id: JobID,
-                notification_id: Notifid,
+                notification_id: VisitId,
                 action: "review",
                 status: "accepted",
                 note: "Verified",
@@ -145,7 +106,7 @@ const Notification = () => {
         if (approveDecline === "Decline") {
             formData = {
                 job_id: JobID,
-                notification_id: Notifid,
+                notification_id: VisitId,
                 action: "approve",
                 status: "rejected",
                 note: approveComment || "Declined",
@@ -155,7 +116,7 @@ const Notification = () => {
         } else {
             formData = {
                 job_id: JobID,
-                notification_id: Notifid,
+                notification_id: VisitId,
                 action: "approve",
                 status: "accepted",
                 note: "Approved",
@@ -188,24 +149,16 @@ const Notification = () => {
     useEffect(() => {
         async function fetchPost() {
             try {
-                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-notifications-single.php', {
+                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-notification-auditlog-single.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
-                        "id": Notifid,
+                        "visit_id": VisitId,
                     })
                 })
                 const dataFetch = await res.json()
                 setNotDet(dataFetch.body[0])
                 setIsFetching(false)
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-ack-batch.php', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        "job_id": JobID,
-                    })
-                })
-                const logData = await response.json()
-                setLogData(logData.body)
             } catch (error) {
                 console.error('Server Error:', error)
             } finally {
@@ -213,7 +166,7 @@ const Notification = () => {
             }
         }
         fetchPost();
-    }, [Notifid, JobID]);
+    }, [VisitId, JobID]);
 
 
     return (
@@ -281,15 +234,14 @@ const Notification = () => {
                     </div>
                 </div>
             )}
-            <VisitModal isOpen={visitModal} visitId={visitId} closeModal={closeModal} Notifid={Notifid} JobID={JobID} />
+            <VisitModal isOpen={visitModal} visitId={visitId} closeModal={closeModal} Notifid={VisitId} JobID={JobID} />
 
             {isFetching && <ProcessorSpinner />}
             <div className="bg-white shadow-lg rounded-lg p-6 mb-4">
                 <div className="flex justify-between mb-4">
-                    <h2 className="text-xl font-semibold">Notification Details</h2>
+                    <h2 className="text-xl font-semibold">Visit details</h2>
                     <div className="flex">
                         <button onClick={() => router.back()} className="p-2 bg-gray-400 text-white w-20 rounded mr-3">Back</button>
-                        <button><a href={`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${notice?.notification_fileno}`} rel="noreferrer" target="_blank" className="p-2 bg-pink-400 text-white rounded">View letter</a></button>
                     </div>
 
                 </div>
@@ -337,7 +289,7 @@ const Notification = () => {
 
                     <div>
                         {
-                            notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" : <NewAckButton Notifid={Notifid} JobID={JobID} />
+                            notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" : <span></span>
 
                         }
                     </div>
@@ -345,12 +297,12 @@ const Notification = () => {
                 </div>
 
                 <p className="">
-                    <span className="font-semibold">Notification Date:</span>{' '}
-                    {notice?.notification_date}
+                    <span className="font-semibold">Personel Met:</span>{' '}
+                    {notice?.personnelmet}
                 </p>
                 <p className="">
-                    <span className="font-semibold">Notification Status:</span>{' '}
-                    {notice?.notification_status}
+                    <span className="font-semibold">Designation:</span>{' '}
+                    {notice?.designation}
                 </p>
                 <p className="">
                     <span className="font-semibold">Notification Delivery:</span>{' '}
@@ -363,60 +315,12 @@ const Notification = () => {
                     <span className="font-semibold">Create Time:</span>{' '}
                     {notice?.createtime}
                 </p>
+                <p className="">
+                    <span className="font-semibold">Note:</span>{' '}
+                    {notice?.note}
+                </p>
             </div>
 
-            <MaterialTable title="Acknowledgements"
-                data={logData}
-                columns={fields}
-
-                // actions={
-                //     [
-
-                //         rowData => ({
-                //             icon: Edit,
-                //             tooltip: 'Update',
-                //             onClick: (event, rowData) => { setVisitId(rowData.id); openModal() },
-                //             hidden: rowData.visit_compliance === "Review" || rowData.visit_compliance === "Compliance"
-                //         }),
-
-                //         rowData => ({
-                //             icon: RateReview,
-                //             tooltip: 'Review',
-                //             onClick: (event, rowData) => { setReviewModal(true) },
-                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Review"
-                //         }),
-                //         rowData => ({
-                //             icon: CheckBox,
-                //             tooltip: 'Approve',
-                //             onClick: (event, rowData) => { setApproveModal(true) },
-                //             hidden: rowData.visit_compliance === "Pending" || rowData.visit_compliance === "Compliance"
-                //         })
-
-                //     ]
-                // }
-
-                options={{
-                    search: true,
-                    paging: true,
-                    filtering: true,
-                    actionsColumnIndex: -1
-                }}
-                icons={{
-                    Check: Check,
-                    DetailPanel: ChevronRight,
-                    Export: SaveAlt,
-                    Filter: () => <Icons.Filter />,
-                    FirstPage: FirstPage,
-                    LastPage: LastPage,
-                    NextPage: ChevronRight,
-                    PreviousPage: ChevronLeft,
-                    Search: Search,
-                    ThirdStateCheck: Remove,
-                    Clear: Clear,
-                    SortArrow: ArrowDownward
-                }}
-
-            />
             <style
                 jsx>{
                     `
@@ -470,4 +374,4 @@ const Notification = () => {
     );
 };
 
-export default Notification;
+export default SingleVisit;

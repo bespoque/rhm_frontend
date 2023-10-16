@@ -13,7 +13,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded, Email } from "@material-ui/icons";
+import { MoreHoriz, NextWeekRounded, Email, Extension } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './../notification/button';
 import Modal from '@material-ui/core/Modal';
@@ -172,7 +172,9 @@ const AuditNotice = () => {
                         >
                             Correspondence
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Visit log</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                          onClick={() => router.push(`/tax-audit/audit-view/visit?id=${id}`)}
+                        >Visit log</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Audit Report</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
@@ -220,12 +222,20 @@ const AuditNotice = () => {
                             onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
 
                         },
+                        // {
+                        //     icon: Email,
+                        //     tooltip: 'Letter',
+                        //     onClick: (event, rowData) => {
+                        //         setSelectedPdfUrl(`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${rowData.notification_fileno}`);
+                        //         setIsModalOpenPDF(true);
+                        //     }
+
+                        // },
                         {
-                            icon: Email,
-                            tooltip: 'Letter',
+                            icon: Extension,
+                            tooltip: 'view Reschedules',
                             onClick: (event, rowData) => {
-                                setSelectedPdfUrl(`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${rowData.notification_fileno}`);
-                                setIsModalOpenPDF(true);
+                                router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${rowData.id}&JobID=${rowData.job_id}`);
                             }
 
                         },

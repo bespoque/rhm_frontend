@@ -228,7 +228,9 @@ const Index = () => {
                         >
                             Correspondence
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Visit log</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                        onClick={() => router.push(`/tax-audit/audit-view/visit?id=${id}`)}
+                        >Visit log</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Audit Report</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>

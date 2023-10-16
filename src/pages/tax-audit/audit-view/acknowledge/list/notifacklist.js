@@ -73,23 +73,17 @@ export default function Notifiacklist() {
         },
     ];
 
-  
+
 
     const onSubmit = async (data) => {
         data.doneby = emailAdd
         data.job_id = JobID
         data.notification_id = Notifid
-        data.ack_previd = ackId
-        data.ack_note = " "
-        data.ack_channel = " "
-        data.ack_datetime = " "
-        data.ack_relationship = " "
-        data.ack_by = " "
-        data.ack_reschedule = "YES"
+        data.actionType = "Accepted"
         setIsFetching(true)
 
         try {
-            const res = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newacknowledment.php', {
+            const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newreschedule.php', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
@@ -100,8 +94,7 @@ export default function Notifiacklist() {
             } else {
                 toast.success(dataFetch.message);
                 closeModal()
-                router.reload()
-                
+                router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${Notifid}&JobID=${JobID}`)
             }
         } catch (error) {
             setIsFetching(false)
@@ -139,10 +132,10 @@ export default function Notifiacklist() {
         const ack_reschedule = String(item.ack_reschedule);
         return ack_reschedule.toLowerCase() !== "yes";
     });
-console.log("filteredData", filteredData);
+
     return (
         <>
-           <ToastContainer />
+            <ToastContainer />
             {isFetching && <ProcessorSpinner />}
             <Modal
                 isOpen={isModalOpen}
@@ -153,7 +146,7 @@ console.log("filteredData", filteredData);
             >
                 <div>
                     <h6 className="text-dark text-center">Reschedule Visit</h6>
-                    <form  onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="p-2">
                             <div className="mb-2">
                                 <label className="block mb-1">
@@ -161,14 +154,26 @@ console.log("filteredData", filteredData);
                                 </label>
                                 <input
                                     type="date"
-                                    id="ack_reschedule_date"
-                                    name="ack_reschedule_date"
+                                    id="reschedule_date"
+                                    name="reschedule_date"
                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                     required
                                     ref={register()}
                                 />
                             </div>
                             <div className="mb-2">
+                                <label className="block mb-1">
+                                    Addressee:
+                                </label>
+                                <input
+                                    type="text"
+                                    name="reschedule_adressee"
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
+                                    ref={register()}
+                                />
+                            </div>
+                            {/* <div className="mb-2">
                                 <label className="block mb-1">
                                     Reschedule Reason:
                                 </label>
@@ -179,34 +184,20 @@ console.log("filteredData", filteredData);
                                     required
                                     ref={register()}
                                 > </textarea>
-                            </div>
+                            </div> */}
                             <div className="mb-2">
                                 <label className="block mb-1">
-                                    Reschedule Status:
+                                    Letter Source:
                                 </label>
                                 <select
-
-                                    id="ack_reschedule_status"
-                                    name="ack_reschedule_status"
+                                    name="reschedule_lettersource"
                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                     required
                                     ref={register()}
                                 >
-                                    <option value="ACCEPTED">Accepted</option>
-                                    <option value="REJECTED">Rejected</option>
-                                </select>
-                            </div>
-                            <div className="mb-2">
-                                <label className="block mb-1">
-                                    Type:
-                                </label>
-                                <select
-                                    name="actionType"
-                                    className="border border-gray-300 rounded px-2 py-1 w-full"
-                                    required
-                                    ref={register()}
-                                >
-                                    <option value="Tax Audit">Tax Audit</option>
+                                    <option value="KGIRS/1234/Audit/9575">KGIRS/1234/Audit/9575</option>
+                                    <option value="KGIRS/1234/Audit/9545">KGIRS/1234/Audit/9453</option>
+                                    <option value="KGIRS/1234/Audit/9588">KGIRS/1234/Audit/9585</option>
                                 </select>
                             </div>
                         </div>
@@ -228,7 +219,7 @@ console.log("filteredData", filteredData);
             </Modal>
 
             <MaterialTable title="Notification acknowledegements"
-                data={filteredData}
+                data={notifAck}
                 columns={fields}
                 actions={
                     [
