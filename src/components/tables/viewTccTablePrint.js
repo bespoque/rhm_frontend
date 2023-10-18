@@ -195,15 +195,11 @@ export const ViewSingleTccPrintTable = ({
 
   payerDetails.forEach((ind, i) => {
     printPrintTime = ind.aprvPrint_time
-    console.log("ind.aprvPrint_time",);
   })
 
   if (printPrintTime === undefined) {
     printPrintTime = new Date()
-  } else {
-    printPrintTime = printPrintTime
-  }
-
+  } 
 
   const year1 = assessmentData.map((ind, i) => {
     return ind.year
@@ -213,7 +209,6 @@ export const ViewSingleTccPrintTable = ({
   if (assessmentData2 === "" || assessmentData2 === undefined) {
     year2 = ""
   } else {
-
     year2 = assessmentData2.map((ind, i) => {
       return ind.year
     })
@@ -254,7 +249,7 @@ export const ViewSingleTccPrintTable = ({
       status: "Printed"
     }
     try {
-      let res = axios.post(`${url.BASE_URL}forma/tcc-status`, statusObj);
+    axios.post(`${url.BASE_URL}forma/tcc-status`, statusObj);
     } catch (error) {
       console.log(error);
     }
