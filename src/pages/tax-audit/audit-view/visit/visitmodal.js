@@ -217,7 +217,6 @@ const VisitModal = ({ isOpen, closeModal, id }) => {
     const onSubmit = async (data) => {
         data.job_id = id
         data.doneby = emailAdd
-        data.purpose = "audit"
         setIsLoading(true)
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newauditlog.php', {
@@ -279,6 +278,17 @@ const VisitModal = ({ isOpen, closeModal, id }) => {
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
+                                Purpose of visit:
+                            </label>
+                            <input type="text"
+                                name="purpose"
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            />
+                        </div>
+                        <div className="mb-2">
+                            <label className="block  mb-1 ">
                                 Designation:
                             </label>
                             <input type="text"
@@ -311,7 +321,7 @@ const VisitModal = ({ isOpen, closeModal, id }) => {
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
-                                Compliance level:
+                                Rate your visit:
                             </label>
 
                             <div >
