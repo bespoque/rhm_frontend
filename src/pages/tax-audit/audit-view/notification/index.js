@@ -337,7 +337,7 @@ const Notification = () => {
 
                     <div>
                         {
-                            notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" : <NewAckButton Notifid={Notifid} JobID={JobID} />
+                            notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" || notice?.approvestatus === null || notice?.reviewstatus === null ? "" : <NewAckButton Notifid={Notifid} JobID={JobID} />
 
                         }
                     </div>
