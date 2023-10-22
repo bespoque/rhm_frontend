@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../components/spiner';
 import { useRouter } from 'next/router';
 import { SignatureCol } from '../../../../components/Images/Images';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'; 
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 
 
@@ -197,7 +197,6 @@ const scope = {
 
 
 const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr }) => {
-
     let jodId = id
     const [isFetching, setIsLoading] = useState(false);
     const [checkboxes, setCheckboxes] = useState(new Array(scope.checklists.length).fill(false));
@@ -205,7 +204,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const [letterState, setLetterState] = useState('hidden')
     const [formState, setFormState] = useState('')
     const [selectedValuesItems, setSelectedValuesItems] = useState(checks.map(() => 'NO'));
-    const [selectedChecklistItems, setSelectedChecklistItems] = useState([]); 
+    const [selectedChecklistItems, setSelectedChecklistItems] = useState([]);
     const dropdownRef = useRef(null);
 
     const router = useRouter()
@@ -245,7 +244,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     //     return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
     // };
     // let checkValues = getCheckboxValues()
-  
+
 
     const [formData, setFormData] = useState({
         notification_date: '',
@@ -283,16 +282,16 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     };
 
 
-    const handleOptionChange = (index) => { 
-        const newSelectedValues = [...selectedValuesItems]; 
+    const handleOptionChange = (index) => {
+        const newSelectedValues = [...selectedValuesItems];
         if (newSelectedValues[index] === 'NO') {
-            newSelectedValues[index] = 'YES'; 
+            newSelectedValues[index] = 'YES';
             setSelectedChecklistItems([...selectedChecklistItems, checks[index].checklist_item]); // Add the checklist_item
         } else {
-            newSelectedValues[index] = 'NO'; 
+            newSelectedValues[index] = 'NO';
             setSelectedChecklistItems(selectedChecklistItems.filter(item => item !== checks[index].checklist_item)); // Remove the checklist_item
         }
-        setSelectedValuesItems(newSelectedValues); 
+        setSelectedValuesItems(newSelectedValues);
     };
 
 
@@ -300,8 +299,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
         return (
             <div>
                 <div>
-
-                    <div className="text-justify " >
+                    <div className="text-justify" >
                         <p className="flex justify-between mt-3">   </p>
                         <p>Ref - {formData.notification_fileno}</p>
                         <p>Date - {formData.notification_date}</p>
@@ -391,7 +389,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const submitNotice = async () => {
         formData.auditscope = String(selectedItems)
         formData.checklists = String(selectedValuesItems)
-        console.log("formData", formData);
         setIsLoading(true)
 
         try {
@@ -416,8 +413,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     }
 
 
-
-
     return (
         <>
             <ToastContainer />
@@ -437,68 +432,71 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                 <div className={`${formState}`}>
                     <h6 className="text-dark text-center">Notice of Audit</h6>
                     <form onSubmit={Proceed}>
-                        <div className="mb-2">
-                            <label className="block mb-1  text-dark">
-                                Visit date:
-                            </label>
-                            <input
-                                type="date"
-                                name='notification_date'
-                                value={formData.notification_date}
-                                onChange={handleInputChange}
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="mb-2">
+                                <label className="block mb-1  text-dark">
+                                    Visit date:
+                                </label>
+                                <input
+                                    type="date"
+                                    name='notification_date'
+                                    value={formData.notification_date}
+                                    onChange={handleInputChange}
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
 
-                            />
-                        </div>
-                        <div className="mb-1">
-                            <label className="block mb-1 text-dark">
-                                Recipient Email:
-                            </label>
-                            <input
-                                name="notification_email"
-                                type="email"
-                                value={formData.notification_email}
-                                onChange={handleInputChange}
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
+                                />
+                            </div>
+                            <div className="mb-1">
+                                <label className="block mb-1 text-dark">
+                                    Recipient Email:
+                                </label>
+                                <input
+                                    name="notification_email"
+                                    type="email"
+                                    value={formData.notification_email}
+                                    onChange={handleInputChange}
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
 
-                            />
-                        </div>
-                        <div className="mb-1">
-                            <label className="text-dark  block mb-1">
-                                File Ref:
-                            </label>
-                            <input type="text"
-                                name='notification_fileno'
-                                value={formData.notification_fileno}
-                                onChange={handleInputChange}
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
+                                />
+                            </div>
+                            <div className="mb-1">
+                                <label className="text-dark  block mb-1">
+                                    File Ref:
+                                </label>
+                                <input type="text"
+                                    name='notification_fileno'
+                                    value={formData.notification_fileno}
+                                    onChange={handleInputChange}
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
 
-                            />
+                                />
 
-                        </div>
-                        <div className="mb-1">
-                            <label className="text-dark  block mb-1">
-                                Addresse:
-                            </label>
-                            <input type="text"
-                                name='notification_addressee'
-                                placeholder="Eg. Managing director"
-                                onChange={handleInputChange}
-                                value={formData.notification_addressee}
-                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
+                            </div>
+                            <div className="mb-1">
+                                <label className="text-dark  block mb-1">
+                                    Addresse:
+                                </label>
+                                <input type="text"
+                                    name='notification_addressee'
+                                    placeholder="Eg. Managing director"
+                                    onChange={handleInputChange}
+                                    value={formData.notification_addressee}
+                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                    required
 
-                            />
+                                />
+
+                            </div>
 
                         </div>
                         <div className="my-4">
                             <hr />
                         </div>
                         <p className="font-bold my-4 text-center">Audit Scope</p>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-3 gap-2">
                             {scope.checklists.map((checklist, index) => (
                                 <div key={checklist.checklist_id} className="flex items-center">
                                     <input
@@ -573,6 +571,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                                 Close
                             </button>
                         </div>
+
                     </form>
                 </div>
 

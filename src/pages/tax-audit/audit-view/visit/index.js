@@ -13,7 +13,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded, Email, Extension } from "@material-ui/icons";
+import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewVisitButton from './button';
 
@@ -34,7 +34,7 @@ const Visit = () => {
             field: "visitdate",
         },
         {
-            title: "Compliance",
+            title: "Vist rating (out of 7)",
             field: "compliancelevel",
         },
         {
