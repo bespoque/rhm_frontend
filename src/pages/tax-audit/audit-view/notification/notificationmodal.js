@@ -533,7 +533,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                                     </button>
                                 </div>
                                 {isOpenCheckItems && (
-                                    <div className="origin-top-right  right-0 mt-2 w-72 rounded-md shadow-lg bg-white ring-1">
+                                    <div className="origin-top-right right-0 mt-2 w-72 h-32 overflow-y-scroll rounded-md shadow-lg bg-white ring-1">
                                         <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                             {checks.map((option, index) => (
                                                 <label key={option.checklist_id} className="block pl-4 pr-12 py-2 hover:bg-gray-100">
