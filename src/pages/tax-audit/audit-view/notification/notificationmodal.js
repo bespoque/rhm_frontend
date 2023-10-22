@@ -552,7 +552,7 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                             </div>
                         </div>
 
-                        <div className="flex justify-between">
+                        <div className="flex justify-evenly mt-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
                                 type="submit"
