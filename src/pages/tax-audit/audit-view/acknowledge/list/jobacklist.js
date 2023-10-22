@@ -20,8 +20,8 @@ import { ProcessorSpinner } from '../../../../../components/spiner';
 export default function Jobacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [jobAck, setJobAck] = useState([]);
-   
-   
+
+
     const router = useRouter()
     const [job, setJob] = useState(() => []);
     const { JobID } = router?.query
@@ -148,20 +148,31 @@ export default function Jobacklist() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 p-2">
 
-                        <button className="btn block p-2 bg-blue-200 rounded-tr-lg m-2" onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)} > Notifications</button>
-                        <button className="btn block p-2 bg-gray-100  rounded-tl-lg m-2">
-                            Acknowledgements
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)}
+                        >Home</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${JobID}`)}
+                        >Notifications
                         </button>
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
+                        <button className="btn block p-2 bg-gray-100 rounded-tl-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)}>
+                            Job Acknowledgements
+                        </button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/correspondence/correspondence?id=${JobID}`)}
                         >
-                            Audit Report
+                            Correspondence
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
-                        >Notes</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/visit?id=${JobID}`)}
+                        >Visit log</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button> */}
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Audit Report</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Tarc</button>
                     </div>
 
                 </div>
