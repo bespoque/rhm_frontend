@@ -144,7 +144,6 @@ export default function AuditCert() {
                             <Controller
                                 name="sdate"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker
