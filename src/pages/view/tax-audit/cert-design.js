@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
+import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import jwt from "jsonwebtoken";
 
 
 const CertDesign = () => {
@@ -9,6 +11,26 @@ const CertDesign = () => {
     const [formData, setFormData] = useState(null);
     const componentRef = useRef();
 
+    const { auth } = useSelector(
+        (state) => ({
+          auth: state.authentication.auth,
+        }),
+        shallowEqual
+      );
+
+      const decoded = jwt.decode(auth);
+      const staff = decoded.staffName
+
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const formattedDateTime = new Date().toLocaleDateString(undefined, options);
 
     function convertToNairaWords(amount) {
         const words = [
@@ -80,7 +102,6 @@ const CertDesign = () => {
     }
 
 
-
     useEffect(() => {
         if (router.query.formData) {
             setFormData(JSON.parse(router.query.formData));
@@ -92,8 +113,7 @@ const CertDesign = () => {
     }
     const wordNum = (formData.amount).replace(/,/g, '')
     const numberInWords = convertToNairaWords(wordNum);
-    console.log("wordNum", wordNum);
-    console.log(convertToNairaWords(100000.56));
+
     return (
         <>
             <div className="flex justify-between my-3">
@@ -119,9 +139,9 @@ const CertDesign = () => {
             <div>
                 <div className="flex justify-center " ref={componentRef}>
                     <div className="w-2/3">
-                        <div className="mt-20">
-                            <h4 className="text-right">ORIGINAL</h4>
-                            <div className="">
+                        <div className="mt-32">
+                            <h4 className="text-right font-bold">ORIGINAL</h4>
+                            <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
                                     This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
@@ -168,7 +188,7 @@ const CertDesign = () => {
                                 <div>
                                     <QRCode
                                         value={`${formData.fullname} ${formData.amount} ${formData.kgtin}`}
-                                        size={120}
+                                        size={80}
                                     />
                                 </div>
                                 <div>
@@ -177,11 +197,12 @@ const CertDesign = () => {
                                     <p>Executive Chairman</p>
                                 </div>
                             </div>
+                            <div class="flex justify-end"><small>{'<<'} Printed by {staff} on {formattedDateTime} {'>>'}</small></div>
                         </div>
 
                         <div style={{ marginTop: "10.2rem" }}>
-                            <h4 className="text-right">DUPLICATE</h4>
-                            <div className="mt-8">
+                            <h4 className="text-right font-bold">DUPLICATE</h4>
+                            <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
                                     This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
@@ -229,7 +250,7 @@ const CertDesign = () => {
                                 <div>
                                     <QRCode
                                         value={`${formData.fullname} ${formData.amount} ${formData.kgtin}`}
-                                        size={120}
+                                        size={80}
                                     />
                                 </div>
                                 <div>
@@ -239,6 +260,7 @@ const CertDesign = () => {
                                 </div>
                             </div>
                         </div>
+                        <div class="flex justify-end"><small>{'<<'} Printed by {staff} on {formattedDateTime} {'>>'}</small></div>
                     </div>
                 </div>
             </div>

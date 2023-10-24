@@ -1,16 +1,13 @@
-import Widget from "../widget";
+
 import * as Icons from '../Icons/index';
-import MaterialTable, { MTableToolbar } from "material-table";
+import MaterialTable from "material-table";
 import Search from '@material-ui/icons/Search'
-import ViewColumn from '@material-ui/icons/ViewColumn'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import FirstPage from '@material-ui/icons/FirstPage'
 import LastPage from '@material-ui/icons/LastPage'
-import Add from '@material-ui/icons/Add'
 import Check from '@material-ui/icons/Check'
-import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
@@ -132,18 +129,6 @@ const fieldsVerified = [
 
 export const ViewDraftPayeTccTable = ({ tccdata }) => {
   let items = tccdata;
-  const { config, palettes, auth } = useSelector(
-    (state) => ({
-      config: state.config,
-      palettes: state.palettes,
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
-
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
 
   return (
     <>
@@ -180,14 +165,6 @@ export const ViewDraftPayeTccTable = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
           window.open(`/view/listpayetcc/alltcc/${rowData.id}`, "_self")
           event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
-
-          // } else {
-
-          //   window.open(`/view/listtcc/${rowData.id}`, "_self")
-          //   event.stopPropagation();
-          // }
         }}
       />
     </>
@@ -197,16 +174,6 @@ export const ViewDraftPayeTccTable = ({ tccdata }) => {
 export const ViewApprovedTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const { auth } = useSelector(
-    (state) => ({
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
-
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
 
   return (
     <>
@@ -243,14 +210,6 @@ export const ViewApprovedTccTable = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
           window.open(`/view/listpayetcc/alltcc/${rowData.id}`, "_self")
           event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
-
-          // } else {
-
-          //   window.open(`/view/listtcc/${rowData.id}`, "_self")
-          //   event.stopPropagation();
-          // }
         }}
       />
     </>
@@ -259,17 +218,6 @@ export const ViewApprovedTccTable = ({ tccdata }) => {
 
 export const ViewAuditTccTable = ({ tccdata }) => {
   let items = tccdata;
-
-  const { auth } = useSelector(
-    (state) => ({
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
-
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
 
   return (
     <>
@@ -306,14 +254,6 @@ export const ViewAuditTccTable = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
           window.open(`/view/listpayetcc/alltcc/${rowData.id}`, "_self")
           event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
-
-          // } else {
-
-          //   window.open(`/view/listtcc/${rowData.id}`, "_self")
-          //   event.stopPropagation();
-          // }
         }}
       />
     </>
@@ -323,17 +263,9 @@ export const ViewAuditTccTable = ({ tccdata }) => {
 export const ViewVerifiedTccTable = ({ tccdata }) => {
   let items = tccdata;
 
-  const {  auth } = useSelector(
-    (state) => ({
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
 
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
 
+ 
   return (
     <>
       <MaterialTable title="Verified TCC"
@@ -369,14 +301,6 @@ export const ViewVerifiedTccTable = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
           window.open(`/view/listpayetcc/alltcc/${rowData.id}`, "_self")
           event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
-
-          // } else {
-
-          //   window.open(`/view/listtcc/${rowData.id}`, "_self")
-          //   event.stopPropagation();
-          // }
         }}
       />
     </>
@@ -401,7 +325,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
   } = useForm()
 
 
-
   const chairman = [1, 9]
   const Approval = [27, 1]
   const verify = [30, 1]
@@ -410,8 +333,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
   const userGroup = decoded.groups
 
 
-  const declinePopup = (e) => {
-    // e.preventDefault()
+  const declinePopup = () => {
     setDeclineModal(!declineModal);
   };
 
@@ -869,18 +791,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 grid grid-cols-2 gap-3">
-                <label></label>
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent rounded-md"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrOnePaySl.payroll_year}_${yrOnePaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-
-              : ""}
           </div>
 
           <div className="p-3">
@@ -932,17 +842,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 justify-self-center">
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined w-full bg-transparent rounded-md"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrTwoPaySl.payroll_year}_${yrTwoPaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-
-              : ""}
           </div>
 
           <div className="p-3">
@@ -992,18 +891,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-            {statusTCC === "Draft" ?
-              <div className="mb-6 ">
-                <button
-                  className="btn bg-green-600 btn-default text-white btn-outlined bg-transparent w-full rounded"
-                  type="submit"
-                >
-                  <Link legacyBehavior href={`/pita/payslip/${yrThreePaySl.payroll_year}_${yrThreePaySl.id}`}> Upload Payslip</Link>
-                </button>
-              </div>
-              : ""
-            }
-
+    
           </div>
         </div>
       </div>

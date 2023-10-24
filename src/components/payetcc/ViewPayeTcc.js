@@ -1,5 +1,4 @@
 import SectionTitle from "../section-title";
-import Widget from "../widget";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -66,9 +65,6 @@ const SinglePayeTcc = () => {
   return (
     <>
       <SectionTitle subtitle="View Tcc" />
-
-      {/* <Widget> */}
-
         <>
           {isFetching ? (
             <div className="flex justify-center item mb-2">
@@ -98,7 +94,7 @@ const SinglePayeTcc = () => {
             />
           }
         </>
-      {/* </Widget> */}
+  
     </>
   );
 };
