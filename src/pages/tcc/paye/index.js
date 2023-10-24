@@ -199,9 +199,6 @@ function Index() {
                     .then(function (response) {
                         setIsFetching(false)
                         setPayslipYear3(response.data.body.payroll[0]);
-                        // setTaxpayerinfo(response.data.body)
-                        // console.log("response", response);
-                        // setKgtinErr("")
                     })
                     .catch(function (error) {
                         setPayslipYear3("")
@@ -308,22 +305,12 @@ function Index() {
                 <div className={`flex justify-between border mb-3 rounded-lg bg-white w-full`}>
 
                     <div className="p-3">
-                        {/* <div className="flex justify-end mb-2">
-                            <select className="form-control rounded"
-                                value={form1Value}
-                                onChange={(e) => setForm1Value(e.target.value)}
-                            >
-                                <option value="DA">Direct Assessment</option>
-                                <option value="PAYE">PAYE</option>
-                            </select>
-                        </div> */}
                         <h6 className="text-right mb-6">Year 1</h6>
                         <div className="mb-6 grid grid-cols-2 ">
                             <label>Assessment year </label>
                             <Controller
                                 name="assmtYr_1"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker
@@ -374,23 +361,12 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-                        {/* <div className="flex justify-end mb-2">
-                            <select className="form-control rounded"
-                                value={form2Value}
-                                onChange={(e) => setForm2Value(e.target.value)}
-
-                            >
-                                <option value="DA">Direct Assessment</option>
-                                <option value="PAYE">PAYE</option>
-                            </select>
-                        </div> */}
                         <h6 className="text-center mb-6">Year 2</h6>
                         <div className="mb-6 justify-self-center">
 
                             <Controller
                                 name="assmtYr_2"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker
@@ -440,22 +416,12 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-                        {/* <div className="flex justify-end mb-2">
-                            <select className="form-control rounded"
-                                value={form3Value}
-                                onChange={(e) => setForm3Value(e.target.value)}
-                            >
-                                <option value="DA">Direct Assessment</option>
-                                <option value="PAYE">PAYE</option>
-                            </select>
-                        </div> */}
                         <h6 className="text-center mb-6">Year 3</h6>
                         <div className="mb-6 justify-self-center">
 
                             <Controller
                                 name="assmtYr_3"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker
@@ -508,7 +474,6 @@ function Index() {
                         style={{ backgroundColor: "#84abeb" }}
                         className="btn btn-default text-white btn-outlined bg-transparent rounded-md"
                         type="submit"
-                    // disabled={disabled}
                     >
                         Submit
                     </button>
