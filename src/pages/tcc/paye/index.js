@@ -72,12 +72,9 @@ function Index() {
 
     setAuthToken();
     const CreateTcc = async (data) => {
-
-        if (data.taxYr_1 == 0 && data.incYr_1 == 0) {
+        console.log("data", data);
+        if (data.taxYr_1 == '0' && data.incYr_1 == '0') {
             alert("Please provide Tax and Income figures for Year one")
-        }
-        else if (watchYear1.getFullYear() === watchYear2.getFullYear() || watchYear1.getFullYear() === watchYear3.getFullYear() || watchYear2.getFullYear() === watchYear3.getFullYear()) {
-            alert("Cannot have the same year twice")
         }
         else {
             setIsFetching(true)
@@ -167,65 +164,22 @@ function Index() {
     };
 
     useEffect(() => {
-
-        if (dirtyFields.assmtYr_1) {
-            let kgtinYear = {
-                year: String(watchYear1.getFullYear()),
-                kgtin: taxpayerInfo.KGTIN
-            }
-            const fetchPostYear1 = async () => {
-
-                if (form1Value === "DA") {
-                    setIsFetching(true)
-                    try {
-                        let res = await axios.post(`${url.BASE_URL}forma/view-tax-income`, kgtinYear);
-                        res = res.data.body
-                        console.log("res", res);
+        const fetchPostYear1 = () => {
+            if (dirtyFields.assmtYr_1) {
+                let year = watchYear1.getFullYear()
+                let kgtin = taxpayerInfo.KGTIN
+                setIsFetching(true)
+                axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
+                    .then(function (response) {
                         setIsFetching(false)
-                        let assessment = res.assessment[0]
-                        setPayslipYear1(assessment)
-
-
-                    } catch (e) {
+                        setPayslipYear1(response.data.body.payroll[0]);
+                    })
+                    .catch(function (error) {
+                        setPayslipYear1("")
                         setIsFetching(false)
-                        setPayslipYear1([])
-                        if (e.response) {
-                            toast.error(e.response.data.message)
-
+                        if (error.response) {
+                            toast.error(error.response.data.message)
                         } else {
-                            toast.error("Failed!");
-                        }
-                    }
-
-                }
-                // else if (dirtyFields.assmtYr_1) {
-                else if (form1Value === "PAYE") {
-
-                    let year1 = watchYear1.getFullYear()
-                    let kgtin = taxpayerInfo.KGTIN
-
-
-                    setIsFetching(true)
-                    axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year1}`)
-                        .then(function (response) {
-                            setIsFetching(false)
-                            setPayslipYear1(response.data.body.payroll[0]);
-                        })
-                        .catch(function (error) {
-                            setPayslipYear1([])
-                            setIsFetching(false)
-                            if (error.response) {
-                                toast.error(error.response.data.message)
-                            } else {
-                                console.log(error);
-                            }
-                        })
-
-                }
-
-            };
-            fetchPostYear1();
-        }
 
 
     }, [watchYear1]);
@@ -438,7 +392,7 @@ function Index() {
                 <div className={`flex justify-between border mb-3 rounded-lg bg-white w-full`}>
 
                     <div className="p-3">
-                        <div className="flex justify-end mb-2">
+                        {/* <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form1Value}
                                 onChange={(e) => setForm1Value(e.target.value)}
@@ -447,7 +401,7 @@ function Index() {
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
-                        </div>
+                        </div> */}
                         <h6 className="text-right mb-6">Year 1</h6>
                         <div className="mb-6 grid grid-cols-2 ">
                             <label>Assessment year </label>
@@ -513,7 +467,7 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-                        <div className="flex justify-end mb-2">
+                        {/* <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form2Value}
                                 onChange={(e) => setForm2Value(e.target.value)}
@@ -523,7 +477,7 @@ function Index() {
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
-                        </div>
+                        </div> */}
                         <h6 className="text-center mb-6">Year 2</h6>
                         <div className="mb-6 justify-self-center">
 
@@ -587,7 +541,7 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-                        <div className="flex justify-end mb-2">
+                        {/* <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form3Value}
                                 onChange={(e) => setForm3Value(e.target.value)}
@@ -596,7 +550,7 @@ function Index() {
                                 <option value="DA">Direct Assessment</option>
                                 <option value="PAYE">PAYE</option>
                             </select>
-                        </div>
+                        </div> */}
                         <h6 className="text-center mb-6">Year 3</h6>
                         <div className="mb-6 justify-self-center">
 

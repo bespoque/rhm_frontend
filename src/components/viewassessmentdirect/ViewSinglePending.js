@@ -3,17 +3,12 @@ import Widget from "../widget";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CustomPagination } from "../pagination/customPagination";
 import url from "../../config/url";
 import setAuthToken from "../../functions/setAuthToken";
-import { formatNumber } from "../../functions/numbers";
 import Loader from "react-loader-spinner";
-import dateformat from "dateformat";
 import { ViewSinglePendingTable } from "../tables/viewDirectAss";
 
 const ViewSinglePending = () => {
-  const [post, setPost] = useState(() => []);
-  const [total, setTotal] = useState(() => []);
   const [isFetching, setIsFetching] = useState(() => true);
   const [payerprop, setpayerprop] = useState([]);
   const [residentialAddr, setResidentialAddr] = useState([]);

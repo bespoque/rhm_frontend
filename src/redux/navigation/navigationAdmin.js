@@ -67,11 +67,6 @@ const initialState = [
             url: '/view/listverifiedboj',
             items: [],
           },
-          // {
-          //   title: 'Approved Assessments',
-          //   url: '/approved-assement-report',
-          //   items: [],
-          // },
           {
             title: 'Approved Assessments',
             url: '/view/approvedasses',
@@ -275,42 +270,6 @@ const initialState = [
           //   url: '/da-receipt',
           //   items: [],
           // },
-          // {
-          //   url: '/',
-          //   title: 'Reconcilliations',
-          //   items: [],
-          // },
-          // {
-          //   url: '/',
-          //   title: 'Generate Receipt',
-          //   items: [
-          //     {
-          //       url: '/',
-          //       title: 'Create',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'View',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Verify',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Approve',
-          //       items: [],
-          //     },
-          //     {
-          //       url: '/',
-          //       title: 'Recon Report',
-          //       items: [],
-          //     },
-          //   ],
-          // },
         ],
       },
 
@@ -394,19 +353,19 @@ const initialState = [
           //   items: [
           //     { title: 'Create', url: '/settings/business-type/create', items: [] },
           //     { title: 'View', url: '/settings/view-business-type', items: [] },
-          //     // {
-          //     //   title: 'Edit',
-          //     //   url: '/',
-          //     //   items: [],
-          //     // },
-          //   ],
-          // },
           // {
-          //   title: 'Audit Receipt',
-          //   items: [
-          //     { title: 'Generate', url: '/view/tax-audit', items: [] },
+          //   title: 'Edit',
+          //   url: '/',
+          //   items: [],
+          // },
           //   ],
           // },
+          {
+            title: 'Audit Receipt',
+            items: [
+              { title: 'Generate', url: '/view/tax-audit', items: [] },
+            ],
+          },
         ],
       },
 

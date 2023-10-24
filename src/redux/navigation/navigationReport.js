@@ -1,6 +1,5 @@
-import { RhmDashboard, ManageTaxpayer, DirectAssessment, Paye, Collections, Settings } from '../../components/Icons/index';
+import { RhmDashboard, ManageTaxpayer, DirectAssessment, Paye, Collections } from '../../components/Icons/index';
 
-// Added non individual navigation to side menu
 
 const initialState = [
   {
@@ -21,7 +20,6 @@ const initialState = [
           {
             title: 'Individual',
             items: [
-              // { title: 'Create', url: '/taxpayer', items: [] },
               {
                 title: 'View',
                 url: '/reports-individual',
@@ -32,7 +30,6 @@ const initialState = [
           {
             title: 'Non-Individual',
             items: [
-              // { title: 'Create', url: '/taxpayer/non-individual', items: [] },
               {
                 title: 'View',
                 url: '/reports-non-individual',
@@ -88,16 +85,6 @@ const initialState = [
             url: '/',
             title: 'Objection',
             items: [
-              // {
-              //   title: 'Submitted',
-              //   url: '/view/objection/submitted',
-              //   items: [],
-              // },
-              // {
-              //   title: 'Verified',
-              //   url: '/view/objection/verified',
-              //   items: [],
-              // },
               {
                 title: 'Draft',
                 url: '/view/objection/draft',
@@ -148,11 +135,6 @@ const initialState = [
             url: '/',
             title: 'TCC',
             items: [
-              // {
-              //   title: 'Create',
-              //   url: '/tcc/paye',
-              //   items: [],
-              // },
               {
                 title: 'Draft',
                 url: '/view/listpayetcc/alltcc',

@@ -18,10 +18,13 @@ export default function MultipleCollection() {
 
     const filteredRecords = multipleSearchData.filter(
         (record) =>
-            record.pmt_meth !== 'Remita' || record.channel_id !== 'Remita'
+            record.pmt_meth !== 'Remita' &&
+            record.channel_id !== 'Remita' &&
+            record.channel_id !== 'PAYTAX'
     );
 
-   
+    console.log("filteredRecords", filteredRecords);
+
 
     const recordsPerPage = 100;
     const totalRecords = filteredRecords.length;
@@ -175,7 +178,7 @@ export default function MultipleCollection() {
                 .map(
                     (record, index) =>
                         `
-     <div class="border p-4 mb-2" style="page-break-after: always;" key=${record.idpymt}>
+     <div class=" p-4 mb-2" style="page-break-after: always;" key=${record.idpymt}>
          <p>KOGI STATE GOVERNMENT</p>
          <section class="flex justify-between">
              <p class="font-bold">REVENUE RECEIPT</p>
@@ -241,7 +244,7 @@ export default function MultipleCollection() {
              <div class="grid grid-cols-6 gap-2">
                  <p>AGENCY:</p>
                  <div class="col-span-3">
-                     <p class="">${record?.mda || record?.revenueItem || "KOGI STATE INTERNAL REVENUE SERVICE (KGIRS)"} </p>
+                     <p class="">${record?.mda || record?.revenueItem || "-"} </p>
                  </div>
              </div>
              <div class="grid grid-cols-6 gap-2">

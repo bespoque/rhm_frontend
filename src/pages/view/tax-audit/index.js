@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FormatMoneyComponentReport } from '../../../components/FormInput/formInputs'
-import CertDesign from './cert-design';
 import { useRouter } from 'next/router';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +11,6 @@ import setAuthToken from '../../../functions/setAuthToken';
 
 export default function AuditCert() {
     const [fixedValues, Amount] = useState({ amount: 0 });
-    const [formData, setFormData] = useState(null);
     const router = useRouter()
     const [userInfo, setUserInfo] = useState(() => { });
     const [isFetchingUserInfo, setIsFetchingUserInfo] = useState(false);
@@ -61,10 +59,10 @@ export default function AuditCert() {
         });
     }
     return (
-        <div>
+        <div className="flex justify-center">
             {isFetchingUserInfo && <ProcessorSpinner />}
-            <h5 className="text-center mb-4">Generate Tax Audit Certificate</h5>
-            <form onSubmit={handleSubmit(submitForm)}>
+            <form onSubmit={handleSubmit(submitForm)} >
+                <h5 className="text-center mb-4">Generate Tax Audit Certificate</h5>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="form-group">
                         <p>TAX Id</p>
@@ -140,50 +138,53 @@ export default function AuditCert() {
                         </select>
                     </div>
 
-                    <div className="form-group ">
-                        <p>Audit start date</p>
-                        <Controller
-                            name="sdate"
-                            control={control}
-                            // defaultValue={new Date()}
-                            render={({ onChange, value }) => {
-                                return (
-                                    <DatePicker
-                                        className="form-control w-full rounded"
-                                        onChange={onChange}
-                                        selected={value}
-                                        showYearPicker
-                                        dateFormat="yyyy"
-                                        yearItemNumber={8}
-                                        placeholderText="Select Year"
-                                        required={true}
-                                    />
-                                );
-                            }}
-                        />
+                    <div className="flex gap-1">
+                        <div className="form-group ">
+                            <p>Audit start date</p>
+                            <Controller
+                                name="sdate"
+                                control={control}
+                                render={({ onChange, value }) => {
+                                    return (
+                                        <DatePicker
+                                            className="form-control w-full rounded"
+                                            onChange={onChange}
+                                            selected={value}
+                                            showYearPicker
+                                            dateFormat="yyyy"
+                                            yearItemNumber={8}
+                                            placeholderText="Select Year"
+                                            required={true}
+                                        />
+                                    );
+                                }}
+                            />
+                        </div>
+
+                        <div className="form-group ">
+                            <p>Audit end date</p>
+                            <Controller
+                                name="edate"
+                                control={control}
+                                render={({ onChange, value }) => {
+                                    return (
+                                        <DatePicker
+                                            className="form-control w-full rounded"
+                                            onChange={onChange}
+                                            selected={value}
+                                            showYearPicker
+                                            dateFormat="yyyy"
+                                            yearItemNumber={8}
+                                            placeholderText="Select Year"
+                                        />
+                                    );
+                                }}
+                            />
+                        </div>
+
+
                     </div>
 
-                    <div className="form-group ">
-                        <p>Audit end date</p>
-                        <Controller
-                            name="edate"
-                            control={control}
-                            // defaultValue={new Date()}
-                            render={({ onChange, value }) => {
-                                return (
-                                    <DatePicker
-                                        className="form-control w-full rounded"
-                                        onChange={onChange}
-                                        selected={value}
-                                        showYearPicker
-                                        dateFormat="yyyy"
-                                        yearItemNumber={8}
-                                        placeholderText="Select Year"
-                                    />
-                                );
-                            }}
-                        />
-                    </div>
 
                     <div className="form-group">
                         <p>Address</p>
@@ -210,9 +211,6 @@ export default function AuditCert() {
                     </button>
                 </div>
             </form>
-            <div className="hidden">
-                {formData && <CertDesign formData={formData} />}
-            </div>
         </div>
     )
 }

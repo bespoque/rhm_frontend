@@ -114,7 +114,7 @@ export default function Index() {
 
                 </div>
                 {colData.map((el, i) => (
-                    <div className="border p-6" ref={componentRef}>
+                    <div className=" p-6" ref={componentRef}>
                         <p>KOGI STATE GOVERNMENT</p>
                         <section className="flex justify-between">
                             <p className="font-bold">REVENUE RECEIPT</p>
@@ -171,7 +171,6 @@ export default function Index() {
                                 <p>Details:</p>
                                 <div className="col-span-3">
                                     <p> {el.revenueItem || el.details } </p>
-                                    {/* <small>{el.revenueItem}</small> */}
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">
@@ -185,7 +184,7 @@ export default function Index() {
                             <div className="grid grid-cols-6 gap-2">
                                 <p>AGENCY:</p>
                                 <div className="col-span-3">
-                                    <p> { el?.mda || el?.revenueItem || "KOGI STATE INTERNAL REVENUE SERVICE (KGIRS)"} </p>
+                                    <p> { el?.mda || el?.revenueItem || "-"} </p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-2">

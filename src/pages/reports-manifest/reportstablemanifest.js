@@ -67,14 +67,10 @@ const fields = [
 
 
 export default function ReportstableManifest({ FilteredData }) {
-    const router = useRouter();
+  
 
     let items = FilteredData
 
-
-    useEffect(() => {
-
-    }, [router.query]);
 
 
     return (
@@ -96,9 +92,9 @@ export default function ReportstableManifest({ FilteredData }) {
                     filtering: true,
                     exportButton: {
                         csv: true,
-                        pdf: true
+                        pdf: false
                     },
-                  
+                    exportAllData: true
                 }}
 
                 icons={{

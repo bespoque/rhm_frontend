@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { AttachFile,  MoreHoriz } from "@material-ui/icons";
+import { AttachFile, MoreHoriz } from "@material-ui/icons";
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -75,11 +75,13 @@ const router = useRouter()
                     paging: true,
                     filtering: true,
                     actionsColumnIndex: -1,
+                    // Using the regular material-table
                     exportButton: {
                         csv: true,
-                        pdf: true
+                        pdf: false
                     },
-          
+                    // Using material table core
+         
                 }}
 
                 icons={{

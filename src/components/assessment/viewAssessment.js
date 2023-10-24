@@ -42,7 +42,7 @@ export const StartAssessment = () => {
 
   const KGTIN = userKGTN
   const station = TaxOffice
-  console.log(station);
+
 
   setAuthToken();
   const onSubmitform = async data => {

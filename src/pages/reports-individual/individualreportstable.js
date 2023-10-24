@@ -103,7 +103,8 @@ export default function IndividualReportstable({ FilteredData }) {
                         csv: true,
                         pdf: false
                     },
-                    actionsColumnIndex: -1
+                    actionsColumnIndex: -1,
+                    exportAllData: true
                 }}
                 icons={{
                     Check: Check,
