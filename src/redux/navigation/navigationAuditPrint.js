@@ -1,6 +1,5 @@
 import { RhmDashboard, Collections, Settings } from '../../components/Icons/index';
 
-// Added non individual navigation to side menu
 
 const initialState = [
   {
@@ -29,13 +28,6 @@ const initialState = [
             items: [],
           },
         ],
-      },
-
-      {
-        url: '/view/tax-audit',
-        icon: <Settings />,
-        title: 'Audit Receipt',
-        items: [],
       },
     ],
   },
