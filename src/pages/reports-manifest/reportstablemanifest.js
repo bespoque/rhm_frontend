@@ -10,8 +10,6 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import * as Icons from '../../components/Icons/index';
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { formatNumber } from "accounting";
 
 
