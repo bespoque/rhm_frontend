@@ -54,8 +54,6 @@ function Index() {
     const decoded = jwt.decode(auth);
     const Email = decoded.user
 
-    console.log("decoded", decoded);
-
     const {
         register: registerkgtin,
         handleSubmit: handleSubmitkgtin,
@@ -72,7 +70,6 @@ function Index() {
 
     setAuthToken();
     const CreateTcc = async (data) => {
-        console.log("data", data);
         if (data.taxYr_1 == '0' && data.incYr_1 == '0') {
             alert("Please provide Tax and Income figures for Year one")
         }
@@ -112,7 +109,7 @@ function Index() {
             })
 
             let result = await response.json()
-            console.log("result.message", result);
+         
             setIsFetching(false)
             if (result.status === "400" || result.status === "500") {
                 toast.error(result.message)
@@ -120,26 +117,6 @@ function Index() {
                 toast.success(result.message)
                 router.push(`/tcc/paye/${result.TCC_ID}_${result.KGTIN}`)
             }
-
-            // router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
-            // toast.success("Created Successfully!")
-            // await axios.post(`${url.BASE_URL}paye/tcc`, data)
-            // await axios.post("https://bespoque.dev/rhm-live/fix/fix-get-TCCrecTypes.php")
-            //     .then(function (response) {
-            //         setIsFetching(false)
-            //         console.log("response", response);
-            //         router.push(`/tcc/paye/${response.data.body.id}_${response.data.body.tp_id}`)
-            //         toast.success("Created Successfully!")
-            //     })
-            //     .catch(function (error) {
-            //         setTaxpayerinfo("")
-            //         setIsFetching(false)
-            //         if (error.response) {
-            //             toast.error(error.response.data.message)
-            //         } else {
-
-            //         }
-            //     })
         }
 
     };
@@ -165,28 +142,56 @@ function Index() {
 
     useEffect(() => {
         const fetchPostYear1 = () => {
-            if (dirtyFields.assmtYr_1) {
-                let year = watchYear1.getFullYear()
-                let kgtin = taxpayerInfo.KGTIN
-                setIsFetching(true)
-                axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
-                    .then(function (response) {
-                        setIsFetching(false)
-                        setPayslipYear1(response.data.body.payroll[0]);
-                    })
-                    .catch(function (error) {
-                        setPayslipYear1("")
-                        setIsFetching(false)
-                        if (error.response) {
-                            toast.error(error.response.data.message)
-                        } else {
+          if (dirtyFields.assmtYr_1) {
+            let year = watchYear1.getFullYear();
+            let kgtin = taxpayerInfo.KGTIN;
+            setIsFetching(true);
+            axios
+              .get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
+              .then(function (response) {
+                setIsFetching(false);
+                setPayslipYear1(response.data.body.payroll[0]);
+              })
+              .catch(function (error) {
+                setIsFetching(false);
+                setPayslipYear1(""); 
+                if (error.response) {
+                  toast.error(error.response.data.message);
+                }
+              });
+          }
+        };
+      
+        fetchPostYear1(); 
+      
+    
+      }, [dirtyFields.assmtYr_1, watchYear1]);
+      
 
+    // useEffect(() => {
+    //     const fetchPostYear1 = () => {
+    //         if (dirtyFields.assmtYr_1) {
+    //             let year = watchYear1.getFullYear()
+    //             let kgtin = taxpayerInfo.KGTIN
+    //             setIsFetching(true)
+    //             axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
+    //                 .then(function (response) {
+    //                     setIsFetching(false)
+    //                     setPayslipYear1(response.data.body.payroll[0]);
+    //                 })
+    //                 .catch(function (error) {
+    //                     setPayslipYear1("")
+    //                     setIsFetching(false)
+    //                     if (error.response) {
+    //                         toast.error(error.response.data.message)
+    //                     }
+    //                 }
+                
 
-    }, [watchYear1]);
+    // }, [watchYer1]);
 
 
     useEffect(() => {
-
 
         if (dirtyFields.assmtYr_2) {
 
@@ -223,7 +228,6 @@ function Index() {
                     let year = watchYear2.getFullYear()
                     let kgtin = taxpayerInfo.KGTIN
 
-
                     setIsFetching(true)
                     axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
                         .then(function (response) {
@@ -239,9 +243,7 @@ function Index() {
                                 console.log(error);
                             }
                         })
-
                 }
-
             };
             fetchPostYear2();
         }
@@ -282,7 +284,6 @@ function Index() {
                     }
 
                 }
-                // else if (dirtyFields.assmtYr_1) {
                 else if (form3Value === "PAYE") {
 
                     let year = watchYear3.getFullYear()
@@ -627,5 +628,6 @@ function Index() {
         </>
     )
 }
+        
 
 export default Index
