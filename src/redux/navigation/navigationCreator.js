@@ -1,6 +1,5 @@
 import { RhmDashboard, ManageTaxpayer, DirectAssessment, Paye, Collections } from '../../components/Icons/index';
 
-// Added non individual navigation to side menu
 
 const initialState = [
   {
