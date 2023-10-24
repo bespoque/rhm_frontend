@@ -90,7 +90,6 @@ const CertDesign = () => {
     if (!formData) {
         return <div>Loading...</div>;
     }
-    // const numberInWords = toWords((formData.amount).replace(/,/g, ''));
     const wordNum = (formData.amount).replace(/,/g, '')
     const numberInWords = convertToNairaWords(wordNum);
     console.log("wordNum", wordNum);
@@ -107,7 +106,6 @@ const CertDesign = () => {
                 </button>
                 <div>
                     <ReactToPrint
-                        // pageStyle='@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
                         trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
                                         btn-outlined bg-transparent rounded-md"
                             type="submit"
@@ -183,7 +181,7 @@ const CertDesign = () => {
 
                         <div style={{ marginTop: "10.2rem" }}>
                             <h4 className="text-right">DUPLICATE</h4>
-                            <div className="">
+                            <div className="mt-8">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
                                     This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
