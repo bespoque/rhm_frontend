@@ -27,10 +27,10 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, onUpload }) => {
 
     return (
         <>
-                <p className="mt-4 font-bold text-center">Selected Scope: {checklistItem}</p>
+                <p className="mt-4 font-bold text-center mb-4">Selected Scope: {checklistItem}</p>
             <div className="flex gap-2">
                 <div>
-                    <label htmlFor="year" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="year" className="block text-gray-700 text-sm font-bold">
                         Select a year:
                     </label>
                     <select id="year" className="block py-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:border-blue-300" onChange={handleYearChange}>
@@ -45,14 +45,14 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, onUpload }) => {
 
                 <div>
 
-                    <label htmlFor="taxSchedule" className="block text-gray-700 text-sm font-bold mt-4 mb-2">
+                    <label htmlFor="taxSchedule" className="block text-gray-700 text-sm font-bold">
                         Upload Tax Schedule:
                     </label>
                     <input type="file" id="taxSchedule" className="block px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:border-blue-300" onChange={handleTaxScheduleChange} />
                 </div>
 
                 <div>
-                    <label htmlFor="remittance" className="block text-gray-700 text-sm font-bold mt-4 mb-2">
+                    <label htmlFor="remittance" className="block text-gray-700 text-sm font-bold">
                         Upload Remittance:
                     </label>
                     <input type="file" id="remittance" className="block px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:border-blue-300" onChange={handleRemittanceChange} />
