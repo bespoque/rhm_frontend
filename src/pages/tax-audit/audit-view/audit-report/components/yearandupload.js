@@ -57,8 +57,8 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, onUpload }) => {
                     </label>
                     <input type="file" id="remittance" className="block px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:border-blue-300" onChange={handleRemittanceChange} />
 
-                    <button onClick={handleUpload} className="mt-4 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700">Upload</button>
                 </div>
+                    <button onClick={handleUpload} className="mt-4 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700">Upload</button>
 
 
             </div>
