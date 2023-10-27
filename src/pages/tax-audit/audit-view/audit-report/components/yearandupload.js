@@ -27,8 +27,8 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, onUpload }) => {
 
     return (
         <>
-                <p className="mt-4 font-bold text-center mb-4">Selected Scope: {checklistItem}</p>
-            <div className="flex gap-2">
+                <p className="mt-4 font-bold text-center my-8">Selected Scope: {checklistItem}</p>
+            <div className="flex gap-2 justify-center">
                 <div>
                     <label htmlFor="year" className="block text-gray-700 text-sm font-bold">
                         Select a year:
