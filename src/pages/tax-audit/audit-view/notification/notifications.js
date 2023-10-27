@@ -181,21 +181,6 @@ const AuditNotice = () => {
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Tarc</button>
-
-                        {/* <button className="btn block p-2 bg-blue-200 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${id}`)}>
-                            Visit Log
-                        </button> */}
-                        {/* <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${id}`)}
-                        >
-                            Audit Report
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/notes/list?JobID=${id}`)}
-                        >Notes</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2">Objections</button> */}
                     </div>
 
                 </div>

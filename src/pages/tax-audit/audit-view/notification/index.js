@@ -89,8 +89,7 @@ const Notification = () => {
             field: "createtime",
         },
     ];
-    console.log("reviewDecline", reviewDecline);
-    console.log("verifyComment", verifyComment);
+
 
     const VerifyAction = async (e) => {
         setIsFetching(true)

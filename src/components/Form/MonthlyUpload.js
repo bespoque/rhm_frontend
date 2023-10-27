@@ -275,7 +275,7 @@ const MonthlyUploadForm = () => {
                   </a>
                 </Link>
 
-                <Link legacyBehavior href="#">
+                <Link legacyBehavior>
                   <a className="flex overflow-hidden btn btn-default btn-outlined  mr-4 bg-transparent text-blue-500 hover:text-blue-700 border-blue-500 hover:border-blue-700">
                     User Guide
                   </a>

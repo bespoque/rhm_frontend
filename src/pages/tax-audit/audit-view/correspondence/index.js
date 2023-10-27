@@ -67,35 +67,6 @@ const Notification = () => {
             title: "Created time",
             field: "createtime",
         },
-        // {
-        //     title: "Visit date",
-        //     field: "visit_date",
-        // },
-        // {
-        //     title: "Status",
-        //     field: "visit_status",
-        // },
-
-        // {
-        //     title: "Type",
-        //     field: "actionType"
-        // },
-        // {
-        //     title: "Compliance",
-        //     field: "visit_compliance"
-        // },
-        // {
-        //     title: "Created by",
-        //     field: "doneby",
-        // },
-        // {
-        //     title: "Reviewed by",
-        //     field: "reviewby",
-        // },
-        // {
-        //     title: "Created time",
-        //     field: "createtime",
-        // },
     ];
 
     const FormAct = (e) => {
@@ -116,12 +87,10 @@ const Notification = () => {
                 const dataFetch = await res.json()
                 setNotDet(dataFetch.body[0])
                 setIsFetching(false)
-                // const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-notification-visits-batch.php', {
                 const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-jobs-ack-batch.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": JobID,
-                        // "notification_id": Notifid,
                     })
                 })
                 const logData = await response.json()
