@@ -20,6 +20,7 @@ const initialState = [
           {
             title: 'Individual',
             items: [
+              { title: 'Create', url: '/taxpayer', items: [] },
               {
                 title: 'View',
                 url: '/reports-individual',
@@ -30,6 +31,7 @@ const initialState = [
           {
             title: 'Non-Individual',
             items: [
+              { title: 'Create', url: '/taxpayer/non-individual', items: [] },
               {
                 title: 'View',
                 url: '/reports-non-individual',
@@ -39,10 +41,7 @@ const initialState = [
           },
         ],
       },
-
-      
-
-
+ 
       {
         url: '/',
         icon: <Collections />,
