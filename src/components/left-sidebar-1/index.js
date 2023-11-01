@@ -17,7 +17,8 @@ const LeftSidebar = () => {
     navigationReport,
     navigationAuditPrint,
     navigationOtherTaxes,
-    navigationBDPRS
+    navigationBDPRS,
+    navigationAudit
   } = useSelector(
     (state) => ({
       navigationAdmin: state.navigationAdmin,
@@ -31,6 +32,7 @@ const LeftSidebar = () => {
       navigationReport: state.navigationReport,
       navigationApproverTcc: state.navigationApproverTcc,
       navigationAuditPrint: state.navigationAuditPrint,
+      navigationAudit: state.navigationAudit,
       navigationOtherTaxes: state.navigationOtherTaxes,
       navigationBDPRS: state.navigationBDPRS
     }),
@@ -43,7 +45,8 @@ const LeftSidebar = () => {
   let reportRange = [39, 1, 9]
   let payeTccInitiator = [29, 1]
   let payeTccApprover = [1, 30, 21, 30]
-  let auditPrint = [1, 19]
+  let auditPrint = [1, 42]
+  let audit = [1, 19]
   let otherTaxes = [1, 24]
   let bdprs = [6, 7, 1]
 
@@ -291,6 +294,55 @@ const LeftSidebar = () => {
       </div>
     );
   }
+
+  if (StaffType.some(r => audit.includes(r))) {
+    return (
+      <div className="left-sidebar left-sidebar-1">
+        <Logo />
+        {navigationAudit.map((menu, i) => (
+          <React.Fragment key={i}>
+            <Title>{menu.title}</Title>
+            <ul>
+              {menu.items.map((l0, a) => (
+                <li key={a} className="l0">
+                  <Item {...l0} />
+                  <ul>
+                    {l0.items.map((l1, b) => (
+                      <li key={b} className="l1">
+                        <Item {...l1} />
+                        <ul className="">
+                          {l1.items.map((l2, c) => (
+                            <li key={c} className="">
+                              <Item {...l2} />
+                              {/* <ul>
+                              {l2.items.map((l3, d) => (
+                                <li key={d} className="l3">
+                                  <Item {...l3} />
+                                  <ul>
+                                    {l3.items.map((l4, e) => (
+                                      <li key={e} className="l4">
+                                        <Item {...l4} />
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </li>
+                              ))}
+                            </ul> */}
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </React.Fragment>
+        ))}
+      </div>
+    );
+  }
+
   if (StaffType.some(r => otherTaxes.includes(r))) {
     return (
       <div className="left-sidebar left-sidebar-1">
