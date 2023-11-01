@@ -17,6 +17,7 @@ import navigationAdmin from './navigation/navigationAdmin';
 import navigationReport from './navigation/navigationReport';
 import navigationAuditPrint from './navigation/navigationAuditPrint';
 import navigationOtherTaxes from './navigation/navigationOtherTaxes';
+import navigationBDPRS from './navigation/navigationBDPRS';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   navigationReport,
   navigationAuditPrint,
   navigationOtherTaxes,
+  navigationBDPRS,
   colors,
   config,
   leftSidebar,
