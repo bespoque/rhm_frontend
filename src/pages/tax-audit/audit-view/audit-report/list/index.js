@@ -13,6 +13,18 @@ export default function AuditReportList() {
     const [job, setJob] = useState(() => []);
     const { JobID } = router?.query
 
+    function getYearsInRange(startYear, endYear) {
+        const years = [];
+      
+        if (startYear <= endYear) {
+          for (let year = startYear; year <= endYear; year++) {
+            years.push(year);
+          }
+        }
+      
+        return years;
+      }
+      
 
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
@@ -24,19 +36,15 @@ export default function AuditReportList() {
     const auditEndYr = dateEnd.getFullYear()
     const usersArr = String(job.job_user).split(',')
 
-    const scopeData = [
-        { "checklist_id": "", "checklist_item": "Select audit scope" },
-        { "checklist_id": "1", "checklist_item": "Pay as you Earn" },
-        { "checklist_id": "2", "checklist_item": "Capital Gain Tax" },
-        { "checklist_id": "3", "checklist_item": "Withholding Tax" },
-        { "checklist_id": "4", "checklist_item": "Stamp Duty" },
-        { "checklist_id": "5", "checklist_item": "Business Premises" },
-        { "checklist_id": "6", "checklist_item": "Ground Rent" },
-        { "checklist_id": "7", "checklist_item": "Development Levy" },
-        { "checklist_id": "8", "checklist_item": "Haulage fee" }
-    ];
+    const yearRange = getYearsInRange(auditStartYr, auditEndYr);
 
-    const years = ["2023", "2022", "2021", "2020"];
+
+    const scopeData = [
+        { "checklist_id": "", "checklist_item": "Select document", "type": "pdf" },
+        { "checklist_id": "1", "checklist_item": "Petty Cash Voucher", "type": "pdf" },
+        { "checklist_id": "2", "checklist_item": "Bank Statement", "type": "pdf" },
+        { "checklist_id": "3", "checklist_item": "Schedule of Tax Remittance / Receipts", "type": "excel" },
+    ];
 
     const [selectedScope, setSelectedScope] = useState("");
     const [uploadData, setUploadData] = useState([]);
@@ -56,7 +64,7 @@ export default function AuditReportList() {
         setUploadData([...uploadData, newUpload]);
     };
 
-
+console.log("uploadData", uploadData);
 
     useEffect(() => {
 
@@ -83,6 +91,7 @@ export default function AuditReportList() {
         }
         fetchPost();
     }, [JobID]);
+    console.log("uploadData", uploadData);
 
     return (
 
@@ -171,23 +180,34 @@ export default function AuditReportList() {
                     View Audit
                 </button>
             </div>
+            
             <Widget>
                 <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
 
                 {selectedScope !== "" && (
                     <div className="mt-4">
-                        <YearAndUpload years={years} selectedScope={selectedScope} checklistItem={scopeData.find(item => item.checklist_id === selectedScope).checklist_item} onUpload={handleUpload} />
+                        <YearAndUpload
+                         years={yearRange} 
+                         selectedScope={selectedScope} 
+                         checklistItem={scopeData.find(item => item.checklist_id === selectedScope).checklist_item} 
+                         checklistItemType={scopeData.find(item => item.checklist_id === selectedScope).type} 
+                         onUpload={handleUpload} 
+                         />
                     </div>
-                )}
+                    
 
+                )}
                 {uploadData.map((upload, index) => (
                     <div key={index} className="mt-4">
-                        <h2 className="text-xl font-bold mb-2">Uploaded Data for Scope: {upload.selectedScope}</h2>
+                        {/* <h2 className="text-xl font-bold mb-2">Uploaded Data for Scope: {upload.selectedScope}</h2> */}
+                        <h2 className="text-xl font-bold mb-2">Uploaded Data for: {upload.selectedScope}</h2>
                         <p>Year: {upload.selectedYear}</p>
                         <p>Tax Schedule Files: {upload.taxScheduleFiles.map(file => file.name).join(', ')}</p>
                         <p>Remittance Files: {upload.remittanceFiles.map(file => file.name).join(', ')}</p>
+                        <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p>
                     </div>
                 ))}
+
 
             </Widget>
 

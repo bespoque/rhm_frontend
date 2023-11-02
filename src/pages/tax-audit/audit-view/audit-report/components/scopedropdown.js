@@ -9,7 +9,7 @@ const ScopeDropdown = ({ scopeData, onSelectScope }) => {
         <div className="flex justify-center mb-10">
             <div>
                 <label htmlFor="dropdown" className="block text-gray-700 text-sm font-bold mb-2">
-                    Select audit scope:
+                    Select document:
                 </label>
                 <select id="dropdown" className="block border rounded-md" onChange={handleScopeChange}>
                     {scopeData.map((item) => (
