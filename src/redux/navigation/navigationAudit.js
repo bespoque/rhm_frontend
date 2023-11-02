@@ -1,4 +1,4 @@
-import { RhmDashboard, Collections, Settings } from '../../components/Icons/index';
+import { RhmDashboard, Collections } from '../../components/Icons/index';
 
 const initialState = [
   {

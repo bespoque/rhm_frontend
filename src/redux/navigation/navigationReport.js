@@ -91,10 +91,16 @@ const initialState = [
                 items: [],
               },
               {
+                title: 'Verified',
+                url: '/view/objection/verified',
+                items: [],
+              },
+              {
                 title: 'Pending EC sign',
                 url: '/view/objection/approved',
                 items: [],
               },
+
               {
                 title: 'Print',
                 url: '/view/objection/vetted',
@@ -179,7 +185,7 @@ const initialState = [
 
             ],
           },
-          
+
         ],
       },
 
