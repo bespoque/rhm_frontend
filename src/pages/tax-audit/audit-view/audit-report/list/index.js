@@ -204,7 +204,7 @@ console.log("uploadData", uploadData);
                         <p>Year: {upload.selectedYear}</p>
                         <p>Tax Schedule Files: {upload.taxScheduleFiles.map(file => file.name).join(', ')}</p>
                         <p>Remittance Files: {upload.remittanceFiles.map(file => file.name).join(', ')}</p>
-                        <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p>
+                        {/* <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p> */}
                     </div>
                 ))}
 
