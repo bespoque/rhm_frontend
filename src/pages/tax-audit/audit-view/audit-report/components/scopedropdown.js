@@ -12,7 +12,7 @@ const ScopeDropdown = ({ scopeData, onSelectScope }) => {
                     Select document:
                 </label>
                 <select id="dropdown" className="block border rounded-md" onChange={handleScopeChange}>
-                    {scopeData.map((item) => (
+                    {scopeData?.map((item) => (
                         <option key={item.checklist_id} value={item.checklist_item}>
                             {item.checklist_item}
                         </option>
