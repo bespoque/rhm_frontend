@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { ProcessorSpinner } from '../../../../../components/spiner';
-import NewAuditReport from '../components/button'
 import Widget from '../../../../../components/widget';
 import ScopeDropdown from '../components/scopedropdown';
 import YearAndUpload from '../components/yearandupload';
+
 
 export default function AuditReportList() {
     const [isFetching, setIsFetching] = useState(() => true);
@@ -15,16 +15,15 @@ export default function AuditReportList() {
 
     function getYearsInRange(startYear, endYear) {
         const years = [];
-      
+
         if (startYear <= endYear) {
-          for (let year = startYear; year <= endYear; year++) {
-            years.push(year);
-          }
+            for (let year = startYear; year <= endYear; year++) {
+                years.push(year);
+            }
         }
-      
         return years;
-      }
-      
+    }
+
 
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
@@ -39,32 +38,35 @@ export default function AuditReportList() {
     const yearRange = getYearsInRange(auditStartYr, auditEndYr);
 
 
-    const scopeData = [
-        { "checklist_id": "", "checklist_item": "Select document", "type": "pdf" },
-        { "checklist_id": "1", "checklist_item": "Petty Cash Voucher", "type": "pdf" },
-        { "checklist_id": "2", "checklist_item": "Bank Statement", "type": "pdf" },
-        { "checklist_id": "3", "checklist_item": "Schedule of Tax Remittance / Receipts", "type": "excel" },
-    ];
+    // const scopeData = [
+    //     { "checklist_id": "", "checklist_item": "Select document", "type": "pdf" },
+    //     { "checklist_id": "1", "checklist_item": "Petty Cash Voucher", "type": "pdf" },
+    //     { "checklist_id": "2", "checklist_item": "Bank Statement", "type": "pdf" },
+    //     { "checklist_id": "3", "checklist_item": "Schedule of Tax Remittance / Receipts", "type": "excel" },
+    // ];
 
     const [selectedScope, setSelectedScope] = useState("");
     const [uploadData, setUploadData] = useState([]);
+    const [scopeData, setUploadCheck] = useState([]);
 
     const handleScopeChange = (selectedScope) => {
         setSelectedScope(selectedScope);
     };
 
-    const handleUpload = (selectedYear, taxScheduleFiles, remittanceFiles) => {
+    const handleUpload = (selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles) => {
         const newUpload = {
             selectedScope,
             selectedYear,
             taxScheduleFiles,
             remittanceFiles,
+            amount,
+            documentFiles
         };
 
         setUploadData([...uploadData, newUpload]);
     };
 
-console.log("uploadData", uploadData);
+    // console.log("uploadCheck", uploadCheck);
 
     useEffect(() => {
 
@@ -91,7 +93,26 @@ console.log("uploadData", uploadData);
         }
         fetchPost();
     }, [JobID]);
-    console.log("uploadData", uploadData);
+
+    useEffect(() => {
+        async function fetchPostData() {
+            try {
+                const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-jobchecklist.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "job_id": JobID
+                    })
+                })
+                const dataFetchJobDet = await response.json()
+                const check = await dataFetchJobDet.checklists
+                setUploadCheck(check)
+            } catch (error) {
+                console.error('Server Error:', error)
+            }
+        }
+        fetchPostData();
+    }, [JobID]);
+
 
     return (
 
@@ -175,36 +196,46 @@ console.log("uploadData", uploadData);
             </div>
 
             <div className="flex justify-end m-2">
-                {/* <NewAuditReport JobID={JobID} /> */}
                 <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                     View Audit
                 </button>
             </div>
-            
+
             <Widget>
                 <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
 
                 {selectedScope !== "" && (
                     <div className="mt-4">
                         <YearAndUpload
-                         years={yearRange} 
-                         selectedScope={selectedScope} 
-                         checklistItem={scopeData.find(item => item.checklist_id === selectedScope).checklist_item} 
-                         checklistItemType={scopeData.find(item => item.checklist_id === selectedScope).type} 
-                         onUpload={handleUpload} 
-                         />
+                            years={yearRange}
+                            selectedScope={selectedScope}
+                            checklistItem={scopeData.find(item => item.checklist_item === selectedScope).checklist_item}
+                            checklistItemType={scopeData.find(item => item.checklist_item === selectedScope).checklist_type}
+                            onUpload={handleUpload}
+                        />
                     </div>
-                    
-
                 )}
                 {uploadData.map((upload, index) => (
-                    <div key={index} className="mt-4">
-                        {/* <h2 className="text-xl font-bold mb-2">Uploaded Data for Scope: {upload.selectedScope}</h2> */}
-                        <h2 className="text-xl font-bold mb-2">Uploaded Data for: {upload.selectedScope}</h2>
-                        <p>Year: {upload.selectedYear}</p>
-                        <p>Tax Schedule Files: {upload.taxScheduleFiles.map(file => file.name).join(', ')}</p>
-                        <p>Remittance Files: {upload.remittanceFiles.map(file => file.name).join(', ')}</p>
-                        {/* <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p> */}
+
+                    <div key={index} className="mt-4 grid grid-cols-3">
+
+                        {upload.amount > 0 ?
+                            <div>
+                                <p className='font-bold'>Uploaded Data for: {upload.selectedScope}</p>
+                                <p>Year: {upload.selectedYear}</p>
+                                <p>Tax Schedule: {upload.taxScheduleFiles.map(file => file.name).join(', ')}</p>
+                                <p> Remittance: {upload.remittanceFiles.map(file => file.name).join(', ')}</p>
+                                <p>amount: {upload.amount}</p>
+                            </div>
+                            :
+                            <div>
+                                <p className='font-bold'>Uploaded Data for: {upload.selectedScope}</p>
+                                <p>Year: {upload.selectedYear}</p>
+                                <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p>
+                            </div>
+
+                        }
+
                     </div>
                 ))}
 

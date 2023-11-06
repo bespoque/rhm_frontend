@@ -7,6 +7,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     const [documentFiles, setDocumentFiles] = useState([]);
     const [amount, setAmount] = useState([]);
 
+
     const handleYearChange = (event) => {
         setSelectedYear(event.target.value);
     };
@@ -27,15 +28,17 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
 
     const handleUpload = () => {
         // Pass the selected year, tax schedule files, remittance files, and checklist item to the parent component for processing
-        onUpload(selectedYear, taxScheduleFiles, remittanceFiles);
+        onUpload(selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles, checklistItem);
         setSelectedYear(""); // Clear the selected year
         setTaxScheduleFiles([]); // Clear the tax schedule files
         setRemittanceFiles([]); // Clear the remittance files
+        setDocumentFiles([]); // Clear the document files
+        setAmount(''); // Clear the amount
     };
 
     return (
         <>
-            {/* <p className="mt-4 font-bold text-center my-8">Selected Scope: {checklistItem}</p> */}
+            
             <div className="flex gap-2 ">
                 <div>
                     <label htmlFor="year" className="block text-gray-700 text-sm font-bold">
@@ -50,15 +53,8 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         ))}
                     </select>
                 </div>
-                {checklistItemType === "excel" ?
+                {checklistItemType === "EXCEL" ?
                     <div className="flex gap-1">
-                        <div>
-                            <label htmlFor="taxSchedule" className="block text-gray-700 text-sm font-bold">
-                                Upload Tax Schedule (excel):
-                            </label>
-                            <input type="file" id="taxSchedule" className=" px-4 py-2 border rounded-md" onChange={handleTaxScheduleChange} />
-                        </div>
-
                         <div>
                             <label htmlFor="amount" className=" text-gray-700 text-sm font-bold">
                                 Remitted amount:
@@ -66,8 +62,15 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                             <input type="text" id="amount" className="px-4 py-2 w-32 border rounded-md" onChange={handleAmountChange} />
                         </div>
                         <div>
+                            <label htmlFor="taxSchedule" className="block text-gray-700 text-sm font-bold">
+                                Upload Tax Schedule (csv):
+                            </label>
+                            <input type="file" id="taxSchedule" className=" px-4 py-2 border rounded-md" onChange={handleTaxScheduleChange} />
+                        </div>
+
+                        <div>
                             <label htmlFor="remittance" className=" text-gray-700 text-sm font-bold">
-                                Upload Remittance (excel):
+                                Upload Remittance (all monthly remittance):
                             </label>
                             <input type="file" id="remittance" className=" px-4 py-2 border rounded-md" onChange={handleRemittanceChange} />
 
@@ -76,10 +79,10 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     </div> :
                     <div>
                         <div>
-                            <label htmlFor="remittance" className="block text-gray-700 text-sm font-bold">
+                            <label htmlFor="document" className="block text-gray-700 text-sm font-bold">
                                 Upload document:
                             </label>
-                            <input type="file" id="remittance" className="block px-4 py-2 border rounded-md" onChange={handleDocumenteChange} />
+                            <input type="file" id="document" className="block px-4 py-2 border rounded-md" onChange={handleDocumenteChange} />
 
                         </div>
                     </div>
