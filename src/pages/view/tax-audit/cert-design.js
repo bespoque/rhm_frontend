@@ -91,7 +91,7 @@ const CertDesign = () => {
     
                 if (scaleIndex > 0 && chunkString) {
                     if (lastChunkWasZero) {
-                        nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
+                        nairaString = chunkString + " " + scales[scaleIndex] + "  " + nairaString;
                     } else {
                         nairaString = chunkString + " " + scales[scaleIndex] + ", " + nairaString;
                     }
