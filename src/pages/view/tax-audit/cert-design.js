@@ -13,15 +13,15 @@ const CertDesign = () => {
 
     const { auth } = useSelector(
         (state) => ({
-          auth: state.authentication.auth,
+            auth: state.authentication.auth,
         }),
         shallowEqual
-      );
+    );
 
-      const decoded = jwt.decode(auth);
-      const staff = decoded.staffName
+    const decoded = jwt.decode(auth);
+    const staff = decoded.staffName
 
-      const options = {
+    const options = {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -29,10 +29,10 @@ const CertDesign = () => {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-      };
-      const formattedDateTime = new Date().toLocaleDateString(undefined, options);
+    };
+    const formattedDateTime = new Date().toLocaleDateString(undefined, options);
 
-      function convertToNairaWords(amount) {
+    function convertToNairaWords(amount) {
         const words = [
             "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
             "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
@@ -40,27 +40,27 @@ const CertDesign = () => {
         ];
         const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
         const scales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion"];
-    
+
         if (amount === 0) return "zero naira";
-    
+
         let nairaString = "";
         let koboString = "";
-    
+
         if (amount < 0) {
             nairaString += "minus ";
             amount = Math.abs(amount);
         }
-    
+
         let naira = Math.floor(amount);
         let kobo = Math.round((amount - naira) * 100);
-    
+
         let scaleIndex = 0;
         let lastChunkWasZero = false;
-    
+
         while (naira > 0) {
             let chunk = naira % 1000;
             naira = Math.floor(naira / 1000);
-    
+
             if (chunk > 0) {
                 let chunkString = "";
                 if (chunk < 20) {
@@ -69,26 +69,26 @@ const CertDesign = () => {
                     let ones = chunk % 10;
                     let tensIndex = Math.floor(chunk / 10) % 10;
                     let hundreds = Math.floor(chunk / 100);
-    
+
                     if (hundreds > 0) {
                         chunkString += words[hundreds] + " hundred";
                         if (tensIndex > 0 || ones > 0) {
                             chunkString += " and ";
                         }
                     }
-    
+
                     if (tensIndex > 0) {
                         chunkString += tens[tensIndex];
                         if (ones > 0) {
                             chunkString += "-";
                         }
                     }
-    
+
                     if (ones > 0) {
                         chunkString += words[ones];
                     }
                 }
-    
+
                 if (scaleIndex > 0 && chunkString) {
                     if (lastChunkWasZero) {
                         nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
@@ -102,17 +102,17 @@ const CertDesign = () => {
             } else {
                 lastChunkWasZero = true;
             }
-    
+
             scaleIndex++;
         }
-    
+
         if (kobo > 0) {
             if (kobo < 20) {
                 koboString = words[kobo] + " kobo";
             } else {
                 let ones = kobo % 10;
                 let tensIndex = Math.floor(kobo / 10) % 10;
-    
+
                 if (tensIndex === 0) {
                     koboString = words[ones] + " kobo";
                 } else {
@@ -120,20 +120,20 @@ const CertDesign = () => {
                 }
             }
         }
-    
+
         return nairaString.trim() + " naira " + koboString.trim() + " only";
     }
-    
-    
-    
-    
-    
-    
-    
 
-    console.log("Num", convertToNairaWords("51013917.90"));
 
-    
+
+
+
+
+
+
+    console.log("Num", convertToNairaWords("917.90"));
+
+
     useEffect(() => {
         if (router.query.formData) {
             setFormData(JSON.parse(router.query.formData));
