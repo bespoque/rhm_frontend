@@ -32,76 +32,103 @@ const CertDesign = () => {
       };
       const formattedDateTime = new Date().toLocaleDateString(undefined, options);
 
-    function convertToNairaWords(amount) {
+      function convertToNairaWords(amount) {
         const words = [
             "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
             "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
             "seventeen", "eighteen", "nineteen"
         ];
-        const tens = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+        const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
         const scales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion"];
-
+    
         if (amount === 0) return "zero naira";
-
+    
         let nairaString = "";
         let koboString = "";
-
+    
         if (amount < 0) {
             nairaString += "minus ";
             amount = Math.abs(amount);
         }
-
+    
         let naira = Math.floor(amount);
         let kobo = Math.round((amount - naira) * 100);
-
+    
         let scaleIndex = 0;
-
+        let lastChunkWasZero = false;
+    
         while (naira > 0) {
             let chunk = naira % 1000;
             naira = Math.floor(naira / 1000);
-
+    
             if (chunk > 0) {
+                let chunkString = "";
                 if (chunk < 20) {
-                    nairaString = words[chunk] + " " + scales[scaleIndex] + " " + nairaString;
+                    chunkString = words[chunk];
                 } else {
                     let ones = chunk % 10;
                     let tensIndex = Math.floor(chunk / 10) % 10;
                     let hundreds = Math.floor(chunk / 100);
-
-                    if (ones === 0 && tensIndex === 0) {
-                        nairaString = words[hundreds] + " hundred " + scales[scaleIndex] + " " + nairaString;
-                    } else if (tensIndex === 0) {
-                        nairaString = words[hundreds] + " hundred " + words[ones] + " " + scales[scaleIndex] + " " + nairaString;
-                    } else if (tensIndex === 1) {
-                        nairaString = words[hundreds] + " hundred " + words[chunk] + " " + scales[scaleIndex] + " " + nairaString;
-                    } else {
-                        nairaString = words[hundreds] + " hundred " + tens[tensIndex - 2] + " " + words[ones] + " " + scales[scaleIndex] + " " + nairaString;
+    
+                    if (hundreds > 0) {
+                        chunkString += words[hundreds] + " hundred";
+                        if (tensIndex > 0 || ones > 0) {
+                            chunkString += " and ";
+                        }
+                    }
+    
+                    if (tensIndex > 0) {
+                        chunkString += tens[tensIndex];
+                        if (ones > 0) {
+                            chunkString += "-";
+                        }
+                    }
+    
+                    if (ones > 0) {
+                        chunkString += words[ones];
                     }
                 }
+    
+                if (scaleIndex > 0 && chunkString) {
+                    if (lastChunkWasZero) {
+                        nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
+                    } else {
+                        nairaString = chunkString + " " + scales[scaleIndex] + ", " + nairaString;
+                    }
+                } else {
+                    nairaString = chunkString + " " + scales[scaleIndex] + " " + nairaString;
+                }
+                lastChunkWasZero = false;
+            } else {
+                lastChunkWasZero = true;
             }
-
+    
             scaleIndex++;
         }
-
+    
         if (kobo > 0) {
             if (kobo < 20) {
                 koboString = words[kobo] + " kobo";
             } else {
                 let ones = kobo % 10;
                 let tensIndex = Math.floor(kobo / 10) % 10;
-
-                if (ones === 0) {
-                    koboString = tens[tensIndex - 2] + " kobo";
+    
+                if (tensIndex === 0) {
+                    koboString = words[ones] + " kobo";
                 } else {
-                    koboString = tens[tensIndex - 2] + " " + words[ones] + " kobo";
+                    koboString = tens[tensIndex] + " " + words[ones] + " kobo";
                 }
             }
         }
-
+    
         return nairaString.trim() + " naira " + koboString.trim();
     }
+    
+    
 
+    console.log("Num", convertToNairaWords("51013917.90"));
 
+    
     useEffect(() => {
         if (router.query.formData) {
             setFormData(JSON.parse(router.query.formData));
