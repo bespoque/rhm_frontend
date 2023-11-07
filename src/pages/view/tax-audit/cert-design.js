@@ -121,8 +121,9 @@ const CertDesign = () => {
             }
         }
     
-        return nairaString.trim() + " naira " + koboString.trim();
+        return nairaString.trim() + " naira " + koboString.trim() + " only";
     }
+    
     
     
     
