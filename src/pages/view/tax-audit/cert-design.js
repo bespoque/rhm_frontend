@@ -116,13 +116,15 @@ const CertDesign = () => {
                 if (tensIndex === 0) {
                     koboString = words[ones] + " kobo";
                 } else {
-                    koboString = tens[tensIndex] + " " + words[ones] + " kobo";
+                    koboString = tens[tensIndex] + (ones > 0 ? "-" : "") + words[ones] + " kobo";
                 }
             }
         }
     
         return nairaString.trim() + " naira " + koboString.trim() + " only";
     }
+    
+    
     
     
     
