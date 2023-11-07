@@ -91,7 +91,7 @@ const CertDesign = () => {
     
                 if (scaleIndex > 0 && chunkString) {
                     if (lastChunkWasZero) {
-                        nairaString = chunkString + " " + scales[scaleIndex] + "  " + nairaString;
+                        nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
                     } else {
                         nairaString = chunkString + " " + scales[scaleIndex] + ", " + nairaString;
                     }
@@ -123,6 +123,8 @@ const CertDesign = () => {
     
         return nairaString.trim() + " naira " + koboString.trim();
     }
+    
+    
     
     
 
