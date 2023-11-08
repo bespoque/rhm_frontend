@@ -152,7 +152,7 @@ const CertDesign = () => {
     
             for (let z = 0; z < groups2.length; z++) {
                 if (groups2[z] !== '') {
-                    output += groups2[z] + convertGroup(11 - z) + (z < 11 && groups2.slice(z + 1, -1).indexOf('') === -1 && groups2[11] !== '' && groups[11].charAt(0) === '0' ? ' and ' : ', ');
+                    output += groups2[z] + convertGroup(11 - z) + (z < 11 && groups2.slice(z + 1, -1).indexOf('') === -1 && groups2[11] !== '' && groups[11].charAt(0) === '0' ? ' , ' : ', ');
                 }
             }
     
@@ -209,7 +209,7 @@ const CertDesign = () => {
         if (digit1 !== '0') {
             buffer += convertDigit(digit1) + ' hundred';
             if (digit2 !== '0' || digit3 !== '0') {
-                buffer += ' and ';
+                buffer += '  ';
             }
         }
     
