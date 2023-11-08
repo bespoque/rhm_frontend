@@ -382,7 +382,7 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
+                                    This is to certify that all  Withholding Taxes due to Kogi State Government for the period of
                                     January {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
@@ -443,7 +443,7 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
+                                    This is to certify that all  Withholding Taxes due to Kogi State Government for the period of
                                     January {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :

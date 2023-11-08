@@ -63,7 +63,7 @@ export default function AuditCert() {
             {isFetchingUserInfo && <ProcessorSpinner />}
             <form onSubmit={handleSubmit(submitForm)} >
                 <h5 className="text-center mb-4">Generate Tax Audit Certificate</h5>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2">
                     <div className="form-group">
                         <p>TAX Id</p>
                         <input
@@ -137,6 +137,24 @@ export default function AuditCert() {
                             </option>
                         </select>
                     </div>
+
+                    {/* <div className="form-group" >
+                        <p>Revenue Item</p>
+                        <select ref={register()} name="revItem" required className="form-control mb-4 SlectBox w-full rounded font-light text-gray-500" id="taxStation">
+                            <option value="TAX AUDIT CLEARANCE CERTIFICATE">
+                                PAYE
+                            </option>
+                            <option value="WHT INVESTIGATION CLEARANCE CERTIFICATE">
+                                Withholding Tax
+                            </option>
+                            <option value="PAYE INVESTIGATION CLEARANCE CERTIFICATE">
+                                PAYE INVESTIGATION CLEARANCE CERTIFICATE
+                            </option>
+                            <option value="PAYE AND WHT INVESTIGATION CLEARANCE CERTIFICATE">
+                                PAYE AND INVESTIGATION CLEARANCE CERTIFICATE
+                            </option>
+                        </select>
+                    </div> */}
 
                     <div className="flex gap-1">
                         <div className="form-group ">
