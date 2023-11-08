@@ -195,6 +195,7 @@ const CertDesign = () => {
                 return ' thousand';
             case 0:
                 return '';
+                default:
         }
     }
     
@@ -244,6 +245,7 @@ const CertDesign = () => {
                     return 'eighty';
                 case '9':
                     return 'ninety';
+                    default:
             }
         } else {
             if (digit1 === '1') {
@@ -266,6 +268,7 @@ const CertDesign = () => {
                         return 'eighteen';
                     case '9':
                         return 'nineteen';
+                        default:   
                 }
             } else {
                 const temp = convertDigit(digit2);
@@ -286,6 +289,7 @@ const CertDesign = () => {
                         return 'eighty-' + temp;
                     case '9':
                         return 'ninety-' + temp;
+                        default:
                 }
             }
         }
@@ -313,10 +317,10 @@ const CertDesign = () => {
                 return 'eight';
             case '9':
                 return 'nine';
+                default:
         }
     }
     
-    // Example usage:
     function convertToNairaAndKobo(number) {
         const nairaAmount = Math.floor(number);
         const koboAmount = Math.round((number - nairaAmount) * 100);
@@ -332,11 +336,6 @@ const CertDesign = () => {
     
         return result;
     }
-    
-    // Example usage:
-    const amount = 1234567.89;
-    const words = convertToNairaAndKobo(amount);
-    console.log(words); // Outputs "one million two hundred thirty-four thousand five hundred sixty-seven Naira and eighty-nine Kobo"
     
     
 
@@ -383,7 +382,7 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all Withholding Taxes due to Kogi State Government for the period of
+                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
                                     January {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
@@ -444,7 +443,7 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all Withholding Taxes due to Kogi State Government for the period of
+                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
                                     January {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
