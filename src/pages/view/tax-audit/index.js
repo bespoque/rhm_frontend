@@ -166,7 +166,7 @@ export default function AuditCert() {
                                         ref={register()}
                                         className="form-checkbox"
                                     />
-                                    <label htmlFor="Withholding Tax">Withholding</label>
+                                    <label htmlFor="Withholding Tax">Withholding Tax</label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <input
@@ -250,7 +250,7 @@ export default function AuditCert() {
                                         ref={register()}
                                         className="form-checkbox"
                                     />
-                                    <label htmlFor="Capital Gain Tax">Capital Gain</label>
+                                    <label htmlFor="Capital Gain">Capital Gain Tax</label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <input
