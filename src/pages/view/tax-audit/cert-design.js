@@ -85,12 +85,12 @@ const CertDesign = () => {
     //                         chunkString += "-";
     //                     }
     //                 }
-                    
+
     //                 if (ones > 0) {
     //                     chunkString += words[ones] ;
     //                 }
     //             }
-                
+
     //             if (scaleIndex > 0 && chunkString) {
     //                 if (lastChunkWasZero) {
     //                     nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
@@ -104,10 +104,10 @@ const CertDesign = () => {
     //         } else {
     //             lastChunkWasZero = true;
     //         }
-            
+
     //         scaleIndex++;
     //     }
-        
+
     //     if (kobo > 0) {
     //         if (kobo < 20) {
     //             koboString = words[kobo] + " kobo";
@@ -127,12 +127,12 @@ const CertDesign = () => {
     // }
 
 
-    
+
     function convertNumber(number) {
         let [integer, fraction] = number.toString().split('.');
-    
+
         let output = '';
-    
+
         if (integer.charAt(0) === '-') {
             output = 'negative ';
             integer = integer.slice(1);
@@ -140,35 +140,35 @@ const CertDesign = () => {
             output = 'positive ';
             integer = integer.slice(1);
         }
-    
+
         if (integer.charAt(0) === '0') {
             output += 'zero';
         } else {
             integer = integer.padStart(36, '0');
             const group = integer.match(/.{1,3}/g).join(' ');
             const groups = group.split(' ');
-    
+
             const groups2 = groups.map(g => convertThreeDigit(g.charAt(0), g.charAt(1), g.charAt(2)))
-    
+
             for (let z = 0; z < groups2.length; z++) {
                 if (groups2[z] !== '') {
                     output += groups2[z] + convertGroup(11 - z) + (z < 11 && groups2.slice(z + 1, -1).indexOf('') === -1 && groups2[11] !== '' && groups[11].charAt(0) === '0' ? ' , ' : ', ');
                 }
             }
-    
+
             output = output.replace(/, $/, '');
         }
-    
+
         if (fraction > 0) {
             output += ' point';
             for (let i = 0; i < fraction.length; i++) {
                 output += ' ' + convertDigit(fraction.charAt(i));
             }
         }
-    
+
         return output;
     }
-    
+
     function convertGroup(index) {
         switch (index) {
             case 11:
@@ -195,24 +195,24 @@ const CertDesign = () => {
                 return ' thousand';
             case 0:
                 return '';
-                default:
+            default:
         }
     }
-    
+
     function convertThreeDigit(digit1, digit2, digit3) {
         let buffer = '';
-    
+
         if (digit1 === '0' && digit2 === '0' && digit3 === '0') {
             return '';
         }
-    
+
         if (digit1 !== '0') {
             buffer += convertDigit(digit1) + ' hundred';
             if (digit2 !== '0' || digit3 !== '0') {
                 buffer += '  ';
             }
         }
-    
+
         if (digit2 !== '0') {
             buffer += convertTwoDigit(digit2, digit3);
         } else {
@@ -220,10 +220,10 @@ const CertDesign = () => {
                 buffer += convertDigit(digit3);
             }
         }
-    
+
         return buffer;
     }
-    
+
     function convertTwoDigit(digit1, digit2) {
         if (digit2 === '0') {
             switch (digit1) {
@@ -245,7 +245,7 @@ const CertDesign = () => {
                     return 'eighty';
                 case '9':
                     return 'ninety';
-                    default:
+                default:
             }
         } else {
             if (digit1 === '1') {
@@ -268,7 +268,7 @@ const CertDesign = () => {
                         return 'eighteen';
                     case '9':
                         return 'nineteen';
-                        default:   
+                    default:
                 }
             } else {
                 const temp = convertDigit(digit2);
@@ -289,12 +289,12 @@ const CertDesign = () => {
                         return 'eighty-' + temp;
                     case '9':
                         return 'ninety-' + temp;
-                        default:
+                    default:
                 }
             }
         }
     }
-    
+
     function convertDigit(digit) {
         switch (digit) {
             case '0':
@@ -317,28 +317,54 @@ const CertDesign = () => {
                 return 'eight';
             case '9':
                 return 'nine';
-                default:
+            default:
         }
     }
-    
+
     function convertToNairaAndKobo(number) {
         const nairaAmount = Math.floor(number);
         const koboAmount = Math.round((number - nairaAmount) * 100);
-    
+
         const nairaWords = convertNumber(nairaAmount);
         const koboWords = convertNumber(koboAmount);
-    
+
         let result = nairaWords + " Naira";
-    
+
         if (koboAmount > 0) {
             result += ` and ${koboWords} Kobo`;
         }
-    
+
         return result;
     }
-    
-    
 
+
+    let revItems = formData?.revItem
+
+
+    const generateText = (taxes) => {
+        let text = "This is to certify that all ";
+        if (!taxes || taxes.length === 0) {
+            return "No taxes specified.";
+        }
+        if (taxes?.length === 1) {
+            text += `${taxes[0]} Tax`;
+        } else if (taxes?.length === 2) {
+            text += `${taxes[0]} and ${taxes[1]} Taxes`;
+        } else {
+            for (let i = 0; i < taxes?.length - 1; i++) {
+                text += `${taxes[i]}, `;
+            }
+            text = text.slice(0, -2); // Remove the last comma and space
+            text += `, and ${taxes[taxes?.length - 1]} Taxes`;
+        }
+
+        text += ` due to Kogi State Government for the period of January `;
+
+        return text;
+    }
+    const certificateText = generateText(revItems);
+
+    console.log("revItems", revItems);
 
     useEffect(() => {
         if (router.query.formData) {
@@ -351,7 +377,6 @@ const CertDesign = () => {
     }
     const wordNum = (formData.amount).replace(/,/g, '')
     const numberInWords = convertToNairaAndKobo(wordNum);
-
     return (
         <>
             <div className="flex justify-between my-3">
@@ -382,8 +407,8 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all  Withholding Taxes due to Kogi State Government for the period of
-                                    January {new Date(formData.sdate).getFullYear()} to December <span>
+                                    {certificateText}
+                                    {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
                                             new Date(formData.edate).getFullYear()
@@ -443,8 +468,8 @@ const CertDesign = () => {
                             <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all  Withholding Taxes due to Kogi State Government for the period of
-                                    January {new Date(formData.sdate).getFullYear()} to December <span>
+                                    {certificateText}
+                                    {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
                                             new Date(formData.edate).getFullYear()
