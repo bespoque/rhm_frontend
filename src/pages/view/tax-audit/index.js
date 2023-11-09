@@ -166,7 +166,7 @@ export default function AuditCert() {
                                         ref={register()}
                                         className="form-checkbox"
                                     />
-                                    <label htmlFor="Withholding Tax">Withholding Tax</label>
+                                    <label htmlFor="Withholding Tax">Withholding</label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <input
