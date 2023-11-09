@@ -246,7 +246,7 @@ export default function AuditCert() {
                                     <input
                                         type="checkbox"
                                         name="revItem"
-                                        value="Capital Gain Tax"
+                                        value="Capital Gain"
                                         ref={register()}
                                         className="form-checkbox"
                                     />
