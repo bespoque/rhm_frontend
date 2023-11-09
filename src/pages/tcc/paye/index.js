@@ -253,6 +253,25 @@ function Index() {
 
     useEffect(() => {
 
+<<<<<<< HEAD
+=======
+        const fetchPostYear3 = () => {
+            if (dirtyFields.assmtYr_3) {
+                let year3 = watchYear3.getFullYear()
+                let kgtin = taxpayerInfo.KGTIN
+                setIsFetching(true)
+                axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year3}`)
+                    .then(function (response) {
+                        setIsFetching(false)
+                        setPayslipYear3(response.data.body.payroll[0]);
+                    })
+                    .catch(function (error) {
+                        setPayslipYear3("")
+                        setIsFetching(false)
+                        if (error.response) {
+                            toast.error(error.response.data.message)
+                        } else {
+>>>>>>> production
 
         if (dirtyFields.assmtYr_3) {
 
@@ -393,6 +412,7 @@ function Index() {
                 <div className={`flex justify-between border mb-3 rounded-lg bg-white w-full`}>
 
                     <div className="p-3">
+<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form1Value}
@@ -403,6 +423,8 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
+=======
+>>>>>>> production
                         <h6 className="text-right mb-6">Year 1</h6>
                         <div className="mb-6 grid grid-cols-2 ">
                             <label>Assessment year </label>
@@ -467,6 +489,7 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
+<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form2Value}
@@ -478,13 +501,14 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
+=======
+>>>>>>> production
                         <h6 className="text-center mb-6">Year 2</h6>
                         <div className="mb-6 justify-self-center">
 
                             <Controller
                                 name="assmtYr_2"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker
@@ -541,6 +565,7 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
+<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form3Value}
@@ -551,13 +576,14 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
+=======
+>>>>>>> production
                         <h6 className="text-center mb-6">Year 3</h6>
                         <div className="mb-6 justify-self-center">
 
                             <Controller
                                 name="assmtYr_3"
                                 control={control}
-                                // defaultValue={new Date()}
                                 render={({ onChange, value }) => {
                                     return (
                                         <DatePicker

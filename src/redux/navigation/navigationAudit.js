@@ -1,4 +1,4 @@
-import { RhmDashboard, Collections, Settings } from '../../components/Icons/index';
+import { RhmDashboard, Collections } from '../../components/Icons/index';
 
 const initialState = [
   {
@@ -28,26 +28,11 @@ const initialState = [
           },
         ],
       },
-
-      {
-        url: '/',
-        icon: <Settings />,
-        title: 'Settings',
-        items: [
-          {
-            title: 'Audit Receipt',
-            items: [
-              { title: 'Generate', url: '/view/tax-audit', items: [] },
-            ],
-          },
-        ],
-      },
-
     ],
   },
 ];
 
-export default function navigationAuditPrint(state = initialState, action) {
+export default function navigationAudit(state = initialState, action) {
   switch (action.type) {
     default:
       return state;

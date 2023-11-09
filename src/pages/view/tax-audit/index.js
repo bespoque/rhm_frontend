@@ -53,17 +53,23 @@ export default function AuditCert() {
     };
 
     const submitForm = (data) => {
-        router.push({
-            pathname: '/view/tax-audit/cert-design',
-            query: { formData: JSON.stringify(data) },
-        });
+        let formFields = (data)
+        if (formFields?.revItem?.length === 0) {
+            alert("Please select Revenue Item")
+        } else {
+
+            router.push({
+                pathname: '/view/tax-audit/cert-design',
+                query: { formData: JSON.stringify(data) },
+            });
+        }
     }
     return (
         <div className="flex justify-center">
             {isFetchingUserInfo && <ProcessorSpinner />}
             <form onSubmit={handleSubmit(submitForm)} >
                 <h5 className="text-center mb-4">Generate Tax Audit Certificate</h5>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2">
                     <div className="form-group">
                         <p>TAX Id</p>
                         <input
@@ -136,9 +142,133 @@ export default function AuditCert() {
                                 PAYE AND INVESTIGATION CLEARANCE CERTIFICATE
                             </option>
                         </select>
+
                     </div>
 
-                    <div className="flex gap-1">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="form-group">
+                            <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="PAYE"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="PAYE">PAYE</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Withholding Tax"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Withholding Tax">Withholding Tax</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Business Premises"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Business Premises">Business Premises</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Development Levies"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Development Levies">Development Levies</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Social Service"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Social Service">Social Service</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Stamp Duty"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Stamp Duty">Stamp Duty</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Fire Service Fee"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Fire Service Fee">Fire Service Fee</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Signage Fee"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Signage Fee">Signage Fee</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Ground Rent"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Ground Rent">Ground Rent</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value="Capital Gain Tax"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor="Capital Gain Tax">Capital Gain Tax</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="revItem"
+                                        value=" Haulage Fee"
+                                        ref={register()}
+                                        className="form-checkbox"
+                                    />
+                                    <label htmlFor=" Haulage Fee"> Haulage Fee</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className=" gap-1">
                         <div className="form-group ">
                             <p>Audit start date</p>
                             <Controller
@@ -181,22 +311,18 @@ export default function AuditCert() {
                                 }}
                             />
                         </div>
-
-
-                    </div>
-
-
-                    <div className="form-group">
-                        <p>Address</p>
-                        <textarea
-                            name="address"
-                            required
-                            ref={register()}
-                            className="form-control mb-4 w-full rounded font-light text-gray-500"
-                            cols="30" rows="2"
-                            defaultValue={userInfo?.address || ""}
-                        >
-                        </textarea>
+                        <div className="justify-self-end">
+                            <p>Address</p>
+                            <textarea
+                                name="address"
+                                required
+                                ref={register()}
+                                className="form-control mb-4 w-full rounded font-light text-gray-500"
+                                cols="30" rows="2"
+                                defaultValue={userInfo?.address || ""}
+                            >
+                            </textarea>
+                        </div>
                     </div>
 
                 </div>

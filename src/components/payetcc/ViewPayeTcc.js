@@ -65,9 +65,6 @@ const SinglePayeTcc = () => {
   return (
     <>
       <SectionTitle subtitle="View Tcc" />
-
-
-
         <>
           {isFetching ? (
             <div className="flex justify-center item mb-2">

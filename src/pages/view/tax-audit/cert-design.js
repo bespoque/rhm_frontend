@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
+import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import jwt from "jsonwebtoken";
 
 
 const CertDesign = () => {
@@ -9,77 +11,360 @@ const CertDesign = () => {
     const [formData, setFormData] = useState(null);
     const componentRef = useRef();
 
+    const { auth } = useSelector(
+        (state) => ({
+            auth: state.authentication.auth,
+        }),
+        shallowEqual
+    );
 
-    function convertToNairaWords(amount) {
-        const words = [
-            "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-            "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
-            "seventeen", "eighteen", "nineteen"
-        ];
-        const tens = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-        const scales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion"];
+    const decoded = jwt.decode(auth);
+    const staff = decoded.staffName
 
-        if (amount === 0) return "zero naira";
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    };
+    const formattedDateTime = new Date().toLocaleDateString(undefined, options);
 
-        let nairaString = "";
-        let koboString = "";
+    // function convertToNairaWords(amount) {
+    //     const words = [
+    //         "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    //         "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+    //         "seventeen", "eighteen", "nineteen"
+    //     ];
+    //     const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+    //     const scales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion"];
 
-        if (amount < 0) {
-            nairaString += "minus ";
-            amount = Math.abs(amount);
+    //     if (amount === 0) return "zero naira";
+
+    //     let nairaString = "";
+    //     let koboString = "";
+
+    //     if (amount < 0) {
+    //         nairaString += "minus ";
+    //         amount = Math.abs(amount);
+    //     }
+
+    //     let naira = Math.floor(amount);
+    //     let kobo = Math.round((amount - naira) * 100);
+
+    //     let scaleIndex = 0;
+    //     let lastChunkWasZero = false;
+
+    //     while (naira > 0) {
+    //         let chunk = naira % 1000;
+    //         naira = Math.floor(naira / 1000);
+    //         console.log("chunk1", chunk);
+
+    //         if (chunk > 0) {
+    //             let chunkString = "";
+    //             if (chunk < 20) {
+    //                 chunkString = words[chunk] ;
+    //                 console.log("chunk2", chunk);
+    //             } else {
+    //                 let ones = chunk % 10;
+    //                 let tensIndex = Math.floor(chunk / 10) % 10;
+    //                 let hundreds = Math.floor(chunk / 100);
+
+    //                 if (hundreds > 0) {
+    //                     chunkString += words[hundreds] + " hundred";
+    //                     if (tensIndex > 0 || ones > 0) {
+    //                         chunkString += " and " ;
+    //                     }
+    //                 }
+
+    //                 if (tensIndex > 0) {
+    //                     chunkString += tens[tensIndex];
+    //                     if (ones > 0) {
+    //                         chunkString += "-";
+    //                     }
+    //                 }
+
+    //                 if (ones > 0) {
+    //                     chunkString += words[ones] ;
+    //                 }
+    //             }
+
+    //             if (scaleIndex > 0 && chunkString) {
+    //                 if (lastChunkWasZero) {
+    //                     nairaString = chunkString + " " + scales[scaleIndex] + " and " + nairaString;
+    //                 } else {
+    //                     nairaString = chunkString + " " + scales[scaleIndex] + ", " + nairaString;
+    //                 }
+    //             } else {
+    //                 nairaString = chunkString + " " + scales[scaleIndex] + " " + nairaString;
+    //             }
+    //             lastChunkWasZero = false;
+    //         } else {
+    //             lastChunkWasZero = true;
+    //         }
+
+    //         scaleIndex++;
+    //     }
+
+    //     if (kobo > 0) {
+    //         if (kobo < 20) {
+    //             koboString = words[kobo] + " kobo";
+    //         } else {
+    //             let ones = kobo % 10;
+    //             let tensIndex = Math.floor(kobo / 10) % 10;
+
+    //             if (tensIndex === 0) {
+    //                 koboString = words[ones] + " kobo";
+    //             } else {
+    //                 koboString = tens[tensIndex] + (ones > 0 ? "-" : "") + words[ones] + " kobo";
+    //             }
+    //         }
+    //     }
+
+    //     return nairaString.trim() + " naira " + koboString.trim() + " only";
+    // }
+
+
+
+    function convertNumber(number) {
+        let [integer, fraction] = number.toString().split('.');
+
+        let output = '';
+
+        if (integer.charAt(0) === '-') {
+            output = 'negative ';
+            integer = integer.slice(1);
+        } else if (integer.charAt(0) === '+') {
+            output = 'positive ';
+            integer = integer.slice(1);
         }
 
-        let naira = Math.floor(amount);
-        let kobo = Math.round((amount - naira) * 100);
+        if (integer.charAt(0) === '0') {
+            output += 'zero';
+        } else {
+            integer = integer.padStart(36, '0');
+            const group = integer.match(/.{1,3}/g).join(' ');
+            const groups = group.split(' ');
 
-        let scaleIndex = 0;
+            const groups2 = groups.map(g => convertThreeDigit(g.charAt(0), g.charAt(1), g.charAt(2)))
 
-        while (naira > 0) {
-            let chunk = naira % 1000;
-            naira = Math.floor(naira / 1000);
-
-            if (chunk > 0) {
-                if (chunk < 20) {
-                    nairaString = words[chunk] + " " + scales[scaleIndex] + " " + nairaString;
-                } else {
-                    let ones = chunk % 10;
-                    let tensIndex = Math.floor(chunk / 10) % 10;
-                    let hundreds = Math.floor(chunk / 100);
-
-                    if (ones === 0 && tensIndex === 0) {
-                        nairaString = words[hundreds] + " hundred " + scales[scaleIndex] + " " + nairaString;
-                    } else if (tensIndex === 0) {
-                        nairaString = words[hundreds] + " hundred " + words[ones] + " " + scales[scaleIndex] + " " + nairaString;
-                    } else if (tensIndex === 1) {
-                        nairaString = words[hundreds] + " hundred " + words[chunk] + " " + scales[scaleIndex] + " " + nairaString;
-                    } else {
-                        nairaString = words[hundreds] + " hundred " + tens[tensIndex - 2] + " " + words[ones] + " " + scales[scaleIndex] + " " + nairaString;
-                    }
+            for (let z = 0; z < groups2.length; z++) {
+                if (groups2[z] !== '') {
+                    output += groups2[z] + convertGroup(11 - z) + (z < 11 && groups2.slice(z + 1, -1).indexOf('') === -1 && groups2[11] !== '' && groups[11].charAt(0) === '0' ? ' , ' : ', ');
                 }
             }
 
-            scaleIndex++;
+            output = output.replace(/, $/, '');
         }
 
-        if (kobo > 0) {
-            if (kobo < 20) {
-                koboString = words[kobo] + " kobo";
+        if (fraction > 0) {
+            output += ' point';
+            for (let i = 0; i < fraction.length; i++) {
+                output += ' ' + convertDigit(fraction.charAt(i));
+            }
+        }
+
+        return output;
+    }
+
+    function convertGroup(index) {
+        switch (index) {
+            case 11:
+                return ' decillion';
+            case 10:
+                return ' nonillion';
+            case 9:
+                return ' octillion';
+            case 8:
+                return ' septillion';
+            case 7:
+                return ' sextillion';
+            case 6:
+                return ' quintrillion';
+            case 5:
+                return ' quadrillion';
+            case 4:
+                return ' trillion';
+            case 3:
+                return ' billion';
+            case 2:
+                return ' million';
+            case 1:
+                return ' thousand';
+            case 0:
+                return '';
+            default:
+        }
+    }
+
+    function convertThreeDigit(digit1, digit2, digit3) {
+        let buffer = '';
+
+        if (digit1 === '0' && digit2 === '0' && digit3 === '0') {
+            return '';
+        }
+
+        if (digit1 !== '0') {
+            buffer += convertDigit(digit1) + ' hundred';
+            if (digit2 !== '0' || digit3 !== '0') {
+                buffer += '  ';
+            }
+        }
+
+        if (digit2 !== '0') {
+            buffer += convertTwoDigit(digit2, digit3);
+        } else {
+            if (digit3 !== '0') {
+                buffer += convertDigit(digit3);
+            }
+        }
+
+        return buffer;
+    }
+
+    function convertTwoDigit(digit1, digit2) {
+        if (digit2 === '0') {
+            switch (digit1) {
+                case '1':
+                    return 'ten';
+                case '2':
+                    return 'twenty';
+                case '3':
+                    return 'thirty';
+                case '4':
+                    return 'forty';
+                case '5':
+                    return 'fifty';
+                case '6':
+                    return 'sixty';
+                case '7':
+                    return 'seventy';
+                case '8':
+                    return 'eighty';
+                case '9':
+                    return 'ninety';
+                default:
+            }
+        } else {
+            if (digit1 === '1') {
+                switch (digit2) {
+                    case '1':
+                        return 'eleven';
+                    case '2':
+                        return 'twelve';
+                    case '3':
+                        return 'thirteen';
+                    case '4':
+                        return 'fourteen';
+                    case '5':
+                        return 'fifteen';
+                    case '6':
+                        return 'sixteen';
+                    case '7':
+                        return 'seventeen';
+                    case '8':
+                        return 'eighteen';
+                    case '9':
+                        return 'nineteen';
+                    default:
+                }
             } else {
-                let ones = kobo % 10;
-                let tensIndex = Math.floor(kobo / 10) % 10;
-
-                if (ones === 0) {
-                    koboString = tens[tensIndex - 2] + " kobo";
-                } else {
-                    koboString = tens[tensIndex - 2] + " " + words[ones] + " kobo";
+                const temp = convertDigit(digit2);
+                switch (digit1) {
+                    case '2':
+                        return 'twenty-' + temp;
+                    case '3':
+                        return 'thirty-' + temp;
+                    case '4':
+                        return 'forty-' + temp;
+                    case '5':
+                        return 'fifty-' + temp;
+                    case '6':
+                        return 'sixty-' + temp;
+                    case '7':
+                        return 'seventy-' + temp;
+                    case '8':
+                        return 'eighty-' + temp;
+                    case '9':
+                        return 'ninety-' + temp;
+                    default:
                 }
             }
         }
+    }
 
-        return nairaString.trim() + " naira " + koboString.trim();
+    function convertDigit(digit) {
+        switch (digit) {
+            case '0':
+                return 'zero';
+            case '1':
+                return 'one';
+            case '2':
+                return 'two';
+            case '3':
+                return 'three';
+            case '4':
+                return 'four';
+            case '5':
+                return 'five';
+            case '6':
+                return 'six';
+            case '7':
+                return 'seven';
+            case '8':
+                return 'eight';
+            case '9':
+                return 'nine';
+            default:
+        }
+    }
+
+    function convertToNairaAndKobo(number) {
+        const nairaAmount = Math.floor(number);
+        const koboAmount = Math.round((number - nairaAmount) * 100);
+
+        const nairaWords = convertNumber(nairaAmount);
+        const koboWords = convertNumber(koboAmount);
+
+        let result = nairaWords + " Naira";
+
+        if (koboAmount > 0) {
+            result += ` and ${koboWords} Kobo`;
+        }
+
+        return result;
     }
 
 
+    let revItems = formData?.revItem
+
+
+    const generateText = (taxes) => {
+        let text = "This is to certify that all ";
+        if (!taxes || taxes.length === 0) {
+            return "No taxes specified.";
+        }
+        if (taxes?.length === 1) {
+            text += `${taxes[0]} Tax`;
+        } else if (taxes?.length === 2) {
+            text += `${taxes[0]} and ${taxes[1]} Taxes`;
+        } else {
+            for (let i = 0; i < taxes?.length - 1; i++) {
+                text += `${taxes[i]}, `;
+            }
+            text = text.slice(0, -2); // Remove the last comma and space
+            text += `, and ${taxes[taxes?.length - 1]} Taxes`;
+        }
+
+        text += ` due to Kogi State Government for the period of January `;
+
+        return text;
+    }
+    const certificateText = generateText(revItems);
+
+    console.log("revItems", revItems);
 
     useEffect(() => {
         if (router.query.formData) {
@@ -90,11 +375,8 @@ const CertDesign = () => {
     if (!formData) {
         return <div>Loading...</div>;
     }
-    // const numberInWords = toWords((formData.amount).replace(/,/g, ''));
     const wordNum = (formData.amount).replace(/,/g, '')
-    const numberInWords = convertToNairaWords(wordNum);
-    console.log("wordNum", wordNum);
-    console.log(convertToNairaWords(100000.56));
+    const numberInWords = convertToNairaAndKobo(wordNum);
     return (
         <>
             <div className="flex justify-between my-3">
@@ -107,7 +389,6 @@ const CertDesign = () => {
                 </button>
                 <div>
                     <ReactToPrint
-                        // pageStyle='@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
                         trigger={() => <button className="btn w-32 bg-green-600 btn-default text-white
                                         btn-outlined bg-transparent rounded-md"
                             type="submit"
@@ -121,13 +402,13 @@ const CertDesign = () => {
             <div>
                 <div className="flex justify-center " ref={componentRef}>
                     <div className="w-2/3">
-                        <div className="mt-20">
-                            <h4 className="text-right">ORIGINAL</h4>
-                            <div className="">
+                        <div className="mt-32">
+                            <h4 className="text-right font-bold">ORIGINAL</h4>
+                            <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
-                                    January {new Date(formData.sdate).getFullYear()} to December <span>
+                                    {certificateText}
+                                    {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
                                             new Date(formData.edate).getFullYear()
@@ -170,7 +451,7 @@ const CertDesign = () => {
                                 <div>
                                     <QRCode
                                         value={`${formData.fullname} ${formData.amount} ${formData.kgtin}`}
-                                        size={120}
+                                        size={80}
                                     />
                                 </div>
                                 <div>
@@ -179,15 +460,16 @@ const CertDesign = () => {
                                     <p>Executive Chairman</p>
                                 </div>
                             </div>
+                            <div class="flex justify-end"><small>{'<<'} Printed by {staff} on {formattedDateTime} {'>>'}</small></div>
                         </div>
 
                         <div style={{ marginTop: "10.2rem" }}>
-                            <h4 className="text-right">DUPLICATE</h4>
-                            <div className="">
+                            <h4 className="text-right font-bold">DUPLICATE</h4>
+                            <div className="mt-5">
                                 <p className="font-bold text-center">{formData.subject}</p>
                                 <p className="max-w-md text-sm max-w-prose text-justify">
-                                    This is to certify that all PAYE and Withholding Taxes due to Kogi State Government for the period of
-                                    January {new Date(formData.sdate).getFullYear()} to December <span>
+                                    {certificateText}
+                                    {new Date(formData.sdate).getFullYear()} to December <span>
                                         {!formData.edate ?
                                             new Date(formData.sdate).getFullYear() :
                                             new Date(formData.edate).getFullYear()
@@ -231,7 +513,7 @@ const CertDesign = () => {
                                 <div>
                                     <QRCode
                                         value={`${formData.fullname} ${formData.amount} ${formData.kgtin}`}
-                                        size={120}
+                                        size={80}
                                     />
                                 </div>
                                 <div>
@@ -241,6 +523,7 @@ const CertDesign = () => {
                                 </div>
                             </div>
                         </div>
+                        <div class="flex justify-end"><small>{'<<'} Printed by {staff} on {formattedDateTime} {'>>'}</small></div>
                     </div>
                 </div>
             </div>

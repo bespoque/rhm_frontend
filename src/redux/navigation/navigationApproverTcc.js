@@ -55,6 +55,11 @@ const initialState = [
             url: '/view/objection/submitted',
             items: [],
           },
+             {
+                title: 'Verified',
+                url: '/view/objection/verified',
+                items: [],
+              },
           {
             title: 'Verified',
             url: '/view/objection/verified',
