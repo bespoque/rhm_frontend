@@ -12,6 +12,9 @@ export default function AuditReportList() {
     const router = useRouter()
     const [job, setJob] = useState(() => []);
     const { JobID } = router?.query
+    const [selectedScope, setSelectedScope] = useState("");
+    const [uploadData, setUploadData] = useState([]);
+    const [scopeData, setUploadCheck] = useState([]);
 
     function getYearsInRange(startYear, endYear) {
         const years = [];
@@ -38,17 +41,6 @@ export default function AuditReportList() {
     const yearRange = getYearsInRange(auditStartYr, auditEndYr);
 
 
-    // const scopeData = [
-    //     { "checklist_id": "", "checklist_item": "Select document", "type": "pdf" },
-    //     { "checklist_id": "1", "checklist_item": "Petty Cash Voucher", "type": "pdf" },
-    //     { "checklist_id": "2", "checklist_item": "Bank Statement", "type": "pdf" },
-    //     { "checklist_id": "3", "checklist_item": "Schedule of Tax Remittance / Receipts", "type": "excel" },
-    // ];
-
-    const [selectedScope, setSelectedScope] = useState("");
-    const [uploadData, setUploadData] = useState([]);
-    const [scopeData, setUploadCheck] = useState([]);
-
     const handleScopeChange = (selectedScope) => {
         setSelectedScope(selectedScope);
     };
@@ -63,10 +55,9 @@ export default function AuditReportList() {
             documentFiles
         };
 
-        setUploadData([...uploadData, newUpload]);
+        setUploadData([newUpload]); // set uploaded data to show only current upload
+        // setUploadData([...uploadData, newUpload]);
     };
-
-    // console.log("uploadCheck", uploadCheck);
 
     useEffect(() => {
 
@@ -113,12 +104,11 @@ export default function AuditReportList() {
         fetchPostData();
     }, [JobID]);
 
-
     return (
 
         <>
             {isFetching && <ProcessorSpinner />}
-            <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
+            {/* <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
                 <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
                     <div className="p-2 max-w-xs">
                         <p className="font-semibold text-gray-500">Taxpayer Details</p>
@@ -193,7 +183,7 @@ export default function AuditReportList() {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-end m-2">
                 <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
@@ -212,6 +202,7 @@ export default function AuditReportList() {
                             checklistItem={scopeData.find(item => item.checklist_item === selectedScope).checklist_item}
                             checklistItemType={scopeData.find(item => item.checklist_item === selectedScope).checklist_type}
                             onUpload={handleUpload}
+                            JobID={JobID}
                         />
                     </div>
                 )}
@@ -219,7 +210,7 @@ export default function AuditReportList() {
 
                     <div key={index} className="mt-4 grid grid-cols-3">
 
-                        {upload.amount > 0 ?
+                        {upload.taxScheduleFiles.length > 0 ?
                             <div>
                                 <p className='font-bold'>Uploaded Data for: {upload.selectedScope}</p>
                                 <p>Year: {upload.selectedYear}</p>
