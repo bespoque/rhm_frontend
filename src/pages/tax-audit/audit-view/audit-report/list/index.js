@@ -5,7 +5,7 @@ import { ProcessorSpinner } from '../../../../../components/spiner';
 import Widget from '../../../../../components/widget';
 import ScopeDropdown from '../components/scopedropdown';
 import YearAndUpload from '../components/yearandupload';
-import Link from 'next/link';
+
 
 
 export default function AuditReportList() {
@@ -169,44 +169,38 @@ export default function AuditReportList() {
         const checklistIds = Object.keys(documentValues);
     
         return checklistIds.map(checklistID => {
-          const checklistItem = scopeData.find(item => item.checklist_id === checklistID);
+          const { years, remittedamount, documents } = documentValues[checklistID];
     
-          if (checklistItem) {
-            const { years, remittedamount, documents } = documentValues[checklistID];
+          return (
+            <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
+              <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
     
-            return (
-              <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
-                <h2 className="text-lg font-semibold">{checklistItem.checklist_item}</h2>
-                
-                <div className="my-2">
-                  <strong>Years:</strong> {years.join(', ')}
-                </div>
-    
-                {remittedamount && (
-                  <div className="my-2">
-                    <strong>Remitted Amount:</strong> {remittedamount}
-                  </div>
-                )}
-    
-                {documents && documents.length > 0 && (
-                  <div className="my-2">
-                    <strong>Documents:</strong>
-                    <ul>
-                      {documents.map((document, index) => (
-                        <li key={index}>
-                          <a href={`https://bespoque.dev/rhm/${document}`} className="underline text-blue-400" target="_blank" rel="noopener noreferrer">
-                            {document}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <div className="my-2">
+                <strong>Years:</strong> {years.join(', ')}
               </div>
-            );
-          }
     
-          return null;
+              {remittedamount && (
+                <div className="my-2">
+                  <strong>Remitted Amount:</strong> {remittedamount}
+                </div>
+              )}
+    
+              {documents && documents.length > 0 && (
+                <div className="my-2">
+                  <strong>Documents:</strong>
+                  <ul>
+                    {documents.map((document, index) => (
+                      <li key={index}>
+                        <a href={document} target="_blank" rel="noopener noreferrer">
+                          {document}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          );
         });
       };
 
@@ -224,9 +218,9 @@ export default function AuditReportList() {
                         <YearAndUpload
                             years={yearRange}
                             selectedScope={selectedScope}
-                            checklistItem={scopeData.find(item => item.checklist_item === selectedScope).checklist_item}
-                            checklistItemType={scopeData.find(item => item.checklist_item === selectedScope).checklist_type}
-                            checklistItemID={scopeData.find(item => item.checklist_item === selectedScope).checklist_id}
+                            checklistItem={scopeData?.find(item => item.checklist_item === selectedScope).checklist_item}
+                            checklistItemType={scopeData?.find(item => item.checklist_item === selectedScope).checklist_type}
+                            checklistItemID={scopeData?.find(item => item.checklist_item === selectedScope).checklist_id}
                             onUpload={handleUpload}
                             JobID={JobID}
                         />
