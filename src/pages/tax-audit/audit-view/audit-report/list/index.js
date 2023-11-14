@@ -33,32 +33,34 @@ export default function AuditReportList() {
     const documentValues = {};
 
     uploadsArr?.forEach(item => {
-        if (item.document.trim() !== "") {
+        // if (item.document.trim() !== "") {
             if (documentValues[item.checklistID]) {
                 documentValues[item.checklistID].documents.push(item.document);
                 documentValues[item.checklistID].years.push(item.year);
+                documentValues[item.checklistID].checklistName = item.checklistName; // Add this line
             } else {
                 documentValues[item.checklistID] = {
                     documents: [item.document],
                     years: [item.year],
+                    checklistName: item.checklistName, // Add this line
                 };
             }
-
-            // Adding remitted amount and monthly schedules
+    
             if (item.remittedamount.trim() !== "") {
                 if (!documentValues[item.checklistID].remittedamount) {
                     documentValues[item.checklistID].remittedamount = item.remittedamount;
                 }
             }
-
+    
             if (item.monthlyschedules) {
                 if (!documentValues[item.checklistID].monthlyschedules) {
                     documentValues[item.checklistID].monthlyschedules = [];
                 }
                 documentValues[item.checklistID].monthlyschedules.push(...item.monthlyschedules);
             }
-        }
+        // }
     });
+    
 
 
     console.log("uploadsArr", uploadsArr);
@@ -169,11 +171,12 @@ export default function AuditReportList() {
         const checklistIds = Object.keys(documentValues);
     
         return checklistIds.map(checklistID => {
-          const { years, remittedamount, documents } = documentValues[checklistID];
+          const { years, remittedamount, documents, checklistName } = documentValues[checklistID];
     
           return (
             <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
               <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
+              <h2 className="text-lg font-semibold"> {checklistName}</h2>
     
               <div className="my-2">
                 <strong>Years:</strong> {years.join(', ')}

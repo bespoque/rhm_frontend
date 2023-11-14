@@ -210,7 +210,7 @@ const CreateJob = () => {
 
                     <div className="grid grid-cols-2 mx-auto gap-4 max-w-md mb-4">
                         <div>
-                            <label className="block mb-1">Action type:</label>
+                            <label className="block mb-1">Type</label>
                             <select
                                 required
                                 name="actionType"

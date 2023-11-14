@@ -76,7 +76,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     })
                     const dataFetch = await res.json()
                     setIsFetching(false)
-                    router.reload()
+                    // router.reload()
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
                     } else {
@@ -101,7 +101,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         body: formData
                     })
                     const dataFetch = await res.json()
-                    router.reload()
+                    // router.reload()
                     setIsFetching(false)
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
