@@ -5,6 +5,7 @@ import { ProcessorSpinner } from '../../../../../components/spiner';
 import Widget from '../../../../../components/widget';
 import ScopeDropdown from '../components/scopedropdown';
 import YearAndUpload from '../components/yearandupload';
+import Link from 'next/link';
 
 
 export default function AuditReportList() {
@@ -15,6 +16,8 @@ export default function AuditReportList() {
     const [selectedScope, setSelectedScope] = useState("");
     const [uploadData, setUploadData] = useState([]);
     const [scopeData, setUploadCheck] = useState([]);
+    const [uploadsArr, setUploadsArr] = useState([])
+    const [showDocs, setShowDocs] = useState(false)
 
     function getYearsInRange(startYear, endYear) {
         const years = [];
@@ -26,6 +29,41 @@ export default function AuditReportList() {
         }
         return years;
     }
+
+    const documentValues = {};
+
+    uploadsArr?.forEach(item => {
+        if (item.document.trim() !== "") {
+            if (documentValues[item.checklistID]) {
+                documentValues[item.checklistID].documents.push(item.document);
+                documentValues[item.checklistID].years.push(item.year);
+            } else {
+                documentValues[item.checklistID] = {
+                    documents: [item.document],
+                    years: [item.year],
+                };
+            }
+
+            // Adding remitted amount and monthly schedules
+            if (item.remittedamount.trim() !== "") {
+                if (!documentValues[item.checklistID].remittedamount) {
+                    documentValues[item.checklistID].remittedamount = item.remittedamount;
+                }
+            }
+
+            if (item.monthlyschedules) {
+                if (!documentValues[item.checklistID].monthlyschedules) {
+                    documentValues[item.checklistID].monthlyschedules = [];
+                }
+                documentValues[item.checklistID].monthlyschedules.push(...item.monthlyschedules);
+            }
+        }
+    });
+
+
+    console.log("uploadsArr", uploadsArr);
+    console.log("documentValues", documentValues);
+    console.log("scopeData", scopeData);
 
 
     const startDate = job?.job_auditdate_start || "";
@@ -85,6 +123,28 @@ export default function AuditReportList() {
         fetchPost();
     }, [JobID]);
 
+
+    useEffect(() => {
+
+        async function fetchPost() {
+            try {
+                const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-report-batch.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "job_id": JobID
+                    })
+                })
+
+                const dataFetchJobDet = await response.json()
+                setUploadsArr(dataFetchJobDet.body)
+
+            } catch (error) {
+                console.error('Server Error:', error)
+            }
+        }
+        fetchPost();
+    }, [JobID]);
+
     useEffect(() => {
         async function fetchPostData() {
             try {
@@ -104,94 +164,59 @@ export default function AuditReportList() {
         fetchPostData();
     }, [JobID]);
 
+
+    const renderChecklistCards = () => {
+        const checklistIds = Object.keys(documentValues);
+    
+        return checklistIds.map(checklistID => {
+          const checklistItem = scopeData.find(item => item.checklist_id === checklistID);
+    
+          if (checklistItem) {
+            const { years, remittedamount, documents } = documentValues[checklistID];
+    
+            return (
+              <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
+                <h2 className="text-lg font-semibold">{checklistItem.checklist_item}</h2>
+                
+                <div className="my-2">
+                  <strong>Years:</strong> {years.join(', ')}
+                </div>
+    
+                {remittedamount && (
+                  <div className="my-2">
+                    <strong>Remitted Amount:</strong> {remittedamount}
+                  </div>
+                )}
+    
+                {documents && documents.length > 0 && (
+                  <div className="my-2">
+                    <strong>Documents:</strong>
+                    <ul>
+                      {documents.map((document, index) => (
+                        <li key={index}>
+                          <a href={`https://bespoque.dev/rhm/${document}`} className="underline text-blue-400" target="_blank" rel="noopener noreferrer">
+                            {document}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          }
+    
+          return null;
+        });
+      };
+
     return (
 
         <>
             {isFetching && <ProcessorSpinner />}
-            {/* <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-2">
-                <div className="w-full lg:w-1/2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-2">
-                    <div className="p-2 max-w-xs">
-                        <p className="font-semibold text-gray-500">Taxpayer Details</p>
-                        <hr />
-                        <div className="flex justify-between">
-                            <p>Taxpayer: <p></p> </p>
-                            <p>Tax Id <p className="font-semibold">{job?.job_kgtin}</p></p>
-                        </div>
-                        <p className="font-semibold text-gray-500">Job Details</p>
-                        <hr />
-                        <div className="flex justify-between my-2">
-                            <p>Type: <p className="font-semibold">{job?.job_job_type}</p> </p>
-                            <p>Start date <p className="font-semibold">{job?.job_startdate}</p></p>
-                        </div>
-                        <div>
-                            <p>Audit Period</p>
-                            <p className="font-semibold">Jan, {auditStartYr} - Dec, {auditEndYr}</p>
-                        </div>
-                        <div className="mt-2 mb-4">
-                            <p>Status</p>
-                            <p className="font-semibold">{job.job_progress_status}</p>
-                        </div>
-                        <hr />
-                        <div className="flex justify-between gap-2">
-                            <p>Auditor
-                                {usersArr.map((user) => (
-                                    <p className="font-semibold">{user}</p>
-                                ))
-                                }
-                            </p>
-                            <p>Initiator <p className="font-semibold">{job.job_initiator}</p></p>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full lg:w-1/2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-4">
 
-                    <div className="max-w-xs">
-                        <p className="font-semibold text-gray-500">Menu</p>
-                        <hr />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 p-2">
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view?id=${JobID}`)}
-                        >
-                            Home
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/notification/notifications?id=${JobID}`)}
-                        >Notifications</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tl-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/acknowledge/list/jobacklist?JobID=${JobID}`)}>
-                            Job Acknowledgements
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/correspondence/correspondence?id=${JobID}`)}
-                        >
-                            Correspondence
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/visit?id=${JobID}`)}
-                        >Visit log</button>
-                        <button className="btn block p-2 bg-gray-100 rounded-tr-lg m-2"
-                            onClick={() => router.push(`/tax-audit/audit-view/audit-report/list?JobID=${JobID}`)}
-                        >
-                            Audit Report
-                        </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Tarc</button>
-                    </div>
 
-                </div>
-            </div> */}
-
-            <div className="flex justify-end m-2">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                    View Audit
-                </button>
-            </div>
-
-            <Widget>
+            <Widget title="Upload Audit documents">
                 <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
 
                 {selectedScope !== "" && (
@@ -201,12 +226,48 @@ export default function AuditReportList() {
                             selectedScope={selectedScope}
                             checklistItem={scopeData.find(item => item.checklist_item === selectedScope).checklist_item}
                             checklistItemType={scopeData.find(item => item.checklist_item === selectedScope).checklist_type}
+                            checklistItemID={scopeData.find(item => item.checklist_item === selectedScope).checklist_id}
                             onUpload={handleUpload}
                             JobID={JobID}
                         />
                     </div>
                 )}
-                {uploadData.map((upload, index) => (
+
+                {uploadsArr && (
+                    <>
+                        <p className="text-center">Uploaded Documents</p>
+                        <div className="container mx-auto">
+                            <div className="flex flex-wrap justify-center">
+                                {renderChecklistCards()}
+                            </div>
+                        </div>
+                        {/* <div className="grid grid-cols-3 gap-2 mx-auto my-4">
+                            {scopeData?.map(item => (
+                                <div key={item.checklist_id} className="bg-gray-100 p-4 rounded-md">
+                                    <p className="font-light text-center">{item.checklist_item}</p>
+                                    <div className="flex justify-between">
+                                        <div>
+                                            <p className="font-bold mb-1">Year</p>
+                                            {yearRange?.map((year) => (
+                                                <div>
+                                                    <p>{year}</p>
+                                                </div>
+
+                                            ))}
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Document</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div> */}
+
+                    </>
+
+                )}
+
+                {/* {uploadData.map((upload, index) => (
 
                     <div key={index} className="mt-4 grid grid-cols-3">
 
@@ -228,7 +289,7 @@ export default function AuditReportList() {
                         }
 
                     </div>
-                ))}
+                ))} */}
 
 
             </Widget>

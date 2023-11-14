@@ -4,15 +4,16 @@ import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../../components/spiner';
+import { useRouter } from 'next/router';
 
-const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID }) => {
+const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID }) => {
     const [selectedYear, setSelectedYear] = useState("");
     const [taxScheduleFiles, setTaxScheduleFiles] = useState([]);
     const [remittanceFiles, setRemittanceFiles] = useState([]);
     const [documentFiles, setDocumentFiles] = useState([]);
     const [amount, setAmount] = useState([]);
     const [isFetching, setIsFetching] = useState(() => false);
-
+    const router = useRouter()
 
     const { auth } = useSelector(
         (state) => ({
@@ -42,12 +43,10 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
         setDocumentFiles([...documentFiles, event.target.files[0]]);
     };
 
+    console.log("checklistItemID", checklistItemID);
+
     const handleUpload = async () => {
-        setSelectedYear("");
-        setTaxScheduleFiles([]);
-        setRemittanceFiles([]);
-        setDocumentFiles([]);
-        setAmount('');
+
         const formData = new FormData();
         if (
             (checklistItemType === 'EXCEL' &&
@@ -68,7 +67,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                 formData.append("year", selectedYear)
                 formData.append("RemittedAmount", amount)
                 formData.append("doneby", emailAdd)
-                formData.append("CheckListID", "15")
+                formData.append("CheckListID", checklistItemID)
                 setIsFetching(true)
                 try {
                     const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-report-new.php', {
@@ -77,6 +76,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     })
                     const dataFetch = await res.json()
                     setIsFetching(false)
+                    router.reload()
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
                     } else {
@@ -87,10 +87,35 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     console.error('Server Error:', error)
                 }
             } else {
+                formData.append("job_id", JobID)
+                formData.append("document", documentFiles[0])
+                formData.append("schedule", " ")
+                formData.append("year", selectedYear)
+                formData.append("doneby", emailAdd)
+                formData.append("CheckListID", checklistItemID)
+                formData.append("RemittedAmount", " ")
+                setIsFetching(true)
+                try {
+                    const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-report-new.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    const dataFetch = await res.json()
+                    router.reload()
+                    setIsFetching(false)
+                    if (dataFetch.status === "400") {
+                        toast.error(dataFetch.message);
+                    } else {
+                        toast.success(dataFetch.message);
+                    }
+                } catch (error) {
+                    setIsFetching(false)
+                    console.error('Server Error:', error)
+                }
                 console.log("Non remittance selected!");
             }
 
-            // onUpload(selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles, checklistItem);
+            onUpload(selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles, checklistItem);
             // setSelectedYear("");
             // setTaxScheduleFiles([]);
             // setRemittanceFiles([]);
@@ -112,7 +137,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     </label>
                     <select id="year" className="block py-2 rounded-md" onChange={handleYearChange}>
                         <option value="">Select</option>
-                        {years.map((year) => (
+                        {years?.map((year) => (
                             <option key={year} value={year}>
                                 {year}
                             </option>
