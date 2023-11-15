@@ -48,8 +48,9 @@ export default function AuditReportList() {
     
             if (item.remittedamount.trim() !== "") {
                 if (!documentValues[item.checklistID].remittedamount) {
-                    documentValues[item.checklistID].remittedamount = item.remittedamount;
+                    documentValues[item.checklistID].remittedamount = [];
                 }
+                documentValues[item.checklistID].remittedamount.push(item.remittedamount);
             }
     
             if (item.monthlyschedules) {
@@ -184,18 +185,18 @@ export default function AuditReportList() {
     
               {remittedamount && (
                 <div className="my-2">
-                  <strong>Remitted Amount:</strong> {remittedamount}
+                  <strong>Remitted Amount:</strong> <br /> {(remittedamount.join(', '))}
                 </div>
               )}
     
               {documents && documents.length > 0 && (
                 <div className="my-2">
                   <strong>Documents:</strong>
-                  <ul>
+                  <ul className="flex gap-2">
                     {documents.map((document, index) => (
                       <li key={index}>
                         <a href={document} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
-                          {document}view
+                          view
                         </a>
                       </li>
                     ))}

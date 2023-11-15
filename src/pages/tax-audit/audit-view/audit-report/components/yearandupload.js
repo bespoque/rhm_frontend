@@ -54,8 +54,8 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
             (checklistItemType === 'EXCEL' &&
                 selectedYear &&
                 amount &&
-                taxScheduleFiles.name > 0 &&
-                remittanceFiles.name > 0) ||
+                taxScheduleFiles !== null &&
+                remittanceFiles.name !== null) ||
             (checklistItemType === 'PDF' && selectedYear && documentFiles !== null)
         ) {
             if (checklistItemType === 'EXCEL' &&
