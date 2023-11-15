@@ -37,12 +37,12 @@ export default function AuditReportList() {
             if (documentValues[item.checklistID]) {
                 documentValues[item.checklistID].documents.push(item.document);
                 documentValues[item.checklistID].years.push(item.year);
-                documentValues[item.checklistID].checklistName = item.checklistName; // Add this line
+                documentValues[item.checklistID].documentname = item.documentname; // Add this line
             } else {
                 documentValues[item.checklistID] = {
                     documents: [item.document],
                     years: [item.year],
-                    checklistName: item.checklistName, // Add this line
+                    documentname: item.documentname, // Add this line
                 };
             }
     
@@ -171,12 +171,12 @@ export default function AuditReportList() {
         const checklistIds = Object.keys(documentValues);
     
         return checklistIds.map(checklistID => {
-          const { years, remittedamount, documents, checklistName } = documentValues[checklistID];
+          const { years, remittedamount, documents, documentname } = documentValues[checklistID];
     
           return (
             <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
               <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
-              <h2 className="text-lg font-semibold"> {checklistName}</h2>
+              <h2 className="text-lg font-semibold"> {documentname}</h2>
     
               <div className="my-2">
                 <strong>Years:</strong> {years.join(', ')}
@@ -194,8 +194,8 @@ export default function AuditReportList() {
                   <ul>
                     {documents.map((document, index) => (
                       <li key={index}>
-                        <a href={document} target="_blank" rel="noopener noreferrer">
-                          {document}
+                        <a href={document} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
+                          {document}view
                         </a>
                       </li>
                     ))}

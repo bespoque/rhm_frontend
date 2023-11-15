@@ -8,9 +8,9 @@ import { useRouter } from 'next/router';
 
 const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID }) => {
     const [selectedYear, setSelectedYear] = useState("");
-    const [taxScheduleFiles, setTaxScheduleFiles] = useState([]);
-    const [remittanceFiles, setRemittanceFiles] = useState([]);
-    const [documentFiles, setDocumentFiles] = useState([]);
+    const [taxScheduleFiles, setTaxScheduleFiles] = useState(null);
+    const [remittanceFiles, setRemittanceFiles] = useState(null);
+    const [documentFiles, setDocumentFiles] = useState(null);
     const [amount, setAmount] = useState([]);
     const [isFetching, setIsFetching] = useState(() => false);
     const router = useRouter()
@@ -30,20 +30,22 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     };
 
     const handleTaxScheduleChange = (event) => {
-        setTaxScheduleFiles([...taxScheduleFiles, event.target.files[0]]);
+        setTaxScheduleFiles( event.target.files[0]);
     };
     const handleAmountChange = (event) => {
         setAmount(event.target.value);
     };
 
     const handleRemittanceChange = (event) => {
-        setRemittanceFiles([...remittanceFiles, event.target.files[0]]);
+        setRemittanceFiles(event.target.files[0]);
     };
     const handleDocumenteChange = (event) => {
-        setDocumentFiles([...documentFiles, event.target.files[0]]);
+        setDocumentFiles(event.target.files[0]);
     };
 
-    console.log("checklistItemID", checklistItemID);
+    console.log("documentFiles", documentFiles?.name);
+    console.log(documentFiles !== null);
+
 
     const handleUpload = async () => {
 
@@ -52,18 +54,18 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
             (checklistItemType === 'EXCEL' &&
                 selectedYear &&
                 amount &&
-                taxScheduleFiles.length > 0 &&
-                remittanceFiles.length > 0) ||
-            (checklistItemType === 'PDF' && selectedYear && documentFiles.length > 0)
+                taxScheduleFiles.name > 0 &&
+                remittanceFiles.name > 0) ||
+            (checklistItemType === 'PDF' && selectedYear && documentFiles !== null)
         ) {
             if (checklistItemType === 'EXCEL' &&
                 selectedYear &&
                 amount &&
-                taxScheduleFiles.length > 0 &&
-                remittanceFiles.length > 0) {
+                taxScheduleFiles !== null &&
+                remittanceFiles !== null ) {
                 formData.append("job_id", JobID)
-                formData.append("schedule", taxScheduleFiles[0])
-                formData.append("document", remittanceFiles[0])
+                formData.append("schedule", taxScheduleFiles)
+                formData.append("document", remittanceFiles)
                 formData.append("year", selectedYear)
                 formData.append("RemittedAmount", amount)
                 formData.append("doneby", emailAdd)
@@ -88,7 +90,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                 }
             } else {
                 formData.append("job_id", JobID)
-                formData.append("document", documentFiles[0])
+                formData.append("document", documentFiles)
                 formData.append("schedule", " ")
                 formData.append("year", selectedYear)
                 formData.append("doneby", emailAdd)
