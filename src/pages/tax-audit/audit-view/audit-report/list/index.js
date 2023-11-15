@@ -177,8 +177,6 @@ export default function AuditReportList() {
           return (
             <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
               <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
-              <h2 className="text-lg font-semibold"> {documentname}</h2>
-    
               <div className="my-2">
                 <strong>Years:</strong> {years.join(', ')}
               </div>
