@@ -178,7 +178,7 @@ export default function AuditReportList() {
             <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
               <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
               <div className="my-2">
-                <strong>Years:</strong> {years.join(', ')}
+                <strong>Years:</strong> { remittedamount > "0" ? <a href="/" className="text-blue-300">{years.join(', ')} </a> : years.join(', ')}
               </div>
     
               {remittedamount && (
