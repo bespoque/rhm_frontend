@@ -122,7 +122,6 @@ export default function AssessmentReportstable({ FilteredData }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
 
-  let items = FilteredData
 
 
   const { auth } = useSelector(
@@ -141,8 +140,16 @@ export default function AssessmentReportstable({ FilteredData }) {
     const balance = taxPaid - (tax + addAssmt);
 
     record.balance = balance;
-}
-console.log("Bal", FilteredData);
+  }
+
+  const calculateColumnSum = (columnName) => {
+    return FilteredData.reduce((sum, row) => {
+      const value = parseFloat(row[columnName]) || 0;
+      return sum + value;
+    }, 0);
+  };
+
+  let items = FilteredData
 
   const DeleteRange = [1, 12]
   const decoded = jwt.decode(auth);
@@ -281,7 +288,12 @@ console.log("Bal", FilteredData);
           </div>
         </div>
       )}
-
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '10px', gap: "8px" }}>
+          <div> <span className="font-bold">Total Tax</span> : {formatNumber(calculateColumnSum('tax').toFixed(2))}</div>
+          <div><span className="font-bold">Amount paid</span>: {formatNumber(calculateColumnSum('taxPaid').toFixed(2))}</div>
+        </div>
+      </div>
       <MaterialTable title="Report Data"
         data={items}
         columns={fields}
