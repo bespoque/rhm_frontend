@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { formatNumber } from 'accounting';
 import { parseISO, format } from 'date-fns';
+import { Style } from '@material-ui/icons';
 
 
 
@@ -227,7 +228,8 @@ export default function AuditReportList() {
 
             return (
                 <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg w-64">
-                    <p className=""> {checklistName}</p>
+                    <p className="">{checklistName}</p>
+                    <p className="">{checklistID}</p>
 
                     {years && years.length > 0 && (
                         <div className="my-2">
@@ -282,6 +284,8 @@ export default function AuditReportList() {
         });
     };
 
+  
+
     return (
 
         <>
@@ -331,12 +335,12 @@ export default function AuditReportList() {
                                 <th>staffid</th>
                                 <th>firstname</th>
                                 <th>lastname</th>
-                                <th>monthlysalary</th>
+                                {/* <th>monthlysalary</th> */}
                                 <th>annualsalary</th>
-                                <th>lap</th>
+                                {/* <th>lap</th>
                                 <th>nhf</th>
                                 <th>nhis</th>
-                                <th>otherrelief</th>
+                                <th>otherrelief</th> */}
                             </tr>
                         </thead>
                         <tbody className="divide-y">
@@ -347,7 +351,7 @@ export default function AuditReportList() {
                                     <td>{item.staffid}</td>
                                     <td>{item.firstname}</td>
                                     <td>{item.lastname}</td>
-                                    <td>{formatNumber(item.monthlysalary)}</td>
+                                    {/* <td>{formatNumber(item.monthlysalary)}</td> */}
                                     <td>{formatNumber(item.annualsalary)}</td>
                                     {/* <td>{formatDate(item.createdAt)}</td> */}
                                 </tr>
