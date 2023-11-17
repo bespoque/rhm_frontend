@@ -5,6 +5,11 @@ import { ProcessorSpinner } from '../../../../../components/spiner';
 import Widget from '../../../../../components/widget';
 import ScopeDropdown from '../components/scopedropdown';
 import YearAndUpload from '../components/yearandupload';
+import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { formatNumber } from 'accounting';
+import { parseISO, format } from 'date-fns';
 
 
 
@@ -17,7 +22,10 @@ export default function AuditReportList() {
     const [uploadData, setUploadData] = useState([]);
     const [scopeData, setUploadCheck] = useState([]);
     const [uploadsArr, setUploadsArr] = useState([])
-    const [showDocs, setShowDocs] = useState(false)
+    const [taxSchedule, setTaxSchedule] = useState([])
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [scheduleYear, setScheduleYear] = useState(null);
+
 
     function getYearsInRange(startYear, endYear) {
         const years = [];
@@ -34,34 +42,34 @@ export default function AuditReportList() {
 
     uploadsArr?.forEach(item => {
         // if (item.document.trim() !== "") {
-            if (documentValues[item.checklistID]) {
-                documentValues[item.checklistID].documents.push(item.document);
-                documentValues[item.checklistID].years.push(item.year);
-                documentValues[item.checklistID].documentname = item.documentname; // Add this line
-            } else {
-                documentValues[item.checklistID] = {
-                    documents: [item.document],
-                    years: [item.year],
-                    documentname: item.documentname, // Add this line
-                };
+        if (documentValues[item.checklistID]) {
+            documentValues[item.checklistID].documents.push(item.document);
+            documentValues[item.checklistID].years.push(item.year);
+            documentValues[item.checklistID].documentname = item.documentname; // Add this line
+        } else {
+            documentValues[item.checklistID] = {
+                documents: [item.document],
+                years: [item.year],
+                documentname: item.documentname, // Add this line
+            };
+        }
+
+        if (item.remittedamount.trim() !== "") {
+            if (!documentValues[item.checklistID].remittedamount) {
+                documentValues[item.checklistID].remittedamount = [];
             }
-    
-            if (item.remittedamount.trim() !== "") {
-                if (!documentValues[item.checklistID].remittedamount) {
-                    documentValues[item.checklistID].remittedamount = [];
-                }
-                documentValues[item.checklistID].remittedamount.push(item.remittedamount);
+            documentValues[item.checklistID].remittedamount.push(item.remittedamount);
+        }
+
+        if (item.monthlyschedules) {
+            if (!documentValues[item.checklistID].monthlyschedules) {
+                documentValues[item.checklistID].monthlyschedules = [];
             }
-    
-            if (item.monthlyschedules) {
-                if (!documentValues[item.checklistID].monthlyschedules) {
-                    documentValues[item.checklistID].monthlyschedules = [];
-                }
-                documentValues[item.checklistID].monthlyschedules.push(...item.monthlyschedules);
-            }
+            documentValues[item.checklistID].monthlyschedules.push(...item.monthlyschedules);
+        }
         // }
     });
-    
+
 
 
     console.log("uploadsArr", uploadsArr);
@@ -80,7 +88,10 @@ export default function AuditReportList() {
     const usersArr = String(job.job_user).split(',')
 
     const yearRange = getYearsInRange(auditStartYr, auditEndYr);
-
+    // const formatDate = (dateString) => {
+    //     const date = parseISO(dateString);
+    //     return format(date, 'dd MMM yy');
+    // };
 
     const handleScopeChange = (selectedScope) => {
         setSelectedScope(selectedScope);
@@ -111,7 +122,6 @@ export default function AuditReportList() {
                         "param2": JobID
                     })
                 })
-
                 const dataFetchJobDet = await response.json()
                 setJob(dataFetchJobDet.body[0])
 
@@ -168,47 +178,114 @@ export default function AuditReportList() {
     }, [JobID]);
 
 
+
+    const handleClick = async (year, checklistID) => {
+        try {
+            const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-report-schedule.php', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "job_id": JobID,
+                    "checklistID": checklistID,
+                    "year": year
+                })
+            })
+            const dataFetch = await response.json()
+            setScheduleYear(year)
+            if (dataFetch.status === "400") {
+                toast.error(dataFetch.message);
+                setSelectedRow(null);
+            } else {
+                const body = await dataFetch.body
+                setTaxSchedule(body)
+                const handleRowClick = () => {
+                    setSelectedRow("value");
+                };
+                handleRowClick()
+            }
+        } catch (error) {
+            console.error('Server Error:', error)
+        }
+        // console.log("checklistID", checklistID);
+        // setTextValue(year);
+        // const handleRowClick = () => {
+        //     setSelectedRow("value");
+        // };
+        // handleRowClick()
+    };
+
+
+
+
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+    }
     const renderChecklistCards = () => {
         const checklistIds = Object.keys(documentValues);
-    
+
         return checklistIds.map(checklistID => {
-          const { years, remittedamount, documents, documentname } = documentValues[checklistID];
-    
-          return (
-            <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
-              <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
-              <div className="my-2">
-                <strong>Years:</strong> { remittedamount > "0" ? <a href="/" className="text-blue-300">{years.join(', ')} </a> : years.join(', ')}
-              </div>
-    
-              {remittedamount && (
-                <div className="my-2">
-                  <strong>Remitted Amount:</strong> <br /> {(remittedamount.join(', '))}
+            const { years, remittedamount, documents, documentname } = documentValues[checklistID];
+
+            return (
+                <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
+                    <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
+
+                    {years && years.length > 0 && (
+                        <div className="my-2">
+                            <strong>Years:</strong>
+                            {remittedamount?.length > 0 ?
+                                <ul className="flex gap-2">
+                                    {years.map((year, index) => (
+                                        <li key={index} onClick={() => handleClick(year, checklistID)}>
+                                            <p className="underline text-green-400 cursor-pointer" >
+                                                {year}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                :
+
+                                <ul className="flex gap-2">
+                                    {years.map((year, index) => (
+                                        <li key={index}>
+                                            <p>
+                                                {year}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            }
+                        </div>
+                    )}
+                    {remittedamount && (
+                        <div className="my-2">
+                            <strong>Remitted Amount:</strong> <br /> {(remittedamount.join(', '))}
+                        </div>
+                    )}
+
+                    {documents && documents.length > 0 && (
+                        <div className="my-2">
+                            <strong>Documents:</strong>
+                            <ul className="flex gap-2">
+                                {documents.map((document, index) => (
+                                    <li key={index}>
+                                        <a href={`https://test.rhm.backend.bespoque.ng/${document}`} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
+                                            view
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
-              )}
-    
-              {documents && documents.length > 0 && (
-                <div className="my-2">
-                  <strong>Documents:</strong>
-                  <ul className="flex gap-2">
-                    {documents.map((document, index) => (
-                      <li key={index}>
-                        <a href={document} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
-                          view
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          );
+            );
         });
-      };
+    };
 
     return (
 
         <>
+            <ToastContainer />
             {isFetching && <ProcessorSpinner />}
 
 
@@ -237,58 +314,56 @@ export default function AuditReportList() {
                                 {renderChecklistCards()}
                             </div>
                         </div>
-                        {/* <div className="grid grid-cols-3 gap-2 mx-auto my-4">
-                            {scopeData?.map(item => (
-                                <div key={item.checklist_id} className="bg-gray-100 p-4 rounded-md">
-                                    <p className="font-light text-center">{item.checklist_item}</p>
-                                    <div className="flex justify-between">
-                                        <div>
-                                            <p className="font-bold mb-1">Year</p>
-                                            {yearRange?.map((year) => (
-                                                <div>
-                                                    <p>{year}</p>
-                                                </div>
-
-                                            ))}
-                                        </div>
-                                        <div>
-                                            <p className="font-bold">Document</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div> */}
-
                     </>
 
                 )}
-
-                {/* {uploadData.map((upload, index) => (
-
-                    <div key={index} className="mt-4 grid grid-cols-3">
-
-                        {upload.taxScheduleFiles.length > 0 ?
-                            <div>
-                                <p className='font-bold'>Uploaded Data for: {upload.selectedScope}</p>
-                                <p>Year: {upload.selectedYear}</p>
-                                <p>Tax Schedule: {upload.taxScheduleFiles.map(file => file.name).join(', ')}</p>
-                                <p> Remittance: {upload.remittanceFiles.map(file => file.name).join(', ')}</p>
-                                <p>amount: {upload.amount}</p>
-                            </div>
-                            :
-                            <div>
-                                <p className='font-bold'>Uploaded Data for: {upload.selectedScope}</p>
-                                <p>Year: {upload.selectedYear}</p>
-                                <p>uploaded document Files: {upload.documentFiles.map(file => file.name).join(', ')}</p>
-                            </div>
-
-                        }
-
-                    </div>
-                ))} */}
-
-
             </Widget>
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup} >
+                <DialogContent>
+                    <DialogTitle>Tax Schedule for {scheduleYear}</DialogTitle>
+                    {/* <p className="font-bold text-center">Tax Schedule for {scheduleYear}</p> */}
+
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>tax Id</th>
+                                <th>year</th>
+                                <th>staffid</th>
+                                <th>firstname</th>
+                                <th>lastname</th>
+                                <th>monthlysalary</th>
+                                <th>annualsalary</th>
+                                <th>lap</th>
+                                <th>nhf</th>
+                                <th>nhis</th>
+                                <th>otherrelief</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y">
+                            {taxSchedule?.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.taxid}</td>
+                                    <td>{item.year}</td>
+                                    <td>{item.staffid}</td>
+                                    <td>{item.firstname}</td>
+                                    <td>{item.lastname}</td>
+                                    <td>{formatNumber(item.monthlysalary)}</td>
+                                    <td>{formatNumber(item.annualsalary)}</td>
+                                    {/* <td>{formatDate(item.createdAt)}</td> */}
+                                </tr>
+                            ))}
+
+                        </tbody>
+                        {/* <tfoot>
+                                    <tr>
+                                        <td colSpan="2"></td>
+                                        <td colSpan="2" className="font-bold">{formatNumber(getTotalAmount())}</td>
+                                    </tr>
+                                </tfoot> */}
+                    </table>
+
+                </DialogContent>
+            </Dialog>
 
         </>
     )

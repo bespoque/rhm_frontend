@@ -44,7 +44,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     };
 
     console.log("documentFiles", documentFiles?.name);
-    console.log(documentFiles !== null);
+    console.log(documentFiles);
 
 
     const handleUpload = async () => {
