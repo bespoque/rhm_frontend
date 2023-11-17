@@ -45,12 +45,12 @@ export default function AuditReportList() {
         if (documentValues[item.checklistID]) {
             documentValues[item.checklistID].documents.push(item.document);
             documentValues[item.checklistID].years.push(item.year);
-            documentValues[item.checklistID].documentname = item.documentname; // Add this line
+            documentValues[item.checklistID].checklistName = item.checklistName; // Add this line
         } else {
             documentValues[item.checklistID] = {
                 documents: [item.document],
                 years: [item.year],
-                documentname: item.documentname, // Add this line
+                checklistName: item.checklistName, // Add this line
             };
         }
 
@@ -223,11 +223,11 @@ export default function AuditReportList() {
         const checklistIds = Object.keys(documentValues);
 
         return checklistIds.map(checklistID => {
-            const { years, remittedamount, documents, documentname } = documentValues[checklistID];
+            const { years, remittedamount, documents, checklistName } = documentValues[checklistID];
 
             return (
-                <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg">
-                    <h2 className="text-lg font-semibold">Checklist ID: {checklistID}</h2>
+                <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg w-64">
+                    <p className=""> {checklistName}</p>
 
                     {years && years.length > 0 && (
                         <div className="my-2">
@@ -269,7 +269,7 @@ export default function AuditReportList() {
                             <ul className="flex gap-2">
                                 {documents.map((document, index) => (
                                     <li key={index}>
-                                        <a href={`https://test.rhm.backend.bespoque.ng/${document}`} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
+                                        <a href={`https://test.rhm.backend.bespoque.ng/taxaudit/${document}`} className="underline text-green-400" target="_blank" rel="noopener noreferrer">
                                             view
                                         </a>
                                     </li>
