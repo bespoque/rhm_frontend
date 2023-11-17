@@ -6,8 +6,8 @@ import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css'; 
+import 'react-date-range/dist/theme/default.css'; 
 import { Controller, useForm } from "react-hook-form";
 import { FormatMoneyComponentReport } from "../FormInput/formInputs";
 import AssessmentReportstable from "../../pages/assessment-report/assessmentreport";
@@ -18,25 +18,24 @@ import "react-datepicker/dist/react-datepicker.css";
 export const StartAssessmentReportView = () => {
   const [fixedValues, SetFixValuesStart] = useState({ amount: "" });
   const [fixedValuesend, SetFixValuesEnd] = useState({ amount: "" });
-  const [revenueItem, setRevenueItem] = useState([]);
-
   const [station, setStation] = useState([]);
   const [FilteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
-
-
-
   const [state, setState] = useState([
     {
       startDate: null,
-      // endDate: null,
       endDate: new Date(""),
       key: 'selection'
     }
   ]);
 
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+  } = useForm()
 
   let startDate
   let endDate
@@ -49,7 +48,7 @@ export const StartAssessmentReportView = () => {
     startDate = dateformat(state[0].startDate, "yyyy-mm-dd")
   }
 
-  // * using == to compare endDate value
+
   if (state[0].endDate === null || state[0].endDate === "" || state[0].endDate === undefined || state[0].endDate == "Invalid Date") {
 
     endDate = ""
@@ -57,13 +56,6 @@ export const StartAssessmentReportView = () => {
   } else {
     endDate = dateformat(state[0].endDate, "yyyy-mm-dd")
   }
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-  } = useForm()
 
 
   let watchYear = watch("year", "");
@@ -113,7 +105,7 @@ export const StartAssessmentReportView = () => {
     })
 }
 
-  
+  console.log("filtered", FilteredData);
 
 
 

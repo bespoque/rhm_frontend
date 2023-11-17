@@ -26,8 +26,6 @@ import setAuthToken from '../../functions/setAuthToken';
 import { ProcessorSpinner } from '../../components/spiner';
 
 
-
-
 const fields = [
   {
     title: "SN",
@@ -87,9 +85,9 @@ const fields = [
     field: "balance",
     render: (rowData) => {
       return (
-        formatNumber(Number(rowData.taxPaid) - (Number(rowData.tax) + Number(rowData.add_assmt))) < "0" ? <p style={{ color: "#FF0000", fontWeight: "bold" }}>{formatNumber(Number(rowData.taxPaid) - (Number(rowData.tax) + Number(rowData.add_assmt)))}</p> :
-          formatNumber(Number(rowData.taxPaid) - (Number(rowData.tax) + Number(rowData.add_assmt))) > "0" ? <p style={{ color: "#8fce00", fontWeight: "bold" }}>{`+${formatNumber(Number(rowData.taxPaid) - (Number(rowData.tax) + Number(rowData.add_assmt)))}`}</p> :
-            <p>{formatNumber(Number(rowData.taxPaid) - (Number(rowData.tax) + Number(rowData.add_assmt)))}</p>
+        formatNumber(rowData.balance) < "0" ? <p style={{ color: "#FF0000", fontWeight: "bold" }}>{formatNumber(rowData.balance)}</p> :
+          formatNumber(rowData.balance) > "0" ? <p style={{ color: "#8fce00", fontWeight: "bold" }}>{`+${formatNumber(rowData.balance)}`}</p> :
+            <p>{formatNumber(rowData.balance)}</p>
       )
     }
   },
@@ -125,7 +123,7 @@ export default function AssessmentReportstable({ FilteredData }) {
   const router = useRouter();
 
   let items = FilteredData
-  console.log("items", items);
+
 
   const { auth } = useSelector(
     (state) => ({
@@ -134,6 +132,17 @@ export default function AssessmentReportstable({ FilteredData }) {
     shallowEqual
   );
 
+  for (let i = 0; i < FilteredData.length; i++) {
+    const record = FilteredData[i];
+
+    const taxPaid = parseFloat(record.taxPaid);
+    const tax = parseFloat(record.tax);
+    const addAssmt = parseFloat(record.add_assmt);
+    const balance = taxPaid - (tax + addAssmt);
+
+    record.balance = balance;
+}
+console.log("Bal", FilteredData);
 
   const DeleteRange = [1, 12]
   const decoded = jwt.decode(auth);
@@ -210,7 +219,6 @@ export default function AssessmentReportstable({ FilteredData }) {
       )}
       {modal && (
         <div className="modal">
-          {/* <div onClick={toggleModal} className="overlay"></div> */}
           <div className="modal-content" width="300">
             <form onSubmit={DeleteAssessment}>
               <div className="flex justify-center">
@@ -273,6 +281,7 @@ export default function AssessmentReportstable({ FilteredData }) {
           </div>
         </div>
       )}
+
       <MaterialTable title="Report Data"
         data={items}
         columns={fields}
