@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../../components/spiner';
-import { useRouter } from 'next/router';
 
 const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID }) => {
     const [selectedYear, setSelectedYear] = useState("");
@@ -13,7 +12,6 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     const [documentFiles, setDocumentFiles] = useState(null);
     const [amount, setAmount] = useState([]);
     const [isFetching, setIsFetching] = useState(() => false);
-    const router = useRouter()
 
     const { auth } = useSelector(
         (state) => ({
@@ -30,7 +28,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     };
 
     const handleTaxScheduleChange = (event) => {
-        setTaxScheduleFiles( event.target.files[0]);
+        setTaxScheduleFiles(event.target.files[0]);
     };
     const handleAmountChange = (event) => {
         setAmount(event.target.value);
@@ -42,9 +40,6 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     const handleDocumenteChange = (event) => {
         setDocumentFiles(event.target.files[0]);
     };
-
-    console.log("documentFiles", documentFiles?.name);
-    console.log(documentFiles);
 
 
     const handleUpload = async () => {
@@ -62,7 +57,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                 selectedYear &&
                 amount &&
                 taxScheduleFiles !== null &&
-                remittanceFiles !== null ) {
+                remittanceFiles !== null) {
                 formData.append("job_id", JobID)
                 formData.append("schedule", taxScheduleFiles)
                 formData.append("document", remittanceFiles)
@@ -78,7 +73,6 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     })
                     const dataFetch = await res.json()
                     setIsFetching(false)
-                    // router.reload()
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
                     } else {
@@ -103,7 +97,6 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         body: formData
                     })
                     const dataFetch = await res.json()
-                    // router.reload()
                     setIsFetching(false)
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);

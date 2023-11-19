@@ -108,7 +108,7 @@ export default function AuditReportList() {
             documentFiles
         };
 
-        setUploadData([newUpload]); // set uploaded data to show only current upload
+        setUploadData([newUpload]);
         // setUploadData([...uploadData, newUpload]);
     };
 
@@ -157,7 +157,7 @@ export default function AuditReportList() {
             }
         }
         fetchPost();
-    }, [JobID]);
+    }, [JobID, uploadData]);
 
     useEffect(() => {
         async function fetchPostData() {
@@ -206,20 +206,13 @@ export default function AuditReportList() {
         } catch (error) {
             console.error('Server Error:', error)
         }
-        // console.log("checklistID", checklistID);
-        // setTextValue(year);
-        // const handleRowClick = () => {
-        //     setSelectedRow("value");
-        // };
-        // handleRowClick()
     };
-
-
 
 
     const handleClosePopup = () => {
         setSelectedRow(null);
     }
+
     const renderChecklistCards = () => {
         const checklistIds = Object.keys(documentValues);
 
