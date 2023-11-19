@@ -9,8 +9,6 @@ import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { formatNumber } from 'accounting';
-import { parseISO, format } from 'date-fns';
-import { Style } from '@material-ui/icons';
 
 
 
@@ -86,13 +84,9 @@ export default function AuditReportList() {
 
     const auditStartYr = dateStart.getFullYear()
     const auditEndYr = dateEnd.getFullYear()
-    const usersArr = String(job.job_user).split(',')
+ 
 
     const yearRange = getYearsInRange(auditStartYr, auditEndYr);
-    // const formatDate = (dateString) => {
-    //     const date = parseISO(dateString);
-    //     return format(date, 'dd MMM yy');
-    // };
 
     const handleScopeChange = (selectedScope) => {
         setSelectedScope(selectedScope);
