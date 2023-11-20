@@ -91,12 +91,8 @@ const CreateJob = () => {
                 const dataFetch = await response.json()
                 setRhmUsers(dataFetch.body)
             } catch (error) {
-                console.log("error");
-                // if (error.response) {
-
-                // } else {
-
-                // }
+                console.log("error", error);
+          
             }
         }
         fetchPost()
@@ -109,7 +105,6 @@ const CreateJob = () => {
         jobdata.job_progress_status = "Pending"
         jobdata.job_initiator = emailAdd
         jobdata.job_user = selectedValues
-        console.log("jobdata", jobdata);
         setIsFetching(true)
         try {
             const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newjob.php', {
@@ -133,7 +128,7 @@ const CreateJob = () => {
     return (
         <>
             <ToastContainer />
-            <SectionTitle title={"Create new Job"} />
+            <SectionTitle title="Create new Job" />
 
             {isFetching && <ProcessorSpinner />}
             <div className="mx-auto mt-8">
@@ -225,12 +220,12 @@ const CreateJob = () => {
 
                         <div>
                             <label className="block mb-1">Auditor:</label>
-                            <Space
+                            {/* <Space */}
                                 direction="vertical"
                                 style={{
                                     width: '100%',
                                 }}
-                            >
+                            {/* > */}
                                 <Select
                                     mode="multiple"
                                     size={'large'}
@@ -241,7 +236,7 @@ const CreateJob = () => {
                                     }}
                                     options={options}
                                 />
-                            </Space>
+                            {/* </Space> */}
                         </div>
                     </div>
                     <div class="mt-4 flex justify-center">

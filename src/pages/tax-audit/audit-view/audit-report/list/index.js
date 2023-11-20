@@ -26,6 +26,8 @@ export default function AuditReportList() {
     const [scheduleYear, setScheduleYear] = useState(null);
 
 
+
+
     function getYearsInRange(startYear, endYear) {
         const years = [];
 
@@ -74,6 +76,7 @@ export default function AuditReportList() {
     console.log("uploadsArr", uploadsArr);
     console.log("documentValues", documentValues);
     console.log("scopeData", scopeData);
+    console.log("uploadData", uploadData);
 
 
     const startDate = job?.job_auditdate_start || "";
@@ -84,7 +87,7 @@ export default function AuditReportList() {
 
     const auditStartYr = dateStart.getFullYear()
     const auditEndYr = dateEnd.getFullYear()
- 
+
 
     const yearRange = getYearsInRange(auditStartYr, auditEndYr);
 
@@ -99,7 +102,7 @@ export default function AuditReportList() {
             taxScheduleFiles,
             remittanceFiles,
             amount,
-            documentFiles
+            documentFiles,
         };
 
         setUploadData([newUpload]);
@@ -203,6 +206,7 @@ export default function AuditReportList() {
     };
 
 
+
     const handleClosePopup = () => {
         setSelectedRow(null);
     }
@@ -216,8 +220,6 @@ export default function AuditReportList() {
             return (
                 <div key={checklistID} className="bg-gray-200 p-4 m-2 rounded-lg w-64">
                     <p className="">{checklistName}</p>
-                    <p className="">{checklistID}</p>
-
                     {years && years.length > 0 && (
                         <div className="my-2">
                             <strong>Years:</strong>
@@ -271,16 +273,27 @@ export default function AuditReportList() {
         });
     };
 
-  
+
 
     return (
 
         <>
             <ToastContainer />
             {isFetching && <ProcessorSpinner />}
+            <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded my-2" onClick={() => router.back()}>
+                Back
+            </button>
 
+            <Widget>
+                <div className="flex justify-between">
+                    <p>Upload Audit documents</p>
+                    <button className="bg-green-500 text-white py-2 px-4 rounded my-2"
+                        onClick={() => router.push(`/tax-audit/audit-view/audit-report/list/${JobID}`)}
+                    >
+                        View Audit
+                    </button>
+                </div>
 
-            <Widget title="Upload Audit documents">
                 <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
 
                 {selectedScope !== "" && (
@@ -312,7 +325,6 @@ export default function AuditReportList() {
             <Dialog open={selectedRow !== null} onClose={handleClosePopup} >
                 <DialogContent>
                     <DialogTitle>Tax Schedule for {scheduleYear}</DialogTitle>
-                    {/* <p className="font-bold text-center">Tax Schedule for {scheduleYear}</p> */}
 
                     <table className='table'>
                         <thead>
@@ -322,12 +334,7 @@ export default function AuditReportList() {
                                 <th>staffid</th>
                                 <th>firstname</th>
                                 <th>lastname</th>
-                                {/* <th>monthlysalary</th> */}
                                 <th>annualsalary</th>
-                                {/* <th>lap</th>
-                                <th>nhf</th>
-                                <th>nhis</th>
-                                <th>otherrelief</th> */}
                             </tr>
                         </thead>
                         <tbody className="divide-y">
@@ -338,19 +345,11 @@ export default function AuditReportList() {
                                     <td>{item.staffid}</td>
                                     <td>{item.firstname}</td>
                                     <td>{item.lastname}</td>
-                                    {/* <td>{formatNumber(item.monthlysalary)}</td> */}
                                     <td>{formatNumber(item.annualsalary)}</td>
-                                    {/* <td>{formatDate(item.createdAt)}</td> */}
                                 </tr>
                             ))}
 
                         </tbody>
-                        {/* <tfoot>
-                                    <tr>
-                                        <td colSpan="2"></td>
-                                        <td colSpan="2" className="font-bold">{formatNumber(getTotalAmount())}</td>
-                                    </tr>
-                                </tfoot> */}
                     </table>
 
                 </DialogContent>
