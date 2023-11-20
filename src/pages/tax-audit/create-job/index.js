@@ -28,7 +28,7 @@ const CreateJob = () => {
         }),
         shallowEqual
     );
-    
+
 
     const handleChange = (values) => {
         setSelectedValues(String(values));
@@ -92,7 +92,7 @@ const CreateJob = () => {
                 setRhmUsers(dataFetch.body)
             } catch (error) {
                 console.log("error", error);
-          
+
             }
         }
         fetchPost()
@@ -220,12 +220,12 @@ const CreateJob = () => {
 
                         <div>
                             <label className="block mb-1">Auditor:</label>
-                            {/* <Space */}
+                            <Space
                                 direction="vertical"
                                 style={{
                                     width: '100%',
                                 }}
-                            {/* > */}
+                            >
                                 <Select
                                     mode="multiple"
                                     size={'large'}
@@ -236,7 +236,7 @@ const CreateJob = () => {
                                     }}
                                     options={options}
                                 />
-                            {/* </Space> */}
+                            </Space>
                         </div>
                     </div>
                     <div class="mt-4 flex justify-center">
