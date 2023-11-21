@@ -11,35 +11,35 @@ const initialState = [
         items: [],
       },
 
-      // {
-      //   url: '/',
-      //   icon: <ManageTaxpayer />,
-      //   title: 'Manage Taxpayer',
-      //   items: [
-      //     {
-      //       title: 'Individual',
-      //       items: [
-      //         { title: 'Create', url: '/taxpayer', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/reports-individual',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'Non-Individual',
-      //       items: [
-      //         { title: 'Create', url: '/taxpayer/non-individual', items: [] },
-      //         {
-      //           title: 'View',
-      //           url: '/reports-non-individual',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        url: '/',
+        icon: <ManageTaxpayer />,
+        title: 'Manage Taxpayer',
+        items: [
+          {
+            title: 'Individual',
+            items: [
+              { title: 'Create', url: '/taxpayer', items: [] },
+              {
+                title: 'View',
+                url: '/reports-individual',
+                items: [],
+              },
+            ],
+          },
+          {
+            title: 'Non-Individual',
+            items: [
+              { title: 'Create', url: '/taxpayer/non-individual', items: [] },
+              {
+                title: 'View',
+                url: '/reports-non-individual',
+                items: [],
+              },
+            ],
+          },
+        ],
+      },
 
       // {
       //   url: '/',
@@ -295,7 +295,7 @@ const initialState = [
             url: '/reports-manifest',
             items: [],
           },
-          
+
         ],
       },
 
