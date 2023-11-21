@@ -77,6 +77,7 @@ export default function AuditReportList() {
     console.log("documentValues", documentValues);
     console.log("scopeData", scopeData);
     console.log("uploadData", uploadData);
+    console.log("selectedScope", selectedScope);
 
 
     const startDate = job?.job_auditdate_start || "";
@@ -306,6 +307,7 @@ export default function AuditReportList() {
                             checklistItemID={scopeData?.find(item => item.checklist_item === selectedScope).checklist_id}
                             onUpload={handleUpload}
                             JobID={JobID}
+                            changeScope={handleScopeChange}
                         />
                     </div>
                 )}

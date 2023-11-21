@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 
-const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID }) => {
+const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID, changeScope }) => {
     const [selectedYear, setSelectedYear] = useState("");
     const [taxScheduleFiles, setTaxScheduleFiles] = useState(null);
     const [remittanceFiles, setRemittanceFiles] = useState(null);
@@ -13,7 +13,6 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
     const [amount, setAmount] = useState([]);
     const [isFetching, setIsFetching] = useState(() => false);
    
-  
 
     const { auth } = useSelector(
         (state) => ({
@@ -43,9 +42,10 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
         setDocumentFiles(event.target.files[0]);
     };
 
-
+    
     const handleUpload = async () => {
-
+        // changeScope("")
+        
         const formData = new FormData();
         if (
             (checklistItemType === 'EXCEL' &&
@@ -73,6 +73,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         method: 'POST',
                         body: formData
                     })
+                      changeScope("")
 
                     const dataFetch = await res.json()
                     setIsFetching(false)
@@ -80,11 +81,11 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         toast.error(dataFetch.message);
                     } else {
                         toast.success(dataFetch.message);
-                        setSelectedYear("");
-                        setTaxScheduleFiles([]);
-                        setRemittanceFiles([]);
-                        setDocumentFiles([]);
-                        setAmount('');
+                        // setSelectedYear("");
+                        // setTaxScheduleFiles([]);
+                        // setRemittanceFiles([]);
+                        // setDocumentFiles([]);
+                        // setAmount('');
                     }
 
                 } catch (error) {
@@ -105,17 +106,18 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         method: 'POST',
                         body: formData
                     })
+                      changeScope("")
                     const dataFetch = await res.json()
                     setIsFetching(false)
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
                     } else {
                         toast.success(dataFetch.message);
-                        setSelectedYear("");
-                        setTaxScheduleFiles([]);
-                        setRemittanceFiles([]);
-                        setDocumentFiles([]);
-                        setAmount('');
+                        // setSelectedYear("");
+                        // setTaxScheduleFiles([]);
+                        // setRemittanceFiles([]);
+                        // setDocumentFiles([]);
+                        // setAmount('');
                     }
                 } catch (error) {
                     setIsFetching(false)
