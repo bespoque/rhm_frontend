@@ -70,7 +70,7 @@ function Index() {
 
     setAuthToken();
     const CreateTcc = async (data) => {
-        if (data.taxYr_1 == '0' && data.incYr_1 == '0') {
+        if (data.taxYr_1 === '0' && data.incYr_1 === '0') {
             alert("Please provide Tax and Income figures for Year one")
         }
         else {
@@ -109,7 +109,7 @@ function Index() {
             })
 
             let result = await response.json()
-         
+
             setIsFetching(false)
             if (result.status === "400" || result.status === "500") {
                 toast.error(result.message)
@@ -141,32 +141,61 @@ function Index() {
     };
 
     useEffect(() => {
-        const fetchPostYear1 = () => {
-          if (dirtyFields.assmtYr_1) {
-            let year = watchYear1.getFullYear();
-            let kgtin = taxpayerInfo.KGTIN;
-            setIsFetching(true);
-            axios
-              .get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
-              .then(function (response) {
-                setIsFetching(false);
-                setPayslipYear1(response.data.body.payroll[0]);
-              })
-              .catch(function (error) {
-                setIsFetching(false);
-                setPayslipYear1(""); 
-                if (error.response) {
-                  toast.error(error.response.data.message);
+        if (dirtyFields.assmtYr_1) {
+            let kgtinYear = {
+                year: String(watchYear1.getFullYear()),
+                kgtin: taxpayerInfo.KGTIN
+            }
+            const fetchPostYear1 = async () => {
+                if (form1Value === "DA") {
+                    setIsFetching(true)
+                    try {
+                        let res = await axios.post(`${url.BASE_URL}forma/view-tax-income`, kgtinYear);
+                        res = res.data.body
+                        setIsFetching(false)
+                        let assessment = res.assessment[0]
+                        setPayslipYear1(assessment)
+
+
+                    } catch (e) {
+                        setIsFetching(false)
+                        setPayslipYear1([])
+                        if (e.response) {
+                            toast.error(e.response.data.message)
+
+                        } else {
+                            toast.error("Failed!");
+                        }
+                    }
+
                 }
-              });
-          }
-        };
-      
-        fetchPostYear1(); 
-      
-    
-      }, [dirtyFields.assmtYr_1, watchYear1]);
-      
+                else if (form1Value === "PAYE") {
+                    let year = watchYear1.getFullYear()
+                    let kgtin = taxpayerInfo.KGTIN
+
+                    setIsFetching(true)
+                    axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
+                        .then(function (response) {
+                            setIsFetching(false)
+                            setPayslipYear1(response.data.body.payroll[0]);
+                        })
+                        .catch(function (error) {
+                            setPayslipYear1([])
+                            setIsFetching(false)
+                            if (error.response) {
+                                toast.error(error.response.data.message)
+                            } else {
+                                console.log(error);
+                            }
+                        })
+                }
+            };
+
+            fetchPostYear1();
+        }
+
+    }, [dirtyFields.assmtYr_1, watchYear1]);
+
 
     // useEffect(() => {
     //     const fetchPostYear1 = () => {
@@ -186,7 +215,7 @@ function Index() {
     //                         toast.error(error.response.data.message)
     //                     }
     //                 }
-                
+
 
     // }, [watchYer1]);
 
@@ -224,7 +253,6 @@ function Index() {
 
                 }
                 else if (form2Value === "PAYE") {
-
                     let year = watchYear2.getFullYear()
                     let kgtin = taxpayerInfo.KGTIN
 
@@ -252,26 +280,6 @@ function Index() {
 
 
     useEffect(() => {
-
-<<<<<<< HEAD
-=======
-        const fetchPostYear3 = () => {
-            if (dirtyFields.assmtYr_3) {
-                let year3 = watchYear3.getFullYear()
-                let kgtin = taxpayerInfo.KGTIN
-                setIsFetching(true)
-                axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year3}`)
-                    .then(function (response) {
-                        setIsFetching(false)
-                        setPayslipYear3(response.data.body.payroll[0]);
-                    })
-                    .catch(function (error) {
-                        setPayslipYear3("")
-                        setIsFetching(false)
-                        if (error.response) {
-                            toast.error(error.response.data.message)
-                        } else {
->>>>>>> production
 
         if (dirtyFields.assmtYr_3) {
 
@@ -307,8 +315,6 @@ function Index() {
 
                     let year = watchYear3.getFullYear()
                     let kgtin = taxpayerInfo.KGTIN
-
-
                     setIsFetching(true)
                     axios.get(`${url.BASE_URL}paye/payslip?id=tcc&kgtin=${kgtin}&year=${year}`)
                         .then(function (response) {
@@ -336,7 +342,6 @@ function Index() {
 
 
     return (
-
         <>
             <ToastContainer />
             {isFetching && (
@@ -347,7 +352,6 @@ function Index() {
                 <p className="text-red-600">{kgtinErr}</p>
                 <form onSubmit={handleSubmitkgtin(verifiyKGTIN)} className="mb-2 grid grid-cols-4 gap-2">
                     <label className="self-center">Enter Taxpayer KGTIN</label>
-
                     <div className="place-self-start">
                         <input type="text" name='KGTIN' className="form-control w-full rounded" ref={registerkgtin()} placeholder="Enter KGTIN" />
                     </div>
@@ -362,7 +366,6 @@ function Index() {
                         </button>
                     </div>
                 </form>
-
             </div>
 
             <form onSubmit={handleSubmit(CreateTcc)}>
@@ -412,7 +415,6 @@ function Index() {
                 <div className={`flex justify-between border mb-3 rounded-lg bg-white w-full`}>
 
                     <div className="p-3">
-<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form1Value}
@@ -423,8 +425,6 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
-=======
->>>>>>> production
                         <h6 className="text-right mb-6">Year 1</h6>
                         <div className="mb-6 grid grid-cols-2 ">
                             <label>Assessment year </label>
@@ -485,11 +485,9 @@ function Index() {
                                 />
                             </div>
                         </div>
-
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form2Value}
@@ -501,8 +499,6 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
-=======
->>>>>>> production
                         <h6 className="text-center mb-6">Year 2</h6>
                         <div className="mb-6 justify-self-center">
 
@@ -528,12 +524,10 @@ function Index() {
 
 
                         <div className="mb-6 justify-self-center">
-
                             <div>
                                 <input readOnly name="incYr_2" value={formatNumber(Number(payslipYear2?.self_employed) + Number(payslipYear2?.employed) + Number(payslipYear2?.other_income) || yr2Gross)} className="form-control w-full rounded" ref={register()} type="text"
                                 />
                             </div>
-
                         </div>
 
                         <div className="mb-6 justify-self-center">
@@ -542,6 +536,7 @@ function Index() {
                                 />
                             </div>
                         </div>
+
                         <div className="mb-6 justify-self-center">
                             <div>
                                 <input readOnly value={formatNumber(Number(payslipYear2?.self_employed) + Number(payslipYear2?.employed) + Number(payslipYear2?.other_income)) || formatNumber(yr2Gross - (Number(payslipYear2.consolidated_relief) + Number(payslipYear2.other_relief)))} className="form-control w-full rounded" ref={register()} type="text"
@@ -565,7 +560,6 @@ function Index() {
                     </div>
 
                     <div className="p-3 grid justify-items-stretch">
-<<<<<<< HEAD
                         <div className="flex justify-end mb-2">
                             <select className="form-control rounded"
                                 value={form3Value}
@@ -576,8 +570,6 @@ function Index() {
                                 <option value="PAYE">PAYE</option>
                             </select>
                         </div>
-=======
->>>>>>> production
                         <h6 className="text-center mb-6">Year 3</h6>
                         <div className="mb-6 justify-self-center">
 
@@ -653,6 +645,6 @@ function Index() {
         </>
     )
 }
-        
+
 
 export default Index
