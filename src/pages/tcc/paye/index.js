@@ -59,8 +59,8 @@ function Index() {
 
     setAuthToken();
     const CreateTcc = async (data) => {
-        console.log("data", data);
-        if (data.taxYr_1 == '0' && data.incYr_1 == '0') {
+
+        if (data.taxYr_1 === '0' && data.incYr_1 === '0') {
             alert("Please provide Tax and Income figures for Year one")
         }
         else {
