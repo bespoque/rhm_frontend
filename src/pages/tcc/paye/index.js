@@ -458,7 +458,7 @@ function Index() {
                         <div className="mb-6 grid grid-cols-2 gap-3">
                             <label>Consolidated Relief </label>
                             <div>
-                                <input readOnly name="" value={formatNumber(payslipYear1.consolidated_relief)} className="form-control w-full rounded" type="text"
+                                <input readOnly value={formatNumber(payslipYear1.consolidated_relief)} className="form-control w-full rounded" type="text"
                                 />
                             </div>
                         </div>

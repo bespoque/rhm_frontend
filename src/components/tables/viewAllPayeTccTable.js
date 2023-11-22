@@ -791,10 +791,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-<<<<<<< HEAD
  
-=======
->>>>>>> production
           </div>
 
           <div className="p-3">
@@ -846,10 +843,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-<<<<<<< HEAD
  
-=======
->>>>>>> production
           </div>
 
           <div className="p-3">
@@ -899,10 +893,6 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
               </div>
               : ""
             }
-<<<<<<< HEAD
-=======
-    
->>>>>>> production
           </div>
         </div>
       </div>
