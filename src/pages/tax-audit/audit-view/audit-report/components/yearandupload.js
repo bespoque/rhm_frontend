@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProcessorSpinner } from '../../../../../components/spiner';
 
-const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType, onUpload, JobID, checklistItemID, changeScope }) => {
+const YearAndUpload = ({ years, selectedScope, toggleVis, checklistItem, checklistItemType, onUpload, JobID, checklistItemID, changeScope }) => {
     const [selectedYear, setSelectedYear] = useState("");
     const [taxScheduleFiles, setTaxScheduleFiles] = useState(null);
     const [remittanceFiles, setRemittanceFiles] = useState(null);
@@ -44,8 +44,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
 
     
     const handleUpload = async () => {
-        // changeScope("")
-        
+        toggleVis(false)
         const formData = new FormData();
         if (
             (checklistItemType === 'EXCEL' &&
@@ -74,7 +73,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         body: formData
                     })
                       changeScope("")
-
+                      toggleVis(true)
                     const dataFetch = await res.json()
                     setIsFetching(false)
                     if (dataFetch.status === "400") {
@@ -89,6 +88,7 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                     }
 
                 } catch (error) {
+                    toggleVis(true)
                     setIsFetching(false)
                     console.error('Server Error:', error)
                 }
@@ -107,27 +107,24 @@ const YearAndUpload = ({ years, selectedScope, checklistItem, checklistItemType,
                         body: formData
                     })
                       changeScope("")
+                      toggleVis(true)
                     const dataFetch = await res.json()
                     setIsFetching(false)
                     if (dataFetch.status === "400") {
                         toast.error(dataFetch.message);
                     } else {
                         toast.success(dataFetch.message);
-                        // setSelectedYear("");
-                        // setTaxScheduleFiles([]);
-                        // setRemittanceFiles([]);
-                        // setDocumentFiles([]);
-                        // setAmount('');
                     }
                 } catch (error) {
                     setIsFetching(false)
+                    toggleVis(true)
                     console.error('Server Error:', error)
                 }
-                console.log("Non remittance selected!");
             }
 
             onUpload(selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles, checklistItem);
         } else {
+            toggleVis(true)
             alert('Please fill in all required fields.');
         }
     };

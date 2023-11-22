@@ -17,13 +17,14 @@ export default function AuditReportList() {
     const router = useRouter()
     const [job, setJob] = useState(() => []);
     const { JobID } = router?.query
-    const [selectedScope, setSelectedScope] = useState("");
+    const [selectedScope, setSelectedScope] = useState('');
     const [uploadData, setUploadData] = useState([]);
     const [scopeData, setUploadCheck] = useState([]);
     const [uploadsArr, setUploadsArr] = useState([])
     const [taxSchedule, setTaxSchedule] = useState([])
     const [selectedRow, setSelectedRow] = useState(null);
     const [scheduleYear, setScheduleYear] = useState(null);
+    const [dropdownVis, setDropdownVis] = useState(true);
 
 
 
@@ -80,6 +81,8 @@ export default function AuditReportList() {
     console.log("selectedScope", selectedScope);
 
 
+ 
+
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
 
@@ -95,6 +98,10 @@ export default function AuditReportList() {
     const handleScopeChange = (selectedScope) => {
         setSelectedScope(selectedScope);
     };
+
+    const toggleVis = (dropdownVis) => {
+        setDropdownVis(dropdownVis)
+    }
 
     const handleUpload = (selectedYear, taxScheduleFiles, remittanceFiles, amount, documentFiles) => {
         const newUpload = {
@@ -295,19 +302,27 @@ export default function AuditReportList() {
                     </button>
                 </div>
 
-                <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
+                {dropdownVis && (
+                    <div>
+                        <ScopeDropdown scopeData={scopeData} onSelectScope={handleScopeChange} />
+                        
+                    </div>
+                )}
+
 
                 {selectedScope !== "" && (
                     <div className="mt-4">
                         <YearAndUpload
                             years={yearRange}
                             selectedScope={selectedScope}
-                            checklistItem={scopeData?.find(item => item.checklist_item === selectedScope).checklist_item}
-                            checklistItemType={scopeData?.find(item => item.checklist_item === selectedScope).checklist_type}
-                            checklistItemID={scopeData?.find(item => item.checklist_item === selectedScope).checklist_id}
+                            checklistItem={scopeData?.find(item => item.checklist_item === selectedScope)?.checklist_item}
+                            checklistItemType={scopeData?.find(item => item.checklist_item === selectedScope)?.checklist_type}
+                            checklistItemID={scopeData?.find(item => item.checklist_item === selectedScope)?.checklist_id}
                             onUpload={handleUpload}
                             JobID={JobID}
                             changeScope={handleScopeChange}
+                            toggleVis={toggleVis}
+                            
                         />
                     </div>
                 )}
