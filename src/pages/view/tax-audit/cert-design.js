@@ -207,9 +207,9 @@ const CertDesign = () => {
         }
 
         if (digit1 !== '0') {
-            buffer += convertDigit(digit1) + ' hundred';
+            buffer += convertDigit(digit1) + ' hundred ';
             if (digit2 !== '0' || digit3 !== '0') {
-                buffer += '  ';
+                buffer += ' and ';
             }
         }
 
@@ -363,8 +363,6 @@ const CertDesign = () => {
         return text;
     }
     const certificateText = generateText(revItems);
-
-    console.log("revItems", revItems);
 
     useEffect(() => {
         if (router.query.formData) {

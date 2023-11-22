@@ -1,15 +1,13 @@
 
 import dateformat from "dateformat";
-import { shallowEqual, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import setAuthToken from "../../functions/setAuthToken";
 import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import url from '../../config/url';
 import axios from "axios";
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css'; 
+import 'react-date-range/dist/theme/default.css'; 
 import { Controller, useForm } from "react-hook-form";
 import { FormatMoneyComponentReport } from "../FormInput/formInputs";
 import AssessmentReportstable from "../../pages/assessment-report/assessmentreport";
@@ -20,34 +18,24 @@ import "react-datepicker/dist/react-datepicker.css";
 export const StartAssessmentReportView = () => {
   const [fixedValues, SetFixValuesStart] = useState({ amount: "" });
   const [fixedValuesend, SetFixValuesEnd] = useState({ amount: "" });
-  const [revenueItem, setRevenueItem] = useState([]);
-  // const [post, setPost] = useState(() => []);
   const [station, setStation] = useState([]);
   const [FilteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [tableState, setTableState] = useState("hidden");
-
-
-
   const [state, setState] = useState([
     {
       startDate: null,
-      // endDate: null,
       endDate: new Date(""),
       key: 'selection'
     }
   ]);
 
-  const { auth } = useSelector(
-    (state) => ({
-      auth: state.authentication.auth,
-    }),
-    shallowEqual
-  );
-
-  const reportRange = [39]
-  const decoded = jwt.decode(auth);
-  const userGroup = decoded.groups
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+  } = useForm()
 
   let startDate
   let endDate
@@ -60,7 +48,7 @@ export const StartAssessmentReportView = () => {
     startDate = dateformat(state[0].startDate, "yyyy-mm-dd")
   }
 
-  // * using == to compare endDate value
+
   if (state[0].endDate === null || state[0].endDate === "" || state[0].endDate === undefined || state[0].endDate == "Invalid Date") {
 
     endDate = ""
@@ -68,13 +56,6 @@ export const StartAssessmentReportView = () => {
   } else {
     endDate = dateformat(state[0].endDate, "yyyy-mm-dd")
   }
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-  } = useForm()
 
 
   let watchYear = watch("year", "");
@@ -86,13 +67,10 @@ export const StartAssessmentReportView = () => {
       try {
         let res = await axios.get(`${url.BASE_URL}user/items`);
         let itemsBody = res.data.body
-        let revItems = itemsBody.revItem
         let office = itemsBody.taxOffice
         setStation(office)
-        setRevenueItem(revItems)
 
       } catch (e) {
-        // setIsFetching(false);
         console.log(e);
       }
     };
@@ -116,9 +94,7 @@ export const StartAssessmentReportView = () => {
     axios.post(`${url.BASE_URL}forma/list-assessment-report`, data)
     .then(function (response) {
       let search = response.data.body.assessmentApproved;
-      console.log("search", search);
       setFilteredData(search)
-      console.log("FilteredData", FilteredData);
       setIsFetching(false)
       setTableState('')
     })
@@ -129,7 +105,7 @@ export const StartAssessmentReportView = () => {
     })
 }
 
-  
+  console.log("filtered", FilteredData);
 
 
 

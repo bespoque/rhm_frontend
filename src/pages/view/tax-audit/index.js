@@ -162,7 +162,7 @@ export default function AuditCert() {
                                     <input
                                         type="checkbox"
                                         name="revItem"
-                                        value="Withholding Tax"
+                                        value="Withholding"
                                         ref={register()}
                                         className="form-checkbox"
                                     />
@@ -246,11 +246,11 @@ export default function AuditCert() {
                                     <input
                                         type="checkbox"
                                         name="revItem"
-                                        value="Capital Gain Tax"
+                                        value="Capital Gain"
                                         ref={register()}
                                         className="form-checkbox"
                                     />
-                                    <label htmlFor="Capital Gain Tax">Capital Gain Tax</label>
+                                    <label htmlFor="Capital Gain">Capital Gain Tax</label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <input
