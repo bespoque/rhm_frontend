@@ -41,111 +41,111 @@ const initialState = [
         ],
       },
 
-      // {
-      //   url: '/',
-      //   icon: <DirectAssessment />,
-      //   title: 'Direct Assessment',
-      //   items: [
-      //     {
-      //       title: 'Create',
-      //       url: '/direct-asses',
-      //       items: [],
-      //     },
-      //     {
-      //       title: 'Draft Assessments',
-      //       url: '/view/pendingdirect',
-      //       items: [],
-      //     },
-      //     {
-      //       title: 'Submitted Assessments',
-      //       url: '/view/completeddirect',
-      //       items: [],
-      //     },
-      //     {
-      //       title: 'Verified BOJ',
-      //       url: '/view/listverifiedboj',
-      //       items: [],
-      //     },
-      //     // {
-      //     //   title: 'Approved Assessments',
-      //     //   url: '/approved-assement-report',
-      //     //   items: [],
-      //     // },
-      //     {
-      //       title: 'Approved Assessments',
-      //       url: '/view/approvedasses',
-      //       items: [],
-      //     },
-      //     {
-      //       url: '/',
-      //       title: 'Tax Clearance (TCC)',
-      //       items: [
-      //         {
-      //           url: '/tcc',
-      //           title: 'Create',
-      //           items: [],
-      //         },
-      //         {
-      //           url: '/view/listapprovedtcc',
-      //           title: 'Pending E C. Sign',
-      //           items: [],
-      //         },
-      //         {
-      //           url: '/view/listtcc',
-      //           title: 'View All',
-      //           items: [],
-      //         },
-      //         {
-      //           url: '/view/listprinttcc',
-      //           title: 'View Print',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       url: '/',
-      //       title: 'Report',
-      //       items: [
-      //         {
-      //           title: 'Assessment',
-      //           url: '/assessment-report',
-      //           items: [],
-      //         },
-      //         {
-      //           title: 'Unassessed Collections',
-      //           url: '/unassessed-report',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       url: '/',
-      //       title: 'Objection',
-      //       items: [
-      //         {
-      //           title: 'Submitted',
-      //           url: '/view/objection/submitted',
-      //           items: [],
-      //         },
-      //         {
-      //           title: 'Verified',
-      //           url: '/view/objection/verified',
-      //           items: [],
-      //         },
-      //         {
-      //           title: 'Pending EC sign',
-      //           url: '/view/objection/approved',
-      //           items: [],
-      //         },
-      //         {
-      //           title: 'Print',
-      //           url: '/view/objection/vetted',
-      //           items: [],
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        url: '/',
+        icon: <DirectAssessment />,
+        title: 'Direct Assessment',
+        items: [
+          {
+            title: 'Create',
+            url: '/direct-asses',
+            items: [],
+          },
+          {
+            title: 'Draft Assessments',
+            url: '/view/pendingdirect',
+            items: [],
+          },
+          {
+            title: 'Submitted Assessments',
+            url: '/view/completeddirect',
+            items: [],
+          },
+          {
+            title: 'Verified BOJ',
+            url: '/view/listverifiedboj',
+            items: [],
+          },
+          {
+            title: 'Approved Assessments',
+            url: '/approved-assement-report',
+            items: [],
+          },
+          {
+            title: 'Approved Assessments',
+            url: '/view/approvedasses',
+            items: [],
+          },
+          {
+            url: '/',
+            title: 'Tax Clearance (TCC)',
+            items: [
+              {
+                url: '/tcc',
+                title: 'Create',
+                items: [],
+              },
+              {
+                url: '/view/listapprovedtcc',
+                title: 'Pending E C. Sign',
+                items: [],
+              },
+              {
+                url: '/view/listtcc',
+                title: 'View All',
+                items: [],
+              },
+              {
+                url: '/view/listprinttcc',
+                title: 'View Print',
+                items: [],
+              },
+            ],
+          },
+          {
+            url: '/',
+            title: 'Report',
+            items: [
+              {
+                title: 'Assessment',
+                url: '/assessment-report',
+                items: [],
+              },
+              {
+                title: 'Unassessed Collections',
+                url: '/unassessed-report',
+                items: [],
+              },
+            ],
+          },
+          {
+            url: '/',
+            title: 'Objection',
+            items: [
+              {
+                title: 'Submitted',
+                url: '/view/objection/submitted',
+                items: [],
+              },
+              {
+                title: 'Verified',
+                url: '/view/objection/verified',
+                items: [],
+              },
+              {
+                title: 'Pending EC sign',
+                url: '/view/objection/approved',
+                items: [],
+              },
+              {
+                title: 'Print',
+                url: '/view/objection/vetted',
+                items: [],
+              },
+            ],
+          },
+        ],
+      },
 
       {
         url: '/',
