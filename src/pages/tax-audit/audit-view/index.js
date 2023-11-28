@@ -21,7 +21,7 @@ const Index = () => {
     const [isFetching, setIsFetching] = useState(() => true);
     const [job, setJob] = useState(() => []);
     const [historyData, setHistoryData] = useState(() => []);
-   
+
     const router = useRouter()
     const { id } = router?.query
 
@@ -45,7 +45,7 @@ const Index = () => {
 
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
-   
+
     const dateStart = new Date(startDate);
     const dateEnd = new Date(endDate);
 
@@ -57,7 +57,7 @@ const Index = () => {
 
         async function fetchPost() {
             try {
-                const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-fetch-singlejob.php', {
+                const response = await fetch('https://rhmapi2.irs.kg.gov.ng/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "param1": "id",
@@ -68,7 +68,7 @@ const Index = () => {
                 const dataFetchJobDet = await response.json()
                 setJob(dataFetchJobDet.body[0])
 
-                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-activities.php', {
+                const res = await fetch('https://rhmapi2.irs.kg.gov.ng/taxaudit/taxaudit-activities.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": id,
@@ -161,7 +161,11 @@ const Index = () => {
                         >
                             Audit Report
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/compliance?JobID=${id}`)}
+                        >
+                            Compliance
+                        </button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>

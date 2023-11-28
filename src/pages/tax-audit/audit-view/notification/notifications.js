@@ -13,7 +13,7 @@ import Check from '@material-ui/icons/Check'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
-import { MoreHoriz, NextWeekRounded, Email, Extension } from "@material-ui/icons";
+import { MoreHoriz, NextWeekRounded, Extension } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewNotificationButton from './../notification/button';
 import Modal from '@material-ui/core/Modal';
@@ -181,7 +181,11 @@ const AuditNotice = () => {
                         >
                             Audit Report
                         </button>
-                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Compliance</button>
+                        <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2"
+                            onClick={() => router.push(`/tax-audit/audit-view/compliance?JobID=${id}`)}
+                        >
+                            Compliance
+                        </button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Assessment</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Demand Notice</button>
                         <button className="btn block p-2 bg-blue-100 rounded-tr-lg m-2">Objection</button>

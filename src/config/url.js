@@ -2,7 +2,7 @@ const url = {
 
   // live db
 
-  BASE_URL: "https://rhmapi.bespoque.dev/api/v1/",
+  BASE_URL: "https://rhmapi.irs.kg.gov.ng/api/v1/",
 
   // Test db
 
