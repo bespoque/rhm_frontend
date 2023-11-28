@@ -448,7 +448,7 @@ export const ATOPie = ({ atoAssessedAmt, atoAssCount, atoTrend, atoOverview, rec
 
 
   const decoded = jwt.decode(auth);
-  const taxOff = decoded.station
+  const taxOff = decoded?.station
 
   const fields = [
     {

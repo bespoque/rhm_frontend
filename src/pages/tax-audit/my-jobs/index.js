@@ -60,7 +60,7 @@ const Index = () => {
     );
 
     const decoded = jwt.decode(auth);
-    const emailAdd = decoded.user
+    const emailAdd = decoded?.user
     const toggleStart = () => {
         setStartModal(!startModal);
     };

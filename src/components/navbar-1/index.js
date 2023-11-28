@@ -18,7 +18,7 @@ const Navbar = () => {
     shallowEqual
   );
   const decoded = jwt.decode(auth);
-  const userName = decoded.staffName
+  const userName = decoded?.staffName
  
   let { rightSidebar, collapsed } = { ...config };
   const dispatch = useDispatch();
