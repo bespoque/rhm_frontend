@@ -15,28 +15,37 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router'
 import ComplianceButtons from './components/buttons'
+import { MoreHoriz } from '@material-ui/icons'
 
 function Index() {
   const router = useRouter()
   const { JobID } = router?.query
   const [isFetching, setIsFetching] = useState(() => true);
+  const [checkList, setCheckLists] = useState([]);
+  const [complianceList, setComplianceList] = useState([]);
+
 
   const fields = [
     {
       title: "Notice date",
-      field: "activity",
+      field: "notification_date",
     },
     {
-      title: "Status",
-      field: "createby",
+      title: "File ref",
+      field: "notification_fileno",
     },
     {
       title: "type",
-      field: "createby",
+      field: "actionType",
+    },
+    {
+      title: "Status",
+      field: "status",
+      
     },
     {
       title: "Created by",
-      field: "createtime",
+      field: "doneby",
     },
     {
       title: "Created time",
@@ -45,21 +54,57 @@ function Index() {
 
   ];
 
+
   useEffect(() => {
     async function fetchPost() {
       try {
-        const response = await fetch('https://rhmapi2.irs.kg.gov.ng/taxaudit/taxaudit-compliance-stats.php', {
+        const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-compliance-stats.php', {
           method: 'POST',
           body: JSON.stringify({
-            "param1": "id",
-            "param2": JobID
+            job_id: JobID,
+            id: ""
           })
         })
-
         const dataFetchJobDet = await response.json()
-        console.log("dataFetchJobDet", dataFetchJobDet);
+        setCheckLists(dataFetchJobDet.checklists);
 
+        const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-compliance-batch.php', {
+          method: 'POST',
+          body: JSON.stringify({
+            job_id: JobID
+          })
+        })
+        const dataFetchComp = await res.json()
         setIsFetching(false)
+        // setComplianceList(dataFetchComp)
+
+        if (dataFetchComp && dataFetchComp.body) {
+          const updatedData = {
+            ...dataFetchComp,
+            body: dataFetchComp.body.map(record => {
+              const { reviewstatus, approvestatus } = record;
+  
+              if (
+                (reviewstatus === null || reviewstatus === '') &&
+                (approvestatus === null || approvestatus === '')
+              ) {
+                return { ...record, status: null };
+              } else if (
+                reviewstatus !== null &&
+                reviewstatus !== '' &&
+                (approvestatus === null || approvestatus === '')
+              ) {
+                return { ...record, status: reviewstatus };
+              } else {
+                return { ...record, status: approvestatus };
+              }
+            }),
+          };
+  
+          setComplianceList(updatedData.body);
+        }
+    
+    
       } catch (error) {
         setIsFetching(false)
         console.error('Server Error:', error)
@@ -70,23 +115,7 @@ function Index() {
     fetchPost();
   }, [JobID]);
 
-  const checkLists = [
-    {
-      checklist_id: '73',
-      checklist_item: "payment voucher",
-      expected: 3,
-      available: 1,
-      percentage: 33.3333
-    },
-    {
-      checklist_id: '77',
-      checklist_item: "payment voucher",
-      expected: 3,
-      available: 3,
-      percentage: 100
-    }
-  ]
-  const historyData = []
+
   return (
     <>
       <Widget>
@@ -94,9 +123,9 @@ function Index() {
         <div className='flex gap-4 justify-center mb-10'>
           <ComplianceButtons JobID={JobID} />
         </div>
-        {checkLists.map((item) => (
+        {checkList?.map((item) => (
           <div className='my-5 px-4'>
-            <div className='grid grid-cols-3 text-base' key={item.checklist_id}>
+            <div className='grid grid-cols-3' key={item.checklist_id}>
               <p>{item.checklist_item}</p>
               <p>{`Expected Documents: ${item.available} of ${item.expected}`}</p>
               {formatNumber(item.percentage) === "100" ?
@@ -110,13 +139,19 @@ function Index() {
       </Widget>
 
       <MaterialTable title="Compliance log"
-        data={historyData}
+        data={complianceList}
         columns={fields}
         actions={
           [
-
+              {
+                  icon: MoreHoriz,
+                  tooltip: 'View',
+                  onClick: (event, rowData) => {
+                      router.push(`/tax-audit/audit-view/compliance/${rowData.job_id}_${rowData.id}`)
+                  }
+              },
           ]
-        }
+      }
         options={{
           search: true,
           paging: true,
