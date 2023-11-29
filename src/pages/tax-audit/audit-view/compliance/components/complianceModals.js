@@ -111,7 +111,7 @@ export const NonCompliance = ({ isOpen, closeModal, JobID, doneby }) => {
                                             required
                                             ref={register()}
                                             type="text"
-                                            name='addressee'
+                                            name='notification_addressee'
                                             className="border border-gray-300 rounded px-2 py-1 w-full"
                                         />
 
@@ -277,7 +277,7 @@ export const SpecialNonComp = ({ JobID, doneby, isOpen, closeModal }) => {
                                             required
                                             ref={register()}
                                             type="text"
-                                            name='addressee'
+                                            name='notification_addressee'
                                             className="border border-gray-300 rounded px-2 py-1 w-full"
                                         />
 
