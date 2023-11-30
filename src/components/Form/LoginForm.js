@@ -78,12 +78,6 @@ const LoginForm = () => {
           required
           placeholder="Email"
         />
-        {/* {errors.email && errors.email.type === "minLength" && (
-          <p className="text-red-600">Enter a valid email</p>
-        )}
-        {errors.email && errors.email.type === "maxLength" && (
-          <p className="text-red-600">Enter a correct password</p>
-        )} */}
         {errors.email && (
           <p className="text-red-600 bg-white">Enter a valid email</p>
         )}
