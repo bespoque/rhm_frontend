@@ -14,7 +14,6 @@ import {
 import { clearSignUp } from "../../redux/signup/signup.actions";
 import { clearSignUpAuth } from "../../redux/signup-auth/signup-auth.actions";
 import Loader from "react-loader-spinner";
-// import { PasswordHideIcon, PasswordShowIcon } from "../Icons";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -66,8 +65,6 @@ const LoginForm = () => {
           name="email"
           label={<KgtinIcon />}
           ref={register({
-            // minLength: 5,
-            // maxLength: 10,
             pattern: {
               value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
               message: "please enter a valid email address",
@@ -113,15 +110,6 @@ const LoginForm = () => {
             </p>
           </div>
         </div>
-
-        {/* <div className="mt-6">
-          <p>
-            Don't have an account?
-            <Link href="/signup">
-              <a className="text-blue-500"> Sign Up</a>
-            </Link>
-          </p>
-        </div> */}
       </div>
     </form>
   );
