@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ComplianceModal, NonCompliance, SpecialNonComp } from './complianceModals';
+import AllComplianceModals, { ComplianceModal, NonCompliance, SpecialNonComp } from './complianceModals';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 
@@ -61,9 +61,11 @@ const ComplianceButtons = ({ JobID }) => {
                 CREATE COMPLIANCE
             </button>
 
-            <NonCompliance isOpen={isModalOpenNon} doneby={emailAdd} closeModal={closeModalNon} JobID={JobID}  />
+            <AllComplianceModals isOpen={isModalOpenNon} closeModal={closeModalNon}/>
+
+            {/* <NonCompliance isOpen={isModalOpenNon} doneby={emailAdd} closeModal={closeModalNon} JobID={JobID}  />
             <SpecialNonComp isOpen={isModalOpenSpecial} doneby={emailAdd} closeModal={closeModalSpecial} JobID={JobID}  />
-            <ComplianceModal isOpen={isModalOpen} doneby={emailAdd} closeModal={()=>closeModal()} JobID={JobID} />
+            <ComplianceModal isOpen={isModalOpen} doneby={emailAdd} closeModal={()=>closeModal()} JobID={JobID} /> */}
         </>
     );
 };

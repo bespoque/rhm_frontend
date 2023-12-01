@@ -57,7 +57,7 @@ const Index = () => {
 
         async function fetchPost() {
             try {
-                const response = await fetch('https://rhmapi2.irs.kg.gov.ng/taxaudit/taxaudit-fetch-singlejob.php', {
+                const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-fetch-singlejob.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "param1": "id",
@@ -68,7 +68,7 @@ const Index = () => {
                 const dataFetchJobDet = await response.json()
                 setJob(dataFetchJobDet.body[0])
 
-                const res = await fetch('https://rhmapi2.irs.kg.gov.ng/taxaudit/taxaudit-activities.php', {
+                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-activities.php', {
                     method: 'POST',
                     body: JSON.stringify({
                         "job_id": id,
