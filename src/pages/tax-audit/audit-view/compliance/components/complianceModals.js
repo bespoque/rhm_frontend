@@ -9,7 +9,7 @@ import { Select, Space } from 'antd';
 
 
 
-export const AllComplianceModals = ({ isOpen, closeModal, doneby, JobID }) => {
+const AllComplianceModals = ({ isOpen, closeModal, doneby, JobID }) => {
 
     const NonCompliance = ({ isOpen, closeModal, JobID, doneby }) => {
         const router = useRouter()
@@ -466,7 +466,7 @@ export const AllComplianceModals = ({ isOpen, closeModal, doneby, JobID }) => {
 
     return (
         <>
-            <NonCompliance isOpen={isOpen} closeModal={closeModal} />
+            <NonCompliance isOpen={isOpen} closeModal={closeModal} doneby={doneby} JobID={JobID} />
         </>
     )
 
