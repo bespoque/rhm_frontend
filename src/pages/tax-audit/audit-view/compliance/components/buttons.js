@@ -61,11 +61,17 @@ const ComplianceButtons = ({ JobID }) => {
                 CREATE COMPLIANCE
             </button>
 
-            <AllComplianceModals isOpen={isModalOpenNon} closeModal={closeModalNon} doneby={emailAdd} JobID={JobID}/>
+            <AllComplianceModals
+                isOpenNon={isModalOpenNon}
+                closeNoneCompModal={closeModalNon}
+                doneby={emailAdd}
+                JobID={JobID}
+                isOpenSpecial={isModalOpenSpecial}
+                closeSpecialModal={closeModalSpecial}
+                isOpenCompliance={isModalOpen}
+                closeModalCompliance={()=>closeModal()}
 
-            {/* <NonCompliance isOpen={isModalOpenNon} doneby={emailAdd} closeModal={closeModalNon} JobID={JobID}  />
-            <SpecialNonComp isOpen={isModalOpenSpecial} doneby={emailAdd} closeModal={closeModalSpecial} JobID={JobID}  />
-            <ComplianceModal isOpen={isModalOpen} doneby={emailAdd} closeModal={()=>closeModal()} JobID={JobID} /> */}
+            />
         </>
     );
 };
