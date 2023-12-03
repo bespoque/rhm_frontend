@@ -16,6 +16,7 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router'
 import ComplianceButtons from './components/buttons'
 import { MoreHoriz } from '@material-ui/icons'
+import { FiArrowUp, FiFileMinus, FiFolderMinus, FiPlusCircle, FiUnderline, FiUserMinus, FiX } from 'react-icons/fi'
 
 function Index() {
   const router = useRouter()
@@ -23,7 +24,7 @@ function Index() {
   const [isFetching, setIsFetching] = useState(() => true);
   const [checkList, setCheckLists] = useState([]);
   const [complianceList, setComplianceList] = useState([]);
-
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const fields = [
     {
@@ -41,7 +42,7 @@ function Index() {
     {
       title: "Status",
       field: "status",
-      
+
     },
     {
       title: "Created by",
@@ -54,6 +55,9 @@ function Index() {
 
   ];
 
+  const togglePanel = () => {
+    setIsPanelOpen(!isPanelOpen);
+  };
 
   useEffect(() => {
     async function fetchPost() {
@@ -83,7 +87,7 @@ function Index() {
             ...dataFetchComp,
             body: dataFetchComp.body.map(record => {
               const { reviewstatus, approvestatus } = record;
-  
+
               if (
                 (reviewstatus === null || reviewstatus === '') &&
                 (approvestatus === null || approvestatus === '')
@@ -100,11 +104,11 @@ function Index() {
               }
             }),
           };
-  
+
           setComplianceList(updatedData.body);
         }
-    
-    
+
+
       } catch (error) {
         setIsFetching(false)
         console.error('Server Error:', error)
@@ -116,26 +120,39 @@ function Index() {
   }, [JobID]);
 
 
+
   return (
     <>
       <Widget>
-        <p className="bg-gray-100 h-7 rounded text-center text-base mb-5">Compliance Rating</p>
-        <div className='flex gap-4 justify-center mb-10'>
-          <ComplianceButtons JobID={JobID} />
-        </div>
-        {checkList?.map((item) => (
-          <div className='my-5 px-4'>
-            <div className='grid grid-cols-3' key={item.checklist_id}>
-              <p>{item.checklist_item}</p>
-              <p>{`Expected Documents: ${item.available} of ${item.expected}`}</p>
-              {formatNumber(item.percentage) === "100" ?
-                <p> Percentage: <span className='text-green-400'>{`${formatNumber(item.percentage)}%`}</span></p>
-                : <p>{`Percentage: ${formatNumber(item.percentage)}%`}</p>
-              }
-            </div>
-            <hr />
+        <div className="accordion">
+          <div className="bg-gray-100 h-10 rounded text-center text-base mb-5 cursor-pointer flex justify-around items-center">
+            <p>Compliance Rating</p>
+            <p
+              onClick={togglePanel}
+              className='h-6 w-6 bg-green-400 text-white flex items-center justify-center rounded-full text-lg font-display font-bold'
+            >{isPanelOpen ? <FiArrowUp /> : <FiPlusCircle />}</p>
           </div>
-        ))}
+
+          <div style={{ display: isPanelOpen ? 'block' : 'none' }}>
+            <div className='flex gap-4 justify-center mb-10'>
+              <ComplianceButtons JobID={JobID} />
+            </div>
+
+            {checkList?.map((item) => (
+              <div className='my-5 px-4 mx-auto'>
+                <div className='grid grid-cols-3 gap-2 place-content-center' key={item.checklist_id}>
+                  <p>{item.checklist_item}</p>
+                  <p>{`Expected Documents: ${item.available} of ${item.expected}`}</p>
+                  {formatNumber(item.percentage) === "100" ?
+                    <p> Percentage: <span className='text-green-400'>{`${formatNumber(item.percentage)}%`}</span></p>
+                    : <p>{`Percentage: ${formatNumber(item.percentage)}%`}</p>
+                  }
+                </div>
+                <hr />
+              </div>
+            ))}
+          </div>
+        </div>
       </Widget>
 
       <MaterialTable title="Compliance log"
@@ -143,15 +160,15 @@ function Index() {
         columns={fields}
         actions={
           [
-              {
-                  icon: MoreHoriz,
-                  tooltip: 'View',
-                  onClick: (event, rowData) => {
-                      router.push(`/tax-audit/audit-view/compliance/${rowData.job_id}_${rowData.id}`)
-                  }
-              },
+            {
+              icon: MoreHoriz,
+              tooltip: 'View',
+              onClick: (event, rowData) => {
+                router.push(`/tax-audit/audit-view/compliance/${rowData.job_id}_${rowData.id}`)
+              }
+            },
           ]
-      }
+        }
         options={{
           search: true,
           paging: true,
