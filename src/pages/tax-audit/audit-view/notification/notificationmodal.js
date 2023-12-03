@@ -240,12 +240,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
 
-    // const getCheckboxValues = () => {
-    //     return checkboxes.map((isChecked) => (isChecked ? 'YES' : 'NO'));
-    // };
-    // let checkValues = getCheckboxValues()
-
-
     const [formData, setFormData] = useState({
         notification_date: '',
         notification_email: '',

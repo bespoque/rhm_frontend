@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AllComplianceModals, { ComplianceModal, NonCompliance, SpecialNonComp } from './complianceModals';
+import AllComplianceModals from './complianceModals';
 import { shallowEqual, useSelector } from 'react-redux';
 import jwt from "jsonwebtoken";
 
@@ -58,7 +58,7 @@ const ComplianceButtons = ({ JobID }) => {
                 type="submit"
                 onClick={openModalComp}
             >
-                CREATE COMPLIANCE
+                 COMPLIANCE
             </button>
 
             <AllComplianceModals
