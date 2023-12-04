@@ -291,7 +291,8 @@ const AllComplianceModals = ({
                             ))}
                         </ol><br />
                         <p>
-                            Your immediate compliance in this regard is envisaged.
+                            We will appreciate if the above documents are forwarded to the office
+                            of the Executive Chairman within 7 days of receipt of this letter
                         </p>
                         <br /><br />
                         <p> Thank you,</p>
