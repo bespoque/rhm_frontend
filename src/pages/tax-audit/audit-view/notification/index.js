@@ -297,7 +297,6 @@ const Notification = () => {
                         <button onClick={() => router.back()} className="p-2 bg-gray-400 text-white w-20 rounded mr-3">Back</button>
                         <button><a href={`https://test.rhm.backend.bespoque.ng/notification-file-pdf.php?fileno=${notice?.notification_fileno}`} rel="noreferrer" target="_blank" className="p-2 bg-pink-400 text-white rounded">View letter</a></button>
                     </div>
-
                 </div>
                 <div className="flex justify-end gap-2 items-center mb-4">
                     {
@@ -372,10 +371,10 @@ const Notification = () => {
                 {
                     notice?.reviewnote && (
 
-                    <p>
-                        <span className="font-semibold">REASON: </span>{' '}
-                        <span className='font-bold'>{notice?.reviewnote}</span>
-                    </p>
+                        <p>
+                            <span className="font-semibold">REASON: </span>{' '}
+                            <span className='font-bold'>{notice?.reviewnote}</span>
+                        </p>
                     )
                 }
             </div>
