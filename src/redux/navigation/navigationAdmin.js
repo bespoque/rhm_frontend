@@ -405,28 +405,12 @@ const initialState = [
             url: "/tax-audit/my-jobs",
             items: [],
           },
-
-          {
-            title: 'In Progress',
-            url: "/",
-            items: [],
-          },
-          {
-            title: 'Job Verification',
-            url: "/",
-            items: [],
-          },
-          {
-            title: 'Job Approvals',
-            items: [],
-            url: "/",
-          },
+       
           {
             title: 'Management',
             items: [
               { title: 'New Job', url: '/tax-audit/create-job', items: [] },
               { title: 'All Jobs', url: '/tax-audit/all-jobs', items: [] },
-              { title: 'Reports', url: '/', items: [] },
             ],
           },
         ],

@@ -36,17 +36,21 @@ const AuditNotice = () => {
             title: "Notice Date",
             field: "notification_date",
         },
-        {
-            title: "Verify status",
-            field: "reviewstatus",
-        },
-        {
-            title: "Approve status",
-            field: "approvestatus",
-        },
+        // {
+        //     title: "Verify status",
+        //     field: "reviewstatus",
+        // },
+        // {
+        //     title: "Approve status",
+        //     field: "approvestatus",
+        // },
         {
             title: "Created by",
             field: "doneby",
+        },
+        {
+            title: "Status",
+            field: "status",
         },
         {
             title: "Created time",
@@ -94,7 +98,33 @@ const AuditNotice = () => {
                     })
                 })
                 const dataFetch = await res.json()
-                setNotificationData(dataFetch.body)
+                if (dataFetch && dataFetch.body) {
+                    const updatedData = {
+                        ...dataFetch,
+                        body: dataFetch.body.map(record => {
+                            const { reviewstatus, approvestatus } = record;
+
+                            if (
+                                (reviewstatus === null || reviewstatus === '') &&
+                                (approvestatus === null || approvestatus === '')
+                            ) {
+                                return { ...record, status: null };
+                            } else if (
+                                reviewstatus !== null &&
+                                reviewstatus !== '' &&
+                                (approvestatus === null || approvestatus === '')
+                            ) {
+                                return { ...record, status: reviewstatus };
+                            } else {
+                                return { ...record, status: approvestatus };
+                            }
+                        }),
+                    };
+
+                    setNotificationData(updatedData.body);
+                }
+
+                // setNotificationData(dataFetch.body)
 
 
                 setIsFetching(false)
