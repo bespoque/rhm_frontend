@@ -254,6 +254,8 @@ export const ViewSingleTccPrintTable = ({
   }
 
 
+console.log("picUpload", picUpload);
+
   return (
     <>
       <div className="m-3 flex justify-end">

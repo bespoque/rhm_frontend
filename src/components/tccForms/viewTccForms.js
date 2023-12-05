@@ -298,7 +298,7 @@ export const StartTcc = () => {
 
             <div className="mb-6 grid grid-cols-3 gap-2">
               <label>Taxpayer:</label>
-              {payerDetails === [] || payerDetails === "" || payerDetails === undefined ? <input ref={register()} readOnly name="taxpayername" className="form-control w-full rounded" type="text" placeholder="Taxpayer name" />
+              {payerDetails == [] || payerDetails === "" || payerDetails === undefined ? <input ref={register()} readOnly name="taxpayername" className="form-control w-full rounded" type="text" placeholder="Taxpayer name" />
                 :
                 <div>
 
@@ -310,7 +310,7 @@ export const StartTcc = () => {
 
             <div className="mb-6 grid grid-cols-3 gap-2">
               <label>KGTIN:</label>
-              {payerDetails === [] || payerDetails === "" || payerDetails === undefined ?
+              {payerDetails == [] || payerDetails === "" || payerDetails === undefined ?
                 <div>
                   <input ref={register({ required: "KGTIN is required" })} readOnly name="tp_id" type="text" className="form-control w-full rounded" placeholder="KGTIN" />
                   {errors.tp_id && <p className="text-red-600">{errors.tp_id.message}</p>}

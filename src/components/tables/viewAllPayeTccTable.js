@@ -375,14 +375,6 @@ export const ViewVerifiedTccTable = ({ tccdata }) => {
         onRowClick={(event, rowData) => {
           window.open(`/view/listpayetcc/alltcc/${rowData.id}`, "_self")
           event.stopPropagation();
-          // if (userGroup.some(r => reportRange.includes(r))) {
-          //   ''
-
-          // } else {
-
-          //   window.open(`/view/listtcc/${rowData.id}`, "_self")
-          //   event.stopPropagation();
-          // }
         }}
       />
     </>
@@ -393,10 +385,8 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
   const [isFetching, setIsFetching] = useState(false)
   const [declineModal, setDeclineModal] = useState(false);
   
-  const { config, palettes, auth } = useSelector(
+  const { auth } = useSelector(
     (state) => ({
-      config: state.config,
-      palettes: state.palettes,
       auth: state.authentication.auth,
     }),
     shallowEqual
@@ -409,6 +399,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
   } = useForm()
 
 
+console.log("uploads", uploads);
 
   const chairman = [1, 9, 39]
   const Approval = [27, 1]
@@ -432,7 +423,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Verified"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, verifyTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, verifyTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc')
       toast.success("Success!");
@@ -451,7 +442,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Audit Checked"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, auditTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, auditTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/verified')
       toast.success("Success!");
@@ -470,7 +461,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Authorized for print"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, printAuth);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, printAuth);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/approved')
       toast.success("Success!");
@@ -492,7 +483,7 @@ export const ViewSinglePayeTcc = ({ tccID, slipYear1, slipYear2, slipYear3, uplo
       status: "Approved"
     }
     try {
-      let res = await axios.put(`${url.BASE_URL}paye/tcc-status`, approveTcc);
+      await axios.put(`${url.BASE_URL}paye/tcc-status`, approveTcc);
       setIsFetching(false)
       router.push('/view/listpayetcc/alltcc/audit')
       toast.success("Success!");

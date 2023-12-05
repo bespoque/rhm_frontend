@@ -1,5 +1,4 @@
 import SectionTitle from "../section-title";
-import Widget from "../widget";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";

@@ -28,7 +28,8 @@ const PrintSingleTccPaye = () => {
       }
       setAuthToken();
       const fetchPost = () => {
-
+        let passportPhotoDocName = null;
+        let scannedSignatureDocName = null;
         axios.post(`${url.BASE_URL}paye/view-tcc`, id)
           .then(function (response) {
             setOldPass(response.data.body.tcc[0].passport)
@@ -41,10 +42,16 @@ const PrintSingleTccPaye = () => {
             setYrThreePaySl(payslipY3)
             setPayeTccData(response.data.body.tcc[0])
             setIsFetching(false);
-            let uploadsSign = uploads.find(v => v.doc_title === "scanned signature").doc_name
-            setSignature(uploadsSign)
-            let uploadsPassport = uploads.find(v => v.doc_title === "passport photo").doc_name
-            setPassport(uploadsPassport)
+            console.log("uploads", uploads);
+            for (const record of uploads) {
+              if (record.doc_title === "passport photo") {
+                passportPhotoDocName = record.doc_name;
+                setPassport(passportPhotoDocName);
+              } else if (record.doc_title === "scanned signature") {
+                scannedSignatureDocName =  record.doc_name;
+                setSignature(scannedSignatureDocName)
+              }
+          }
 
           })
           .catch(function (error) {

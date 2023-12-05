@@ -156,7 +156,10 @@ export const ViewSinglePayeTccPrintTable = ({
 }) => {
 
   let basdocurl = 'https://annualuploads.bespoque.dev/rhm-live/uploads/paye/tcc/'
-
+  console.log("oldPass", oldPass);
+  console.log("oldSign", oldSign);
+  console.log("passport", passport);
+  console.log("signature", signature);
   let date = PayeTccData.aprvPrint_time
   let due_date = new Date(date)
   let dueDateYear = due_date.getFullYear()
@@ -166,10 +169,10 @@ export const ViewSinglePayeTccPrintTable = ({
   let dateIssue = dateformat(Issdue_date, "dd mmm yyyy")
   const componentRef = useRef();
 
-  if (oldPass === null) {
+  if (oldPass == null) {
     oldPass = ""
   }
-  if (oldSign === null) {
+  if (oldSign == null) {
     oldSign = ""
   }
   const base64StringPic = Buffer.from(oldPass).toString('base64')
@@ -183,7 +186,7 @@ export const ViewSinglePayeTccPrintTable = ({
       status: "Printed"
     }
     try {
-      let res = axios.put(`${url.BASE_URL}paye/tcc-status`, statusObj);
+      axios.put(`${url.BASE_URL}paye/tcc-status`, statusObj);
     } catch (error) {
       console.log(error);
     }
@@ -281,24 +284,8 @@ export const ViewSinglePayeTccPrintTable = ({
 
               <div className="flex justify-between">
                 <div className="ml-4">
-                  {Array.isArray(oldPass.data) && oldPass.data.length !== 0 || Array.isArray(oldSign.data) && oldSign.data.length !== 0 ?
-                    <div className="flex">
-                      <div>
-                        <img
-                          src={`data:image/png;base64,${base64StringPic}`}
-                          alt=""
-                          className="rounded h-16 w-16"
-                        />
-                      </div>
-                      <div className="self-end ml-2">
-                        <img
-                          src={`data:image/png;base64,${base64StringSig}`}
-                          alt=""
-                          className="rounded h-10 w-24"
-                        />
-                      </div>
-                    </div>
-                    :
+
+                  {passport.length > 0 || signature.length > 0 ?
                     <div className="flex">
                       <div>
                         <img
@@ -314,8 +301,48 @@ export const ViewSinglePayeTccPrintTable = ({
                           className="rounded h-10 w-24"
                         />
                       </div>
+                    </div> :
+
+                    <div>
+                      {Array.isArray((oldPass.data) && oldPass.data.length !== 0) || (Array.isArray(oldSign.data) && oldSign.data.length !== 0) ?
+                        <div className="flex">
+                          <div>
+                            <img
+                              src={`data:image/png;base64,${base64StringPic}`}
+                              alt=""
+                              className="rounded h-16 w-16"
+                            />
+                          </div>
+                          <div className="self-end ml-2">
+                            <img
+                              src={`data:image/png;base64,${base64StringSig}`}
+                              alt=""
+                              className="rounded h-10 w-24"
+                            />
+                          </div>
+                        </div>
+                        :
+                        <div className="flex">
+                          <div>
+                            <img
+                              src={`${basdocurl}${passport}`}
+                              alt=""
+                              className="rounded h-16 w-16"
+                            />
+                          </div>
+                          <div className="self-end ml-2">
+                            <img
+                              src={`${basdocurl}${signature}`}
+                              alt=""
+                              className="rounded h-10 w-24"
+                            />
+                          </div>
+                        </div>
+                      }
                     </div>
+
                   }
+                
                 </div>
                 <div>
                   <div>
@@ -438,9 +465,8 @@ export const ViewSinglePayeTccPrintTable = ({
                           <p className="font-bold">{formatNumber(PayeTccData.taxYr_3)}</p>
                         </td>
                         <td className="">
-                          <p>PAYE</p>
+                          <p>{PayeTccData.taxYr_3_type || "PAYE"}</p>
                         </td>
-
                       </tr>
                     </tbody>
                   </table>
