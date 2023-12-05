@@ -29,7 +29,6 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
         data.job_id = JobID
         data.notification_id = Notifid
         data.actionType = "AUDIT VISIT"
-        data.ack_channel = "courier"
 
         setIsLoading(true)
 
@@ -94,7 +93,7 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
-                                Designation:
+                                Relationship:
                             </label>
                             <select
                                 id="ack_relationship"
@@ -109,6 +108,22 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                                 <option value="colleague">Colleague</option>
                                 <option value="neighbour">Neighbour</option>
                                 <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div className="mb-2">
+                            <label className="block  mb-1 ">
+                                Delivery method:
+                            </label>
+                            <select
+                                id="ack_channel"
+                                name='ack_channel'
+                                className="border border-gray-300 rounded px-2 py-1 w-full"
+                                required
+                                ref={register()}
+                            >
+                                <option value="">Please Select</option>
+                                <option value="relative">Courier</option>
+                                <option value="email">Email</option>
                             </select>
                         </div>
 

@@ -101,7 +101,7 @@ const Notification = () => {
                 job_id: JobID,
                 notification_id: Notifid,
                 action: "review",
-                status: "rejected",
+                status: "Rejected",
                 note: verifyComment || "Declined",
                 doneby: emailAdd
             }
@@ -111,7 +111,7 @@ const Notification = () => {
                 job_id: JobID,
                 notification_id: Notifid,
                 action: "review",
-                status: "accepted",
+                status: "Verified",
                 note: "Verified",
                 doneby: emailAdd
             }
@@ -128,7 +128,7 @@ const Notification = () => {
             } else {
                 toast.success(dataFetch.message);
                 closeModal()
-                router.reload()
+                // router.reload()
 
             }
         } catch (error) {
@@ -146,7 +146,7 @@ const Notification = () => {
                 job_id: JobID,
                 notification_id: Notifid,
                 action: "approve",
-                status: "rejected",
+                status: "Rejected",
                 note: approveComment || "Declined",
                 doneby: emailAdd
             }
@@ -156,7 +156,7 @@ const Notification = () => {
                 job_id: JobID,
                 notification_id: Notifid,
                 action: "approve",
-                status: "accepted",
+                status: "Approved",
                 note: "Approved",
                 doneby: emailAdd
             }
@@ -174,7 +174,7 @@ const Notification = () => {
             } else {
                 toast.success(dataFetch.message);
                 closeModal()
-                router.reload()
+                // router.reload()
 
             }
         } catch (error) {
@@ -225,8 +225,11 @@ const Notification = () => {
                         <form onSubmit={VerifyAction}>
                             <p>Are you sure you want to {reviewDecline || "Verify"}?</p>
                             {reviewDecline === "Decline" && (
-
-                                <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea>
+                                <div>
+                                    <p className='mt-2'>Give reason(s) for
+                                        declining</p>
+                                    <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setComment(e.target.value)}></textarea>
+                                </div>
                             )}
                             <div className="mt-2 flex justify-between">
                                 <button onClick={toggleReviewModal}
@@ -255,8 +258,12 @@ const Notification = () => {
                         <form onSubmit={ApproveAction}>
                             <p>Are you sure you want to {approveDecline || "Approve"}?</p>
                             {approveDecline === "Decline" && (
+                                <div>
+                                    <p className='mt-2'>Give reason(s) for
+                                        declining</p>
+                                    <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setApprovedComment(e.target.value)}></textarea>
 
-                                <textarea required className="form-control w-full rounded" minlength="10" maxlength="50" onChange={(e) => setApprovedComment(e.target.value)}></textarea>
+                                </div>
                             )}
 
                             <div className="mt-2 flex justify-between">
@@ -295,7 +302,7 @@ const Notification = () => {
                 <div className="flex justify-end gap-2 items-center mb-4">
                     {
                         <>
-                            {notice?.reviewstatus === "rejected" || notice?.approvestatus === "rejected" ? "" :
+                            {notice?.reviewstatus === "Rejected" || notice?.approvestatus === "Rejected" ? "" :
                                 <>
                                     {notice?.reviewstatus === null ?
                                         <>
@@ -309,10 +316,10 @@ const Notification = () => {
                                         : <>
                                             <>
                                                 {
-                                                    notice?.approvestatus === "accepted" ?
+                                                    notice?.approvestatus === "Approved" ?
                                                         "" : <>
                                                             {
-                                                                notice?.reviewstatus === "accepted" ? <div>
+                                                                notice?.reviewstatus === "Verified" ? <div>
                                                                     <button onClick={() => setApproveModal(true)} className="p-2 bg-green-400 text-white w-20 rounded">Approve</button>
                                                                     <button onClick={(e) => {
                                                                         setApproveModal(true)
@@ -362,6 +369,15 @@ const Notification = () => {
                     <span className="font-semibold">Create Time:</span>{' '}
                     {notice?.createtime}
                 </p>
+                {
+                    notice?.reviewnote && (
+
+                    <p>
+                        <span className="font-semibold">REASON: </span>{' '}
+                        <span className='font-bold'>{notice?.reviewnote}</span>
+                    </p>
+                    )
+                }
             </div>
 
             <MaterialTable title="Acknowledgements"

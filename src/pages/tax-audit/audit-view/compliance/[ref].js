@@ -330,6 +330,15 @@ const ViewCompliance = () => {
                     <span className="font-semibold">Create Time:</span>{' '}
                     {complianceData?.createtime}
                 </p>
+                {
+                    complianceData?.reviewnote && (
+
+                    <p>
+                        <span className="font-semibold">REASON: </span>{' '}
+                        <span className='font-bold'>{complianceData?.reviewnote}</span>
+                    </p>
+                    )
+                }
             </div>
         </div>
     )
