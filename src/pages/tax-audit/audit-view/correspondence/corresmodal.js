@@ -175,7 +175,7 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
                                 onChange={handleInputChange}
                                 placeholder='eg. FILE/00394/9392939'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
-                                required
+                                
 
                             />
 
