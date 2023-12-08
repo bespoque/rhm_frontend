@@ -17,7 +17,7 @@ import { MoreHoriz } from "@material-ui/icons";
 import MaterialTable from '@material-table/core';
 import NewVisitButton from './button';
 import { FiArrowUp, FiPlusCircle } from 'react-icons/fi';
-
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 
 
 const Visit = () => {
@@ -25,7 +25,7 @@ const Visit = () => {
     const [job, setJob] = useState(() => []);
     const [visitData, setVisitData] = useState(() => []);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
-
+    const [selectedRow, setSelectedRow] = useState(null);
     const router = useRouter()
     const { id } = router?.query
 
@@ -59,6 +59,15 @@ const Visit = () => {
     const togglePanel = () => {
         setIsPanelOpen(!isPanelOpen);
     };
+
+    const handleRowClick = (event, rowData) => {
+        setSelectedRow(rowData);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedRow(null);
+    }
+
     const startDate = job?.job_auditdate_start || "";
     const endDate = job?.job_auditdate_end || "";
 
@@ -208,7 +217,7 @@ const Visit = () => {
                         {
                             icon: MoreHoriz,
                             tooltip: 'Details',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/visit/viewsingle?VisitId=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: handleRowClick
                         }
                     ]
                 }
@@ -235,6 +244,18 @@ const Visit = () => {
                 }}
 
             />
+            <Dialog open={selectedRow !== null} onClose={handleClosePopup}>
+                <DialogTitle>Visit Details</DialogTitle>
+                <DialogContent>
+                    <Typography> <p>Personel Met:<span className="font-bold">{selectedRow?.personnelmet}</span></p></Typography>
+                    <Typography> <p>Designation: <span className="font-bold">{selectedRow?.designation}</span></p></Typography>
+                    <Typography> <p>Done By: <span className="font-bold">{selectedRow?.doneby}</span></p></Typography>
+                    <Typography> <p>Create Time: <span className="font-bold">{selectedRow?.createtime}</span></p></Typography>
+                    <Typography> <p>Purpose: <span className="font-bold">{selectedRow?.purposeachieved}</span></p></Typography>
+                    <Typography> <p>Note: <span className="font-bold">{selectedRow?.note}</span></p></Typography>
+                </DialogContent>
+            </Dialog>
+
         </>
     )
 }

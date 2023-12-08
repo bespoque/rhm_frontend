@@ -317,7 +317,8 @@ const VisitModal = ({ isOpen, closeModal, id }) => {
                                 Was the purpose of visit achieved ?:
                             </label>
                             <input type="radio" name="purposeachieved" value="Yes" ref={register()} /> Yes <span className='mr-4'></span>
-                            <input type="radio" name="purposeachieved" value="No" ref={register()} /> NO
+                            <input type="radio" name="purposeachieved" value="No" ref={register()} /> NO <span className='mr-4'></span>
+                            <input type="radio" name="purposeachieved" value="partially" ref={register()} /> Partially 
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
