@@ -1,6 +1,5 @@
 import MaterialTable from '@material-table/core';
 import React from 'react'
-import ExportCsv from '@material-table/exporters/csv'
 import { AttachFile, Delete, Edit, MoreHoriz } from "@material-ui/icons";
 import Search from '@material-ui/icons/Search'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -84,15 +83,6 @@ const router = useRouter()
                     //     pdf: false
                     // },
                     // Using material table core
-                    exportMenu: [
-                        {
-                            label: "Export CSV",
-
-                            exportFunc: (cols, datas) =>
-                                ExportCsv(fields, items, "myCsvFileName"),
-
-                        },
-                    ],
                 }}
 
                 icons={{
