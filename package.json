@@ -92,6 +92,7 @@
     "@tailwindcss/typography": "^0.3.1",
     "@types/faker": "^6.6.9",
     "@types/react-select": "^5.0.1",
+    "autoprefixer": "^10.4.5",
     "postcss": "^8.2.15",
     "postcss-color-function": "^4.1.0",
     "tailwindcss": "^2.1.2"
@@ -99,8 +100,5 @@
   "engines": {
     "npm": ">=8.19.4",
     "node": ">=16.20.1"
-  },
-  "overrides": {
-    "autoprefixer": "10.4.5"
   }
 }
