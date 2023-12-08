@@ -16,7 +16,7 @@ import Clear from "@material-ui/icons/Clear";
 import { useRouter } from 'next/router'
 import ComplianceButtons from './components/buttons'
 import { MoreHoriz } from '@material-ui/icons'
-import { FiArrowUp, FiFileMinus, FiFolderMinus, FiPlusCircle, FiUnderline, FiUserMinus, FiX } from 'react-icons/fi'
+import { FiArrowUp, FiPlusCircle } from 'react-icons/fi'
 
 function Index() {
   const router = useRouter()

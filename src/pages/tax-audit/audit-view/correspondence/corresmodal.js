@@ -71,12 +71,10 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
 
     formData.docfile = selectedFile
 
-    console.log("formData", formData);
 
     const submitNotice = async (e) => {
         e.preventDefault()
         setIsLoading(true)
-
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newcorrespondence.php', {
                 method: 'POST',
@@ -99,8 +97,6 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
     }
 
 
-
-    console.log("fileInput.files[0]", selectedFile);
 
     return (
         <>
@@ -161,7 +157,7 @@ const CorresModal = ({ isOpen, closeModal, id }) => {
                         </div>
                         <div className="mb-1">
                             <label className="text-dark  block mb-1">
-                                Letter Source:
+                                Related memo:
                             </label>
                             {/* <select name="lettersource"
                                 className="border border-gray-300 rounded px-2 py-1 w-full"

@@ -95,20 +95,14 @@ const AcknModal = ({ isOpen, closeModal, JobID, Notifid }) => {
                             <label className="block  mb-1 ">
                                 Relationship:
                             </label>
-                            <select
+                            <input
+                                type="text"
                                 id="ack_relationship"
                                 name='ack_relationship'
                                 className="border border-gray-300 rounded px-2 py-1 w-full"
                                 required
                                 ref={register()}
-                            >
-                                <option value="">Please Select</option>
-                                <option value="staff">Staff</option>
-                                <option value="relative">Relative</option>
-                                <option value="colleague">Colleague</option>
-                                <option value="neighbour">Neighbour</option>
-                                <option value="other">Other</option>
-                            </select>
+                            />
                         </div>
                         <div className="mb-2">
                             <label className="block  mb-1 ">
