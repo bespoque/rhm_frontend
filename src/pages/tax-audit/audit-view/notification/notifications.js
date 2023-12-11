@@ -252,7 +252,7 @@ const AuditNotice = () => {
                         {
                             icon: NextWeekRounded,
                             tooltip: 'Acknowledgement',
-                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}`),
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/notifacklist?Notifid=${rowData.id}&JobID=${rowData.job_id}&auditStartYr=${auditStartYr}&auditEndYr=${auditEndYr}`),
 
                         },
                         // {

@@ -32,7 +32,6 @@ export default function Notifiacklist() {
     const [formState, setFormState] = useState('')
     const [formData, setFormData] = useState({})
     const [letterState, setLetterState] = useState('hidden')
-    const { JobID, Notifid } = router?.query
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { register, handleSubmit } = useForm();
     const [scopeData, setUploadCheck] = useState([]);
@@ -43,6 +42,7 @@ export default function Notifiacklist() {
         shallowEqual
     );
 
+    const { JobID, Notifid, auditStartYr, auditEndYr } = router?.query
     const decoded = jwt.decode(auth);
     const emailAdd = decoded.user
 
@@ -125,7 +125,6 @@ export default function Notifiacklist() {
     }, [JobID]);
 
     useEffect(() => {
-
         async function fetchPost() {
 
             try {
@@ -148,8 +147,7 @@ export default function Notifiacklist() {
         fetchPost();
     }, [JobID, Notifid]);
 
-    console.log("scopeData", scopeData);
-    console.log("formData", formData);
+
     function Letter() {
         return (
             <div>
@@ -161,7 +159,7 @@ export default function Notifiacklist() {
                         <p className="w-64">{"Address"}</p>
                         <p className="font-bold">Dear {formData?.reschedule_adressee},</p><br />
                         <div>
-                            {/* <p className="font-bold">NOTIFICATION OF BACKDUTY TAX AUDIT EXERCISE {` (Jan ${auditStartYr} - Dec ${auditEndYr})`}</p><br /> */}
+                            <p className="font-bold">NOTIFICATION OF BACKDUTY TAX AUDIT EXERCISE {` (Jan ${auditStartYr} - Dec ${auditEndYr})`}</p><br />
                         </div>
                         <p>The above Subject refers;</p>
                         <p>
@@ -234,7 +232,7 @@ export default function Notifiacklist() {
 
 
     const Proceed = (data) => {
-   
+
         setFormData(data)
         setLetterState('')
         setFormState('hidden')
@@ -248,7 +246,7 @@ export default function Notifiacklist() {
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
-                className="fixed inset-0 bg-white border max-w-sm p-4 mx-auto overflow-y-scroll"
+                className="fixed inset-0 bg-white border max-w-md p-4 mx-auto overflow-y-scroll"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >
