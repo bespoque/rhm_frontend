@@ -24,8 +24,6 @@ import { shallowEqual, useSelector } from 'react-redux'
 import { SignatureCol } from '../../../../../components/Images/Images'
 
 
-
-
 export default function Notifiacklist() {
     const [isFetching, setIsFetching] = useState(() => true);
     const [notifAck, setNotifAck] = useState([]);
@@ -37,7 +35,7 @@ export default function Notifiacklist() {
     const { JobID, Notifid } = router?.query
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { register, handleSubmit } = useForm();
-
+    const [scopeData, setUploadCheck] = useState([]);
     const { auth } = useSelector(
         (state) => ({
             auth: state.authentication.auth,
@@ -84,7 +82,6 @@ export default function Notifiacklist() {
         formData.actionType = "Accepted"
         setIsFetching(true)
 
-
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newreschedule.php', {
                 method: 'POST',
@@ -107,6 +104,25 @@ export default function Notifiacklist() {
         }
     }
 
+    useEffect(() => {
+        async function fetchPostData() {
+            try {
+                const response = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-jobchecklist.php', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "job_id": JobID
+                    })
+                })
+                const dataFetchJobDet = await response.json()
+                console.log("dataFetchJobDet", dataFetchJobDet);
+                const check = await dataFetchJobDet.checklists
+                setUploadCheck(check)
+            } catch (error) {
+                console.error('Server Error:', error)
+            }
+        }
+        fetchPostData();
+    }, [JobID]);
 
     useEffect(() => {
 
@@ -132,6 +148,8 @@ export default function Notifiacklist() {
         fetchPost();
     }, [JobID, Notifid]);
 
+    console.log("scopeData", scopeData);
+    console.log("formData", formData);
     function Letter() {
         return (
             <div>
@@ -190,14 +208,14 @@ export default function Notifiacklist() {
                             touch with Executive Chairman, Kogi State Internal Revenue Service immediately.
                             Attached is the list of documents required for the Audit Exercise.
                         </p><br />
-                        {/* <div className="p-4">
+                        <div className="p-4">
                             <ol style={{ listStyle: "i" }} >
-                                {selectedChecklistItems.map((item) => (
-                                    <li>{item}</li>
+                                {scopeData?.map((item) => (
+                                    <li>{item.checklist_item}</li>
 
                                 ))}
                             </ol>
-                        </div><br /> */}
+                        </div><br />
                         <p>Thank you for the anticipated cooperation.</p> <br />
                         <p>
                             Yours Faithfully..

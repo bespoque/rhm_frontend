@@ -123,6 +123,16 @@ function Index() {
 
   return (
     <>
+      <div className="flex justify-end mb-2">
+        <button
+          className="btn bg-gray-400 btn-default text-white btn-outlined bg-transparent rounded-md"
+          type="submit"
+          onClick={() => router.back()}
+        >
+          Back
+        </button>
+
+      </div>
       <Widget>
         <div className="accordion">
           <div className="bg-gray-100 h-10 rounded text-center text-base mb-5 cursor-pointer flex justify-around items-center">

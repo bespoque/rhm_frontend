@@ -74,11 +74,7 @@ export default function AuditReportList() {
 
 
 
-    console.log("uploadsArr", uploadsArr);
-    console.log("documentValues", documentValues);
-    console.log("scopeData", scopeData);
-    console.log("uploadData", uploadData);
-    console.log("selectedScope", selectedScope);
+ 
 
 
  
