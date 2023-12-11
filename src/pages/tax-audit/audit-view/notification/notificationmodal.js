@@ -221,7 +221,6 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
                 setIsOpenCheckItems(false);
             }
         }
-
         window.addEventListener('click', handleClickOutside);
 
         return () => {
@@ -374,35 +373,45 @@ const NotificationModal = ({ isOpen, closeModal, id, auditStartYr, auditEndYr })
 
     const Proceed = (e) => {
         e.preventDefault()
-        setLetterState('')
-        setFormState('hidden')
+        if (selectedItems.length === 0 || !selectedValuesItems.includes("YES")) {
+            toast.error("Please select Audit scope and Audit documents")
+        } else {
+            setLetterState('')
+            setFormState('hidden')
+        }
     }
 
 
 
+
     const submitNotice = async () => {
-        formData.auditscope = String(selectedItems)
-        formData.checklists = String(selectedValuesItems)
-        setIsLoading(true)
+        if (selectedItems.length === 0 || !selectedValuesItems.includes("YES")) {
+            toast.error("Please select Audit scope and Audit documents")
+        } else {
 
-        try {
-            const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newnotification.php', {
-                method: 'POST',
-                body: JSON.stringify(formData)
-            })
-            const dataFetch = await res.json()
-            setIsLoading(false)
-            if (dataFetch.status === "400") {
-                toast.error(dataFetch.message);
-            } else {
-                toast.success(dataFetch.message);
-                closeModal()
-                router.reload()
+            formData.auditscope = String(selectedItems)
+            formData.checklists = String(selectedValuesItems)
+            setIsLoading(true)
 
+            try {
+                const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newnotification.php', {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                })
+                const dataFetch = await res.json()
+                setIsLoading(false)
+                if (dataFetch.status === "400") {
+                    toast.error(dataFetch.message);
+                } else {
+                    toast.success(dataFetch.message);
+                    closeModal()
+                    router.reload()
+
+                }
+            } catch (error) {
+                setIsLoading(false)
+                console.error('Server Error:', error)
             }
-        } catch (error) {
-            setIsLoading(false)
-            console.error('Server Error:', error)
         }
     }
 

@@ -21,6 +21,7 @@ import MaterialTable from '@material-table/core'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { shallowEqual, useSelector } from 'react-redux'
+import { SignatureCol } from '../../../../../components/Images/Images'
 
 
 
@@ -30,7 +31,9 @@ export default function Notifiacklist() {
     const [notifAck, setNotifAck] = useState([]);
     const [ackId, setAckId] = useState('');
     const router = useRouter()
-
+    const [formState, setFormState] = useState('')
+    const [formData, setFormData] = useState({})
+    const [letterState, setLetterState] = useState('hidden')
     const { JobID, Notifid } = router?.query
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { register, handleSubmit } = useForm();
@@ -53,7 +56,6 @@ export default function Notifiacklist() {
         setIsModalOpen(false);
     };
 
-    console.log("ackId", ackId);
     const fields = [
         {
             title: "Relationship",
@@ -75,18 +77,18 @@ export default function Notifiacklist() {
 
 
 
-    const onSubmit = async (data) => {
-        data.doneby = emailAdd
-        data.job_id = JobID
-        data.notification_id = Notifid
-        data.actionType = "Accepted"
-        // setIsFetching(true)
-  
+    const onSubmit = async () => {
+        formData.doneby = emailAdd
+        formData.job_id = JobID
+        formData.notification_id = Notifid
+        formData.actionType = "Accepted"
+        setIsFetching(true)
+
 
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newreschedule.php', {
                 method: 'POST',
-                body: JSON.stringify(data)
+                body: JSON.stringify(formData)
             })
             const dataFetch = await res.json()
             setIsFetching(false)
@@ -94,8 +96,8 @@ export default function Notifiacklist() {
                 toast.error(dataFetch.message);
             } else {
                 toast.success(dataFetch.message);
-                // closeModal()
-                // router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${Notifid}&JobID=${JobID}`)
+                closeModal()
+                router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${Notifid}&JobID=${JobID}`)
             }
         } catch (error) {
             setIsFetching(false)
@@ -104,6 +106,7 @@ export default function Notifiacklist() {
             setIsFetching(false)
         }
     }
+
 
     useEffect(() => {
 
@@ -129,10 +132,96 @@ export default function Notifiacklist() {
         fetchPost();
     }, [JobID, Notifid]);
 
-    const filteredData = notifAck?.filter(item => {
-        const ack_reschedule = String(item.ack_reschedule);
-        return ack_reschedule.toLowerCase() !== "yes";
-    });
+    function Letter() {
+        return (
+            <div>
+                <div>
+                    <div className="text-justify" >
+                        <p className="flex justify-between mt-3">   </p>
+                        <p>Ref - {formData?.reschedule_lettersource}</p>
+                        <p>Date - {formData?.reschedule_date}</p>
+                        <p className="w-64">{"Address"}</p>
+                        <p className="font-bold">Dear {formData?.reschedule_adressee},</p><br />
+                        <div>
+                            {/* <p className="font-bold">NOTIFICATION OF BACKDUTY TAX AUDIT EXERCISE {` (Jan ${auditStartYr} - Dec ${auditEndYr})`}</p><br /> */}
+                        </div>
+                        <p>The above Subject refers;</p>
+                        <p>
+                            This is to notify you that the Kogi State Internal Revenue Service (KGIRS) wishes to carry
+                            out Tax Audit of all Taxes due from your Organization to the Kogi State Government for
+                            the period stated above. The exercise is instituted pursuant to section 46, 47 (4) and (4)
+                            of the Personal Income Tax Act, Cap P8, and Laws of the Federation of Nigeria as
+                            amended. The Audit will cover the following Taxes/Levies;
+                        </p><br />
+                        {/* <div className="p-4">
+                            <ol style={{ listStyle: "i" }} >
+                                {selectedItems.map((item) => (
+                                    <li>{item}</li>
+
+                                ))}
+                            </ol>
+                        </div> */}
+
+                        <br />
+
+                        <p>
+                            The date scheduled for the commencement of the audit exercise at your Organization is
+                            two (2) weeks from the date of receipt of this letter. We hope that you will provide all
+                            necessary documents and support to the audit team to facilitate the exercise as required
+                            by law.
+
+                        </p><br />
+                        <p>
+                            It is pertinent to apprise you that exercise is for information gathering only and the
+                            auditors are not authorized to assess your Organization to tax. All reports are subjected to
+                            further checks and falsified or unsatisfactory reports will be rejected and investigated in
+                            the course of the assessment.
+
+                        </p><br />
+                        <p>
+                            Kindly note that in the event of any obstruction to this exercise, submission of incorrect or
+                            false information/reports, or any other action that may delay this exercise, the Chairman
+                            and/or the Directors of your Organization would be vicariously held liable and penalized in
+                            accordance with the statutory provisions of Personal Income Tax 1993 and as amended to
+                            date.
+                        </p><br />
+                        <p>
+                            In case of any undue advances to connive on the part of our representatives, please get in
+                            touch with Executive Chairman, Kogi State Internal Revenue Service immediately.
+                            Attached is the list of documents required for the Audit Exercise.
+                        </p><br />
+                        {/* <div className="p-4">
+                            <ol style={{ listStyle: "i" }} >
+                                {selectedChecklistItems.map((item) => (
+                                    <li>{item}</li>
+
+                                ))}
+                            </ol>
+                        </div><br /> */}
+                        <p>Thank you for the anticipated cooperation.</p> <br />
+                        <p>
+                            Yours Faithfully..
+                        </p>
+                        <p>For: <span className="font-bold">KOGI STATE INTERNAL REVENUE SERVICE </span></p><br />
+                        <SignatureCol />
+                        <p className="font-bold">Sule Salihu Enehe</p>
+                        Executive Chairman
+
+                    </div>
+
+                </div>
+            </div>
+        )
+    }
+
+
+    const Proceed = (data) => {
+   
+        setFormData(data)
+        setLetterState('')
+        setFormState('hidden')
+
+    }
 
     return (
         <>
@@ -145,9 +234,12 @@ export default function Notifiacklist() {
                 overlayClassName="fixed inset-0 bg-black bg-opacity-75"
 
             >
-                <div>
+                <div className={`${letterState}`}>
+                    <Letter />
+                </div>
+                <div className={`${formState}`}>
                     <h6 className="text-dark text-center">Reschedule Visit</h6>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(Proceed)}>
                         <div className="p-2">
                             <div className="mb-2">
                                 <label className="block mb-1">
@@ -193,9 +285,8 @@ export default function Notifiacklist() {
 
                         <button
                             className="bg-blue-500 hover:bg-blue-600 text-dark py-2 px-4 rounded mt-4"
-                            type="submit"
                         >
-                            Submit
+                            Procced
                         </button>
                         <button
                             className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded mt-4 ml-2"
@@ -203,7 +294,26 @@ export default function Notifiacklist() {
                         >
                             Close
                         </button>
+
                     </form>
+                </div>
+                <div className={`${letterState} flex justify-evenly`}>
+                    <button
+                        className="bg-green-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded mt-4 ml-2"
+                        onClick={onSubmit}
+                    >
+                        Send
+                    </button>
+                    <button
+                        className="bg-red-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded mt-4 ml-2"
+                        onClick={() => {
+                            setFormState('')
+                            setLetterState('hidden')
+                            closeModal()
+                        }}
+                    >
+                        Close
+                    </button>
                 </div>
             </Modal>
 
