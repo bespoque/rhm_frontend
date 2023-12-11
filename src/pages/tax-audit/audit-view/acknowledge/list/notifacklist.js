@@ -80,7 +80,8 @@ export default function Notifiacklist() {
         data.job_id = JobID
         data.notification_id = Notifid
         data.actionType = "Accepted"
-        setIsFetching(true)
+        // setIsFetching(true)
+  
 
         try {
             const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-newreschedule.php', {
@@ -93,8 +94,8 @@ export default function Notifiacklist() {
                 toast.error(dataFetch.message);
             } else {
                 toast.success(dataFetch.message);
-                closeModal()
-                router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${Notifid}&JobID=${JobID}`)
+                // closeModal()
+                // router.push(`/tax-audit/audit-view/acknowledge/list/reschedulelist?Notifid=${Notifid}&JobID=${JobID}`)
             }
         } catch (error) {
             setIsFetching(false)
@@ -173,18 +174,6 @@ export default function Notifiacklist() {
                                     ref={register()}
                                 />
                             </div>
-                            {/* <div className="mb-2">
-                                <label className="block mb-1">
-                                    Reschedule Reason:
-                                </label>
-                                <textarea
-                                    id="ack_reschedule_reason"
-                                    name="ack_reschedule_reason"
-                                    className="border border-gray-300 rounded px-2 py-1 w-full"
-                                    required
-                                    ref={register()}
-                                > </textarea>
-                            </div> */}
                             <div className="mb-2">
                                 <label className="block mb-1">
                                     Letter Source:
