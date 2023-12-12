@@ -105,7 +105,7 @@ const CreateJob = () => {
         jobdata.job_progress_status = "Pending"
         jobdata.job_initiator = emailAdd
         jobdata.job_user = selectedValues
-        setIsFetching(true)
+        console.log("Job data", jobdata);
         try {
             const response = await fetch('https://bespoque.dev/rhm/taxaudit/taxaudit-newjob.php', {
                 method: 'POST',
