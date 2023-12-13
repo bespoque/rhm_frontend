@@ -16,7 +16,7 @@ import { ProcessorSpinner } from '../../../../../components/spiner';
 import MaterialTable from '@material-table/core'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Email } from '@material-ui/icons'
+import { Email, MoreHoriz } from '@material-ui/icons'
 import Modal from '@material-ui/core/Modal';
 
 
@@ -33,8 +33,6 @@ export default function RescheduleList() {
 
 
 
-
-
     const fields = [
         {
             title: "Addressee",
@@ -43,6 +41,10 @@ export default function RescheduleList() {
         {
             title: "Reschedule date",
             field: "reschedule_date",
+        },
+        {
+            title: "Status",
+            field: "status",
         },
         {
             title: "Letter Source",
@@ -54,9 +56,7 @@ export default function RescheduleList() {
 
 
     useEffect(() => {
-
         async function fetchPost() {
-
             try {
                 const res = await fetch('https://test.rhm.backend.bespoque.ng/taxaudit/taxaudit-notification-reschedule-batch.php', {
                     method: 'POST',
@@ -66,7 +66,33 @@ export default function RescheduleList() {
                     })
                 })
                 const dataFetch = await res.json()
-                setNotifAck(dataFetch.body)
+                if (dataFetch && dataFetch.body) {
+                    const updatedData = {
+                        ...dataFetch,
+                        body: dataFetch.body.map(record => {
+                            const { reviewstatus, approvestatus } = record;
+
+                            if (
+                                (reviewstatus === null || reviewstatus === '') &&
+                                (approvestatus === null || approvestatus === '')
+                            ) {
+                                return { ...record, status: null };
+                            } else if (
+                                reviewstatus !== null &&
+                                reviewstatus !== '' &&
+                                (approvestatus === null || approvestatus === '')
+                            ) {
+                                return { ...record, status: reviewstatus };
+                            } else {
+                                return { ...record, status: approvestatus };
+                            }
+                        }),
+                    };
+
+                    setNotifAck(updatedData.body);
+                }
+
+                // setNotifAck(dataFetch.body)
                 setIsFetching(false)
             } catch (error) {
                 console.error('Server Error:', error)
@@ -81,15 +107,28 @@ export default function RescheduleList() {
         <>
             <ToastContainer />
             {isFetching && <ProcessorSpinner />}
+            <div className="flex justify-end my-2">
+                <button
+                    className="btn bg-gray-400 btn-default text-white btn-outlined bg-transparent rounded-md"
+                    type="submit"
+                    onClick={() => router.back()}
+                >
+                    Back
+                </button>
+            </div>
 
             <MaterialTable title="Notification Reschedules"
                 data={notifAck}
                 columns={fields}
 
-
                 actions={
                     [
 
+                        {
+                            icon: MoreHoriz,
+                            tooltip: 'Details',
+                            onClick: (event, rowData) => router.push(`/tax-audit/audit-view/acknowledge/list/singlereschedule?Notifid=${rowData.notification_id}&JobID=${rowData.job_id}&ReschId=${rowData.id}`),
+                        },
                         {
                             icon: Email,
                             tooltip: 'Letter',

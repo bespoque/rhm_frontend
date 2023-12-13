@@ -121,9 +121,6 @@ const AuditNotice = () => {
                     setNotificationData(updatedData.body);
                 }
 
-                // setNotificationData(dataFetch.body)
-
-
                 setIsFetching(false)
             } catch (error) {
                 setIsFetching(false)
